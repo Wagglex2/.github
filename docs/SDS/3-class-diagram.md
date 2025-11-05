@@ -660,7 +660,7 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ---
 
-Project DTO 관련
+# Project DTO 관련
 
 # ProjectCommonRequestDto
 
@@ -782,4 +782,144 @@ Project DTO 관련
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
 
+---
 
+# Project 관련 Controller, Service, Repository
+
+---
+
+# ProjectController
+
+프로젝트 공고와 관련된 REST API를 제공하는 컨트롤러로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(ProjectService)을 통해 실제 비즈니스 로직을 수행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| projectService | ProjectService | private final | 프로젝트 관련 비즈니스 로직 서비스 |
+| komoranUtil | KomoranUtil | private final | 키워드 형태소 분석 유틸리티 |
+
+## Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/projects` | public | 프로젝트 공고 생성 |
+| getProject(Long projectId) | ResponseEntity\<ApiResponse\<ProjectDetailResponseDto\>\> | `GET /api/v1/projects/{projectId}` | public | 프로젝트 공고 상세 조회 |
+| getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable) | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/projects` | public | 프로젝트 공고 목록 조회 |
+| updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/projects/{projectId}` | public | 프로젝트 공고 수정 |
+| deleteProject(Long projectId, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제 |
+
+---
+
+# ProjectService
+
+프로젝트 공고와 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+실제 구현체([ProjectServiceImpl](#projectserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createProject(Long userId, ProjectCreationRequestDto projectCreationRequestDto) | Long | public | 프로젝트 공고 생성 |
+| getProject(Long projectId) | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
+| getProjectSummaries(ProjectSearchCondition condition, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 (조건 및 페이징 적용) |
+| getProjectSummariesByIds(List\<Long\> projectIds) | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록에 해당하는 프로젝트 공고 조회 |
+| updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto) | void | public | 프로젝트 공고 수정 |
+| deleteProject(Long userId, Long projectId) | void | public | 프로젝트 공고 삭제 |
+
+---
+
+# ProjectServiceImpl
+
+[ProjectService](#projectservice)의 구현체로, 프로젝트 공고 생성, 조회, 수정, 삭제 등 실제 비즈니스 로직을 수행하며, 트랜잭션 처리와 권한 검증, 조회수 증가 등을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| projectRepository | ProjectRepository | private final | 프로젝트 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createProject(Long userId, ProjectCreationRequestDto requestDto) | Long | public | 프로젝트 공고 생성 |
+| getProject(Long projectId) | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
+| getProjectSummaries(ProjectSearchCondition condition, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 |
+| getProjectSummariesByIds(List\<Long\> projectIds) | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록 프로젝트 요약 정보 조회 |
+| updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto) | void | public | 프로젝트 공고 수정 |
+| deleteProject(Long userId, Long projectId) | void | public | 프로젝트 공고 삭제 |
+
+---
+
+# ProjectRepository
+
+Project 엔티티의 데이터 접근 계층으로, 프로젝트 공고와 관련된 User, Position, Skill, Grade 조회 및 조회수 증가 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| findByIdWithUser(Long id) | Optional\<Project\> | public | 프로젝트와 작성자 정보 조회 |
+| findPositionsByProjectId(Long id) | Set\<PositionParticipantInfo\> | public | 프로젝트 포지션 조회 |
+| findSkillsByProjectId(Long id) | Set\<Skill\> | public | 프로젝트 기술 스택 조회 |
+| findGradesByProjectId(Long id) | Set\<Integer\> | public | 프로젝트 모집 학년 조회 |
+| increaseViewCount(Long id) | int | public | 조회수 증가 |
+
+---
+
+# ProjectRepositoryCustom
+
+QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 요약 DTO 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getProjectSummaries(ProjectSearchCondition condition, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 검색 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
+| getProjectSummariesByIds(List\<Long\> projectIds) | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
+
+---
+
+# ProjectRepositoryImpl
+
+[ProjectRepositoryCustom](#projectrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 프로젝트 요약 DTO 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getProjectSummaries(ProjectSearchCondition condition, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
+| getProjectSummariesByIds(List\<Long\> projectIds) | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
+| eqPurpose(ProjectPurpose purpose) | BooleanExpression | private | Project 목적(purpose)과 일치하는 조건 생성 |
+| eqStatus(RecruitmentStatus status) | BooleanExpression | private | Project 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
+| containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
+| containsAnyPosition(Set\<PositionType\> positions) | BooleanExpression | private | Project positions 컬렉션 중 하나라도 지정된 positions에 포함되는 조건 생성 |
+| containsAnySkill(Set\<Skill\> skills) | BooleanExpression | private | Project skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
