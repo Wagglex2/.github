@@ -550,6 +550,8 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 구체 구현체(`AuthServiceImpl`)가 실제 로직을 담당한다.
 
 ## Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
 | Name                                                       | Return Type | Visibility | Description                       |
@@ -650,6 +652,8 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 `@EntityGraph`를 사용하여 연관 엔티티 로딩 시 N+1 문제를 방지한다.
 
 ## Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
 | Name                                                                                                                                                                | Return Type      | Visibility | Description                                                                                            |
@@ -663,6 +667,8 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 팀 생성, 조회, 페이징 조회 등 주요 기능의 계약(Contract)을 정의한다.
 
 ## Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
 | Name                                                                                                                      | Return Type             | Visibility | Description                                      |
@@ -973,99 +979,101 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 모든 예외(`BusinessException`, `GlobalExceptionHandler`)는 이 Enum을 기반으로 일관된 에러 응답을 생성한다.
 
 ## Enum Values
-| 구분                              | Enum Name | HttpStatus                      | Code                                       | Message |
-| ------------------------------- | --------- | ------------------------------- | ------------------------------------------ | ------- |
-| **400 BAD_REQUEST (잘못된 요청)**    |           |                                 |                                            |         |
-| INVALID_REQUEST                 | 400       | INVALID_REQUEST                 | 잘못된 요청입니다.                                 |         |
-| VALIDATION_FAILED               | 400       | VALIDATION_FAILED               | 요청 값이 유효하지 않습니다.                           |         |
-| REQUIRED_FIELD_MISSING          | 400       | REQUIRED_FIELD_MISSING          | 필수 값이 누락되었습니다.                             |         |
-| INVALID_EMAIL_FORMAT            | 400       | INVALID_EMAIL_FORMAT            | 이메일 형식이 올바르지 않습니다.                         |         |
-| INVALID_NICKNAME_FORMAT         | 400       | INVALID_NICKNAME_FORMAT         | 닉네임 형식이 올바르지 않습니다.                         |         |
-| INVALID_PASSWORD_FORMAT         | 400       | INVALID_PASSWORD_FORMAT         | 비밀번호 형식이 올바르지 않습니다.                        |         |
-| MISMATCHED_PASSWORD             | 400       | MISMATCHED_PASSWORD             | 비밀번호와 비밀번호 확인이 일치하지 않습니다.                  |         |
-| PASSWORD_SAME_AS_OLD            | 400       | PASSWORD_SAME_AS_OLD            | 기존 비밀번호와 새로운 비밀번호가 일치합니다.                  |         |
-| OLD_PASSWORD_INCORRECT          | 400       | OLD_PASSWORD_INCORRECT          | 기존 비밀번호가 일치하지 않습니다.                        |         |
-| UNSUPPORTED_UNIVERSITY_DOMAIN   | 400       | UNSUPPORTED_UNIVERSITY_DOMAIN   | 지원하지 않는 학교 도메인입니다.                         |         |
-| VERIFICATION_CODE_EXPIRED       | 400       | VERIFICATION_CODE_EXPIRED       | 인증번호가 만료되었습니다.                             |         |
-| INVALID_VERIFICATION_CODE       | 400       | INVALID_VERIFICATION_CODE       | 인증번호가 일치하지 않습니다.                           |         |
-| INVALID_DATE_RANGE              | 400       | INVALID_DATE_RANGE              | 유효하지 않은 날짜 범위입니다.                          |         |
-| MAX_PARTICIPANTS_EXCEEDED       | 400       | MAX_PARTICIPANTS_EXCEEDED       | 참가 인원이 최대 모집 인원을 초과했습니다.                   |         |
-| SELF_REVIEW_NOT_ALLOWED         | 400       | SELF_REVIEW_NOT_ALLOWED         | 자기 자신에 대한 리뷰는 작성할 수 없습니다.                  |         |
-| INVALID_PAGE_NUMBER             | 400       | INVALID_PAGE_NUMBER             | 페이지 번호는 1 이상이어야 합니다.                       |         |
-| INVALID_ENUM_VALUE              | 400       | INVALID_ENUM_VALUE              | 쿼리 파라미터 값이 유효하지 않습니다. 허용 가능한 값 목록을 확인해주세요. |         |
-| MISMATCHED_RECRUITMENT_CATEGORY | 400       | MISMATCHED_RECRUITMENT_CATEGORY | 지원하려는 공고의 카테고리가 요청한 카테고리와 일치하지 않습니다.       |         |
-| INVALID_SORT_PROPERTY           | 400       | INVALID_SORT_PROPERTY           | 잘못된 정렬 기준입니다.                              |         |
-| INVALID_SORT_DIRECTION          | 400       | INVALID_SORT_DIRECTION          | 정렬 방향은 asc 또는 desc만 가능합니다.                 |         |
-| PAGE_SIZE_OUT_OF_RANGE          | 400       | PAGE_SIZE_OUT_OF_RANGE          | 페이지 크기는 1 이상이어야 합니다.                       |         |
-| PAGE_INDEX_OUT_OF_RANGE         | 400       | PAGE_INDEX_OUT_OF_RANGE         | 페이지 번호는 0 이상이어야 합니다.                       |         |
-| INVALID_MEMBER_COUNT            | 400       | INVALID_MEMBER_COUNT            | 현재 인원이 0명 이하일 때는 감소할 수 없습니다.               |         |
-| 401 UNAUTHORIZED (인증 실패) |
-| UNAUTHORIZED | 401 | UNAUTHORIZED | 인증이 필요합니다. |
-| INVALID_CREDENTIALS | 401 | INVALID_CREDENTIALS | 아이디 또는 비밀번호가 올바르지 않습니다. |
-| REFRESH_TOKEN_EXPIRED | 401 | REFRESH_TOKEN_EXPIRED | 리프레시 토큰이 만료되었습니다. |
-| REFRESH_TOKEN_INVALID | 401 | REFRESH_TOKEN_INVALID | 유효하지 않은 리프레시 토큰입니다. |
-| REFRESH_TOKEN_TYPE_INVALID | 401 | REFRESH_TOKEN_TYPE_INVALID | 리프레시 토큰 타입이 일치하지 않습니다. |
-| REFRESH_TOKEN_MISMATCH | 401 | REFRESH_TOKEN_MISMATCH | 리프레시 토큰이 일치하지 않습니다. |
-| REFRESH_TOKEN_NOT_FOUND | 401 | REFRESH_TOKEN_NOT_FOUND | 리프레시 토큰을 찾을 수 없습니다. |
-| ACCESS_TOKEN_INVALID | 401 | ACCESS_TOKEN_INVALID | 유효하지 않은 액세스 토큰입니다. |
-| FORBIDDEN | 403 | FORBIDDEN | 접근 권한이 없습니다. |
-| ACCESS_DENIED | 403 | ACCESS_DENIED | 요청한 리소스에 접근할 수 없습니다. |
-| NOT_UPDATE_NOT_ACTIVE_REVIEW | 403 | NOT_UPDATE_NOT_ACTIVE_REVIEW | 비활성화된 리뷰는 수정할 수 없습니다. |
-| NOT_DELETE_NOT_ACTIVE_REVIEW | 403 | NOT_DELETE_NOT_ACTIVE_REVIEW | 비활성화된 리뷰는 삭제할 수 없습니다. |
-| NOT_UPDATE_ANOTHER_USER_REVIEW | 403 | NOT_UPDATE_ANOTHER_USER_REVIEW | 본인 리뷰만 수정할 수 있습니다. |
-| NOT_DELETE_ANOTHER_USER_REVIEW | 403 | NOT_DELETE_ANOTHER_USER_REVIEW | 본인 리뷰만 삭제할 수 있습니다. |
-| CANNOT_DELETE_ANOTHER_USER_BOOKMARK | 403 | CANNOT_DELETE_ANOTHER_USER_BOOKMARK | 다른 사용자의 찜은 취소할 수 없습니다. |
-| CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT | 403 | CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT | 다른 사용자의 과제는 삭제할 수 없습니다. |
-| CANNOT_APPLY_OWN_RECRUITMENT | 403 | CANNOT_APPLY_OWN_RECRUITMENT | 본인 공고에는 지원할 수 없습니다. |
-| FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT | 403 | FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT | 타 대학의 공고입니다. |
-| FORBIDDEN_DECIDE_APPLICATION | 403 | FORBIDDEN_DECIDE_APPLICATION | 지원 수락/거절 권한이 없습니다. |
-| CANNOT_DELETE_ANOTHER_USER_APPLICATION | 403 | CANNOT_DELETE_ANOTHER_USER_APPLICATION | 다른 사용자의 지원은 취소할 수 없습니다. |
-| CANNOT_REMOVE_NOT_LEADER | 403 | CANNOT_DELETE_NOT_LEADER | 리더만 멤버를 삭제할 수 있습니다. |
-| CANNOT_REMOVE_SELF | 403 | CANNOT_DELETE_MYSELF | 자기 자신은 삭제할 수 없습니다. |
-| CANNOT_DELETE_ANOTHER_USER_NOTIFICATION | 403 | CANNOT_DELETE_ANOTHER_USER_NOTIFICATION | 다른 사용자의 알림은 삭제할 수 없습니다. |
-| 404 NOT_FOUND (리소스 없음) |
-| USER_NOT_FOUND | 404 | USER_NOT_FOUND | 사용자를 찾을 수 없습니다. |
-| IMAGE_NOT_FOUND | 404 | IMAGE_NOT_FOUND | 파일을 찾을 수 없습니다. |
-| RECRUITMENT_NOT_FOUND | 404 | RECRUITMENT_NOT_FOUND | 공고를 찾을 수 없습니다. |
-| PROJECT_NOT_FOUND | 404 | PROJECT_NOT_FOUND | 프로젝트 공고를 찾을 수 없습니다. |
-| ASSIGNMENT_NOT_FOUND | 404 | ASSIGNMENT_NOT_FOUND | 과제 공고를 찾을 수 없습니다. |
-| STUDY_NOT_FOUND | 404 | STUDY_NOT_FOUND | 스터디 공고를 찾을 수 없습니다. |
-| POSITION_NOT_FOUND | 404 | POSITION_NOT_FOUND | 역할을 찾을 수 없습니다. |
-| SKILL_NOT_FOUND | 404 | SKILL_NOT_FOUND | 기술 스택을 찾을 수 없습니다. |
-| REVIEW_NOT_FOUND | 404 | REVIEW_NOT_FOUND | 리뷰를 찾을 수 없습니다. |
-| BOOKMARK_NOT_FOUND | 404 | BOOKMARK_NOT_FOUND | 찜 정보를 찾을 수 없습니다. |
-| APPLICATION_NOT_FOUND | 404 | APPLICATION_NOT_FOUND | 지원 정보를 찾을 수 없습니다. |
-| TEAM_NOT_FOUND | 404 | TEAM_NOT_FOUND | 팀을 찾을 수 없습니다. |
-| LEADER_NOT_FOUND | 404 | LEADER_NOT_FOUND | 리더를 찾을 수 없습니다. |
-| TARGET_MEMBER_NOT_FOUND | 404 | TARGET_MEMBER_NOT_FOUND | 삭제할 멤버를 찾을 수 없습니다. |
-| NOTIFICATION_NOT_FOUND | 404 | NOTIFICATION_NOT_FOUND | 알림을 찾을 수 없습니다. |
-| 406 NOT_ACCEPTABLE |
-| NOT_ACCEPTABLE | 406 | NOT_ACCEPTABLE | 응답 가능한 미디어 타입이 없습니다. |
-| 409 CONFLICT (중복 또는 상태 충돌) |
-| DUPLICATED_USERNAME | 409 | DUPLICATED_USERNAME | 이미 가입된 아이디입니다. |
-| DUPLICATED_EMAIL | 409 | DUPLICATED_EMAIL | 이미 가입된 이메일입니다. |
-| DUPLICATED_NICKNAME | 409 | DUPLICATED_NICKNAME | 이미 존재하는 닉네임입니다. |
-| ALREADY_WITHDRAWN_USER | 409 | ALREADY_WITHDRAWN_USER | 이미 탈퇴한 회원입니다. |
-| ALREADY_BOOKMARKED | 409 | ALREADY_BOOKMARKED | 이미 찜한 공고입니다. |
-| ALREADY_APPLIED_RECRUITMENT | 409 | ALREADY_APPLIED_RECRUITMENT | 이미 지원한 공고입니다. |
-| RECRUITMENT_CLOSED | 409 | RECRUITMENT_CLOSED | 모집 기간이 종료된 공고입니다. |
-| RECRUITMENT_FULL | 409 | RECRUITMENT_FULL | 이미 모집이 완료된 공고입니다. |
-| NOT_RECRUITING_POSITION | 409 | NOT_RECRUITING_POSITION | 해당 포지션은 모집 대상이 아닙니다. |
-| POSITION_FULL | 409 | POSITION_FULL | 이미 모집이 완료된 포지션입니다. |
-| ALREADY_PROCESSED_APPLICATION | 409 | ALREADY_PROCESSED_APPLICATION | 이미 처리된 지원서입니다. |
-| TEAM_FULL | 409 | TEAM_FULL | 이미 모집이 완료되었습니다. |
-| 413 PAYLOAD_TOO_LARGE |
-| PAYLOAD_TOO_LARGE | 413 | PAYLOAD_TOO_LARGE | 요청 또는 파일 크기가 너무 큽니다. |
-| 415 UNSUPPORTED_MEDIA_TYPE |
-| UNSUPPORTED_MEDIA_TYPE | 415 | UNSUPPORTED_MEDIA_TYPE | 지원하지 않는 Content-Type 입니다. |
-| 429 TOO_MANY_REQUESTS |
-| TOO_MANY_REQUESTS | 429 | TOO_MANY_REQUESTS | 요청이 너무 많습니다. 잠시 후 다시 시도해주세요. |
-| 500 INTERNAL_SERVER_ERROR (서버 내부 오류) |
-| INTERNAL_SERVER_ERROR | 500 | INTERNAL_ERROR | 서버 오류가 발생했습니다. |
-| DATABASE_ERROR | 500 | DATABASE_ERROR | 데이터베이스 오류가 발생했습니다. |
-| REDIS_CONNECTION_ERROR | 500 | REDIS_CONNECTION_ERROR | Redis 연결에 실패했습니다. |
-| EMAIL_CREATE_MESSAGE_FAILED | 500 | EMAIL_CREATE_MESSAGE_FAILED | 이메일 메시지를 생성하는데 실패했습니다. |
-| EMAIL_SEND_FAILED | 500 | EMAIL_SEND_FAILED | 이메일 발송에 실패했습니다. |
+| 구분 | Enum Name | HttpStatus | Code | Message |
+|------|------------|-------------|-------|----------|
+| **400 BAD_REQUEST (잘못된 요청)** |  |  |  |  |
+| `INVALID_REQUEST` | 400 | `INVALID_REQUEST` | 잘못된 요청입니다. |  |
+| `VALIDATION_FAILED` | 400 | `VALIDATION_FAILED` | 요청 값이 유효하지 않습니다. |  |
+| `REQUIRED_FIELD_MISSING` | 400 | `REQUIRED_FIELD_MISSING` | 필수 값이 누락되었습니다. |  |
+| `INVALID_EMAIL_FORMAT` | 400 | `INVALID_EMAIL_FORMAT` | 이메일 형식이 올바르지 않습니다. |  |
+| `INVALID_NICKNAME_FORMAT` | 400 | `INVALID_NICKNAME_FORMAT` | 닉네임 형식이 올바르지 않습니다. |  |
+| `INVALID_PASSWORD_FORMAT` | 400 | `INVALID_PASSWORD_FORMAT` | 비밀번호 형식이 올바르지 않습니다. |  |
+| `MISMATCHED_PASSWORD` | 400 | `MISMATCHED_PASSWORD` | 비밀번호와 비밀번호 확인이 일치하지 않습니다. |  |
+| `PASSWORD_SAME_AS_OLD` | 400 | `PASSWORD_SAME_AS_OLD` | 기존 비밀번호와 새로운 비밀번호가 일치합니다. |  |
+| `OLD_PASSWORD_INCORRECT` | 400 | `OLD_PASSWORD_INCORRECT` | 기존 비밀번호가 일치하지 않습니다. |  |
+| `UNSUPPORTED_UNIVERSITY_DOMAIN` | 400 | `UNSUPPORTED_UNIVERSITY_DOMAIN` | 지원하지 않는 학교 도메인입니다. |  |
+| `VERIFICATION_CODE_EXPIRED` | 400 | `VERIFICATION_CODE_EXPIRED` | 인증번호가 만료되었습니다. |  |
+| `INVALID_VERIFICATION_CODE` | 400 | `INVALID_VERIFICATION_CODE` | 인증번호가 일치하지 않습니다. |  |
+| `INVALID_DATE_RANGE` | 400 | `INVALID_DATE_RANGE` | 유효하지 않은 날짜 범위입니다. |  |
+| `MAX_PARTICIPANTS_EXCEEDED` | 400 | `MAX_PARTICIPANTS_EXCEEDED` | 참가 인원이 최대 모집 인원을 초과했습니다. |  |
+| `SELF_REVIEW_NOT_ALLOWED` | 400 | `SELF_REVIEW_NOT_ALLOWED` | 자기 자신에 대한 리뷰는 작성할 수 없습니다. |  |
+| `INVALID_PAGE_NUMBER` | 400 | `INVALID_PAGE_NUMBER` | 페이지 번호는 1 이상이어야 합니다. |  |
+| `INVALID_ENUM_VALUE` | 400 | `INVALID_ENUM_VALUE` | 쿼리 파라미터 값이 유효하지 않습니다. 허용 가능한 값 목록을 확인해주세요. |  |
+| `MISMATCHED_RECRUITMENT_CATEGORY` | 400 | `MISMATCHED_RECRUITMENT_CATEGORY` | 지원하려는 공고의 카테고리가 요청한 카테고리와 일치하지 않습니다. |  |
+| `INVALID_SORT_PROPERTY` | 400 | `INVALID_SORT_PROPERTY` | 잘못된 정렬 기준입니다. |  |
+| `INVALID_SORT_DIRECTION` | 400 | `INVALID_SORT_DIRECTION` | 정렬 방향은 asc 또는 desc만 가능합니다. |  |
+| `PAGE_SIZE_OUT_OF_RANGE` | 400 | `PAGE_SIZE_OUT_OF_RANGE` | 페이지 크기는 1 이상이어야 합니다. |  |
+| `PAGE_INDEX_OUT_OF_RANGE` | 400 | `PAGE_INDEX_OUT_OF_RANGE` | 페이지 번호는 0 이상이어야 합니다. |  |
+| `INVALID_MEMBER_COUNT` | 400 | `INVALID_MEMBER_COUNT` | 현재 인원이 0명 이하일 때는 감소할 수 없습니다. |  |
+| **401 UNAUTHORIZED (인증 실패)** |  |  |  |  |
+| `UNAUTHORIZED` | 401 | `UNAUTHORIZED` | 인증이 필요합니다. |  |
+| `INVALID_CREDENTIALS` | 401 | `INVALID_CREDENTIALS` | 아이디 또는 비밀번호가 올바르지 않습니다. |  |
+| `REFRESH_TOKEN_EXPIRED` | 401 | `REFRESH_TOKEN_EXPIRED` | 리프레시 토큰이 만료되었습니다. |  |
+| `REFRESH_TOKEN_INVALID` | 401 | `REFRESH_TOKEN_INVALID` | 유효하지 않은 리프레시 토큰입니다. |  |
+| `REFRESH_TOKEN_TYPE_INVALID` | 401 | `REFRESH_TOKEN_TYPE_INVALID` | 리프레시 토큰 타입이 일치하지 않습니다. |  |
+| `REFRESH_TOKEN_MISMATCH` | 401 | `REFRESH_TOKEN_MISMATCH` | 리프레시 토큰이 일치하지 않습니다. |  |
+| `REFRESH_TOKEN_NOT_FOUND` | 401 | `REFRESH_TOKEN_NOT_FOUND` | 리프레시 토큰을 찾을 수 없습니다. |  |
+| `ACCESS_TOKEN_INVALID` | 401 | `ACCESS_TOKEN_INVALID` | 유효하지 않은 액세스 토큰입니다. |  |
+| **403 FORBIDDEN (권한 없음)** |  |  |  |  |
+| `FORBIDDEN` | 403 | `FORBIDDEN` | 접근 권한이 없습니다. |  |
+| `ACCESS_DENIED` | 403 | `ACCESS_DENIED` | 요청한 리소스에 접근할 수 없습니다. |  |
+| `NOT_UPDATE_NOT_ACTIVE_REVIEW` | 403 | `NOT_UPDATE_NOT_ACTIVE_REVIEW` | 비활성화된 리뷰는 수정할 수 없습니다. |  |
+| `NOT_DELETE_NOT_ACTIVE_REVIEW` | 403 | `NOT_DELETE_NOT_ACTIVE_REVIEW` | 비활성화된 리뷰는 삭제할 수 없습니다. |  |
+| `NOT_UPDATE_ANOTHER_USER_REVIEW` | 403 | `NOT_UPDATE_ANOTHER_USER_REVIEW` | 본인 리뷰만 수정할 수 있습니다. |  |
+| `NOT_DELETE_ANOTHER_USER_REVIEW` | 403 | `NOT_DELETE_ANOTHER_USER_REVIEW` | 본인 리뷰만 삭제할 수 있습니다. |  |
+| `CANNOT_DELETE_ANOTHER_USER_BOOKMARK` | 403 | `CANNOT_DELETE_ANOTHER_USER_BOOKMARK` | 다른 사용자의 찜은 취소할 수 없습니다. |  |
+| `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT` | 403 | `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT` | 다른 사용자의 과제는 삭제할 수 없습니다. |  |
+| `CANNOT_APPLY_OWN_RECRUITMENT` | 403 | `CANNOT_APPLY_OWN_RECRUITMENT` | 본인 공고에는 지원할 수 없습니다. |  |
+| `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT` | 403 | `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT` | 타 대학의 공고입니다. |  |
+| `FORBIDDEN_DECIDE_APPLICATION` | 403 | `FORBIDDEN_DECIDE_APPLICATION` | 지원 수락/거절 권한이 없습니다. |  |
+| `CANNOT_DELETE_ANOTHER_USER_APPLICATION` | 403 | `CANNOT_DELETE_ANOTHER_USER_APPLICATION` | 다른 사용자의 지원은 취소할 수 없습니다. |  |
+| `CANNOT_REMOVE_NOT_LEADER` | 403 | `CANNOT_REMOVE_NOT_LEADER` | 리더만 멤버를 삭제할 수 있습니다. |  |
+| `CANNOT_REMOVE_SELF` | 403 | `CANNOT_REMOVE_SELF` | 자기 자신은 삭제할 수 없습니다. |  |
+| `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION` | 403 | `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION` | 다른 사용자의 알림은 삭제할 수 없습니다. |  |
+| **404 NOT_FOUND (리소스 없음)** |  |  |  |  |
+| `USER_NOT_FOUND` | 404 | `USER_NOT_FOUND` | 사용자를 찾을 수 없습니다. |  |
+| `IMAGE_NOT_FOUND` | 404 | `IMAGE_NOT_FOUND` | 파일을 찾을 수 없습니다. |  |
+| `RECRUITMENT_NOT_FOUND` | 404 | `RECRUITMENT_NOT_FOUND` | 공고를 찾을 수 없습니다. |  |
+| `PROJECT_NOT_FOUND` | 404 | `PROJECT_NOT_FOUND` | 프로젝트 공고를 찾을 수 없습니다. |  |
+| `ASSIGNMENT_NOT_FOUND` | 404 | `ASSIGNMENT_NOT_FOUND` | 과제 공고를 찾을 수 없습니다. |  |
+| `STUDY_NOT_FOUND` | 404 | `STUDY_NOT_FOUND` | 스터디 공고를 찾을 수 없습니다. |  |
+| `POSITION_NOT_FOUND` | 404 | `POSITION_NOT_FOUND` | 역할을 찾을 수 없습니다. |  |
+| `SKILL_NOT_FOUND` | 404 | `SKILL_NOT_FOUND` | 기술 스택을 찾을 수 없습니다. |  |
+| `REVIEW_NOT_FOUND` | 404 | `REVIEW_NOT_FOUND` | 리뷰를 찾을 수 없습니다. |  |
+| `BOOKMARK_NOT_FOUND` | 404 | `BOOKMARK_NOT_FOUND` | 찜 정보를 찾을 수 없습니다. |  |
+| `APPLICATION_NOT_FOUND` | 404 | `APPLICATION_NOT_FOUND` | 지원 정보를 찾을 수 없습니다. |  |
+| `TEAM_NOT_FOUND` | 404 | `TEAM_NOT_FOUND` | 팀을 찾을 수 없습니다. |  |
+| `LEADER_NOT_FOUND` | 404 | `LEADER_NOT_FOUND` | 리더를 찾을 수 없습니다. |  |
+| `TARGET_MEMBER_NOT_FOUND` | 404 | `TARGET_MEMBER_NOT_FOUND` | 삭제할 멤버를 찾을 수 없습니다. |  |
+| `NOTIFICATION_NOT_FOUND` | 404 | `NOTIFICATION_NOT_FOUND` | 알림을 찾을 수 없습니다. |  |
+| **406 NOT_ACCEPTABLE** |  |  |  |  |
+| `NOT_ACCEPTABLE` | 406 | `NOT_ACCEPTABLE` | 응답 가능한 미디어 타입이 없습니다. |  |
+| **409 CONFLICT (중복 또는 상태 충돌)** |  |  |  |  |
+| `DUPLICATED_USERNAME` | 409 | `DUPLICATED_USERNAME` | 이미 가입된 아이디입니다. |  |
+| `DUPLICATED_EMAIL` | 409 | `DUPLICATED_EMAIL` | 이미 가입된 이메일입니다. |  |
+| `DUPLICATED_NICKNAME` | 409 | `DUPLICATED_NICKNAME` | 이미 존재하는 닉네임입니다. |  |
+| `ALREADY_WITHDRAWN_USER` | 409 | `ALREADY_WITHDRAWN_USER` | 이미 탈퇴한 회원입니다. |  |
+| `ALREADY_BOOKMARKED` | 409 | `ALREADY_BOOKMARKED` | 이미 찜한 공고입니다. |  |
+| `ALREADY_APPLIED_RECRUITMENT` | 409 | `ALREADY_APPLIED_RECRUITMENT` | 이미 지원한 공고입니다. |  |
+| `RECRUITMENT_CLOSED` | 409 | `RECRUITMENT_CLOSED` | 모집 기간이 종료된 공고입니다. |  |
+| `RECRUITMENT_FULL` | 409 | `RECRUITMENT_FULL` | 이미 모집이 완료된 공고입니다. |  |
+| `NOT_RECRUITING_POSITION` | 409 | `NOT_RECRUITING_POSITION` | 해당 포지션은 모집 대상이 아닙니다. |  |
+| `POSITION_FULL` | 409 | `POSITION_FULL` | 이미 모집이 완료된 포지션입니다. |  |
+| `ALREADY_PROCESSED_APPLICATION` | 409 | `ALREADY_PROCESSED_APPLICATION` | 이미 처리된 지원서입니다. |  |
+| `TEAM_FULL` | 409 | `TEAM_FULL` | 이미 모집이 완료되었습니다. |  |
+| **413 PAYLOAD_TOO_LARGE** |  |  |  |  |
+| `PAYLOAD_TOO_LARGE` | 413 | `PAYLOAD_TOO_LARGE` | 요청 또는 파일 크기가 너무 큽니다. |  |
+| **415 UNSUPPORTED_MEDIA_TYPE** |  |  |  |  |
+| `UNSUPPORTED_MEDIA_TYPE` | 415 | `UNSUPPORTED_MEDIA_TYPE` | 지원하지 않는 Content-Type 입니다. |  |
+| **429 TOO_MANY_REQUESTS** |  |  |  |  |
+| `TOO_MANY_REQUESTS` | 429 | `TOO_MANY_REQUESTS` | 요청이 너무 많습니다. 잠시 후 다시 시도해주세요. |  |
+| **500 INTERNAL_SERVER_ERROR (서버 내부 오류)** |  |  |  |  |
+| `INTERNAL_SERVER_ERROR` | 500 | `INTERNAL_ERROR` | 서버 오류가 발생했습니다. |  |
+| `DATABASE_ERROR` | 500 | `DATABASE_ERROR` | 데이터베이스 오류가 발생했습니다. |  |
+| `REDIS_CONNECTION_ERROR` | 500 | `REDIS_CONNECTION_ERROR` | Redis 연결에 실패했습니다. |  |
+| `EMAIL_CREATE_MESSAGE_FAILED` | 500 | `EMAIL_CREATE_MESSAGE_FAILED` | 이메일 메시지를 생성하는데 실패했습니다. |  |
+| `EMAIL_SEND_FAILED` | 500 | `EMAIL_SEND_FAILED` | 이메일 발송에 실패했습니다. |  |
+
 
 ## Attributes
 | Name         | Type         | Visibility    | Description                                            |
@@ -1111,14 +1119,15 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 ## Operations
 | Name                                    | Return Type    | Visibility    | Description                              |
 | --------------------------------------- | -------------- | ------------- | ---------------------------------------- |
-| of(String code, String message, T data) | ApiResponse<T> | public static | 정적 팩토리 메서드로 새로운 응답 객체 생성                 |
-| ok()                                    | ApiResponse<T> | public static | 데이터 없이 기본 성공 응답 (`"SUCCESS"`, `"성공"`) 반환 |
-| ok(String message)                      | ApiResponse<T> | public static | 커스텀 메시지를 포함한 성공 응답 반환                    |
-| ok(T data)                              | ApiResponse<T> | public static | 데이터 포함 기본 성공 응답 반환                       |
-| ok(String message, T data)              | ApiResponse<T> | public static | 메시지와 데이터 모두 포함한 성공 응답 반환                 |
-| error(ErrorCode errorCode)              | ApiResponse<T> | public static | 지정된 에러 코드 기반 실패 응답 반환                    |
-| error(String code, String message)      | ApiResponse<T> | public static | 커스텀 코드와 메시지를 포함한 실패 응답 반환                |
-| error(ErrorCode errorCode, T data)      | ApiResponse<T> | public static | 실패 응답과 함께 추가 데이터 포함                      |
+| `of(String code, String message, T data)` | `ApiResponse<T>` | `public static` | 정적 팩토리 메서드로 새로운 응답 객체 생성 |
+| `ok()`                                  | `ApiResponse<T>` | `public static` | 데이터 없이 기본 성공 응답 (`"SUCCESS"`, `"성공"`) 반환 |
+| `ok(String message)`                    | `ApiResponse<T>` | `public static` | 커스텀 메시지를 포함한 성공 응답 반환 |
+| `ok(T data)`                            | `ApiResponse<T>` | `public static` | 데이터 포함 기본 성공 응답 반환 |
+| `ok(String message, T data)`            | `ApiResponse<T>` | `public static` | 메시지와 데이터 모두 포함한 성공 응답 반환 |
+| `error(ErrorCode errorCode)`            | `ApiResponse<T>` | `public static` | 지정된 에러 코드 기반 실패 응답 반환 |
+| `error(String code, String message)`    | `ApiResponse<T>` | `public static` | 커스텀 코드와 메시지를 포함한 실패 응답 반환 |
+| `error(ErrorCode errorCode, T data)`    | `ApiResponse<T>` | `public static` | 실패 응답과 함께 추가 데이터 포함 |
+
 
 
 # ValidationError
@@ -1129,14 +1138,15 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 ## Attributes
 | Name    | Type   | Visibility               | Description           |
 | ------- | ------ | ------------------------ | --------------------- |
-| field   | String | private final (implicit) | 오류가 발생한 필드명           |
-| message | String | private final (implicit) | 해당 필드에 대한 구체적인 오류 메시지 |
+| `field`   | `String` | `private final (implicit)` | 오류가 발생한 필드명 |
+| `message` | `String` | `private final (implicit)` | 해당 필드에 대한 구체적인 오류 메시지 |
 
 ## Operations
 | Name      | Return Type | Visibility | Description |
 | --------- | ----------- | ---------- | ----------- |
-| field()   | String      | public     | 오류 필드명을 반환  |
-| message() | String      | public     | 오류 메시지를 반환  |
+| `field()`   | `String` | `public` | 오류 필드명을 반환 |
+| `message()` | `String` | `public` | 오류 메시지를 반환 |
+
 
 
 # RecruitmentClosingScheduler
