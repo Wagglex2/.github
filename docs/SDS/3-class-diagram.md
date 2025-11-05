@@ -247,3 +247,27 @@
 | update(String title, String content, LocalDateTime deadline) | void | protected | 제목, 내용, 마감일 수정 |
 | changeStatusByDeadline() | void | public | 마감일에 따라 상태를 자동으로 변경 |
 | cancel() | void | public | 공고를 삭제 상태(CANCELED)로 변경 |
+
+---
+
+# DTO
+
+# BaseRecruitmentRequestDto
+
+모집 공고 작성 요청의 공통 필드를 정의하는 **추상 DTO 클래스**로, 제목, 본문, 마감일 정보를 관리한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| title | String | private final | 공고 제목 (최대 255자, 필수 입력) |
+| content | String | private final | 공고 본문 내용 (최대 4096자, 필수 입력) |
+| deadline | LocalDateTime | private final | 공고 마감일 (오늘 이후 날짜, 필수 입력) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getTitle() | String | public | 제목 반환 |
+| getContent() | String | public | 본문 내용 반환 |
+| getDeadline() | LocalDateTime | public | 마감일 반환 |
