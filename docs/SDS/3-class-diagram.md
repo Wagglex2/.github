@@ -533,8 +533,8 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | findById(Long recruitmentId) | BaseRecruitment | public | 주어진 ID의 모집 공고를 조회 |
-| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고의 상태를 CLOSED로 변경 |
 | findByIdNotCanceled(Long recruitmentId) | BaseRecruitment | public | 취소되지 않은 모집 공고를 ID로 조회 |
+| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고의 상태를 CLOSED로 변경 |
 
 ---
 
@@ -554,8 +554,25 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | findById(Long recruitmentId) | BaseRecruitment | public | 주어진 ID의 모집 공고를 조회 |
-| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고를 CLOSED 상태로 변경 |
 | findByIdNotCanceled(Long recruitmentId) | BaseRecruitment | public | 취소되지 않은 모집 공고를 ID로 조회 |
+| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고를 CLOSED 상태로 변경 |
 
+---
 
+# RecruitmentRepository
+
+BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 조회 및 상태 변경 관련 쿼리를 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|      |      |           |             |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| findByIdNotCanceled(Long id) | Optional\<BaseRecruitment\> | public | 취소되지 않은 공고를 ID로 조회 |
+| closeExpiredRecruitments(LocalDateTime baseTime) | int | public | 기준 시각 이전 마감 공고의 상태를 CLOSED로 변경 |
 
