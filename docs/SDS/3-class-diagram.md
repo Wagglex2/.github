@@ -603,3 +603,60 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 | getPositionInfoByRole(PositionType position) | Optional\<PositionParticipantInfo\> | public | 특정 포지션의 참여자 정보 조회 |
 | decreaseCurrParticipant(PositionType positionType) | void | public | 특정 포지션의 현재 참여 인원을 1명 감소 |
 
+---
+
+# MeetingType
+
+회의 또는 프로젝트 진행 방식을 정의하는 **열거형(Enum)**으로, 각 유형의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| ONLINE | 온라인 |
+| OFFLINE | 오프라인 |
+| HYBRID | 온/오프라인 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| desc | String | private final | 회의 유형 설명 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| getDesc() | String | public | 회의 유형 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
+
+---
+
+# ProjectPurpose
+
+프로젝트의 목적을 정의하는 **열거형(Enum)**으로, 각 목적의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| CONTEST | 공모전 |
+| HACKATHON | 해커톤 |
+| TOY_PROJECT | 토이 프로젝트 |
+| SIDE_PROJECT | 사이드 프로젝트 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| desc | String | private final | 프로젝트 목적 설명 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| getDesc() | String | public | 프로젝트 목적 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
+
+
+
