@@ -289,3 +289,19 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | grade() | Integer | public | 학년값 반환 |
+
+---
+
+# PositionInfoCreationRequestDto
+포지션 생성 요청을 처리하기 위한 DTO로, 사용자가 입력한 포지션 정보와 해당 포지션의 최대 모집 인원수를 전달한다.
+
+## Attributes
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| position | PositionType | private (record component) | 포지션 (필수 입력) |
+| maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
+
+## Operations
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| to(PositionInfoCreationRequestDto dto) | PositionParticipantInfo | public static | PositionInfoCreationRequestDto 객체를 PositionParticipantInfo 객체로 변환한다. |
