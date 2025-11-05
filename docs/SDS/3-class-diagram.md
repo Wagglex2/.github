@@ -27,6 +27,35 @@
 
 ---
 
+# RecruitmentStatus
+
+모집 공고의 현재 상태를 정의하는 **열거형(Enum)** 으로,  
+각 상태의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| RECRUITING | 모집 중 |
+| CLOSED | 마감 |
+| CANCELED | 취소 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| desc | String | private | 모집 상태 설명 (예: "모집 중") |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getDesc() | String | public | 상태 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
+
+
+---
+
 # PositionType
 
 프로젝트 내 포지션 유형을 정의하는 열거형(Enum) 으로, 각 포지션의 설명(desc)과 해당 Enum 값을 제공한다.
