@@ -658,5 +658,128 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 | getDesc() | String | public | 프로젝트 목적 설명 반환 |
 | getName() | String | public | Enum 이름 반환 |
 
+---
+
+Project DTO 관련
+
+# ProjectCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 추상 요청 DTO로, 프로젝트 공고 생성 및 수정 시 공통으로 필요한 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적 |
+| meetingType | MeetingType | private final | 진행 방식 |
+| skills | Set\<Skill\> | private final | 기술 스택 목록 |
+| grades | Set\<GradeRequestDto\> | private final | 모집 학년 |
+| period | PeriodRequestDto | private final | 프로젝트 기간 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| validate() | void | public | 마감일이 종료일 이전인지 검증 |
+
+---
+
+# ProjectCreationRequestDto
+
+[ProjectCommonRequestDto](#projectcommonrequestdto)를 상속한 요청 DTO로, 프로젝트 공고 생성 시 필요한 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| positions | Set\<PositionInfoCreationRequestDto\> | private final | 포지션별 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| toEntity(User user, ProjectCreationRequestDto dto) | Project | public static | DTO를 Project 엔티티로 변환 |
+
+---
+
+# ProjectUpdateRequestDto
+
+[ProjectCommonRequestDto](#projectcommonrequestdto)를 상속한 요청 DTO로, 프로젝트 공고 수정 시 필요한 정보를 담는다.  
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| positions | Set\<PositionInfoUpdateRequestDto\> | private final | 포지션별 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+
+---
+
+# ProjectSearchCondition
+
+프로젝트 공고 검색 조건을 담는 레코드(Record)로, 키워드, 목적, 포지션, 기술 스택, 모집 상태 등의 필드를 포함한다.  
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| keywords | Set\<String\> | public final | 검색 키워드 목록 |
+| purpose | ProjectPurpose | public final | 프로젝트 목적 |
+| positions | Set\<PositionType\> | public final | 포지션 목록 |
+| skills | Set\<Skill\> | public final | 기술 스택 목록 |
+| status | RecruitmentStatus | public final | 모집 공고 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+
+---
+
+# ProjectDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baseRecruitmentdetailresponsedto)를 상속한 응답 DTO로, 프로젝트 공고의 상세 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적 |
+| meetingType | MeetingType | private final | 진행 방식 |
+| positions | Set\<PositionInfoResponseDto\> | private | 포지션별 인원 정보 |
+| skills | Set\<Skill\> | private | 기술 스택 목록 |
+| grades | Set\<Integer\> | private | 모집 학년 |
+| period | PeriodResponseDto | private final | 프로젝트 기간 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| fromEntity(Project project) | ProjectDetailResponseDto | public static | Project 엔티티를 DTO로 변환 |
+
+---
+
+# ProjectSummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 프로젝트 공고의 요약 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적 |
+| meetingType | MeetingType | private final | 진행 방식 |
+| positions | Set\<PositionType\> | private final | 포지션 목록 |
+| skills | Set\<Skill\> | private final | 기술 스택 목록 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
 
 
