@@ -149,100 +149,196 @@ Refresh Token은 `HttpOnly` 속성이 적용된 쿠키로 설정된다.
 최종적으로 `"리뷰 조회에 성공했습니다."` 메시지와 함께 `ApiResponse.ok()`가 반환된다.
 
 
-
-
-
-
-
-
 ----
 
-## 4.3 프로젝트 관리 (ProjectController)
+## 4.3 프로젝트 공고 (ProjectController)
+
 ### 4.3.1 프로젝트 생성
-### 4.3.2 프로젝트 수정
-### 4.3.3 프로젝트 상세 조회
-### 4.3.4 프로젝트 목록/검색/필터 조회
+<img width="987" height="573" alt="스크린샷 2025-11-05 19 39 27" src="https://github.com/user-attachments/assets/207d87a3-3e5f-409d-83a5-80d9da522a3f" />
+
+- 이 Sequence Diagram은 사용자가 새로운 **프로젝트 공고를 생성하는 과정**을 나타낸다.  
+사용자가 프로젝트 생성 요청을 전송하면, `ProjectController`는 `ProjectService`의 `createProject()` 메서드를 호출한다.  
+`ProjectServiceImpl`은 `ProjectCommonRequestDto.validate()`를 통해 요청 데이터의 유효성을 검증한 후,  
+`UserService.findById()`로 현재 로그인한 사용자를 조회한다.  
+이후 `ProjectCreationRequestDto.toEntity()`를 호출하여 프로젝트 엔티티로 변환하고,  
+`Team.addMember()`를 통해 프로젝트 생성자(팀장)를 팀 구성원으로 추가한다.  
+모든 데이터가 준비되면 `TeamService.save()`를 호출하여 데이터베이스에 저장하고,  
+생성된 프로젝트 ID를 포함한 `"프로젝트 공고를 성공적으로 등록하였습니다."` 메시지가 `ApiResponse.ok()`로 반환된다.
+
+### 4.3.2 프로젝트 상세 조회
+<img width="1072" height="711" alt="스크린샷 2025-11-05 19 44 22" src="https://github.com/user-attachments/assets/e7d9ff8f-3e0b-4349-976c-1b94338a82b2" />
+
+- 이 Sequence Diagram은 사용자가 특정 **프로젝트 공고의 상세 정보를 조회하는 과정**을 나타낸다.  
+사용자가 프로젝트 상세 페이지 요청을 전송하면, `ProjectController`는 `ProjectService.getProject()` 메서드를 호출한다.  
+`ProjectServiceImpl`은 우선 `ProjectRepository.increaseViewCount()`를 통해 조회수를 1 증가시킨 후,  
+`findByIdWithUser()`로 프로젝트 정보와 등록한 사용자 정보를 함께 조회한다.  
+조회된 프로젝트 엔티티는 `ProjectDetailResponseDto.fromEntity()`를 통해 DTO로 변환된다.  
+
+이후 프로젝트의 세부 항목(모집 포지션, 기술 스택, 학년 조건 등)을 조회하기 위해  
+`findPositionsByProjectId()`, `findSkillsByProjectId()`, `findGradesByProjectId()` 메서드가 순차적으로 호출된다.  
+포지션 정보는 `PositionInfoResponseDto.from()`을 통해 DTO로 변환되어 최종 응답에 포함된다.  
+모든 데이터가 조합된 후, `"프로젝트 공고를 성공적으로 조회하였습니다."` 메시지와 함께  
+`ApiResponse.ok()` 형태로 응답이 반환된다.
+
+### 4.3.3 프로젝트 목록 조회
+<img width="777" height="492" alt="스크린샷 2025-11-05 19 39 50" src="https://github.com/user-attachments/assets/0c36a222-8597-4177-9d48-9d4b283aaa83" />
+
+- 이 Sequence Diagram은 사용자가 조건에 맞는 **프로젝트 공고 목록을 조회하는 과정**을 나타낸다.  
+사용자가 검색 키워드, 목적, 기술 스택, 모집 상태 등의 조건을 포함하여 요청을 전송하면,  
+`ProjectController`는 먼저 `KomoranUtil.getNouns()`를 통해 검색어가 존재할 경우 명사만 추출한다(`alt` 블록).  
+그 후 조건 객체(`ProjectSearchCondition`)를 구성하여 `ProjectService.getProjectSummaries()`를 호출한다.  
+`ProjectServiceImpl`은 `ProjectRepositoryCustom.getProjectSummaries()`를 통해  
+QueryDSL 기반의 조건 검색을 수행하고, 페이징 처리된 프로젝트 요약 리스트를 반환한다.  
+조회 결과는 `"프로젝트 공고 목록을 성공적으로 조회하였습니다."` 메시지와 함께 `ApiResponse.ok()` 형태로 응답된다.
+
+### 4.3.4 프로젝트 수정
+<img width="678" height="478" alt="스크린샷 2025-11-05 19 40 01" src="https://github.com/user-attachments/assets/f3b5839a-85a9-4d6e-ad0f-ca31243482f0" />
+
+- 이 Sequence Diagram은 사용자가 기존에 등록한 **프로젝트 공고를 수정하는 과정**을 나타낸다.  
+사용자가 수정 요청을 전송하면, `ProjectController`는 `ProjectService.updateProject()`를 호출한다.  
+`ProjectServiceImpl`은 먼저 `ProjectCommonRequestDto.validate()`를 통해 요청 데이터의 유효성을 검증하고,  
+검증이 완료되면 해당 프로젝트 엔티티를 조회한다.  
+조회된 프로젝트 객체의 `update()` 메서드를 호출하여 전달받은 변경 사항을 반영한다.  
+모든 과정이 정상적으로 수행되면 `"프로젝트 공고를 성공적으로 수정하였습니다."` 메시지를 포함한 `ApiResponse.ok()`가 반환된다.
+
 ### 4.3.5 프로젝트 삭제
-### 4.3.6 모집 시작/마감(상태 전환)
-### 4.3.7 프로젝트 북마크 토글 연동(후술 4.9 참조)
-### 4.3.8 프로젝트 관련 알림 발생 연동(후술 4.10 참조)
+<img width="562" height="447" alt="스크린샷 2025-11-05 19 40 31" src="https://github.com/user-attachments/assets/37633394-3abe-4114-a48e-9b4950f8699d" />
+
+- 이 Sequence Diagram은 사용자가 등록한 **프로젝트 공고를 삭제하는 과정**을 나타낸다.  
+사용자가 삭제 요청을 보내면, `ProjectController`는 `ProjectService.deleteProject()`를 호출한다.  
+`ProjectServiceImpl`은 내부적으로 해당 프로젝트를 조회한 뒤(`BaseRecruitment` 상속 구조 기반),  
+`cancel()` 메서드를 호출하여 모집 상태를 `CANCELED`로 변경하거나 논리적 삭제를 수행한다.  
+삭제 처리가 완료되면 `"프로젝트 공고를 성공적으로 삭제하였습니다."` 메시지를 포함한 `ApiResponse.ok()`가 반환된다.
 
 ----
 
-## 4.4 지원/신청 (ApplicationController)
-### 4.4.1 프로젝트 지원 생성
-### 4.4.2 지원 취소
-### 4.4.3 지원 내역 조회(내 지원/프로젝트별 지원자)
-### 4.4.4 지원 상태 변경(승인/거절) [Assignment/Team 연계, 4.5/4.6 참조]
-### 4.4.5 지원 관련 알림 발생(후술 4.10 참조)
+## 4.4 과제 공고 (AssignmentController)
+
+### 4.4.1 과제 생성
+<img width="945" height="514" alt="스크린샷 2025-11-05 19 51 07" src="https://github.com/user-attachments/assets/5411e3de-b608-4c0e-88a7-5f80ca06bf1a" />
+
+- 이 Sequence Diagram은 사용자가 새로운 **과제 공고를 등록하는 과정**을 나타낸다.  
+사용자가 과제 생성 요청을 전송하면, `AssignmentController`는 `AssignmentService.createAssignment()`를 호출한다.  
+`AssignmentServiceImpl`은 `UserService.findById()`를 통해 현재 로그인한 사용자 정보를 조회하고,  
+`AssignmentCreationRequestDto.toEntity()`를 호출하여 요청 데이터를 기반으로 과제 엔티티를 생성한다.  
+이후 `Team.addMember()`를 통해 생성자를 팀에 추가하고, `TeamService.save()`를 호출하여 데이터베이스에 저장한다.  
+모든 절차가 완료되면 `"과제 공고를 성공적으로 등록하였습니다."` 메시지를 포함한 `ApiResponse.ok()` 응답이 반환된다.
+
+### 4.4.2 과제 상세 조회
+<img width="865" height="531" alt="스크린샷 2025-11-05 19 51 27" src="https://github.com/user-attachments/assets/b618eac0-5791-40ce-b129-a1610b8bae56" />
+
+- 이 Sequence Diagram은 사용자가 특정 **과제 공고의 상세 정보를 조회하는 과정**을 나타낸다.  
+사용자가 과제 상세 페이지 요청을 보내면, `AssignmentController`는 `AssignmentService.getAssignment()`를 호출한다.  
+`AssignmentServiceImpl`은 `AssignmentRepository.increaseViewCount()`를 실행하여 조회수를 증가시킨다.  
+조회 성공 시 과제 엔티티를 불러와 `AssignmentDetailResponseDto.fromEntity()`를 통해 DTO로 변환한다.  
+만약 조회수 업데이트가 실패한 경우(`updated == 0`)에는 예외 처리 분기(`alt` 블록)가 수행된다.  
+변환된 DTO는 `"과제 공고를 성공적으로 조회하였습니다."` 메시지와 함께 `ApiResponse.ok()`로 반환된다.
+
+### 4.4.3 과제 목록 조회
+<img width="894" height="478" alt="스크린샷 2025-11-05 19 51 44" src="https://github.com/user-attachments/assets/f01d85eb-6810-4682-bf51-10f0850cf089" />
+
+- 이 Sequence Diagram은 사용자가 조건에 맞는 **과제 공고 목록을 검색 및 조회하는 과정**을 나타낸다.  
+사용자가 키워드, 학년, 모집 상태 등의 조건을 포함하여 요청을 전송하면,  
+`AssignmentController`는 우선 `KomoranUtil.getNouns()`를 통해 검색어에서 명사를 추출한다(`alt` 블록).  
+그 후 `AssignmentSearchCondition`을 생성하고, `AssignmentService.getAssignmentSummaries()`를 호출한다.  
+`AssignmentServiceImpl`은 `AssignmentRepositoryCustom.getAssignmentSummaries()`를 실행하여 조건 기반 검색을 수행한다.  
+조회 결과는 페이징된 형태로 `AssignmentSummaryResponseDto` 리스트로 반환되고,  
+최종적으로 `"과제 공고 목록을 성공적으로 조회하였습니다."` 메시지와 함께 `ApiResponse.ok()`가 반환된다.
+
+### 4.4.4 과제 수정
+<img width="636" height="443" alt="스크린샷 2025-11-05 19 52 13" src="https://github.com/user-attachments/assets/f2c0e3c9-84e0-46b9-ba24-ce80a05ef28f" />
+
+- 이 Sequence Diagram은 사용자가 등록한 **과제 공고를 수정하는 과정**을 나타낸다.  
+사용자가 수정 요청을 전송하면, `AssignmentController`는 `AssignmentService.updateAssignment()`를 호출한다.  
+`AssignmentServiceImpl`은 해당 과제 엔티티를 조회하고, 엔티티 내부의 `update()` 메서드를 호출하여  
+전달받은 변경 내용을 반영한다.  
+수정이 완료되면 `"과제 공고를 성공적으로 수정하였습니다."` 메시지를 포함한 `ApiResponse.ok()` 응답이 반환된다.
+
+### 4.4.5 과제 삭제
+<img width="659" height="437" alt="스크린샷 2025-11-05 19 51 58" src="https://github.com/user-attachments/assets/c3769ac8-0ba7-4717-ae84-df841c05d96e" />
+
+- 이 Sequence Diagram은 사용자가 등록한 **과제 공고를 삭제하는 과정**을 나타낸다.  
+사용자가 삭제 요청을 전송하면, `AssignmentController`는 `AssignmentService.deleteAssignment()`를 호출한다.  
+`AssignmentServiceImpl`은 내부적으로 해당 과제 엔티티를 조회하고,  
+`BaseRecruitment.cancel()` 메서드를 호출하여 모집 상태를 `CANCELED`로 변경하거나 논리적 삭제를 수행한다.  
+모든 처리가 완료되면 `"과제 공고를 성공적으로 삭제하였습니다."` 메시지를 포함한 `ApiResponse.ok()` 응답이 반환된다.
 
 ----
 
-## 4.5 배정/역할 관리 (AssignmentController)
-### 4.5.1 멤버 배정 생성(프로젝트/팀/역할)
-### 4.5.2 배정 변경/해제
-### 4.5.3 배정 현황 조회
-### 4.5.4 지원 승인과의 연계(4.4.4 연동)
-### 4.5.5 배정 관련 알림 발생(후술 4.10 참조)
+## 4.5 스터디 공고 (StudyController)
+
+### 4.5.1 스터디 생성
+### 4.5.2 스터디 상세 조회
+### 4.5.3 스터디 목록 조회
+### 4.5.4 스터디 수정
+### 4.5.5 스터디 삭제
 
 ----
 
-## 4.6 팀 관리 (TeamController)
-### 4.6.1 팀 생성
-### 4.6.2 팀 정보 수정
-### 4.6.3 팀 상세/구성원 조회
-### 4.6.4 팀원 추가/제거(Assignment 연계)
-### 4.6.5 팀 해체(해당 시)
-### 4.6.6 팀 관련 알림 발생(후술 4.10 참조)
+## 4.6 지원/신청 (ApplicationController)
+### 4.6.1 프로젝트 지원 생성
+### 4.6.2 지원 취소
+### 4.6.3 지원 내역 조회(내 지원/프로젝트별 지원자)
+### 4.6.4 지원 상태 변경(승인/거절) [Assignment/Team 연계, 4.7/4.8 참조]
+### 4.6.5 지원 관련 알림 발생(후술 4.10 참조)
 
 ----
 
-## 4.7 스터디 관리 (StudyController)
-### 4.7.1 스터디 생성
-### 4.7.2 스터디 수정
-### 4.7.3 스터디 상세 조회
-### 4.7.4 스터디 목록/검색 조회
-### 4.7.5 스터디 삭제
-### 4.7.6 스터디 모집/신청/관리(해당 시 Application/Assignment 유사 흐름)
+## 4.7 배정/역할 관리 (AssignmentController)
+### 4.7.1 멤버 배정 생성(프로젝트/팀/역할)
+### 4.7.2 배정 변경/해제
+### 4.7.3 배정 현황 조회
+### 4.7.4 지원 승인과의 연계(4.6.4 연동)
+### 4.7.5 배정 관련 알림 발생(후술 4.10 참조)
 
 ----
 
-## 4.8 리뷰/평가 (ReviewController)
-### 4.8.1 리뷰 작성
-### 4.8.2 리뷰 수정/삭제
-### 4.8.3 대상별 리뷰 조회(프로젝트/사용자 등)
-### 4.8.4 리뷰 신고/차단(해당 시)
-### 4.8.5 리뷰 관련 알림 발생(후술 4.10 참조)
+## 4.8 팀 관리 (TeamController)
+### 4.8.1 팀 생성
+### 4.8.2 팀 정보 수정
+### 4.8.3 팀 상세/구성원 조회
+### 4.8.4 팀원 추가/제거(Assignment 연계)
+### 4.8.5 팀 해체(해당 시)
+### 4.8.6 팀 관련 알림 발생(후술 4.10 참조)
 
 ----
 
-## 4.9 북마크 (BookmarkController)
-### 4.9.1 프로젝트 북마크 토글
-### 4.9.2 북마크 목록 조회
-### 4.9.3 북마크와 권한/상태 연동(비공개/마감 시 처리)
+## 4.9 리뷰/평가 (ReviewController)
+### 4.9.1 리뷰 작성
+### 4.9.2 리뷰 수정/삭제
+### 4.9.3 대상별 리뷰 조회(프로젝트/사용자 등)
+### 4.9.4 리뷰 신고/차단(해당 시)
+### 4.9.5 리뷰 관련 알림 발생(후술 4.10 참조)
 
 ----
 
-### 4.10 알림/이벤트 발행 흐름 (Notification 도메인 연계)
-### 4.10.1 지원 생성 시 알림 발행
-### 4.10.2 지원 승인/거절 시 알림 발행
-### 4.10.3 배정/팀 변경 시 알림 발행
-### 4.10.4 리뷰 작성 시 알림 발행
-### 4.10.5 프로젝트 상태 변경(모집 시작/마감) 알림
-### 4.10.6 알림 읽음/수신함 처리(해당 시)
+## 4.10 북마크 (BookmarkController)
+### 4.10.1 프로젝트 북마크 토글
+### 4.10.2 북마크 목록 조회
+### 4.10.3 북마크와 권한/상태 연동(비공개/마감 시 처리)
 
 ----
 
-## 4.11 전역 예외 처리 (GlobalExceptionHandler)
-### 4.11.1 검증 예외 흐름
-### 4.11.2 인증/인가 예외 흐름
-### 4.11.3 도메인 예외 흐름
-### 4.11.4 공통 에러 응답 포맷 반환
+## 4.11 알림/이벤트 발행 흐름 (Notification 도메인 연계)
+### 4.11.1 지원 생성 시 알림 발행
+### 4.11.2 지원 승인/거절 시 알림 발행
+### 4.11.3 배정/팀 변경 시 알림 발행
+### 4.11.4 리뷰 작성 시 알림 발행
+### 4.11.5 프로젝트 상태 변경(모집 시작/마감) 알림
+### 4.11.6 알림 읽음/수신함 처리(해당 시)
 
 ----
 
-## 4.12 교차 도메인 시나리오(엔드투엔드)
-### 4.12.1 프로젝트 모집 → 지원 → 승인 → 배정 → 팀 합류
-### 4.12.2 프로젝트 즐겨찾기(북마크)와 목록/상세/권한 연동
-### 4.12.3 스터디 생성 → 모집/신청 → 참여 확정
-### 4.12.4 협업 종료 후 리뷰 작성 → 알림/노출
+## 4.12 전역 예외 처리 (GlobalExceptionHandler)
+### 4.12.1 검증 예외 흐름
+### 4.12.2 인증/인가 예외 흐름
+### 4.12.3 도메인 예외 흐름
+### 4.12.4 공통 에러 응답 포맷 반환
+
+----
+
+## 4.13 교차 도메인 시나리오(엔드투엔드)
+### 4.13.1 프로젝트 모집 → 지원 → 승인 → 배정 → 팀 합류
+### 4.13.2 프로젝트 즐겨찾기(북마크)와 목록/상세/권한 연동
+### 4.13.3 스터디 생성 → 모집/신청 → 참여 확정
+### 4.13.4 협업 종료 후 리뷰 작성 → 알림/노출
