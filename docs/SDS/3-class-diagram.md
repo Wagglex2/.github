@@ -473,3 +473,23 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | from(PositionParticipantInfo info) | PositionInfoResponseDto | public static | PositionParticipantInfo 객체를 PositionInfoResponseDto로 변환 |
+
+---
+
+# PeriodResponseDto
+
+기간 정보를 반환하기 위한 응답 DTO로, 시작일과 종료일을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| startDate | LocalDate | private (record component) | 시작일 (`yyyy-MM-dd`) |
+| endDate | LocalDate | private (record component) | 종료일 (`yyyy-MM-dd`) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| from(Period period) | PeriodResponseDto | public static | Period 객체를 PeriodResponseDto로 변환 |
+
