@@ -297,12 +297,14 @@
 포지션 생성 요청을 처리하기 위한 DTO로, 사용자가 입력한 포지션 정보와 해당 포지션의 최대 모집 인원수를 전달한다.
 
 ## Attributes
+
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
 | position | PositionType | private (record component) | 포지션 (필수 입력) |
 | maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
 
 ## Operations
+
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | to(PositionInfoCreationRequestDto dto) | PositionParticipantInfo | public static | PositionInfoCreationRequestDto 객체를 PositionParticipantInfo 객체로 변환한다. |
@@ -314,12 +316,14 @@
 공고의 모집 인원 및 현재 인원 정보를 수정하기 위한 DTO로, 현재 인원이 모집 인원을 초과할 수 없다.
 
 ## Attributes
+
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
 | maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
 | currParticipants | int | private (record component) | 현재 인원수 (최소 0 이상, 모집 인원수 초과 불가, 필수 입력) |
 
 ## Operations
+
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | to(ParticipantInfoUpdateRequestDto dto) | ParticipantInfo | public static | ParticipantInfoUpdateRequestDto 객체를 ParticipantInfo 객체로 변환한다. |
@@ -331,13 +335,34 @@
 특정 포지션의 인원 정보를 수정하기 위한 DTO로, 포지션 유형과 해당 포지션의 인원 정보를 포함한다.
 
 ## Attributes
+
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
 | position | PositionType | private (record component) | 포지션 (필수 입력) |
 | participantInfo | ParticipantInfoUpdateRequestDto | private (record component) | 포지션별 인원 정보 (유효성 검사 포함, 필수 입력) |
 
 ## Operations
+
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | to(PositionInfoUpdateRequestDto dto) | PositionParticipantInfo | public static | PositionInfoUpdateRequestDto 객체를 PositionParticipantInfo 객체로 변환한다. |
+
+---
+
+# PeriodRequestDto
+
+기간 정보를 전달하기 위한 DTO로, 시작일과 종료일을 포함하며 날짜 유효성을 검사한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| startDate | LocalDate | private (record component) | 시작일 (필수 입력) |
+| endDate | LocalDate | private (record component) | 종료일 (오늘 이후, 시작일 이전 불가, 필수 입력) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| to(PeriodRequestDto dto) | Period | public static | PeriodRequestDto 객체를 Period 객체로 변환한다. |
 
