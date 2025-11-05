@@ -1,5 +1,32 @@
 ## 3. Class diagram
 
+# RecruitmentCategory
+
+프로젝트 내 모집 공고의 유형을 정의하는 **열거형(Enum)** 으로, 각 카테고리의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| PROJECT | 프로젝트 |
+| ASSIGNMENT | 과제 |
+| STUDY | 스터디 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| desc | String | private | 모집 공고 카테고리 설명 (예: "프로젝트") |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getDesc() | String | public | 카테고리 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
+
+---
+
 # PositionType
 
 프로젝트 내 포지션 유형을 정의하는 열거형(Enum) 으로, 각 포지션의 설명(desc)과 해당 Enum 값을 제공한다.
