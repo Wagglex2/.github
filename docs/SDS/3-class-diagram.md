@@ -305,3 +305,20 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | to(PositionInfoCreationRequestDto dto) | PositionParticipantInfo | public static | PositionInfoCreationRequestDto 객체를 PositionParticipantInfo 객체로 변환한다. |
+
+---
+
+# ParticipantInfoUpdateRequestDto
+포지션의 모집 인원 및 현재 인원 정보를 수정하기 위한 DTO로, 현재 인원이 모집 인원을 초과할 수 없다.
+
+## Attributes
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
+| currParticipants | int | private (record component) | 현재 인원수 (최소 0 이상, 모집 인원수 초과 불가, 필수 입력) |
+
+## Operations
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| to(ParticipantInfoUpdateRequestDto dto) | ParticipantInfo | public static | ParticipantInfoUpdateRequestDto 객체를 ParticipantInfo 객체로 변환한다. |
+
