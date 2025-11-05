@@ -114,6 +114,18 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 와글와글 서비스에서 사용자의 소속 대학교 정보를 표현하는 열거형(Enum) 타입.
 각 상수는 학교의 한글명(desc) 과 이메일 도메인(domain) 을 매핑하며, 이메일 주소를 기반으로 소속 대학교를 판별하는 기능을 제공한다.
 
+## Enum Values
+| Enum                      | Description | Domain          |
+|---------------------------| ----------- | --------------- |
+| `YOUNGNAM_UNIV`           | 영남대학교       | `yu.ac.kr`      |
+| `KYUNGBUK_UNIV`           | 경북대학교       | `knu.ac.kr`     |
+| `KUMOH_UNIV`              | 금오공과대학교     | `kumoh.ac.kr`   |
+| `GYEONGGUK_NATIONAL_UNIV` | 국립경국대학교     | `gknu.ac.kr`    |
+| `POSTECH`                 | 포항공과대학교     | `postech.ac.kr` |
+| `DAEGU_UNIV`              | 대구대학교       | `deagu.ac.kr`   |
+| `KEIMYUNG_UNIV`           | 계명대학교       | `stu.kmu.ac.kr` |
+
+
 ## Attributes
 | Name   | Type   | Visibility    | Description                |
 | ------ | ------ | ------------- | -------------------------- |
@@ -131,6 +143,11 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 와글와글 서비스 내 사용자 권한(Role)을 정의하는 열거형(Enum) 타입.
 사용자의 접근 수준과 기능 권한을 구분하기 위해 사용된다.
 
+## Enum Values
+| Enum            | Description                                    |
+|----------------| ---------------------------------------------- |
+| `ROLE_USER`    | 일반 사용자 권한 — 기본 회원 권한으로, 일반적인 서비스 이용 가능         |
+
 ## Attributes
 | Name   | Type   | Visibility    | Description                |
 | ------ | ------ | ------------- | -------------------------- |
@@ -142,6 +159,13 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 # UserStatus
 사용자 계정의 활성 상태 및 탈퇴 여부를 나타내는 열거형(Enum).
 회원 계정의 유효성, 탈퇴 처리(Soft Delete) 등의 상태를 관리한다.
+
+# Enum Values
+| Enum        | Description                                 |
+|-------------| ------------------------------------------- |
+| `ACTIVE`    | 정상적으로 활동 중인 상태. 로그인, 서비스 이용 가능.             |
+| `WITHDRAWN` | 사용자가 자발적으로 탈퇴한 상태 (Soft Delete). 서비스 이용 불가. |
+
 
 ## Attributes
 | Name   | Type   | Visibility    | Description                |
@@ -341,6 +365,13 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 `TeamMember` 엔티티에서 팀원의 권한을 구분하기 위해 사용된다.
 리더(LEADER)와 일반 멤버(MEMBER) 두 가지 역할을 가진다.
 
+# Enum Values
+| Enum     | Description              |
+|----------| ------------------------ |
+| `LEADER` | 팀의 생성자이자 리더 (팀 관리 권한 보유) |
+| `MEMBER` | 일반 팀원 (리더의 관리하에 활동)      |
+
+
 ## Attributes
 | Name | Type   | Visibility    | Description                |
 | ---- | ------ | ------------- | -------------------------- |
@@ -377,6 +408,13 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 # ReviewStatus
 리뷰의 상태(활성/삭제)를 관리하는 Enum 클래스.
 Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewStatus` 필드를 통해 사용자 노출 여부를 제어한다.
+
+## Enum Values
+| Enum      | Description                             |
+|-----------| --------------------------------------- |
+| `ACTIVE`  | 활성 상태 — 사용자에게 정상적으로 노출되는 리뷰             |
+| `DELETED` | 삭제 상태 — 사용자가 삭제한 리뷰 (비노출 처리됨, DB에는 유지됨) |
+
 
 ## Attributes
 | Name | Type   | Visibility    | Description                |
@@ -571,17 +609,17 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | reviewService             | ReviewService | private final        | 리뷰 조회 로직을 담당하는 서비스 계층.                         |
 
 ## Operations
-| Name                                                                                          | Return Type                                                  | Mapping                                | Description                             |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------- | --------------------------------------- |
-| existsByUsername(String username)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET /users/username/check`            | 아이디 중복 여부 검사.                           |
-| existsByEmail(String email)                                                                   | ResponseEntity<ApiResponse<Boolean>>                         | `GET /users/email/check`               | 이메일 중복 여부 검사.                           |
-| existsByNickname(String nickname)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET /users/nickname/check`            | 닉네임 중복 여부 검사.                           |
-| passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)                         | ResponseEntity<ApiResponse<Void>>                            | `POST /users/me/password-change`       | 인증된 사용자의 비밀번호 변경.                       |
-| getMe(CustomUserDetails userDetails)                                                          | ResponseEntity<ApiResponse<UserResponseDto>>                 | `GET /users/me`                        | 현재 로그인한 사용자의 프로필 조회.                    |
-| updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)                             | ResponseEntity<ApiResponse<UserResponseDto>>                 | `PATCH /users/me`                      | 현재 로그인한 사용자의 프로필 수정.                    |
-| withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response) | ResponseEntity<ApiResponse<Void>>                            | `DELETE /users/me/withdraw`            | 회원 탈퇴 (Soft Delete + Refresh Token 제거). |
-| getReviews(Long userId, Pageable pageable)                                                    | ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>> | `GET /users/{userId}/reviews/received` | 특정 사용자가 받은 리뷰 목록 조회.                    |
-| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)         | void                                                         | private                                | Refresh Token 쿠키 생성 또는 만료 처리.           |
+| Name                                                                                          | Return Type                                                  | Mapping                                      | Visibility | Description                             |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |----------------------------------------------|------------|-----------------------------------------|
+| existsByUsername(String username)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사.                           |
+| existsByEmail(String email)                                                                   | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사.                           |
+| existsByNickname(String nickname)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사.                           |
+| passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)                         | ResponseEntity<ApiResponse<Void>>                            | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경.                       |
+| getMe(CustomUserDetails userDetails)                                                          | ResponseEntity<ApiResponse<UserResponseDto>>                 | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회.                    |
+| updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)                             | ResponseEntity<ApiResponse<UserResponseDto>>                 | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정.                    |
+| withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response) | ResponseEntity<ApiResponse<Void>>                            | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (Soft Delete + Refresh Token 제거). |
+| getReviews(Long userId, Pageable pageable)                                                    | ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회.                    |
+| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리.           |
 
 
 # AuthController
@@ -597,15 +635,15 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | userService               | UserService | private final        | 사용자 회원가입 및 사용자 관련 서비스.                      |
 
 ## Operations
-| Name                                                                                  | Return Type                       | Mapping                          | Description                                                |
-| ------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------------------------------------------------------- |
-| sendEmailAuthCode(EmailRequestDto dto)                                                | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/code`   | 회원가입 이메일 인증번호 발송.                                          |
-| verifyAuthCode(EmailVerificationRequestDto dto)                                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/verify` | 사용자가 입력한 이메일 인증번호 검증.                                      |
-| signUp(SignUpRequestDto dto)                                                          | ResponseEntity<ApiResponse<Long>> | `POST /api/v1/auth/sign-up`      | 회원가입 요청 처리. 성공 시 생성된 `userId` 반환.                          |
-| signIn(SignInRequestDto dto, HttpServletResponse response)                            | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-in`      | 로그인 처리 및 Access/Refresh Token 발급.                          |
-| signOut(HttpServletResponse response, CustomUserDetails userDetails)                  | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-out`     | 로그아웃 처리 및 Redis 토큰 삭제.                                     |
-| refreshToken(String refreshToken, HttpServletResponse response)                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/refresh`      | Refresh Token 기반 Access/Refresh Token 재발급.                 |
-| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge) | void                              | private                          | Refresh Token을 응답 쿠키에 설정 (HttpOnly, Secure, SameSite=Lax). |
+| Name                                                                                  | Return Type                       | Mapping                          | Visibility | Description                                                |
+| ------------------------------------------------------------------------------------- | --------------------------------- |----------------------------------|------------|------------------------------------------------------------|
+| sendEmailAuthCode(EmailRequestDto dto)                                                | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송.                                          |
+| verifyAuthCode(EmailVerificationRequestDto dto)                                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증.                                      |
+| signUp(SignUpRequestDto dto)                                                          | ResponseEntity<ApiResponse<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리. 성공 시 생성된 `userId` 반환.                          |
+| signIn(SignInRequestDto dto, HttpServletResponse response)                            | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급.                          |
+| signOut(HttpServletResponse response, CustomUserDetails userDetails)                  | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제.                                     |
+| refreshToken(String refreshToken, HttpServletResponse response)                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급.                 |
+| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge) | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (HttpOnly, Secure, SameSite=Lax). |
 
 
 # Team 관련 Repository-Service-Controller
@@ -672,9 +710,9 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 
 
 ## Operations
-| Name                                                                                                                            | Return Type                                          | Visibility | Description                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | `ResponseEntity<ApiResponse<Page<TeamResponseDto>>>` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
+| Name                                                                                                                            | Return Type                                          | Mapping              | Visibility | Description                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |----------------------|------------| ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | `ResponseEntity<ApiResponse<Page<TeamResponseDto>>>` | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
 
 
 # TeamMember 관련 Repository-Service-Controller
@@ -684,6 +722,8 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한다.
 
 ## Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
 | Name                                              | Return Type            | Visibility | Description                                                   |
@@ -696,6 +736,8 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 `TeamMemberServiceImpl`에서 구현되며, 팀 내 멤버 삭제(리더 권한 기반)와 같은 비즈니스 로직의 계약(Contract)을 명시한다.
 
 ## Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
 | Name                                                       | Return Type | Visibility | Description                                                                                                 |
@@ -733,9 +775,9 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | `teamMemberService` | `TeamMemberService` | private final | 팀 멤버 관리 로직을 수행하는 서비스 계층 의존성 |
 
 ## Operations
-| Name                                                                      | Return Type                         | Visibility | Description                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------- | ----------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Void>>` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
+| Name                                                                      | Return Type                         | Mapping                                           | Visibility | Description                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------- | ----------------------------------- |---------------------------------------------------|------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Void>>` | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
 
 
 # Review 관련 Repository-Service-Controller
@@ -746,6 +788,8 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 리뷰 대상자(피평가자) 및 리뷰 작성자 기준으로 리뷰를 조회하는 기능을 제공한다.
 
 ## Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
 | Name                                                                                 | Return Type    | Visibility | Description                                                      |
@@ -758,6 +802,8 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 `ReviewServiceImpl`에서 구현되며, 리뷰의 생성(Create), 조회(Read), 수정(Update), 삭제(Delete) 기능을 수행한다.
 
 ## Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
 | Name                                                                   | Return Type                       | Visibility | Description                                                       |
@@ -803,10 +849,10 @@ ReviewService 인터페이스의 구현체로,
 | `reviewService` | `ReviewService` | private final | 리뷰 관련 비즈니스 로직을 담당하는 서비스 계층 의존성 |
 
 ## Operations
-| Name                                                                                     | Return Type                                                    | Visibility | Description                                                                     |
-| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------- |
-| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | `ResponseEntity<ApiResponse<Long>>`                            | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
-| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
-| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5  |
-| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Long>>`                            | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                     |
-| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | `ResponseEntity<ApiResponse<Void>>`                            | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경.    |
+| Name                                                                                     | Return Type                                                    | Mapping                                       | Visibility | Description                                                                     |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------- |-----------------------------------------------|------------| ------------------------------------------------------------------------------- |
+| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | `ResponseEntity<ApiResponse<Long>>`                            | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
+| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Long>>`                            | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
+| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | `ResponseEntity<ApiResponse<Void>>`                            | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
