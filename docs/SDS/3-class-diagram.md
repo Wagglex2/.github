@@ -403,3 +403,35 @@
 | getCreatedAt() | LocalDateTime | public | 공고 생성일을 반환한다. |
 | getStatus() | RecruitmentStatus | public | 공고 상태를 반환한다. |
 | getViewCount() | int | public | 조회수를 반환한다. |
+
+---
+
+# BaseRecruitmentSummaryResponseDto
+
+공고 요약 응답 DTO의 **추상 클래스**. 공통 필드(작성자, 카테고리, 제목, 마감일, 상태 등)를 정의하며 하위 DTO가 이를 상속하여 구체화한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| id | Long | private final | 공고 식별자 |
+| authorId | Long | private final | 작성자 식별자 |
+| authorNickname | String | private final | 작성자 닉네임 |
+| university | University | private final | 소속 대학교 |
+| category | RecruitmentCategory | private final | 공고 카테고리 |
+| title | String | private final | 공고 제목 |
+| deadline | LocalDateTime | private final | 모집 마감일 (yyyy-MM-dd) |
+| status | RecruitmentStatus | private final | 공고 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getId() | Long | public | 공고 식별자 반환 |
+| getAuthorId() | Long | public | 작성자 식별자 반환 |
+| getAuthorNickname() | String | public | 작성자 닉네임 반환 |
+| getUniversity() | University | public | 소속 대학교 반환 |
+| getCategory() | RecruitmentCategory | public | 공고 카테고리 반환 |
+| getTitle() | String | public | 공고 제목 반환 |
+| getDeadline() | LocalDateTime | public | 모집 마감일 반환 |
+| getStatus() | RecruitmentStatus | public | 공고 상태 반환 |
