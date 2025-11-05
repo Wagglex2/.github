@@ -1518,3 +1518,71 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 | containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
 | containsAnySkill(Set\<Skill\> skills) | BooleanExpression | private | Study skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
 
+---
+
+# Util
+
+---
+
+# KomoranUtil
+
+텍스트에서 명사를 추출하기 위한 형태소 분석 유틸리티 클래스
+
+[KOMORAN 공식 문서](https://docs.komoran.kr/)
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| USER_DIC_PATH | String | private static final | 사용자 사전 파일 경로 |
+| komoran | Komoran | private static final | Komoran 형태소 분석기 인스턴스 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createKomoran() | Komoran | private static | Komoran 인스턴스를 생성하고 사용자 사전을 적용 |
+| getNouns(String target) | Set\<String\> | public | 입력 문자열에서 명사 집합을 추출 |
+
+---
+
+# Converter
+
+---
+
+# StringToEnumConverterFactory
+
+모든 Enum 타입에 대해 문자열(String) → Enum 변환을 지원하는 컨버터 팩토리 클래스  
+Spring Controller에서 쿼리 파라미터로 전달된 문자열을 Enum으로 자동 매핑할 때 사용된다.  
+
+Spring 인터페이스 `ConverterFactory<String, Enum>`를 구현하여 동작한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getConverter(Class\<T\> targetType) | \<T extends Enum\> Converter\<String, T\> | public | 지정한 Enum 타입에 대한 StringToEnumConverter 반환 |
+
+---
+
+# StringToEnumConverterFactory.StringToEnumConverter\<T extends Enum\>
+
+StringToEnumConverterFactory의 내부 클래스로, 실제 문자열 → Enum 변환 로직을 수행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| enumType | Class\<T\> | private | 변환 대상 Enum 타입 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|:-----------:|-----------|-------------|
+| convert(String source) | T | public | 입력 문자열을 Enum 값으로 변환 <br> 소문자, 공백, 하이픈(-) 등을 Enum 형식에 맞게 처리 |
