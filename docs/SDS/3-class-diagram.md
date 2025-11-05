@@ -923,3 +923,172 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
 | containsAnyPosition(Set\<PositionType\> positions) | BooleanExpression | private | Project positions 컬렉션 중 하나라도 지정된 positions에 포함되는 조건 생성 |
 | containsAnySkill(Set\<Skill\> skills) | BooleanExpression | private | Project skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
+
+---
+
+# Assignment 관련
+
+---
+
+# Assignment
+
+[BaseRecruitment](#baserecruitment)를 상속한 과제 공고 엔티티로, 학과, 과목, 인원 정보, 모집 학년 등을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| department | String | private | 학과명 |
+| lecture | String | private | 과목명 |
+| lectureCode | String | private | 과목 코드 |
+| participants | ParticipantInfo | private | 참여자 정보 |
+| grades | Set\<Integer\> | private | 모집 학년 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getDepartment() | String | public | 학과명 반환 |
+| getLecture() | String | public | 과목명 반환 |
+| getLectureCode() | String | public | 과목 코드 반환 |
+| getParticipants() | ParticipantInfo | public | 인원 정보 반환 |
+| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+| update(AssignmentUpdateRequestDto dto) | void | public | 과제 공고 정보를 업데이트 |
+| decreaseCurrParticipant(PositionType positionType) | void | public | 현재 인원을 1명 감소 |
+
+---
+
+# Assignment DTO
+
+---
+
+# AssignmentCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 과제 공고 공통 추상 요청 DTO로, 학과, 강의 정보, 모집 학년 등의 공통 필드를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| department | String | private | 학과명 |
+| lecture | String | private | 과목명 |
+| lectureCode | String | private | 과목 코드 |
+| grades | Set\<GradeRequestDto\> | private | 모집 학년 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getDepartment() | String | public | 학과명 반환 |
+| getLecture() | String | public | 과목명 반환 |
+| getLectureCode() | String | public | 과목 코드 반환 |
+| getGrades() | Set\<GradeRequestDto\> | public | 모집 학년 반환 |
+
+---
+
+# AssignmentCreationRequestDto
+
+[AssignmentCommonRequestDto](#assignmentcommonrequestdto)를 상속한 과제 공고 생성 요청 DTO로, 모집 인원을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| maxParticipants | Integer | private final | 모집 인원 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getMaxParticipants() | Integer | public | 모집 인원 반환 |
+| toEntity(User user, AssignmentCreationRequestDto dto) | Assignment | public | AssignmentCreationRequestDto 객체를 Assignment 객체로 변환 |
+
+---
+
+# AssignmentUpdateRequestDto
+
+[AssignmentCommonRequestDto](#assignmentcommonrequestdto)를 상속한 과제 공고 수정 요청 DTO로, 인원 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoUpdateRequestDto | private final | 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getParticipants() | ParticipantInfoUpdateRequestDto | public | 인원 정보 반환 |
+
+---
+
+# AssignmentSearchCondition
+
+사용자가 입력한 키워드, 학년, 모집 상태를 기준으로 과제를 검색하기 위한 조건을 담는 record이다.  
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| keywords | Set\<String\> | private | 검색 키워드 집합 |
+| grades | Set\<Integer\> | private | 학년 조건 집합 |
+| status | RecruitmentStatus | private | 모집 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|------------|-------------|
+| keywords() | Set\<String\> | public | 키워드 반환 |
+| grades() | Set\<Integer\> | public | 학년 조건 반환 |
+| status() | RecruitmentStatus | public | 모집 상태 반환 |
+
+---
+
+# AssignmentDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baseRecruitmentdetailresponsedto)를 상속한 응답 DTO로, 과제 공고의 상세 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| department | String | private | 학과 |
+| lecture | String | private | 강의명 |
+| lectureCode | String | private | 강의 코드 |
+| grades | Set\<Integer\> | private | 모집 학년 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|------------|-------------|
+| getDepartment() | String | public | 학과 반환 |
+| getLecture() | String | public | 강의명 반환 |
+| getLectureCode() | String | public | 강의 코드 반환 |
+| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+
+---
+
+# AssignmentSummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 과제 공고의 요약 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| department | String | private | 학과 |
+| lecture | String | private | 강의명 |
+| lectureCode | String | private | 강의 코드 |
+| grades | Set\<Integer\> | private | 모집 학년 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|------------|-------------|
+| getDepartment() | String | public | 학과 반환 |
+| getLecture() | String | public | 강의명 반환 |
+| getLectureCode() | String | public | 강의 코드 반환 |
+| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+
