@@ -1226,3 +1226,159 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 | eqStatus(RecruitmentStatus status) | BooleanExpression | private | Assignment 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
 | containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
 | containsAnyGrade(Set\<Integer\> grades) | BooleanExpression | private | Assignment 모집 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
+
+---
+
+# Study 관련
+
+---
+
+# Study
+
+[BaseRecruitment](#baserecruitment)를 상속한 스터디 공고 엔티티로, 인원 정보, 활동 기간, 기술 스택 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfo | private | 인원 정보 |
+| period | Period | private | 스터디 활동 기간 |
+| skills | Set\<Skill\> | private | 스터디 기술 스택 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getParticipants() | ParticipantInfo | public | 인원 정보 반환 |
+| getPeriod() | Period | public | 스터디 활동 기간 반환 |
+| getSkills() | Set\<Skill\> | public | 기술 스택 반환 |
+| update(StudyUpdateRequestDto dto) | void | public | 스터디 공고 정보를 업데이트 |
+| decreaseCurrParticipant(PositionType positionType) | void | public | 현재 인원을 1명 감소 |
+
+---
+
+# Study DTO
+
+---
+
+# StudyCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 스터디 공고 공통 추상 요청 DTO로, 진행 기간과 기술 스택 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| period | PeriodRequestDto | private final | 진행 기간 정보 |
+| skills | Set\<Skill\> | private final | 기술 스택 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getPeriod() | PeriodRequestDto | public | 진행 기간 정보 반환 |
+| getSkills() | Set\<Skill\> | public | 기술 스택 정보 반환 |
+| validate() | void | public | 진행 기간과 마감일의 유효성을 검증 |
+
+---
+
+# StudyCreationRequestDto
+
+[StudyCommonRequestDto](#studycommonrequestdto)를 상속한 스터디 공고 생성 요청 DTO로, 모집 인원 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| maxParticipants | Integer | private final | 모집 인원 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| toEntity(User user, StudyCreationRequestDto dto) | Study | public static | StudyCreationRequestDto 객체를 Study 엔티티로 변환 |
+| getMaxParticipants() | Integer | public | 모집 인원 반환 |
+
+---
+
+# StudyUpdateRequestDto
+
+[StudyCommonRequestDto](#studycommonrequestdto)를 상속한 스터디 공고 수정 요청 DTO로, 인원 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoUpdateRequestDto | private final | 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getParticipants() | ParticipantInfoUpdateRequestDto | public | 인원 정보 반환 |
+
+---
+
+# StudyDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baserecruitmentdetailresponsedto)를 상속한 스터디 공고 상세 응답 DTO로, 인원 정보, 진행 기간, 기술 스택 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoResponseDto | private final | 인원 정보 반환 |
+| period | PeriodResponseDto | private final | 진행 기간 정보 반환 |
+| skills | Set\<Skill\> | private | 기술 스택 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| fromEntity(Study study) | StudyResponseDto | public static | Study 엔티티를 StudyResponseDto 객체로 변환 |
+| getParticipants() | ParticipantInfoResponseDto | public | 인원 정보 반환 |
+| getPeriod() | PeriodResponseDto | public | 진행 기간 정보 반환 |
+| getSkills() | Set\<Skill\> | public | 기술 스택 정보 반환 |
+| setSkills(Set\<Skill\> skills) | void | public | 기술 스택 정보 수정 |
+
+---
+
+# StudySummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 스터디 공고의 요약 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| skills | Set\<Skill\> | private final | 기술 스택 목록 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| getSkills() | Set\<Skill\> | public | 기술 스택 목록 반환 |
+
+---
+
+# StudySearchCondition
+
+스터디 공고 검색 조건을 담는 레코드(Record)로, 키워드, 기술 스택, 모집 상태 등의 필드를 포함한다.  
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| keywords | Set\<String\> | public final | 검색 키워드 목록 |
+| skills | Set\<Skill\> | public final | 기술 스택 목록 |
+| status | RecruitmentStatus | public final | 모집 공고 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|-----------|-------------|
+| keywords() | Set\<String\> | public | 키워드 반환 |
+| skills() | Set\<Skill\> | public | 기술 스택 조건 반환 |
+| status() | RecruitmentStatus | public | 모집 상태 반환 |
+
