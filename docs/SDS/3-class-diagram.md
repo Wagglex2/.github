@@ -1640,6 +1640,216 @@ Bookmark 엔티티의 데이터 접근 계층으로, 사용자의 북마크 관�
 
 ---
 
+# Application
+
+사용자가 프로젝트, 과제, 스터디 공고에 지원할 때 생성되는 엔티티로, 지원 정보와 상태를 관리한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| id | Long | private | 지원 ID (PK) |
+| applicant | User | private | 지원자 정보 |
+| recruitment | BaseRecruitment | private | 지원 대상 공고 |
+| content | String | private | 지원 내용 |
+| grade | Integer | private | 지원자의 학년 |
+| meetingType | MeetingType | private | 진행 방식 |
+| position | PositionType | private | 프로젝트 공고 지원 시 포지션 정보 (그 외는 null) |
+| skills | Set\<Skill\> | private | 프로젝트 공고 지원 시 보유 기술 스택 (그 외는 empty set) |
+| status | ApplicationStatus | private | 지원 상태 (기본값 `SUBMITTED`) |
+| createdAt | LocalDateTime | private | 생성일 |
+| isDeleted | boolean | private | 논리적 삭제 여부 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getId() | Long | public | 지원 ID 반환 |
+| getApplicant() | User | public | 지원자 정보 반환 |
+| getRecruitment() | BaseRecruitment | public | 지원 대상 공고 반환 |
+| getContent() | String | public | 지원 내용 반환 |
+| getGrade() | Integer | public | 지원자의 학년 반환 |
+| getMeetingType() | MeetingType | public | 진행 방식 반환 |
+| getPosition() | PositionType | public | 포지션 반환 (프로젝트 공고 지원) |
+| getSkills() | Set\<Skill\> | public | 기술 스택 반환 (프로젝트 공고 지원) |
+| getStatus() | ApplicationStatus | public | 지원 상태 반환 |
+| getCreatedAt() | LocalDateTime | public | 생성일 반환 |
+| isDeleted() | boolean | public | 논리적 삭제 여부 반환 |
+| accept() | void | public | 지원 상태를 `ACCEPTED`로 변경 |
+| reject() | void | public | 지원 상태를 `REJECTED`로 변경 |
+| delete() | void | public | 논리적 삭제 처리 |
+
+---
+
+# ApplicationStatus
+
+지원 상태를 정의하는 **열거형(Enum)** 으로, 각 상태의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| SUBMITTED | 대기중 |
+| ACCEPTED | 수락됨 |
+| REJECTED | 거절됨 |
+| CLOSED | 모집종료 |
+| CANCELED | 모집취소 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| desc | String | private | 지원 상태 설명 (예: "대기중") |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getDesc() | String | public | 상태 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
+
+---
+
+# Application DTO
+
+---
+
+# ApplicationCommonRequestDto
+
+지원서 작성 시 공통적으로 사용되는 추상 요청 DTO 클래스
+모든 공고(프로젝트, 과제, 스터디)에 공통적으로 필요한 필드를 포함하며, 실제 엔티티 변환 로직은 하위 클래스에서 구현한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| category | RecruitmentCategory | private final | 지원하는 공고의 카테고리 |
+| meetingType | MeetingType | protected | 선호하는 진행 방식 |
+| grade | Integer | protected | 지원자의 학년 (1~4) |
+| content | String | protected | 지원서 본문 내용 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getCategory() | RecruitmentCategory | public | 지원 공고 카테고리 반환 |
+| toEntity(User applicant, BaseRecruitment recruitment) | Application | public abstract | DTO를 Application 엔티티로 변환 <br> 하위 클래스에서 구현 필요 |
+
+---
+
+# ApplicationProjectRequestDto
+
+[ApplicationCommonRequestDto](#applicationcommonrequestdto)를 상속한 요청 DTO로, 프로젝트 공고 지원서 작성 시 필요한 정보를 담는다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| position | PositionType | private final | 지원 포지션 |
+| skills | Set\<Skill\> | private final | 지원 기술 스택 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| getPosition() | PositionType | public | 지원 포지션 반환 |
+| getSkills() | Set\<Skill\> | public | 지원 기술 스택 반환 |
+| toEntity(User applicant, BaseRecruitment recruitment) | Application | public | DTO를 Application 엔티티로 변환 |
+
+---
+
+# ApplicationSimpleRequestDto
+
+[ApplicationCommonRequestDto](#applicationcommonrequestdto)를 상속한 요청 DTO로, 과제 및 스터디 공고 지원서 작성 시 사용된다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| toEntity(User applicant, BaseRecruitment recruitment) | Application | public | DTO를 Application 엔티티로 변환 |
+
+---
+
+# ApplicationCommonResponseDto
+
+지원 공고 응답 시 공통적으로 사용되는 추상 응답 DTO로, 지원서 ID, 공고 정보, 진행 방식 등의 데이터를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| applicationId | Long | private | 지원서 ID |
+| recruitmentId | Long | private | 공고 ID |
+| recruitmentTitle | String | private | 공고 제목 |
+| recruitmentDeadline | LocalDateTime | private | 공고 마감일 (`yyyy.MM.dd`) |
+| meetingType | MeetingType | private final | 선호하는 진행 방식 |
+| grade | Integer | private final | 지원 학년 |
+| content | String | private final | 지원서 본문 내용 |
+| status | ApplicationStatus | private final | 지원서 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| getApplicationId() | Long | public | 지원서 ID 반환 |
+| getRecruitmentId() | Long | public | 공고 ID 반환 |
+| getRecruitmentTitle() | String | public | 공고 제목 반환 |
+| getRecruitmentDeadline() | LocalDateTime | public | 공고 마감일 반환 |
+| getMeetingType() | MeetingType | public | 선호 진행 방식 반환 |
+| getGrade() | Integer | public | 지원 학년 반환 |
+| getContent() | String | public | 지원서 본문 내용 반환 |
+| getStatus() | ApplicationStatus | public | 지원서 상태 반환 |
+
+---
+
+# ApplicationProjectResponseDto
+
+[ApplicationCommonResponseDto](#applicationcommonresponsedto)를 상속한 응답 DTO로, 프로젝트 공고 지원서에 사용된다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| position | PositionType | private final | 지원 포지션 |
+| skills | Set\<Skill\> | private final | 지원 기술 스택 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| fromEntity(Application entity) | ApplicationProjectResponseDto | public static | Application 엔티티를 DTO로 변환 |
+| getPosition() | PositionType | public | 지원 포지션 반환 |
+| getSkills() | Set\<Skill\> | public | 지원 기술 스택 반환 |
+
+---
+
+# ApplicationSimpleResponseDto
+
+[ApplicationCommonResponseDto](#applicationcommonresponsedto)를 상속한 응답 DTO로, 과제 및 스터디 공고 지원서에 사용된다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| fromEntity(Application entity) | ApplicationSimpleResponseDto | public static | Application 엔티티를 DTO로 변환 |
+
+---
+
+
+
+
 # Util
 
 ---
