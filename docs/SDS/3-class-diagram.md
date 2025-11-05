@@ -366,3 +366,40 @@
 |------|-----------|----------|--------------|
 | to(PeriodRequestDto dto) | Period | public static | PeriodRequestDto 객체를 Period 객체로 변환한다. |
 
+---
+
+# BaseRecruitmentDetailResponseDto
+
+공고 상세 조회 시 공통적으로 사용되는 응답 DTO로, 작성자 정보, 공고 기본 정보, 마감일 및 상태 등의 데이터를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| id | Long | private final | 공고 ID |
+| authorId | Long | private final | 작성자 ID |
+| authorNickname | String | private final | 작성자 닉네임 |
+| category | RecruitmentCategory | private final | 공고 카테고리 |
+| university | University | private final | 작성자 소속 대학교 |
+| title | String | private final | 공고 제목 |
+| content | String | private final | 공고 본문 내용 |
+| deadline | LocalDateTime | private final | 모집 마감일 (`yyyy-MM-dd HH:mm:ss`) |
+| createdAt | LocalDateTime | private final | 공고 생성일 (`yyyy-MM-dd HH:mm:ss`) |
+| status | RecruitmentStatus | private final | 공고 상태 |
+| viewCount | int | private final | 조회수 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getId() | Long | public | 공고 ID를 반환한다. |
+| getAuthorId() | Long | public | 작성자 ID를 반환한다. |
+| getAuthorNickname() | String | public | 작성자 닉네임을 반환한다. |
+| getCategory() | RecruitmentCategory | public | 공고 카테고리를 반환한다. |
+| getUniversity() | University | public | 작성자 소속 대학교를 반환한다. |
+| getTitle() | String | public | 공고 제목을 반환한다. |
+| getContent() | String | public | 공고 본문 내용을 반환한다. |
+| getDeadline() | LocalDateTime | public | 모집 마감일을 반환한다. |
+| getCreatedAt() | LocalDateTime | public | 공고 생성일을 반환한다. |
+| getStatus() | RecruitmentStatus | public | 공고 상태를 반환한다. |
+| getViewCount() | int | public | 조회수를 반환한다. |
