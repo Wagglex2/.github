@@ -29,8 +29,7 @@
 
 # RecruitmentStatus
 
-모집 공고의 현재 상태를 정의하는 **열거형(Enum)** 으로,  
-각 상태의 설명(`desc`)과 해당 Enum 값을 제공한다.
+모집 공고의 현재 상태를 정의하는 **열거형(Enum)** 으로, 각 상태의 설명(`desc`)과 해당 Enum 값을 제공한다.
 
 ## Enum Values
 
@@ -52,7 +51,6 @@
 |------|-----------|----------|--------------|
 | getDesc() | String | public | 상태 설명 반환 |
 | getName() | String | public | Enum 이름 반환 |
-
 
 ---
 
@@ -86,6 +84,63 @@
 | getDesc() | String | public | 포지션 설명 반환 |
 | getName() | String | public | Enum 이름 반환 (FULL_STACK, FRONT_END 등) |
 
+---
+
+# Skill
+
+사용 가능한 기술 스택을 정의하는 **열거형(Enum)** 으로, 각 기술의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| HTML | HTML |
+| CSS | CSS |
+| JAVASCRIPT | JavaScript |
+| JAVA | Java |
+| KOTLIN | Kotlin |
+| PYTHON | Python |
+| SWIFT | Swift |
+| C_CPP | C/C++ |
+| CSHARP | C# |
+| TYPESCRIPT | TypeScript |
+| REACT | React |
+| NODE_JS | Node.js |
+| EXPRESS | Express |
+| VUE_JS | Vue.js |
+| NEXT_JS | Next.js |
+| SPRING_BOOT | Spring Boot |
+| DJANGO | Django |
+| PANDAS | Pandas |
+| SCIKIT_LEARN | scikit-learn |
+| PYTORCH | PyTorch |
+| TENSORFLOW | TensorFlow |
+| FLUTTER | Flutter |
+| MYSQL | MySQL |
+| REDIS | Redis |
+| MONGODB | MongoDB |
+| POSTGRESQL | PostgreSQL |
+| GIT_GITHUB | Git/GitHub |
+| GITHUB_ACTIONS | GitHub Actions |
+| FIGMA | Figma |
+| NOTION | Notion |
+| JIRA | Jira |
+| DOCKER | Docker |
+| UNITY | Unity |
+| UNREAL | Unreal |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| desc | String | private | 기술 이름 설명 (예: "Spring Boot") |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getDesc() | String | public | 기술 설명 반환 |
+| getName() | String | public | Enum 이름 반환 |
 
 ---
 
