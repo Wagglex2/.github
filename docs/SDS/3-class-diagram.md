@@ -493,3 +493,25 @@
 |------|-----------|----------|--------------|
 | from(Period period) | PeriodResponseDto | public static | Period 객체를 PeriodResponseDto로 변환 |
 
+---
+
+# PageResponse<T>
+
+페이지 단위로 데이터를 반환하기 위한 제네릭 DTO로, 내용, 페이지 정보, 전체 요소 수 및 마지막 페이지 여부를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| content | List<T> | private (record component) | 페이지 내 데이터 목록 |
+| pageNumber | int | private (record component) | 현재 페이지 번호 |
+| pageSize | int | private (record component) | 페이지 크기 |
+| totalElements | long | private (record component) | 전체 요소 수 |
+| totalPages | int | private (record component) | 전체 페이지 수 |
+| last | boolean | private (record component) | 마지막 페이지 여부 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| from(Page<T> page) | PageResponse<T> | public static | Page 객체를 PageResponse 객체로 변환 |
