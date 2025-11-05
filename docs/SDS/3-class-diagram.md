@@ -1847,8 +1847,110 @@ Bookmark 엔티티의 데이터 접근 계층으로, 사용자의 북마크 관�
 
 ---
 
+# Application 관련 Controller, Service, Repository
 
+---
 
+# ApplicationController
+
+공고 지원(프로젝트, 과제, 스터디)과 관련된 REST API를 제공하는 컨트롤러로, 지원서 제출, 조회, 수락, 거절, 취소 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(ApplicationService)을 통해 실제 비즈니스 로직을 수행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| applicationService | ApplicationService | private final | 공고 지원 관련 비즈니스 로직 서비스 |
+
+## Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| submitProjectApplication(Long recruitmentId, ApplicationCommonRequestDto requestDto, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/applications/recruitments/{recruitmentId}` | public | 프로젝트, 과제, 스터디 지원서 제출 |
+| getMyApplicationByCategory(RecruitmentCategory category, Pageable pageable, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Page\<ApplicationCommonResponseDto\>\>\> | `GET /api/v1/applications/me` | public | 로그인 사용자 기준, 카테고리별 지원 내역 조회 |
+| acceptApplication(Long applicationId, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/accept` | public | 특정 지원서 수락 |
+| rejectApplication(Long applicationId, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/reject` | public | 특정 지원서 거절 |
+| cancelApplication(Long applicationId, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/applications/{applicationId}` | public | 특정 지원서 취소/삭제 |
+
+---
+
+# ApplicationService
+
+공고 지원과 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 제출, 조회, 수락/거절, 취소 기능을 포함한다.  
+실제 구현체([ApplicationServiceImpl](#applicationserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 권한 검증 로직을 포함할 수 있다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto) | Long | public | 공고 지원서 제출 |
+| findById(Long id) | Application | public | ID로 지원서 조회 |
+| getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable) | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회 |
+| acceptApplication(Long deciderId, Long applicationId) | void | public | 지원서 수락 |
+| rejectApplication(Long deciderId, Long applicationId) | void | public | 지원서 거절 |
+| cancelApplication(Long userId, Long applicationId) | void | public | 지원서 취소 |
+| closeApplicationsForClosedRecruitments() | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경 |
+
+---
+
+# ApplicationServiceImpl
+
+[ApplicationService](#applicationservice)의 구현체로, 공고 지원과 관련된 실제 비즈니스 로직을 수행한다.  
+지원서 제출, 조회, 수락/거절, 취소, 마감 공고 처리 등 다양한 기능을 포함하며, 트랜잭션 관리와 권한 검증, 낙관적 락 재시도 로직을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| applicationRepository | ApplicationRepository | private final | 지원서 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| recruitmentService | RecruitmentService | private final | 공고 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto) | Long | public | 지원서 제출 |
+| findById(Long id) | Application | public | ID로 지원서 조회 |
+| getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable) | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회 |
+| acceptApplication(Long deciderId, Long applicationId) | void | public | 지원서 수락, 참여 인원 업데이트 및 팀에 추가 |
+| rejectApplication(Long deciderId, Long applicationId) | void | public | 지원서 거절 |
+| cancelApplication(Long userId, Long applicationId) | void | public | 지원서 취소 (논리적 삭제) |
+| closeApplicationsForClosedRecruitments() | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경 |
+| applyProject(User applicant, Project project, ApplicationProjectRequestDto requestDto) | Long | private | 프로젝트 지원 처리 |
+| applyAssignment(User applicant, Assignment assignment, ApplicationCommonRequestDto requestDto) | Long | private | 과제 지원 처리 |
+| applyStudy(User applicant, Study study, ApplicationCommonRequestDto requestDto) | Long | private | 스터디 지원 처리 |
+| recover(ObjectOptimisticLockingFailureException e, Long deciderId, Long applicationId) | void | protected | 낙관적 락 재시도 실패 시 처리 |
+
+---
+
+# ApplicationRepository
+
+Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재 여부 확인, 마감 공고 상태 업데이트 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| existsByApplicantIdAndRecruitmentId(Long applicantId, Long recruitmentId) | boolean | public | 특정 사용자가 특정 공고에 이미 지원했는지 확인 |
+| findByIdAndNotDeletedWithRecruitmentAndAuthor(Long id) | Optional\<Application\> | public | 지원서 조회 시 Recruitment 및 작성자(User)를 즉시 로딩 |
+| findAllByApplicantIdAndRecruitmentCategoryAndIsDeletedFalse(Long applicantId, RecruitmentCategory category, Pageable pageable) | Page\<Application\> | public | 삭제되지 않은 특정 사용자의 지원서 목록을 카테고리별로 페이지 단위 조회 |
+| closeApplicationsForClosedRecruitments() | int | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경하고 업데이트된 건수 반환 |
+
+---
 
 # Util
 
