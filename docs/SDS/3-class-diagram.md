@@ -1,5 +1,38 @@
 ## 3. Class diagram
 
+# PositionType
+
+프로젝트 내 포지션 유형을 정의하는 열거형(Enum) 으로, 각 포지션의 설명(desc)과 해당 Enum 값을 제공한다.
+
+## Enum Values
+
+| Value | Description |
+|------|-------------|
+| FULL_STACK | 풀스택 |
+| FRONT_END | 프론트엔드 |
+| BACK_END | 백엔드 |
+| DATA | 데이터 |
+| AI | AI |
+| GAME | 게임 |
+| PLANNER | 기획 |
+| DESIGNER | 디자인 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| desc | String | private | 포지션 설명 (예: "프론트엔드") |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getDesc() | String | public | 포지션 설명 반환 |
+| getName() | String | public | Enum 이름 반환 (FULL_STACK, FRONT_END 등) |
+
+
+---
+
 # ParticipantInfo
 
 모집 참여 인원 정보를 담는 **임베디드 클래스**로,  
