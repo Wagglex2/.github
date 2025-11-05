@@ -515,3 +515,26 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | from(Page<T> page) | PageResponse<T> | public static | Page 객체를 PageResponse 객체로 변환 |
+
+---
+
+# RecruitmentService
+
+모집 공고 관련 비즈니스 로직을 정의하는 서비스 인터페이스로, 공고 조회 및 상태 관리 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|      |      |           |             |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| findById(Long recruitmentId) | BaseRecruitment | public | 주어진 ID의 모집 공고를 조회 |
+| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고의 상태를 CLOSED로 변경 |
+| findByIdNotCanceled(Long recruitmentId) | BaseRecruitment | public | 취소되지 않은 모집 공고를 ID로 조회 |
+
+
+
