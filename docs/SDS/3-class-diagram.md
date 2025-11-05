@@ -1,5 +1,29 @@
 ## 3. Class diagram
 
+# ParticipantInfo
+
+모집 참여 인원 정보를 담는 **임베디드 클래스**로,  
+최대 참여 인원과 현재 참여 인원을 관리하고, 참여 인원 증가/감소 여부를 판단한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| maxParticipants | int | private | 최대 참여 인원 |
+| currParticipants | int | private | 현재 참여 인원 (기본값 0) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getMaxParticipants() | int | public | 최대 참여 인원 반환 |
+| getCurrParticipants() | int | public | 현재 참여 인원 반환 |
+| isFull() | boolean | public | 현재 참여 인원이 최대 참여 인원에 도달했는지 확인 |
+| incrementCurrParticipants() | void | public | 현재 참여 인원을 1 증가 |
+| decreaseCurrParticipants() | void | public | 현재 참여 인원을 1 감소, 0 이하 시 예외 발생 |
+
+---
+
 # BaseRecruitment
 
 프로젝트, 과제, 스터디 공고 엔티티들이 상속받는 **공통 추상 클래스**로,  
@@ -37,4 +61,3 @@
 | update(String title, String content, LocalDateTime deadline) | void | protected | 제목, 내용, 마감일 수정 |
 | changeStatusByDeadline() | void | public | 마감일에 따라 상태를 자동으로 변경 |
 | cancel() | void | public | 공고를 삭제 상태(CANCELED)로 변경 |
-
