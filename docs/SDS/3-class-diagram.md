@@ -454,3 +454,22 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | from(ParticipantInfo info) | ParticipantInfoResponseDto | public static | ParticipantInfo 객체를 ParticipantInfoResponseDto로 변환 |
+
+---
+
+# PositionInfoResponseDto
+
+포지션 정보와 해당 포지션의 인원 정보를 반환하기 위한 응답 DTO로, 포지션 유형과 ParticipantInfoResponseDto를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| position | PositionType | private (record component) | 포지션 |
+| participantInfo | ParticipantInfoResponseDto | private (record component) | 포지션별 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| from(PositionParticipantInfo info) | PositionInfoResponseDto | public static | PositionParticipantInfo 객체를 PositionInfoResponseDto로 변환 |
