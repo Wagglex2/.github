@@ -3,12 +3,10 @@
 # 3.1 엔티티
 
 # User
-
 와글와글 서비스에 가입한 사용자의 기본 정보를 관리하는 엔티티 클래스.
 회원의 로그인 정보, 프로필, 기술 스택, 상태, 권한 등을 관리한다.
 
 ## Attributes
-
 | Name       | Type          | Visibility | Description                       |
 | ---------- | ------------- | ---------- | --------------------------------- |
 | id         | Long          | private    | 사용자 식별자 (PK, 자동 증가)               |
@@ -27,7 +25,6 @@
 | status     | UserStatus    | private    | 사용자 상태 (ACTIVE, WITHDRAWN 등)      |
 
 ## Operations
-
 | Name                                   | Return Type | Visibility | Description                      |
 | -------------------------------------- | ----------- | ---------- | -------------------------------- |
 | changePassword(String encodedPassword) | void        | public     | 사용자의 비밀번호를 암호화된 새 비밀번호로 변경       |
@@ -40,7 +37,6 @@
 
 
 # Team
-
 각 공고(`BaseRecruitment`)와 1:1로 연결되어 팀 정보를 관리하는 엔티티.
 팀은 여러 명의 팀원(`TeamMember`)을 포함하며, 팀 생성 및 삭제 시 팀원과의 연결관계를 일관되게 유지한다.
 
@@ -54,7 +50,6 @@
 | updatedAt   | LocalDateTime    | private    | 마지막 수정 시각 (Auditing 자동 기록)                                |
 
 ## Operations
-
 | Name                              | Return Type          | Visibility | Description                                      |
 | --------------------------------- | -------------------- | ---------- | ------------------------------------------------ |
 | Team(BaseRecruitment recruitment) | Constructor          | public     | 특정 공고에 속하는 팀을 생성                                 |
@@ -64,13 +59,11 @@
 
 
 # TeamMember
-
 팀(Team)에 소속된 개별 팀원 정보를 나타내는 엔티티.
 팀과 사용자 간의 관계를 연결하며, 팀 내 역할 및 포지션 정보를 함께 관리한다.
 Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나 Assignment 팀에서는 null이 허용된다.
 
 ## Attributes
-
 | Name      | Type          | Visibility | Description                                    |
 | --------- | ------------- | ---------- |------------------------------------------------|
 | id        | Long          | private    | 팀 멤버 식별자 (PK, 자동 증가)                           |
@@ -83,7 +76,6 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 
 
 ## Operations
-
 | Name                                            | Return Type | Visibility | Description                    |
 | ----------------------------------------------- | ----------- | ---------- | ------------------------------ |
 | TeamMember(Team team, User user, TeamRole role) | Constructor | public     | 팀, 사용자, 역할 정보를 기반으로 새로운 팀원 생성  |
@@ -91,13 +83,11 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 
 
 # Review
-
 사용자 간 후기(리뷰) 정보를 저장하는 엔티티.
 리뷰 작성자(`reviewer`)와 리뷰 대상자(`reviewee`) 간의 관계를 표현하며, 내용(`content`)과 상태(`status`)를 포함한다.
 작성일(`createdAt`), 수정일(`updatedAt`)은 JPA Auditing으로 자동 관리된다.
 
 ## Attributes
-
 | Name      | Type          | Visibility | Description             |
 | --------- | ------------- | ---------- | ----------------------- |
 | id        | Long          | private    | 리뷰 식별자 (PK, 자동 증가)      |
@@ -110,7 +100,6 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 
 
 ## Operations
-
 | Name                                                 | Return Type | Visibility | Description                      |
 | ---------------------------------------------------- | ----------- | ---------- | -------------------------------- |
 | Review(User reviewer, User reviewee, String content) | Constructor | public     | 리뷰 작성자, 대상자, 내용을 기반으로 객체 생성      |
@@ -122,12 +111,10 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## User 관련
 
 # University
-
 와글와글 서비스에서 사용자의 소속 대학교 정보를 표현하는 열거형(Enum) 타입.
 각 상수는 학교의 한글명(desc) 과 이메일 도메인(domain) 을 매핑하며, 이메일 주소를 기반으로 소속 대학교를 판별하는 기능을 제공한다.
 
 ## Attributes
-
 | Name   | Type   | Visibility    | Description                |
 | ------ | ------ | ------------- | -------------------------- |
 | desc   | String | private final | 대학교 한글명                    |
@@ -145,16 +132,25 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 사용자의 접근 수준과 기능 권한을 구분하기 위해 사용된다.
 
 ## Attributes
-## Operations
+| Name   | Type   | Visibility    | Description                |
+| ------ | ------ | ------------- | -------------------------- |
 
+## Operations
+| Name                    | Return Type | Visibility    | Description                                                            |
+| ----------------------- | ----------- | ------------- | ---------------------------------------- |
 
 # UserStatus
-
 사용자 계정의 활성 상태 및 탈퇴 여부를 나타내는 열거형(Enum).
 회원 계정의 유효성, 탈퇴 처리(Soft Delete) 등의 상태를 관리한다.
 
 ## Attributes
+| Name   | Type   | Visibility    | Description                |
+| ------ | ------ | ------------- | -------------------------- |
+
 ## Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
 
 # EmailRequestDto
 
@@ -167,6 +163,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 | email | String | private (record component) | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
 
 ## Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 
 # EmailVerificationRequestDto
@@ -180,7 +178,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 | inputCode | String | private (record component) | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
 
 ## Operations
-
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 # SignUpRequestDto
 회원가입 요청을 처리하기 위한 DTO.
@@ -217,7 +216,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 | password | String | private (record component) | 비밀번호. `@NotBlank` 제약 적용.    |
 
 ## Operations
-
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 # TokenPair
 JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환하기 위한 응답 DTO.
@@ -230,10 +230,11 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 | refreshToken | String | private (record component) | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
 
 ## Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 
 # PasswordRequestDto
-
 비밀번호 변경 요청 시 사용되는 DTO 클래스.
 사용자가 입력한 기존 비밀번호, 새로운 비밀번호, 비밀번호 확인 값을 검증하여 서버로 전달한다.
 요청 검증 실패 시 BusinessException이 발생한다.
@@ -247,7 +248,6 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 | passwordConfirm | String | private (record component) | 비밀번호 확인 입력값. `@NotBlank`.                                 |
 
 ## Operations
-
 | Name                                                                       | Return Type | Visibility | Description                                                                                                          |
 | -------------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
 | PasswordRequestDto(String old, String newPassword, String passwordConfirm) | —           | public     | Record canonical constructor. 입력값 유효성 검증 수행.                                                                         |
@@ -269,12 +269,12 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 
 ## Operations
-
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 # WithdrawRequestDto
 회원 탈퇴 요청 시 비밀번호를 입력받아 본인 여부를 확인하기 위한 요청 DTO.
-BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
-비밀번호가 누락되거나 공백만 입력되는 경우 유효성 검증에 실패한다.
+BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며, 비밀번호가 누락되거나 공백만 입력되는 경우 유효성 검증에 실패한다.
 
 ## Attributes
 | Name     | Type   | Visibility                 | Description                                   |
@@ -282,7 +282,8 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 | password | String | private (record component) | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
 
 ## Operations
-
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 # UserResponseDto
 사용자 정보를 API 응답으로 전달하기 위한 DTO.
@@ -415,7 +416,8 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 | content | String | private (record component) | 수정된 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
 
 ## Operations
-
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 # ReviewResponseDto
 리뷰 정보를 클라이언트에게 응답하기 위한 DTO.
@@ -440,6 +442,8 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 이메일, 닉네임, 아이디 중복 검증 및 Fetch Join을 통한 `skills` 컬렉션 로딩 기능을 추가로 제공한다.
 
 ## Attributes
+| Name    | Type   | Visibility                 | Description |
+| ------- | ------ | -------------------------- | ----------- |
 
 ## Operations
 | Name                              | Return Type    | Description                              |
@@ -456,6 +460,8 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 회원가입, 비밀번호 변경, 사용자 정보 조회 및 수정, 탈퇴 등 주요 기능을 제공한다.
 
 ## Attributes
+| Name    | Type   | Visibility                 | Description |
+| ------- | ------ | -------------------------- | ----------- |
 
 ## Operations
 | Name                                                  | Return Type     | Description                                  |
