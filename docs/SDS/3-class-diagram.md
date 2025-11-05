@@ -293,6 +293,7 @@
 ---
 
 # PositionInfoCreationRequestDto
+
 포지션 생성 요청을 처리하기 위한 DTO로, 사용자가 입력한 포지션 정보와 해당 포지션의 최대 모집 인원수를 전달한다.
 
 ## Attributes
@@ -309,7 +310,8 @@
 ---
 
 # ParticipantInfoUpdateRequestDto
-포지션의 모집 인원 및 현재 인원 정보를 수정하기 위한 DTO로, 현재 인원이 모집 인원을 초과할 수 없다.
+
+공고의 모집 인원 및 현재 인원 정보를 수정하기 위한 DTO로, 현재 인원이 모집 인원을 초과할 수 없다.
 
 ## Attributes
 | Name | Type | Visibility | Description |
@@ -321,4 +323,21 @@
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|--------------|
 | to(ParticipantInfoUpdateRequestDto dto) | ParticipantInfo | public static | ParticipantInfoUpdateRequestDto 객체를 ParticipantInfo 객체로 변환한다. |
+
+---
+
+# PositionInfoUpdateRequestDto
+
+특정 포지션의 인원 정보를 수정하기 위한 DTO로, 포지션 유형과 해당 포지션의 인원 정보를 포함한다.
+
+## Attributes
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| position | PositionType | private (record component) | 포지션 (필수 입력) |
+| participantInfo | ParticipantInfoUpdateRequestDto | private (record component) | 포지션별 인원 정보 (유효성 검사 포함, 필수 입력) |
+
+## Operations
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| to(PositionInfoUpdateRequestDto dto) | PositionParticipantInfo | public static | PositionInfoUpdateRequestDto 객체를 PositionParticipantInfo 객체로 변환한다. |
 
