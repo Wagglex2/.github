@@ -536,5 +536,26 @@
 | closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고의 상태를 CLOSED로 변경 |
 | findByIdNotCanceled(Long recruitmentId) | BaseRecruitment | public | 취소되지 않은 모집 공고를 ID로 조회 |
 
+---
+
+# RecruitmentServiceImpl
+
+[RecruitmentService](#recruitmentservice)를 구현한 서비스 클래스
+모집 공고 조회, 마감 처리 등의 실제 비즈니스 로직을 수행하며, 트랜잭션 및 로깅을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| recruitmentRepository | RecruitmentRepository | private final | 모집 공고 데이터 접근 계층 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| findById(Long recruitmentId) | BaseRecruitment | public | 주어진 ID의 모집 공고를 조회 |
+| closeExpiredRecruitments() | void | public | 마감일이 지난 모집 공고를 CLOSED 상태로 변경 |
+| findByIdNotCanceled(Long recruitmentId) | BaseRecruitment | public | 취소되지 않은 모집 공고를 ID로 조회 |
+
 
 
