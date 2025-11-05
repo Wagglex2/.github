@@ -1587,9 +1587,9 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | createBookmark(Long userId, Long recruitmentId) | Long | public | 공고를 찜 목록에 추가 |
-| getBookmarkedProjectsByUserId(Long userId, Pageable pageable) | Page<ProjectSummaryResponseDto> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
-| getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable) | Page<AssignmentSummaryResponseDto> | public | 사용자가 찜한 과제 공고 목록 조회 |
-| getBookmarkedStudiesByUserId(Long userId, Pageable pageable) | Page<StudySummaryResponseDto> | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| getBookmarkedProjectsByUserId(Long userId, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 사용자가 찜한 과제 공고 목록 조회 |
+| getBookmarkedStudiesByUserId(Long userId, Pageable pageable) | Page\<StudySummaryResponseDto\> | public | 사용자가 찜한 스터디 공고 목록 조회 |
 | deleteBookmark(Long userId, Long bookmarkId) | void | public | 찜 취소 |
 
 ---
@@ -1614,9 +1614,9 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | createBookmark(Long userId, Long recruitmentId) | Long | public | 공고를 찜 목록에 추가. 이미 찜한 경우 예외 발생 |
-| getBookmarkedProjectsByUserId(Long userId, Pageable pageable) | Page<ProjectSummaryResponseDto> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
-| getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable) | Page<AssignmentSummaryResponseDto> | public | 사용자가 찜한 과제 공고 목록 조회 |
-| getBookmarkedStudiesByUserId(Long userId, Pageable pageable) | Page<StudySummaryResponseDto> | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| getBookmarkedProjectsByUserId(Long userId, Pageable pageable) | Page\<ProjectSummaryResponseDto\> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 사용자가 찜한 과제 공고 목록 조회 |
+| getBookmarkedStudiesByUserId(Long userId, Pageable pageable) | Page\<StudySummaryResponseDto\> | public | 사용자가 찜한 스터디 공고 목록 조회 |
 | deleteBookmark(Long userId, Long bookmarkId) | void | public | 찜 취소 |
 
 ---
@@ -1636,7 +1636,7 @@ Bookmark 엔티티의 데이터 접근 계층으로, 사용자의 북마크 관�
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | existsByUserIdAndRecruitmentId(Long userId, Long recruitmentId) | boolean | public | 사용자가 특정 공고를 이미 찜했는지 여부 확인 |
-| findBookmarkedRecruitmentIdsByUserId(Long userId, RecruitmentCategory category, Pageable pageable) | Page<Long> | public | 특정 사용자가 찜한 프로젝트/과제/스터디 공고 ID 목록 조회 (최신순) |
+| findBookmarkedRecruitmentIdsByUserId(Long userId, RecruitmentCategory category, Pageable pageable) | Page\<Long\> | public | 특정 사용자가 찜한 프로젝트/과제/스터디 공고 ID 목록 조회 (최신순) |
 
 ---
 
