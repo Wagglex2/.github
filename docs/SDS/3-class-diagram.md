@@ -271,3 +271,21 @@
 | getTitle() | String | public | 제목 반환 |
 | getContent() | String | public | 본문 내용 반환 |
 | getDeadline() | LocalDateTime | public | 마감일 반환 |
+
+---
+
+# GradeRequestDto
+
+모집 대상 학년 정보를 전달하는 **DTO record 클래스**로, 1~4학년 범위를 검증한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| grade | Integer | private | 모집 학년 (필수, 1~4 범위 검증) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| grade() | Integer | public | 학년값 반환 |
