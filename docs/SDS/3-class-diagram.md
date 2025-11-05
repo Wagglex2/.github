@@ -24,6 +24,27 @@
 
 ---
 
+# PositionParticipantInfo
+
+특정 포지션별 참여 인원 정보를 담는 **임베디드 클래스**로,  
+포지션 타입과 해당 포지션의 참여 인원 정보를 관리한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| position | PositionType | private | 포지션 타입 (예: 프론트엔드, 백엔드 등) |
+| participantInfo | ParticipantInfo | private | 해당 포지션의 참여 인원 정보 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| getPosition() | PositionType | public | 포지션 타입 반환 |
+| getParticipantInfo() | ParticipantInfo | public | 해당 포지션 참여 인원 정보 반환 |
+
+---
+
 # BaseRecruitment
 
 프로젝트, 과제, 스터디 공고 엔티티들이 상속받는 **공통 추상 클래스**로,  
