@@ -189,6 +189,27 @@
 
 ---
 
+# Period
+
+기간 정보를 표현하는 **임베디드(Embeddable) 레코드 클래스**로,  
+시작일(`startDate`)과 종료일(`endDate`)을 관리한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| startDate | LocalDate | private | 시작 날짜 |
+| endDate | LocalDate | private | 종료 날짜 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| startDate() | LocalDate | public | 시작 날짜 반환 |
+| endDate() | LocalDate | public | 종료 날짜 반환 |
+
+---
+
 # BaseRecruitment
 
 프로젝트, 과제, 스터디 공고 엔티티들이 상속받는 **공통 추상 클래스**로,  
