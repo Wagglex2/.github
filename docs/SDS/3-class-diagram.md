@@ -8,7 +8,7 @@
 
 ## Attributes
 | Name       | Type          | Visibility | Description                       |
-| ---------- | ------------- | ---------- | --------------------------------- |
+| ---------- | ------------- | ---------- |-----------------------------------|
 | id         | Long          | private    | 사용자 식별자 (PK, 자동 증가)               |
 | username   | String        | private    | 로그인용 사용자 ID (고유값)                 |
 | password   | String        | private    | 비밀번호 (BCrypt 해시, 60자)             |
@@ -16,7 +16,7 @@
 | university | University    | private    | 사용자의 대학교 정보                       |
 | nickname   | String        | private    | 서비스 내 표시 이름 (고유값)                 |
 | grade      | Integer       | private    | 학년 (1~4)                          |
-| position   | PositionType  | private    | 희망 포지션 (예: BACKEND, FRONTEND)     |
+| position   | PositionType  | private    | 희망 포지션 (예: BACK_END, FRONT_END)   |
 | skills     | Set<Skill>    | private    | 보유 기술 스택 (복수 선택 가능)               |
 | shortIntro | String        | private    | 짧은 자기소개 (Markdown 지원)             |
 | role       | UserRoleType  | private    | 사용자 권한 (ROLE_USER / ROLE_ADMIN 등) |
@@ -52,7 +52,6 @@
 ## Operations
 | Name                              | Return Type          | Visibility | Description                                      |
 | --------------------------------- | -------------------- | ---------- | ------------------------------------------------ |
-| Team(BaseRecruitment recruitment) | Constructor          | public     | 특정 공고에 속하는 팀을 생성                                 |
 | addMember(TeamMember member)      | void                 | public     | 팀원 추가 및 양방향 연관관계 설정 (`member.setTeam(this)`)     |
 | findMember(Long userId)           | Optional<TeamMember> | public     | 사용자 ID를 통해 특정 팀원을 조회                             |
 | removeMember(TeamMember member)   | void                 | public     | 팀원 삭제 및 연관관계 해제. 팀원 미존재 시 `BusinessException` 발생 |
@@ -78,7 +77,6 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Operations
 | Name                                            | Return Type | Visibility | Description                    |
 | ----------------------------------------------- | ----------- | ---------- | ------------------------------ |
-| TeamMember(Team team, User user, TeamRole role) | Constructor | public     | 팀, 사용자, 역할 정보를 기반으로 새로운 팀원 생성  |
 | setTeam(Team team)                              | void        | public     | 소속 팀 정보를 변경 (양방향 연관관계 설정 시 사용) |
 
 
@@ -102,7 +100,6 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Operations
 | Name                                                 | Return Type | Visibility | Description                      |
 | ---------------------------------------------------- | ----------- | ---------- | -------------------------------- |
-| Review(User reviewer, User reviewee, String content) | Constructor | public     | 리뷰 작성자, 대상자, 내용을 기반으로 객체 생성      |
 | update(ReviewUpdateRequestDto dto)                   | void        | public     | 리뷰 내용을 수정 (`dto.content()` 반영)   |
 | delete()                                             | void        | public     | 리뷰 상태를 `DELETED`로 변경 (소프트 삭제 처리) |
 
@@ -212,14 +209,14 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 
 ## Attributes
 | Name            | Type         | Visibility                 | Description                                |
-| --------------- | ------------ | -------------------------- | ------------------------------------------ |
+| --------------- | ------------ | -------------------------- |--------------------------------------------|
 | username        | String       | private (record component) | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
 | password        | String       | private (record component) | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
 | passwordConfirm | String       | private (record component) | 비밀번호 확인. password와 일치 여부 검증.               |
 | nickname        | String       | private (record component) | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
 | email           | String       | private (record component) | 이메일 주소. `@Email` 형식 검증.                    |
 | grade           | Integer      | private (record component) | 학년 (1~4 범위, `@Min`, `@Max`).               |
-| position        | PositionType | private (record component) | 포지션(enum). 예: BACKEND, FRONTEND 등.         |
+| position        | PositionType | private (record component) | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
 | skills          | Set<Skill>   | private (record component) | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
 | shortIntro      | String       | private (record component) | 한 줄 소개. 최대 100자 제한.                        |
 
@@ -274,7 +271,6 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 ## Operations
 | Name                                                                       | Return Type | Visibility | Description                                                                                                          |
 | -------------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
-| PasswordRequestDto(String old, String newPassword, String passwordConfirm) | —           | public     | Record canonical constructor. 입력값 유효성 검증 수행.                                                                         |
 
 
 # UserUpdateRequestDto
@@ -284,10 +280,10 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 ## Attributes
 | Name       | Type         | Visibility                 | Description                                         |
-| ---------- | ------------ | -------------------------- | --------------------------------------------------- |
+| ---------- | ------------ | -------------------------- |-----------------------------------------------------|
 | nickname   | String       | private (record component) | 닉네임. 선택 입력. 2~10자의 한글, 영문, 숫자만 허용 (`@Pattern`).     |
 | grade      | Integer      | private (record component) | 학년. 필수 입력, 1~4 범위 (`@Min`, `@Max`).                 |
-| position   | PositionType | private (record component) | 포지션(enum). 예: FRONTEND, BACKEND 등.                  |
+| position   | PositionType | private (record component) | 포지션(enum). 예: FRONT_END, BACK_END 등.                |
 | skills     | Set<Skill>   | private (record component) | 보유 기술 스택. 최대 10개 제한 (`@Size(max=10)`).              |
 | shortIntro | String       | private (record component) | 한 줄 소개. 최대 100자 제한 (`@Size(max=100)`, `@NotBlank`). |
 
@@ -390,12 +386,12 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 팀 내 역할(`TeamRole`), 포지션(`PositionType`), 사용자 기본 정보 등을 포함한다.
 
 ## Attributes
-| Name     | Type         | Visibility                 | Description                      |
-| -------- | ------------ | -------------------------- | -------------------------------- |
-| userId   | Long         | private (record component) | 팀 멤버(User)의 고유 식별자 ID            |
-| nickname | String       | private (record component) | 팀 멤버의 닉네임                        |
-| role     | TeamRole     | private (record component) | 팀 내 역할 (리더 / 일반 멤버 등)            |
-| position | PositionType | private (record component) | 사용자 포지션 (예: BACKEND, FRONTEND 등) |
+| Name     | Type         | Visibility                 | Description                        |
+| -------- | ------------ | -------------------------- |------------------------------------|
+| userId   | Long         | private (record component) | 팀 멤버(User)의 고유 식별자 ID              |
+| nickname | String       | private (record component) | 팀 멤버의 닉네임                          |
+| role     | TeamRole     | private (record component) | 팀 내 역할 (리더 / 일반 멤버 등)              |
+| position | PositionType | private (record component) | 사용자 포지션 (예: BACK_END, FRONT_END 등) |
 
 ## Operations
 | Name                              | Return Type           | Visibility    | Description                              |
