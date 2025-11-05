@@ -576,3 +576,30 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 | findByIdNotCanceled(Long id) | Optional\<BaseRecruitment\> | public | 취소되지 않은 공고를 ID로 조회 |
 | closeExpiredRecruitments(LocalDateTime baseTime) | int | public | 기준 시각 이전 마감 공고의 상태를 CLOSED로 변경 |
 
+---
+
+# Project 관련
+
+# Project
+
+[BaseRecruitment](#baserecruitment)를 상속한 프로젝트 공고 엔티티로, 프로젝트 목적, 모임 유형, 포지션, 필요 스킬, 학년, 기간 등의 상세 정보를 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private | 프로젝트 목적 |
+| meetingType | MeetingType | private | 모임 유형 |
+| positions | Set\<PositionParticipantInfo\> | private | 프로젝트 포지션별 참여자 정보 |
+| skills | Set\<Skill\> | private | 요구 스킬 목록 |
+| grades | Set\<Integer\> | private | 참여 가능한 학년 |
+| period | Period | private | 프로젝트 기간 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| update(ProjectUpdateRequestDto dto) | void | public | 프로젝트 공고 정보를 업데이트 |
+| getPositionInfoByRole(PositionType position) | Optional\<PositionParticipantInfo\> | public | 특정 포지션의 참여자 정보 조회 |
+| decreaseCurrParticipant(PositionType positionType) | void | public | 특정 포지션의 현재 참여 인원을 1명 감소 |
+
