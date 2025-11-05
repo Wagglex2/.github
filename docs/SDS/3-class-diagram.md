@@ -435,3 +435,22 @@
 | getTitle() | String | public | 공고 제목 반환 |
 | getDeadline() | LocalDateTime | public | 모집 마감일 반환 |
 | getStatus() | RecruitmentStatus | public | 공고 상태 반환 |
+
+---
+
+# ParticipantInfoResponseDto
+
+포지션별 인원 정보를 반환하기 위한 응답 DTO로, 모집 인원과 현재 인원을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+| maxParticipants | int | private (record component) | 모집 인원 |
+| currParticipants | int | private (record component) | 현재 인원 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+| from(ParticipantInfo info) | ParticipantInfoResponseDto | public static | ParticipantInfo 객체를 ParticipantInfoResponseDto로 변환 |
