@@ -1092,3 +1092,137 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | getLectureCode() | String | public | 강의 코드 반환 |
 | getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
 
+---
+
+# Assignment 관련 Controller, Service, Repository
+
+---
+
+# AssignmentController
+
+과제 공고와 관련된 REST API를 제공하는 컨트롤러로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(AssignmentService)을 통해 실제 비즈니스 로직을 수행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| assignmentService | AssignmentService | private final | 과제 관련 비즈니스 로직 서비스 |
+| komoranUtil | KomoranUtil | private final | 키워드 형태소 분석 유틸리티 |
+
+## Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/assignments` | public | 과제 공고 생성 |
+| getAssignment(Long assignmentId) | ResponseEntity\<ApiResponse\<AssignmentDetailResponseDto\>\> | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회 |
+| getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable) | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/assignments` | public | 과제 공고 목록 조회 |
+| updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정 |
+| deleteAssignment(Long assignmentId, CustomUserDetails userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제 |
+
+---
+
+# AssignmentService
+
+과제 공고와 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+실제 구현체([AssignmentServiceImpl](#assignmentserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createAssignment(AssignmentCreationRequestDto assignmentCreationRequestDto, Long userId) | Long | public | 과제 공고 생성 |
+| getAssignment(Long assignmentId) | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
+| getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto) | void | public | 과제 공고 수정 |
+| deleteAssignment(Long userId, Long assignmentId) | void | public | 과제 공고 삭제 |
+
+---
+
+# AssignmentServiceImpl
+
+[AssignmentService](#assignmentservice)의 구현체로, 과제 공고 생성, 조회, 수정, 삭제 등 실제 비즈니스 로직을 수행하며,  
+트랜잭션 처리, 권한 검증, 조회수 증가 등을 포함한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| assignmentRepository | AssignmentRepository | private final | 과제 공고 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createAssignment(AssignmentCreationRequestDto requestDto, Long userId) | Long | public | 과제 공고 생성 |
+| getAssignment(Long assignmentId) | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
+| getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto) | void | public | 과제 공고 수정 |
+| deleteAssignment(Long userId, Long assignmentId) | void | public | 과제 공고 삭제 |
+
+---
+
+# AssignmentRepository
+
+Assignment 엔티티의 데이터 접근 계층으로, 조회수 증가 기능과 커스텀 쿼리 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| increaseViewCount(Long assignmentId) | int | public | 과제 공고 조회수 증가 |
+
+---
+
+# AssignmentRepositoryCustom
+
+QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 검색 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| getAssignmentSummariesByIds(List\<Long\> assignmentIds) | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+
+---
+
+# AssignmentRepositoryImpl
+
+[AssignmentRepositoryCustom](#assignmentrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 과제 요약 DTO 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable) | Page\<AssignmentSummaryResponseDto\> | public | 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| getAssignmentSummariesByIds(List\<Long\> assignmentIds) | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+| eqStatus(RecruitmentStatus status) | BooleanExpression | private | Assignment 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
+| containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
+| containsAnyGrade(Set\<Integer\> grades) | BooleanExpression | private | Assignment 모집 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
