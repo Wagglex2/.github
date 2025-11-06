@@ -225,7 +225,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |제한 없음|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 ---
 ### Use Case #13: 알림을 개별 삭제한다.
@@ -267,7 +267,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |제한 없음|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 ---
 ### Use Case #14: 모든 알림을 삭제한다.
@@ -290,7 +290,43 @@
 
 ---
 ### Use Case #19: 회원정보를 조회한다.
-내용 입력
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 프로필 페이지에서 본인의 회원정보를 조회할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.|
+| **Trigger**| 마이페이지 사이드바의 [프로필] 탭 선택한다. |
+| **Success Post Condition** |회원정보가 화면에 표시된다. |
+| **Failed Post Condition** |회원정보를 표시할 수 없다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 회원정보를 조회할 수 있다. |
+| **1** |사용자는 마이페이지에서 [프로필] 탭을 선택한다. |
+| **2** |시스템은 프로필 이미지, 인증된 학교, 이메일, 닉네임, 학년, 포지션, 기술, 한 줄 소개, 피드백 목록을 표시한다. |
+| **3** | |
+| **4** | |
+| **5** | |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **2** |2a. 데이터를 불러오지 못한 경우<br>…2a1. "데이터 불러오기에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다|
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+---
 
 ---
 ### Use Case #20: 회원정보를 수정한다.
@@ -333,7 +369,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |제한 없음|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 ---
 ### Use Case #21: 비밀번호를 수정한다.
@@ -375,7 +411,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |제한 없음|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 ---
 
