@@ -282,7 +282,39 @@
 
 ---
 ### Use Case #17: 공고 상세 내용을 조회한다.
-내용 입력
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 특정 공고의 상세 내용을 조회할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.<br>서비스 사용자가 등록한 공고가 1개 이상 존재하여야 한다.|
+| **Trigger**|특정 공고 카드를 클릭한다. |
+| **Success Post Condition** |선택한 공고의 상세 내용이 정상적으로 화면에 표시된다. |
+| **Failed Post Condition** |사용자는 선택한 공고의 상세 내용을 확인할 수 없다. |
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 공고의 상세 내용을 조회할 수 있다. |
+| **1** |사용자는 공고 내역 조회 화면에서 특정 공고 카드를 클릭한다. |
+| **2** |시스템은 해당 공고의 상세 페이지로 화면을 전환한다. |
+| **3** |시스템은 공고의 상세 내용을 화면에 표시한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **3** |3a. 공고 내용을 불러오지 못한 경우<br>...3a1. 시스템은 "데이터 불러오기에 실패하였습니다. 다시 시도해 주세요" 라는 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
 
 ---
 ### Use Case #18: 공고에 지원한다.
