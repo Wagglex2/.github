@@ -294,7 +294,6 @@
 
 ---
 ### Use Case #20: 회원정보를 수정한다.
-내용 입력
 
 ---
 ### Use Case #21: 비밀번호를 수정한다.
@@ -308,7 +307,7 @@
 | **Primary Actor** |User |
 | **Secondary Actors**|system |
 | **Preconditions** |자는 로그인을 성공한 상태이다.|
-| **Trigger** [변경하기] 버튼을 클릭한다.| |
+| **Trigger**|[변경하기] 버튼을 클릭한다.| |
 | **Success Post Condition** |비밀번호가 변경된다. |
 | **Failed Post Condition** |기존 비밀번호가 유지된다. |
 
