@@ -1,5 +1,15 @@
 ## 2. Use case analysis
 
+### Use Case #1:
+내용 입력
+
+---
+
+### Use Case #2:
+내용 입력
+
+---
+
 ### Use Case #3: 회원가입한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -56,6 +66,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
+---
 ### Use Case #4: 회원탈퇴한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -103,7 +114,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
-
+---
 ### Use Case #5: 기본 정보 입력한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -148,6 +159,428 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
+---
+
+### Use Case #6:
+내용 입력
+
+---
+
+### Use Case #7:
+내용 입력
+
+---
+### Use Case #8:
+내용 입력
+
+---
+### Use Case #9:
+내용 입력
+
+---
+### Use Case #10:
+내용 입력
+
+---
+### Use Case #11:
+내용 입력
+
+---
+### Use Case #12: 알림을 조회한다.
+#### 1. GENERAL CHARACTERISTICS (개요)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 공고 지원에 대한 결과(승인/거절)와 본인이 게시한 공고에 대한 지원 알림을 조회할 수 있다.|
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.|
+| **Trigger** |사용자가 서비스 최상단의 [알림]버튼을 클릭한다.|
+| **Success Post Condition** |사용자에게 알림 내역이 정상적으로 노출된다.|
+| **Failed Post Condition** |사용자는 알림 내역을 조회할 수 없다.|
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 알림 내역을 조회할 수 있다.|
+| **1** |이 use case는 사용자가 [알림]버튼을 눌렀을 때 시작된다.|
+| **2** |시스템은 ‘알림’ 페이지로 화면을 전환한다. |
+| **3** |사용자가 본인에게 온 알림을 확인한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+|**3** |3a. 사용자가 특정 알림을 선택하여 클릭할 경우</br>...3a1. 시스템은 알림의 유형(지원 결과 / 게시한 공고에 대한 지원 요청)에 따라마이페이지의 ‘내가 지원한 공고’ 또는 ‘내가 올린 공고’ 페이지로 화면을 전환한다.</br>...3a2. 시스템은 해당 알림을 ‘읽음’ 상태로 변경한다.</br></br>3b. 사용자가 알림을 카테고리(프로젝트, 과제, 스터디)별로 필터링하려는 경우,</br>...3b1. 사용자는 카테고리 필터링 옵션을 선택한다.</br>...3b2. 시스템은 선택된 카테고리에 해당하는 알림만 화면에 표시한다.</br></br>3c. 조회 결과가 없는 경우,</br>...3c1. 시스템은 "조회된 알림이 없습니다." 메시지를 화면에 표시한다.|
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #13: 알림을 개별 삭제한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 ‘알림’ 페이지에서 특정 알림을 선택하여 삭제할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.</br>조회된 알림이 1개 이상이어야 한다. |
+| **Trigger** |특정 알림 카드의 [X] 버튼을 클릭한다. |
+| **Success Post Condition** |삭제된 알림은 알림 목록에 표시되지 않는다. |
+| **Failed Post Condition** |알림 목록이 기존 상태와 동일하게 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 알림을 선택하여 삭제할 수 있다. |
+| **1** |Use case는 사용자가 특정 알림의 [X] 버튼을 클릭했을 때 시작된다. |
+| **2** |시스템은 "해당 알림을 삭제하시겠습니까?"라는 확인 팝업을 띄운다. |
+| **3** |사용자는 팝업의 [확인] 버튼을 클릭한다. |
+| **4** |시스템은 선택된 알림을 삭제한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+|**3**|3a. 사용자가 [취소] 버튼을 클릭할 경우<br>…3a1. 삭제 요청은 실행되지 않고 기존 알림 목록이 유지된다. |
+|**4** |4a. 알림 삭제에 실패한 경우<br>…4a1. 시스템은 "알림 삭제에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #14: 모든 알림을 삭제한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 조회된 모든 알림을 일괄 삭제할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.<br>조회된 알림이 1개 이상이어야 한다.|
+| **Trigger**|[전체 삭제] 버튼을 클릭한다. |
+| **Success Post Condition** |모든 알림이 삭제되며, “조회된 알림이 없습니다.” 메시지가 표시된다. |
+| **Failed Post Condition** |알림 목록이 기존 상태와 동일하게 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 조회된 모든 알림을 일괄 삭제할 수 있다. |
+| **1** |사용자는 ‘알림’ 페이지에서 카테고리 필터링의 [전체] 탭을 선택한다. |
+| **2** |사용자는 [전체 삭제] 버튼을 클릭한다. |
+| **3** |시스템은 "모든 알림을 삭제하시겠습니까?"라는 확인 팝업을 띄운다. |
+| **4** |사용자는 팝업의 [확인] 버튼을 클릭한다. |
+| **5** |시스템은 모든 알림을 삭제하고, “조회된 알림이 없습니다.” 메시지를 표시한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **4** |4a. 사용자가 [취소] 버튼을 클릭할 경우<br>…4a1. 삭제 요청은 실행되지 않고 기존 알림 목록이 유지된다.|
+| **5** |5a. 알림 삭제에 실패한 경우<br>…5a1. 시스템은 "알림 삭제에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+---
+### Use Case #15: 카테고리별 알림을 일괄 삭제한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 ‘알림’ 페이지에 조회된 특정 카테고리의 알림을 일괄 삭제할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.<br>조회된 알림이 1개 이상이어야 한다.|
+| **Trigger**|[전체 삭제]버튼을 클릭한다. |
+| **Success Post Condition** |선택한 카테고리의 알림이 모두 삭제되며, “조회된 알림이 없습니다.” 메시지가 표시된다. |
+| **Failed Post Condition** |알림 목록이 기존 상태와 동일하게 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 카테고리의 알림을 일괄 삭제할 수 있다. |
+| **1** | 사용자는 ‘알림’ 페이지의 카테고리 탭 ([프로젝트], [과제], [스터디]) 중 하나를 선택한다. |
+| **2** |사용자는 [전체 삭제]버튼을 클릭한다. |
+| **3** |시스템은 "선택한 카테고리의 알림을 모두 삭제하시겠습니까?"라는 확인 팝업을 띄운다. |
+| **4** |사용자는 팝업의 [확인] 버튼을 클릭한다. |
+| **5** |시스템은 해당 카테고리의 알림을 모두 삭제하고, “조회된 알림이 없습니다.” 메시지를 표시한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **4** |4a. 사용자가 [취소] 버튼을 클릭할 경우<br>…4a1. 삭제 요청은 실행되지 않고 기존 알림 목록이 유지된다. |
+| **5** |5a. 삭제에 실패한 경우<br>…5a1. 시스템은 "알림 삭제에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다 |
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+---
+### Use Case #16: 공고를 작성한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 프로젝트, 과제, 스터디 팀원 모집 공고를 작성할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.|
+| **Trigger**|[공고 등록하기]드롭다운을 클릭하여 옵션(프로젝트, 과제, 스터디)을 선택한다. |
+| **Success Post Condition** |공고가 정삭적으로 등록되어 타 사용자들에게 노출된다. |
+| **Failed Post Condition** |공고가 등록되지 않는다. |
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 팀원 모집 공고를 작성할 수 있다. |
+| **1** |사용자는 [공고 등록하기]드롭다운을 클릭하여 [프로젝트] 또는 [과제] 또는 [스터디] 옵션을 선택한다. |
+| **2** |시스템은 사용자가 선택한 옵션에 해당하는 공고 작성 페이지로 화면을 전환한다. |
+| **3** |사용자는 작성 폼의 모든 필드을 입력하고, 사용자는 [등록하기]버튼을 클릭한다. |
+| **4** |시스템은 공고를 저장한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **2** |2a. 사용자가 ‘프로젝트’옵션을 선택한 경우<br>…2a1. 시스템은 작성 폼의 입력 필드로 목적, 공고 제목, 공고 마감일, 프로젝트 진행기간, 진행 방식, 학년, 포지션, 기술, 상세 내용을 표시한다. <br>2b. 사용자가 ‘과제’옵션을 선택한 경우<br>…2b1. 시스템은 작성 폼의 입력 필드로 공고 제목, 공고 마감일, 학과, 과목코드, 학년, 포지션(모집 인원), 상세 내용을 표시한다.<br>2c. 사용자가 ‘스터디’옵션을 선택한 경우<br>…2c1. 시스템은 작성 폼의 입력 필들로 공고 제목, 공고 마감일, 스터디 진행기간, 포지션(모집인원), 기술, 상세 내용을 표시한다. |
+| **3** |3a. 사용자가 [등록하기]버튼을 클릭하지 않고 페이지를 벗어나려할 경우<br>...3a1. 시스템은 "지금 나가면 작성 내용이 저장되지 않습니다. 계속 진행하시겠습니까?"라는 경고 팝업을 띄운다. |
+| **4** |4a. 공고 저장에 실패할 경우<br>...4a1. 시스템은 "공고 등록에 실패하였습니다. 다시 시도해 주세요." 라는 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #17: 공고 상세 내용을 조회한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 특정 공고의 상세 내용을 조회할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.<br>서비스 사용자가 등록한 공고가 1개 이상 존재하여야 한다.|
+| **Trigger**|특정 공고 카드를 클릭한다. |
+| **Success Post Condition** |선택한 공고의 상세 내용이 정상적으로 화면에 표시된다. |
+| **Failed Post Condition** |사용자는 선택한 공고의 상세 내용을 확인할 수 없다. |
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 공고의 상세 내용을 조회할 수 있다. |
+| **1** |사용자는 공고 내역 조회 화면에서 특정 공고 카드를 클릭한다. |
+| **2** |시스템은 해당 공고의 상세 페이지로 화면을 전환한다. |
+| **3** |시스템은 공고의 상세 내용을 화면에 표시한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **3** |3a. 공고 내용을 불러오지 못한 경우<br>...3a1. 시스템은 "데이터 불러오기에 실패하였습니다. 다시 시도해 주세요" 라는 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #18: 공고에 지원한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 공고 상세 페이지에서 지원서를 작성하여 지원할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.<br>공고가 1개 이상 존재해야 한다.|
+| **Trigger**|지원서 작성 후 [지원하기] 버튼을 클릭한다. |
+| **Success Post Condition** |지원서가 저장되고 공고 등록자가 확인할 수 있다. |
+| **Failed Post Condition** |지원서 저장에 실패하며 실패 팝업이 뜬다. |
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 공고에 지원할 수 있다. |
+| **1** |사용자는 공고 상세 페이지에서 지원서 작성 폼을 확인한다. |
+| **2** |사용자는 입력 항목을 작성한다. |
+| **3** |사용자는 [지원하기] 버튼을 클릭한다. |
+| **4** |시스템은 지원서를 저장하고 “지원이 완료되었습니다.” 팝업을 띄운다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **1** |1a. 사용자가 보고 있는 공고의 카테고리가 [프로젝트]인 경우<br>…1a1. 시스템은 지원서의 입력 필드로 /참여 가능한 진행방식/학년/지원 포지션/사용 가능한 기술/상세 설명/을 표시한다.<br>1b. 사용자가 보고 있는 공고의 카테고리가 [과제]인 경우<br>…1b1. 시스템은 지원서의 입력 필드로 /참여 가능한 진행방식/학년/상세 설명/을 표시한다.<br>1c. 사용자가 보고 있는 공고의 카테고리가 [스터디]인 경우<br>…1c1. 시스템은 지원서의 입력 필드로 /참여 가능한 진행방식/학년/상세 설명/을 표시한다.|
+| **3** |3a. 사용자가 [지원하기]버튼을 클릭하지 않고 페이지를 벗어나려할 경우<br>...3a1. 시스템은 "지금 나가면 작성 내용이 저장되지 않습니다. 계속 진행하시겠습니까?"라는 경고 팝업을 띄운다. |
+| **4** |4a. 지원서 저장에 실패할 경우<br>...4a1. 시스템은 "지원서 저장에 실패하였습니다. 다시 시도해 주세요." 라는 팝업을 띄운다.|
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #19: 회원정보를 조회한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 프로필 페이지에서 본인의 회원정보를 조회할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.|
+| **Trigger**| 마이페이지 사이드바의 [프로필] 탭 선택한다. |
+| **Success Post Condition** |회원정보가 화면에 표시된다. |
+| **Failed Post Condition** |회원정보를 표시할 수 없다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 회원정보를 조회할 수 있다. |
+| **1** |사용자는 마이페이지에서 [프로필] 탭을 선택한다. |
+| **2** |시스템은 프로필 이미지, 인증된 학교, 이메일, 닉네임, 학년, 포지션, 기술, 한 줄 소개, 피드백 목록을 표시한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+| Step | Branching Action |
+| :--- | :--- |
+| **2** |2a. 데이터를 불러오지 못한 경우<br>…2a1. "데이터 불러오기에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다|
+
+#### 4. RELATED INFORMATION (관련 정보)
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #20: 회원정보를 수정한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 프로필 페이지에서 회원정보를 수정할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |자는 로그인을 성공한 상태이다.|
+| **Trigger**|[수정하기] 버튼을 클릭한다. |
+| **Success Post Condition** |수정된 회원정보가 저장된다. |
+| **Failed Post Condition** |기존 정보가 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 회원정보를 수정할 수 있다. |
+| **1** |사용자는 [프로필] 탭을 선택한다. |
+| **2** |사용자는 수정 가능한 값(프로필 이미지, 닉네임, 학년, 포지션, 기술, 한 줄 소개)을 수정한다. |
+| **3** |사용자는 [수정하기] 버튼을 클릭한다. |
+| **4** |시스템은 수정된 정보를 저장한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+| **2** |2a. 비밀번호를 수정하려는 경우<br>…2a1. 사용자는 [비밀번호 변경하기] 버튼을 클릭한다.<br>…2a2. 시스템은 Use Case: 비밀번호를 수정한다 를 실행한다. |
+| **4** |4a. 저장에 실패한 경우<br>…4a1. "변경 내용 저장에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다.|
+
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
+### Use Case #21: 비밀번호를 수정한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** | 사용자는 비밀번호 변경 페이지에서 비밀번호를 수정할 수 있다.|
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |자는 로그인을 성공한 상태이다.|
+| **Trigger**|[변경하기] 버튼을 클릭한다.| |
+| **Success Post Condition** |비밀번호가 변경된다. |
+| **Failed Post Condition** |기존 비밀번호가 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 비밀번호를 수정할 수 있다. |
+| **1** |사용자는 프로필에서 [비밀번호 변경하기] 버튼을 클릭한다. |
+| **2** |시스템은 비밀번호 변경 페이지로 이동한다. |
+| **3** |사용자는 기존 비밀번호, 새 비밀번호, 새 비밀번호 확인을 입력한다. |
+| **4** |[변경하기] 버튼을 클릭한다. |
+| **5** |시스템은 비밀번호를 저장하고 "비밀번호가 변경되었습니다." 팝업을 띄운다.|
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+| **4**|4a. 저장 실패한 경우<br>…4a1. "변경 내용 저장에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
+---
 
 ### Use Case #22: 팀 조회한다.
 
@@ -193,7 +626,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #23: 팀원 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -238,7 +671,7 @@
 | **&lt;Concurrency&gt;** |제한 없음|
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #24: 팀원 평가한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -286,7 +719,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #25: 팀원 리뷰 수정한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -330,7 +763,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #26: 팀원 리뷰 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -376,7 +809,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #27: 올린 공고 목록 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -419,7 +852,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #28: 공고 수정한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -468,7 +901,7 @@
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #29: 공고 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -513,6 +946,7 @@
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
 | **Due Date** |2025.11.20|
 
+---
 ### Use Case #30: 지원자 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -557,7 +991,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #31: 지원자 수락한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -600,7 +1034,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #32: 지원자 거절한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -643,7 +1077,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #33: 지원한 공고 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -690,7 +1124,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #34: 지원한 공고 취소한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
