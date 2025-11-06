@@ -62,9 +62,17 @@
 여기 설명
 
 ---
-### 8. 페이지나 모달명
-<p align="center"> 여기 이미지 태그 </p>
-여기 설명
+### 8. 공고 상세
+<p align="center">
+  <img width="640" height="666" alt="Image" src="https://github.com/user-attachments/assets/977b86e5-15e1-489f-be1c-68206d9ab8d4" />
+</p>
+<p align="center">
+<img width="640" height="460" alt="Image" src="https://github.com/user-attachments/assets/43474d04-307c-4d89-be23-6f5ac10ea7d5" />
+</p>
+<p align="center">
+  <img width="640" height="447" alt="Image" src="https://github.com/user-attachments/assets/a29fbe36-d096-48d1-b713-63175f940374" />
+</p>
+위 그림들은 공고 상세 페이지로 공고 내역 조회 페이지에서 공고 카드를 선택하면 이 페이지로 이동할 수 있다. 공고 상세 페이지에서는 공고 기본 정보와 상세 내용을 확인할 수 있으며, 실시간 모집현황이 표시된다. 사용자는 좌측 상단의 게시자 프로필을 클릭하여 게시자의 정보를 확인할 수 있고, 목록보기 버튼을 눌러 공고 내역 조회 페이지로 돌아갈 수 있다. 우측 상단에서는 조회수를 확인하거나 찜 기능을 이용할 수 있다. 또한 상세 페이지에서 바로 지원서를 작성해 공고 게시자에게 제출할 수 있다.
 
 ---
 ### 9. 페이지나 모달명
