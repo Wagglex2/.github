@@ -229,6 +229,45 @@
 
 ---
 ### Use Case #13: 알림을 개별 삭제한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 ‘알림’ 페이지에서 특정 알림을 선택하여 삭제할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.</br>조회된 알림이 1개 이상이어야 한다. |
+| **Trigger** |특정 알림 카드의 [X] 버튼을 클릭한다. |
+| **Success Post Condition** |삭제된 알림은 알림 목록에 표시되지 않는다. |
+| **Failed Post Condition** |알림 목록이 기존 상태와 동일하게 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 특정 알림을 선택하여 삭제할 수 있다. |
+| **1** |Use case는 사용자가 특정 알림의 [X] 버튼을 클릭했을 때 시작된다. |
+| **2** |시스템은 "해당 알림을 삭제하시겠습니까?"라는 확인 팝업을 띄운다. |
+| **3** |사용자는 팝업의 [확인] 버튼을 클릭한다. |
+| **4** |시스템은 선택된 알림을 삭제한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+|**3**|3a. 사용자가 [취소] 버튼을 클릭할 경우<br>…3a1. 삭제 요청은 실행되지 않고 기존 알림 목록이 유지된다. |
+|**4** |4a. 알림 삭제에 실패한 경우<br>…4a1. 시스템은 "알림 삭제에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |3025.11.15|
 
 ---
 ### Use Case #14: 모든 알림을 삭제한다.
