@@ -2038,6 +2038,130 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ---
 
+# NotificationController
+
+알림과 관련된 REST API를 제공하는 컨트롤러로, 사용자의 알림 조회, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(NotificationService)을 통해 실제 비즈니스 로직을 수행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| notificationService | NotificationService | private final | 알림 관련 비즈니스 로직 서비스 |
+
+## Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| getMyNotificationsByCategory(category, pageable, userDetails) | ResponseEntity\<ApiResponse\<Page\<NotificationResponseDto\>\>\> | `GET /api/v1/notifications` | public | 사용자의 알림 목록 조회 (카테고리 선택 가능) |
+| deleteById(notificationId, userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/notifications/{notificationId}` | public | 특정 알림 삭제 |
+| deleteAll(category, userDetails) | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/notifications` | public | 전체 또는 카테고리별 알림 삭제 |
+
+---
+
+# NotificationService
+
+알림과 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 알림 생성, 조회, 삭제 기능을 포함한다.  
+실제 구현체([NotificationServiceImpl](#notificationserviceimpl))가 해당 기능을 수행하며, 다른 서비스 로직 내부에서 호출될 수 있다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createNotification(Long senderId, Long receiverId, Long applicationId, NotificationType type) | void | public | 알림 생성, 컨트롤러가 아닌 서비스 로직 내부에서 호출 |
+| getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable) | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회 |
+| deleteById(Long userId, Long notificationId) | void | public | 특정 알림 삭제 |
+| deleteAll(Long receiverId, RecruitmentCategory category) | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
+
+---
+
+# NotificationServiceImpl
+
+[NotificationService](#notificationservice)의 구현체로, 알림 생성, 조회, 삭제와 관련된 실제 비즈니스 로직을 수행한다.  
+권한 검증과 페이지 유효성 검사, 정렬 검증을 포함하며, 트랜잭션을 통해 데이터 변경을 안전하게 처리한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| NOTIFICATION_SORT_FIELDS | Set\<String\> | private static final | 알림 정렬 시 허용되는 필드 목록 |
+| notificationRepository | NotificationRepository | private final | 알림 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| applicationService | ApplicationService | private final | 공고 지원 관련 비즈니스 로직 계층 |
+| pageableValidator | PageableValidator | private final | 페이징 및 정렬 검증 유틸리티 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| createNotification(Long senderId, Long receiverId, Long applicationId, NotificationType type) | void | public | 알림 생성, 다른 서비스 로직에서 호출 |
+| getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable) | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회 |
+| deleteById(Long userId, Long notificationId) | void | public | 특정 알림 삭제, 권한 검증 포함 |
+| deleteAll(Long receiverId, RecruitmentCategory category) | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
+
+---
+
+# NotificationRepository
+
+Notification 엔티티의 데이터 접근 계층으로, 알림 삭제 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| deleteAllByReceiverId(Long receiverId) | void | public | 특정 사용자의 전체 알림 삭제 |
+| deleteAllByReceiverIdAndCategory(Long receiverId, RecruitmentCategory category) | void | public | 특정 사용자의 특정 카테고리 알림 삭제 |
+
+---
+
+# NotificationRepositoryCustom
+
+QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, 사용자별 알림 목록 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable) | Page\<NotificationResponseDto\> | public | 지정된 사용자 ID와 카테고리에 해당하는 알림 목록을 페이지 단위로 조회 (category가 null이면 전체 알림 포함) |
+
+---
+
+# NotificationRepositoryImpl
+
+[NotificationRepositoryCustom](#notificationrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 사용자별 알림 목록 조회 기능을 제공한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable) | Page\<NotificationResponseDto\> | public | 지정된 사용자 ID와 카테고리에 해당하는 알림 목록을 페이지 단위로 조회 (category가 null이면 전체 알림 포함) |
+
+---
+
 # Util
 
 ---
