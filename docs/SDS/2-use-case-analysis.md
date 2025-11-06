@@ -294,6 +294,46 @@
 
 ---
 ### Use Case #20: 회원정보를 수정한다.
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 프로필 페이지에서 회원정보를 수정할 수 있다. |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |자는 로그인을 성공한 상태이다.|
+| **Trigger**|[수정하기] 버튼을 클릭한다. |
+| **Success Post Condition** |수정된 회원정보가 저장된다. |
+| **Failed Post Condition** |기존 정보가 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 회원정보를 수정할 수 있다. |
+| **1** |사용자는 [프로필] 탭을 선택한다. |
+| **2** |사용자는 수정 가능한 값(프로필 이미지, 닉네임, 학년, 포지션, 기술, 한 줄 소개)을 수정한다. |
+| **3** |사용자는 [수정하기] 버튼을 클릭한다. |
+| **4** |시스템은 수정된 정보를 저장한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+| **2** |2a. 비밀번호를 수정하려는 경우<br>…2a1. 사용자는 [비밀번호 변경하기] 버튼을 클릭한다.<br>…2a2. 시스템은 Use Case: 비밀번호를 수정한다 를 실행한다. |
+| **4** |4a. 저장에 실패한 경우<br>…4a1. "변경 내용 저장에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다.|
+
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |3025.11.15|
 
 ---
 ### Use Case #21: 비밀번호를 수정한다.
