@@ -11,14 +11,14 @@
 ---
 ### 2. 회원가입
 <p align="center"> 
-  <img width="1207" height="1009" alt="회원가입" src="https://github.com/user-attachments/assets/e723e05b-64ed-42de-a4bd-324ad3b9579d" />
+  <img width="70%" height="1009" alt="회원가입" src="https://github.com/user-attachments/assets/e723e05b-64ed-42de-a4bd-324ad3b9579d" />
 </p>
 위 그림은 회원가입 화면이다. 중앙에 '와글와글' 로고가 있고 그 아래 회원가입 폼이 위치한다. 사용자는 닉네임을 입력하고 [중복 확인] 버튼을 누른다. 학교 이메일을 입력하고 [인증 번호 받기] 버튼을 누른 뒤 받은 '인증 번호 입력' 칸에 인증 번호를 넣고 [확인] 버튼을 누른다. 마지막으로 비밀번호와 비밀번호 확인 칸을 채운다. 모든 정보 입력 후 [가입하기] 버튼을 누르면 회원가입이 완료되고 [로그인 하기] 링크를 통해 로그인 페이지로 돌아갈 수 있다.
 
 ---
 ### 3. 기본 정보 입력
 <p align="center"> 
-  <img width="790" height="984" alt="기본 정보 입력" src="https://github.com/user-attachments/assets/677ffd65-f8f8-4ac7-bb65-1419f2cb5850" />
+  <img width="70%" height="984" alt="기본 정보 입력" src="https://github.com/user-attachments/assets/677ffd65-f8f8-4ac7-bb65-1419f2cb5850" />
 </p>
  위 그림은 기본 정보 입력 모달로, 최초 로그인 시에 표시된다. 사용자는 학년을 1학년부터 4학년 중 선택한다. 포지션, 기술, 한 줄 소개를 각각 텍스트 필드에 입력한다. 모든 정보 입력 후 [완료] 버튼을 누르면 정보가 저장되고 모달이 닫힌다.
 
@@ -103,9 +103,9 @@
 ---
 #### 10.3. 내가 올린 공고
 <p align="center"> 
-  <img width="1088" height="1021" alt="내 공고 보기" src="https://github.com/user-attachments/assets/8e87fd89-037e-4742-877c-7ed87c2d738f" />
-  <img width="1083" height="1016" alt="내 공고 보기_프로젝트 지원서" src="https://github.com/user-attachments/assets/fb126bf3-b621-441f-b6c5-5752988e919e" />
-  <img width="1081" height="1020" alt="내 공고 보기_과제 스터디 지원서" src="https://github.com/user-attachments/assets/3a42972d-3ad9-42d1-b6b6-4deb5aaa106c" />
+  <img width="70%" height="1021" alt="내 공고 보기" src="https://github.com/user-attachments/assets/8e87fd89-037e-4742-877c-7ed87c2d738f" />
+  <img width="70%" height="1016" alt="내 공고 보기_프로젝트 지원서" src="https://github.com/user-attachments/assets/fb126bf3-b621-441f-b6c5-5752988e919e" />
+  <img width="70%" height="1020" alt="내 공고 보기_과제 스터디 지원서" src="https://github.com/user-attachments/assets/3a42972d-3ad9-42d1-b6b6-4deb5aaa106c" />
 </p>
  위 사진들은 내가 올린 공고 화면과 해당 화면에서 지원자를 확인하는 지원서 보기 모달 2종류를 보여준다. 메인 화면인 내가 올린 공고는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 올린 공고가 카드 형태로 나열되고, 각 카드에는 공고 제목과 [수정], [삭제] 버튼이 있다. 카드 우측의 [지원자 보기]를 클릭하면 해당 공고의 지원자 목록이 드롭다운으로 펼쳐진다. 이 목록에는 지원자 닉네임, 지원 날짜, [거절하기], [지원서보기] 버튼이 표시된다.
 </br></br>
@@ -114,8 +114,8 @@
 ---
 #### 10.4. 내가 지원한 공고
 <p align="center"> 
-  <img width="994" height="933" alt="내 지원 보기" src="https://github.com/user-attachments/assets/8ad4ebee-456f-40fc-bbfc-1d5dd80277a0" />
-  <img width="988" height="935" alt="내 지원 보기_지원서 모달" src="https://github.com/user-attachments/assets/9d2a6acf-7b93-4899-9500-122ea49d19d7" />
+  <img width="70%" height="933" alt="내 지원 보기" src="https://github.com/user-attachments/assets/8ad4ebee-456f-40fc-bbfc-1d5dd80277a0" />
+  <img width="70%" height="935" alt="내 지원 보기_지원서 모달" src="https://github.com/user-attachments/assets/9d2a6acf-7b93-4899-9500-122ea49d19d7" />
 </p>
  위 그림들은 '내가 지원한 공고' 메인 화면과 해당 화면에서 내가 제출한 지원서 내용을 확인하는 '지원서 모달'을 보여준다. 메인 화면인 내가 지원한 공고는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 지원한 공고의 목록이 나열되며 'No.', '공고제목', '마감일', '지원상태' 열을 통해 지원 현황을 한눈에 볼 수 있다. 공고 제목을 클릭하면 해당 공고 페이지로 넘어가고 '지원상태'에는 "대기중", "거절됨", "수락됨", "모집취소", "모집종료" 등이 태그로 표시된다.
 </br></br>
@@ -124,9 +124,9 @@
 ---
 #### 10.5. 내 팀 관리
 <p align="center"> 
-  <img width="1085" height="1027" alt="내 팀 보기_리더" src="https://github.com/user-attachments/assets/60560861-1d7a-494f-a268-28c3e5505d38" />
-  <img width="1086" height="1023" alt="내 팀 보기_팀원" src="https://github.com/user-attachments/assets/33e84392-e040-4576-97aa-c599b52d90c1" />
-  <img width="1081" height="1018" alt="리뷰쓰기 모달" src="https://github.com/user-attachments/assets/9d441fec-7041-4adf-bbbe-2544248e8b0d" />
+  <img width="70%" height="1027" alt="내 팀 보기_리더" src="https://github.com/user-attachments/assets/60560861-1d7a-494f-a268-28c3e5505d38" />
+  <img width="70%" height="1023" alt="내 팀 보기_팀원" src="https://github.com/user-attachments/assets/33e84392-e040-4576-97aa-c599b52d90c1" />
+  <img width="70%" height="1018" alt="리뷰쓰기 모달" src="https://github.com/user-attachments/assets/9d441fec-7041-4adf-bbbe-2544248e8b0d" />
 </p>
 위 그림들은 '내 팀 관리' 화면과, 그 화면에서 실행되는 리뷰쓰기 모달을 보여준다. 메인 화면인 '내 팀 관리'는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 속한 팀 목록이 카드 형태로 나열되며 각 팀 카드를 클릭하면 팀원 목록이 드롭다운으로 펼쳐진다. 이 목록에는 팀원의 닉네임, 역할(리더/멤버), 포지션이 표시된다.
 </br></br>
@@ -135,6 +135,6 @@
 ---
 #### 10.6. 마이페이지 사이드바
 <p align="center">
-  <img width="347" height="653" alt="Image" src="https://github.com/user-attachments/assets/c3754ff8-bb78-4179-b6d4-e04e72b97035" />
+  <img width="50%" height="653" alt="Image" src="https://github.com/user-attachments/assets/c3754ff8-bb78-4179-b6d4-e04e72b97035" />
 </p>
 위 그림은 마이페이지 사이드바로, 마이페이지 내의 페이지를 이동할 수 있는 네비게이션 역할을 한다. 사이드바에 메뉴인 프로필, 찜한 공고, 내가 올린 공고, 내가 지원한 공고, 내 팀 관리 탭을 선택하여 해당 페이지로 이동할 수 있다.
