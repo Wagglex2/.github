@@ -1,5 +1,15 @@
 ## 2. Use case analysis
 
+### Use Case #1:
+내용 입력
+
+---
+
+### Use Case #2:
+내용 입력
+
+---
+
 ### Use Case #3: 회원가입한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -56,6 +66,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
+---
 ### Use Case #4: 회원탈퇴한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -103,7 +114,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
-
+---
 ### Use Case #5: 기본 정보 입력한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -148,6 +159,152 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |3025.11.15|
 
+---
+
+### Use Case #6:
+내용 입력
+
+---
+
+### Use Case #7:
+내용 입력
+
+---
+### Use Case #8:
+내용 입력
+
+---
+### Use Case #9:
+내용 입력
+
+---
+### Use Case #10:
+내용 입력
+
+---
+### Use Case #11:
+내용 입력
+
+---
+### Use Case #12: 알림을 조회한다.
+#### 1. GENERAL CHARACTERISTICS (개요)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자는 공고 지원에 대한 결과(승인/거절)와 본인이 게시한 공고에 대한 지원 알림을 조회할 수 있다.|
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자는 로그인을 성공한 상태이다.|
+| **Trigger** |사용자가 서비스 최상단의 [알림]버튼을 클릭한다.|
+| **Success Post Condition** |사용자에게 알림 내역이 정상적으로 노출된다.|
+| **Failed Post Condition** |사용자는 알림 내역을 조회할 수 없다.|
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 알림 내역을 조회할 수 있다.|
+| **1** |이 use case는 사용자가 [알림]버튼을 눌렀을 때 시작된다.|
+| **2** |시스템은 ‘알림’ 페이지로 화면을 전환한다. |
+| **3** |사용자가 본인에게 온 알림을 확인한다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+|**3** |3a. 사용자가 특정 알림을 선택하여 클릭할 경우</br>...3a1. 시스템은 알림의 유형(지원 결과 / 게시한 공고에 대한 지원 요청)에 따라마이페이지의 ‘내가 지원한 공고’ 또는 ‘내가 올린 공고’ 페이지로 화면을 전환한다.</br>...3a2. 시스템은 해당 알림을 ‘읽음’ 상태로 변경한다.</br></br>3b. 사용자가 알림을 카테고리(프로젝트, 과제, 스터디)별로 필터링하려는 경우,</br>...3b1. 사용자는 카테고리 필터링 옵션을 선택한다.</br>...3b2. 시스템은 선택된 카테고리에 해당하는 알림만 화면에 표시한다.</br></br>3c. 조회 결과가 없는 경우,</br>...3c1. 시스템은 "조회된 알림이 없습니다." 메시지를 화면에 표시한다.|
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |3025.11.15|
+
+---
+### Use Case #13: 알림을 개별 삭제한다.
+
+---
+### Use Case #14: 모든 알림을 삭제한다.
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** | |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** | |
+| **Trigger** | |
+| **Success Post Condition** | |
+| **Failed Post Condition** | |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** | |
+| **1** | |
+| **2** | |
+| **3** | |
+| **4** | |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+| | |
+| | |
+| | |
+| | |
+| | |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |3025.11.15|
+
+---
+### Use Case #15: 카테고리별 알림을 일괄 삭제한다.
+내용 입력
+
+---
+### Use Case #16: 공고를 작성한다.
+내용 입력
+
+---
+### Use Case #17: 공고 상세 내용을 조회한다.
+내용 입력
+
+---
+### Use Case #18: 공고에 지원한다.
+내용 입력
+
+---
+### Use Case #19: 회원정보를 조회한다.
+내용 입력
+
+---
+### Use Case #20: 회원정보를 수정한다.
+내용 입력
+
+---
+### Use Case #21: 비밀번호를 수정한다.
+내용 입력
+
+---
 
 ### Use Case #22: 팀 조회한다.
 
@@ -193,7 +350,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #23: 팀원 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -238,7 +395,7 @@
 | **&lt;Concurrency&gt;** |제한 없음|
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #24: 팀원 평가한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -286,7 +443,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #25: 팀원 리뷰 수정한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -330,7 +487,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #26: 팀원 리뷰 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -376,7 +533,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #27: 올린 공고 목록 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -419,7 +576,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #28: 공고 수정한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -468,7 +625,7 @@
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #29: 공고 삭제한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -513,6 +670,7 @@
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
 | **Due Date** |2025.11.20|
 
+---
 ### Use Case #30: 지원자 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -557,7 +715,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #31: 지원자 수락한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -600,7 +758,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #32: 지원자 거절한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -643,7 +801,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #33: 지원한 공고 조회한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
@@ -690,7 +848,7 @@
 | **&lt;Concurrency&gt;** |제한 없음 |
 | **Due Date** |2025.11.20|
 
-
+---
 ### Use Case #34: 지원한 공고 취소한다.
 
 #### 1. GENERAL CHARACTERISTICS (개요)
