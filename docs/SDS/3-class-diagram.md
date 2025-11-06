@@ -56,7 +56,7 @@
 
 # PositionType
 
-프로젝트 내 포지션 유형을 정의하는 열거형(Enum) 으로, 각 포지션의 설명(desc)과 해당 Enum 값을 제공한다.
+프로젝트 내 포지션 유형을 정의하는 **열거형(Enum)** 으로, 각 포지션의 설명(desc)과 해당 Enum 값을 제공한다.
 
 ## Enum Values
 
@@ -232,21 +232,22 @@
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|--------------|
-| getId() | Long | public | 공고 식별자 반환 |
-| getUser() | User | public | 공고 등록자 반환 |
-| getCategory() | RecruitmentCategory | public | 공고 카테고리 반환 |
-| getTitle() | String | public | 공고 제목 반환 |
-| getContent() | String | public | 공고 내용 반환 |
-| getDeadline() | LocalDateTime | public | 모집 마감일 반환 |
-| getStatus() | RecruitmentStatus | public | 공고 상태 반환 |
-| getCreatedAt() | LocalDateTime | public | 생성 시각 반환 |
-| getUpdatedAt() | LocalDateTime | public | 수정 시각 반환 |
-| getViewCount() | int | public | 조회수 반환 |
-| update(String title, String content, LocalDateTime deadline) | void | protected | 제목, 내용, 마감일 수정 |
-| changeStatusByDeadline() | void | public | 마감일에 따라 상태를 자동으로 변경 |
-| cancel() | void | public | 공고를 삭제 상태(CANCELED)로 변경 |
+| Name | Return Type | Visibility      | Description |
+|-----|-----------|-----------------|--------------|
+| getId() | Long | public          | 공고 식별자 반환 |
+| getUser() | User | public          | 공고 등록자 반환 |
+| getCategory() | RecruitmentCategory | public          | 공고 카테고리 반환 |
+| getTitle() | String | public          | 공고 제목 반환 |
+| getContent() | String | public          | 공고 내용 반환 |
+| getDeadline() | LocalDateTime | public          | 모집 마감일 반환 |
+| getStatus() | RecruitmentStatus | public          | 공고 상태 반환 |
+| getCreatedAt() | LocalDateTime | public          | 생성 시각 반환 |
+| getUpdatedAt() | LocalDateTime | public          | 수정 시각 반환 |
+| getViewCount() | int | public          | 조회수 반환 |
+| update(String title, String content, LocalDateTime deadline) | void | protected       | 제목, 내용, 마감일 수정 |
+| changeStatusByDeadline() | void | public          | 마감일에 따라 상태를 자동으로 변경 |
+| cancel() | void | public          | 공고를 삭제 상태(CANCELED)로 변경 |
+| decreaseCurrParticipant(PositionType positionType) | void | public abstract | 특정 포지션의 현재 참여 인원을 1명 감소 |
 
 ---
 
@@ -276,13 +277,13 @@
 
 # GradeRequestDto
 
-모집 대상 학년 정보를 전달하는 **DTO record 클래스**로, 1~4학년 범위를 검증한다.
+모집 우대 학년 정보를 전달하는 **DTO record 클래스**로, 1~4학년 범위를 검증한다.
 
 ## Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-------------|--------------|
-| grade | Integer | private | 모집 학년 (필수, 1~4 범위 검증) |
+| Name | Type | Visibility | Description           |
+|------|------|-------------|-----------------------|
+| grade | Integer | private | 우대 학년 (필수, 1~4 범위 검증) |
 
 ## Operations
 
@@ -586,28 +587,34 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ## Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| purpose | ProjectPurpose | private | 프로젝트 목적 |
-| meetingType | MeetingType | private | 모임 유형 |
+| Name | Type | Visibility | Description      |
+|------|------|-----------|------------------|
+| purpose | ProjectPurpose | private | 프로젝트 목적          |
+| meetingType | MeetingType | private | 진행 방식            |
 | positions | Set\<PositionParticipantInfo\> | private | 프로젝트 포지션별 참여자 정보 |
-| skills | Set\<Skill\> | private | 요구 스킬 목록 |
-| grades | Set\<Integer\> | private | 참여 가능한 학년 |
-| period | Period | private | 프로젝트 기간 |
+| skills | Set\<Skill\> | private | 요구 기술 스택 목록      |
+| grades | Set\<Integer\> | private | 우대 학년            |
+| period | Period | private | 프로젝트 기간          |
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|--------------|
-| update(ProjectUpdateRequestDto dto) | void | public | 프로젝트 공고 정보를 업데이트 |
-| getPositionInfoByRole(PositionType position) | Optional\<PositionParticipantInfo\> | public | 특정 포지션의 참여자 정보 조회 |
+| Name             | Return Type    | Visibility | Description             |
+|------------------|----------------|------------|-------------------------|
+| getPurpose()     | ProjectPurpose | public     | 프로젝트 목적 반환              |
+| getMeetingType() | MeetingType | public     | 진행 방식 반환                |
+| getPositions()   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 참여자 정보 반환     |
+| getSkills()      | Set\<Skill\> | public     | 요구 기술 스택 목록 반환          |
+| getGrades()      | Set\<Integer\> | public     | 우대 학년 반환                |
+| getPeriod()      | Period | public     | 프로젝트 기간 반환              |
+| update(ProjectUpdateRequestDto dto) | void | public | 프로젝트 공고 정보를 업데이트        |
+| getPositionInfoByRole(PositionType position) | Optional\<PositionParticipantInfo\> | public | 특정 포지션의 참여자 정보 조회       |
 | decreaseCurrParticipant(PositionType positionType) | void | public | 특정 포지션의 현재 참여 인원을 1명 감소 |
 
 ---
 
 # MeetingType
 
-회의 또는 프로젝트 진행 방식을 정의하는 **열거형(Enum)**으로, 각 유형의 설명(`desc`)과 해당 Enum 값을 제공한다.
+회의 또는 프로젝트 진행 방식을 정의하는 **열거형(Enum)** 으로, 각 유형의 설명(`desc`)과 해당 Enum 값을 제공한다.
 
 ## Enum Values
 
@@ -621,20 +628,20 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
-| desc | String | private final | 회의 유형 설명 |
+| desc | String | private final | 진행 방식 설명    |
 
 ## Operations
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
-| getDesc() | String | public | 회의 유형 설명 반환 |
-| getName() | String | public | Enum 이름 반환 |
+| getDesc() | String | public | 진행 방식 설명 반환 |
+| getName() | String | public | Enum 이름 반환  |
 
 ---
 
 # ProjectPurpose
 
-프로젝트의 목적을 정의하는 **열거형(Enum)**으로, 각 목적의 설명(`desc`)과 해당 Enum 값을 제공한다.
+프로젝트의 목적을 정의하는 **열거형(Enum)** 으로, 각 목적의 설명(`desc`)과 해당 Enum 값을 제공한다.
 
 ## Enum Values
 
@@ -670,16 +677,21 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
-| purpose | ProjectPurpose | private final | 프로젝트 목적 |
-| meetingType | MeetingType | private final | 진행 방식 |
-| skills | Set\<Skill\> | private final | 기술 스택 목록 |
-| grades | Set\<GradeRequestDto\> | private final | 모집 학년 |
-| period | PeriodRequestDto | private final | 프로젝트 기간 |
+| purpose | ProjectPurpose | private final | 프로젝트 목적     |
+| meetingType | MeetingType | private final | 진행 방식       |
+| skills | Set\<Skill\> | private final | 기술 스택 목록    |
+| grades | Set\<GradeRequestDto\> | private final | 우대 학년       |
+| period | PeriodRequestDto | private final | 프로젝트 기간     |
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|-------------|
+| Name | Return Type | Visibility | Description   |
+|------|-----------|----------|---------------|
+| getPurpose()     | ProjectPurpose | public     | 프로젝트 목적 반환    |
+| getMeetingType() | MeetingType | public     | 진행 방식 반환      |
+| getSkills()      | Set\<Skill\> | public     | 기술 스택 목록 반환   |
+| getGrades()      | Set\<Integer\> | public     | 우대 학년 반환      |
+| getPeriod()      | Period | public     | 프로젝트 기간 반환    |
 | validate() | void | public | 마감일이 종료일 이전인지 검증 |
 
 ---
@@ -696,9 +708,10 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|-------------|
+| Name | Return Type | Visibility | Description          |
+|------|-----------|----------|----------------------|
 | toEntity(User user, ProjectCreationRequestDto dto) | Project | public static | DTO를 Project 엔티티로 변환 |
+| getPositions()   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
 
 ---
 
@@ -716,12 +729,15 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
+| getPositions()   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
+
 
 ---
 
 # ProjectSearchCondition
 
 프로젝트 공고 검색 조건을 담는 레코드(Record)로, 키워드, 목적, 포지션, 기술 스택, 모집 상태 등의 필드를 포함한다.  
+
 컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
 
 ## Attributes
@@ -736,8 +752,13 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|-------------|
+| Name        | Return Type | Visibility | Description |
+|-------------|-----------|----------|-------------|
+| keywords()  | Set\<String\> | public | 검색 키워드 목록 반환 |
+| purpose()   | ProjectPurpose | public | 프로젝트 목적 반환 |
+| positions() | Set\<PositionType\> | public | 포지션 목록 반환 |
+| skills()    | Set\<Skill\> | public | 기술 스택 목록 반환 |
+| status()    | RecruitmentStatus | public | 모집 공고 상태 반환 |
 
 ---
 
@@ -749,18 +770,24 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
-| purpose | ProjectPurpose | private final | 프로젝트 목적 |
-| meetingType | MeetingType | private final | 진행 방식 |
-| positions | Set\<PositionInfoResponseDto\> | private | 포지션별 인원 정보 |
-| skills | Set\<Skill\> | private | 기술 스택 목록 |
-| grades | Set\<Integer\> | private | 모집 학년 |
-| period | PeriodResponseDto | private final | 프로젝트 기간 |
+| purpose | ProjectPurpose | private final | 프로젝트 목적     |
+| meetingType | MeetingType | private final | 진행 방식       |
+| positions | Set\<PositionInfoResponseDto\> | private | 포지션별 인원 정보  |
+| skills | Set\<Skill\> | private | 기술 스택 목록    |
+| grades | Set\<Integer\> | private | 우대 학년       |
+| period | PeriodResponseDto | private final | 프로젝트 기간     |
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|-------------|
+| Name                        | Return Type | Visibility | Description |
+|-----------------------------|-----------|----------|-------------|
 | fromEntity(Project project) | ProjectDetailResponseDto | public static | Project 엔티티를 DTO로 변환 |
+| getPurpose()                | ProjectPurpose | public | 프로젝트 목적 반환 |
+| getMeetingType()            | MeetingType | public | 진행 방식 반환 |
+| getPositions()              | Set\<PositionType\> | public | 포지션 목록 반환 |
+| getSkills()                 | Set\<Skill\> | public | 기술 스택 목록 반환 |
+| getGrades()                 | Set\<Integer\> | public | 우대 학년 반환 |
+| getPeriod()                 | PeriodResponseDto | public | 프로젝트 기간 반환 |
 
 ---
 
@@ -781,6 +808,10 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
+| getPurpose()                | ProjectPurpose | public | 프로젝트 목적 반환 |
+| getMeetingType()            | MeetingType | public | 진행 방식 반환 |
+| getPositions()              | Set\<PositionType\> | public | 포지션 목록 반환 |
+| getSkills()                 | Set\<Skill\> | public | 기술 스택 목록 반환 |
 
 ---
 
@@ -878,7 +909,7 @@ Project 엔티티의 데이터 접근 계층으로, 프로젝트 공고와 관�
 | findByIdWithUser(Long id) | Optional\<Project\> | public | 프로젝트와 작성자 정보 조회 |
 | findPositionsByProjectId(Long id) | Set\<PositionParticipantInfo\> | public | 프로젝트 포지션 조회 |
 | findSkillsByProjectId(Long id) | Set\<Skill\> | public | 프로젝트 기술 스택 조회 |
-| findGradesByProjectId(Long id) | Set\<Integer\> | public | 프로젝트 모집 학년 조회 |
+| findGradesByProjectId(Long id) | Set\<Integer\> | public | 프로젝트 우대 학년 조회 |
 | increaseViewCount(Long id) | int | public | 조회수 증가 |
 
 ---
@@ -932,17 +963,17 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 # Assignment
 
-[BaseRecruitment](#baserecruitment)를 상속한 과제 공고 엔티티로, 학과, 과목, 인원 정보, 모집 학년 등을 포함한다.
+[BaseRecruitment](#baserecruitment)를 상속한 과제 공고 엔티티로, 학과, 과목, 인원 정보, 우대 학년 등을 포함한다.
 
 ## Attributes
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
-| department | String | private | 학과명 |
-| lecture | String | private | 과목명 |
-| lectureCode | String | private | 과목 코드 |
-| participants | ParticipantInfo | private | 참여자 정보 |
-| grades | Set\<Integer\> | private | 모집 학년 |
+| department | String | private | 학과명         |
+| lecture | String | private | 과목명         |
+| lectureCode | String | private | 과목 코드       |
+| participants | ParticipantInfo | private | 참여자 정보      |
+| grades | Set\<Integer\> | private | 우대 학년       |
 
 ## Operations
 
@@ -952,7 +983,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | getLecture() | String | public | 과목명 반환 |
 | getLectureCode() | String | public | 과목 코드 반환 |
 | getParticipants() | ParticipantInfo | public | 인원 정보 반환 |
-| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+| getGrades() | Set\<Integer\> | public | 우대 학년 반환 |
 | update(AssignmentUpdateRequestDto dto) | void | public | 과제 공고 정보를 업데이트 |
 | decreaseCurrParticipant(PositionType positionType) | void | public | 현재 인원을 1명 감소 |
 
@@ -964,7 +995,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 # AssignmentCommonRequestDto
 
-[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 과제 공고 공통 추상 요청 DTO로, 학과, 강의 정보, 모집 학년 등의 공통 필드를 포함한다.
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 과제 공고 공통 추상 요청 DTO로, 학과, 강의 정보, 우대 학년 등의 공통 필드를 포함한다.
 
 ## Attributes
 
@@ -973,7 +1004,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | department | String | private | 학과명 |
 | lecture | String | private | 과목명 |
 | lectureCode | String | private | 과목 코드 |
-| grades | Set\<GradeRequestDto\> | private | 모집 학년 |
+| grades | Set\<GradeRequestDto\> | private | 우대 학년 |
 
 ## Operations
 
@@ -982,7 +1013,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | getDepartment() | String | public | 학과명 반환 |
 | getLecture() | String | public | 과목명 반환 |
 | getLectureCode() | String | public | 과목 코드 반환 |
-| getGrades() | Set\<GradeRequestDto\> | public | 모집 학년 반환 |
+| getGrades() | Set\<GradeRequestDto\> | public | 우대 학년 반환 |
 
 ---
 
@@ -998,10 +1029,10 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| getMaxParticipants() | Integer | public | 모집 인원 반환 |
-| toEntity(User user, AssignmentCreationRequestDto dto) | Assignment | public | AssignmentCreationRequestDto 객체를 Assignment 객체로 변환 |
+| Name | Return Type | Visibility    | Description |
+|------|-----------|---------------|-------------|
+| toEntity(User user, AssignmentCreationRequestDto dto) | Assignment | public static | AssignmentCreationRequestDto 객체를 Assignment 객체로 변환 |
+| getMaxParticipants() | Integer | public        | 모집 인원 반환 |
 
 ---
 
@@ -1054,19 +1085,21 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 | Name | Type | Visibility | Description |
 |------|------|------------|-------------|
-| department | String | private | 학과 |
-| lecture | String | private | 강의명 |
-| lectureCode | String | private | 강의 코드 |
-| grades | Set\<Integer\> | private | 모집 학년 |
+| department | String | private | 학과          |
+| lecture | String | private | 강의명         |
+| lectureCode | String | private | 강의 코드       |
+| participants | ParticipantInfoResponseDto | private | 인원 정보       |
+| grades | Set\<Integer\> | private | 우대 학년       |
 
 ## Operations
 
-| Name | Return Type | Visibility | Description |
-|------|------------|------------|-------------|
-| getDepartment() | String | public | 학과 반환 |
-| getLecture() | String | public | 강의명 반환 |
-| getLectureCode() | String | public | 강의 코드 반환 |
-| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+| Name              | Return Type | Visibility | Description |
+|-------------------|------------|------------|-------------|
+| getDepartment()   | String | public | 학과 반환       |
+| getLecture()      | String | public | 강의명 반환      |
+| getLectureCode()  | String | public | 강의 코드 반환    |
+| getParticipants() | ParticipantInfoResponseDto | public | 인원 정보 반환    |
+| getGrades()       | Set\<Integer\> | public | 우대 학년 반환    |
 
 ---
 
@@ -1081,7 +1114,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | department | String | private | 학과 |
 | lecture | String | private | 강의명 |
 | lectureCode | String | private | 강의 코드 |
-| grades | Set\<Integer\> | private | 모집 학년 |
+| grades | Set\<Integer\> | private | 우대 학년 |
 
 ## Operations
 
@@ -1090,7 +1123,7 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 | getDepartment() | String | public | 학과 반환 |
 | getLecture() | String | public | 강의명 반환 |
 | getLectureCode() | String | public | 강의 코드 반환 |
-| getGrades() | Set\<Integer\> | public | 모집 학년 반환 |
+| getGrades() | Set\<Integer\> | public | 우대 학년 반환 |
 
 ---
 
@@ -1225,7 +1258,7 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 | getAssignmentSummariesByIds(List\<Long\> assignmentIds) | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
 | eqStatus(RecruitmentStatus status) | BooleanExpression | private | Assignment 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
 | containsAnyKeyword(Set\<String\> keywords) | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
-| containsAnyGrade(Set\<Integer\> grades) | BooleanExpression | private | Assignment 모집 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
+| containsAnyGrade(Set\<Integer\> grades) | BooleanExpression | private | Assignment 우대 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
 
 ---
 
@@ -1235,14 +1268,14 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 # Study
 
-[BaseRecruitment](#baserecruitment)를 상속한 스터디 공고 엔티티로, 인원 정보, 활동 기간, 기술 스택 정보를 포함한다.
+[BaseRecruitment](#baserecruitment)를 상속한 스터디 공고 엔티티로, 인원 정보, 기간, 기술 스택 정보를 포함한다.
 
 ## Attributes
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
 | participants | ParticipantInfo | private | 인원 정보 |
-| period | Period | private | 스터디 활동 기간 |
+| period | Period | private | 스터디 기간 |
 | skills | Set\<Skill\> | private | 스터디 기술 스택 |
 
 ## Operations
@@ -1250,7 +1283,7 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | getParticipants() | ParticipantInfo | public | 인원 정보 반환 |
-| getPeriod() | Period | public | 스터디 활동 기간 반환 |
+| getPeriod() | Period | public | 스터디 기간 반환 |
 | getSkills() | Set\<Skill\> | public | 기술 스택 반환 |
 | update(StudyUpdateRequestDto dto) | void | public | 스터디 공고 정보를 업데이트 |
 | decreaseCurrParticipant(PositionType positionType) | void | public | 현재 인원을 1명 감소 |
@@ -1384,7 +1417,7 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 ---
 
-Study 관련 Controller, Service, Repository
+# Study 관련 Controller, Service, Repository
 
 ---
 
@@ -1753,7 +1786,6 @@ Bookmark 엔티티의 데이터 접근 계층으로, 사용자의 북마크 관�
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
 | getPosition() | PositionType | public | 지원 포지션 반환 |
-| getSkills() | Set\<Skill\> | public | 지원 기술 스택 반환 |
 | toEntity(User applicant, BaseRecruitment recruitment) | Application | public | DTO를 Application 엔티티로 변환 |
 
 ---
