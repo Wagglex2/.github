@@ -272,49 +272,6 @@
 ---
 ### Use Case #14: 모든 알림을 삭제한다.
 
-| 항목 | 내용 |
-| :--- | :--- |
-| **Summary** | |
-| **Scope** |WaggleWaggle |
-| **Level** |User level |
-| **Last Update** |2025.11.06 |
-| **Status** |Analysis |
-| **Primary Actor** |User |
-| **Secondary Actors**|system |
-| **Preconditions** | |
-| **Trigger** | |
-| **Success Post Condition** | |
-| **Failed Post Condition** | |
-
-#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
-
-| Step | Action |
-| :--- | :--- |
-| **S** | |
-| **1** | |
-| **2** | |
-| **3** | |
-| **4** | |
-
-#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
-
-| Step | Branching Action |
-| :--- | :--- |
-| | |
-| | |
-| | |
-| | |
-| | |
-
-#### 4. RELATED INFORMATION (관련 정보)
-
-| 항목 | 내용 |
-| :--- | :--- |
-| **Performance** |≤ 1 second |
-| **Frequency** |제한 없음|
-| **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
-
 ---
 ### Use Case #15: 카테고리별 알림을 일괄 삭제한다.
 내용 입력
@@ -341,7 +298,45 @@
 
 ---
 ### Use Case #21: 비밀번호를 수정한다.
-내용 입력
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** | 사용자는 비밀번호 변경 페이지에서 비밀번호를 수정할 수 있다.|
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |자는 로그인을 성공한 상태이다.|
+| **Trigger** [변경하기] 버튼을 클릭한다.| |
+| **Success Post Condition** |비밀번호가 변경된다. |
+| **Failed Post Condition** |기존 비밀번호가 유지된다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자는 비밀번호를 수정할 수 있다. |
+| **1** |사용자는 프로필에서 [비밀번호 변경하기] 버튼을 클릭한다. |
+| **2** |시스템은 비밀번호 변경 페이지로 이동한다. |
+| **3** |사용자는 기존 비밀번호, 새 비밀번호, 새 비밀번호 확인을 입력한다. |
+| **4** |[변경하기] 버튼을 클릭한다. |
+| **5** |시스템은 비밀번호를 저장하고 "비밀번호가 변경되었습니다." 팝업을 띄운다.|
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+| **4**|4a. 저장 실패한 경우<br>…4a1. "변경 내용 저장에 실패하였습니다. 다시 시도해 주세요." 팝업을 띄운다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |3025.11.15|
 
 ---
 
