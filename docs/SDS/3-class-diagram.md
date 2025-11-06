@@ -1952,6 +1952,92 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ---
 
+# Notification
+
+사용자 간 알림 정보를 담는 엔티티로, 발신자, 수신자, 관련 지원서(Application), 알림 유형, 생성일 및 읽음 여부를 관리한다.  
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| id | Long | private | 알림 ID (PK) |
+| sender | User | private | 알림 발신자 |
+| receiver | User | private | 알림 수신자 |
+| application | Application | private | 알림과 관련된 지원서 |
+| type | NotificationType | private | 알림 유형 |
+| createdAt | LocalDateTime | private | 알림 생성일 (자동 생성) |
+| isRead | boolean | private | 알림 읽음 여부 (기본값 false) |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| getId() | Long | public | 알림 ID 반환 |
+| getSender() | User | public | 알림 발신자 반환 |
+| getReceiver() | User | public | 알림 수신자 반환 |
+| getApplication() | Application | public | 알림 관련 지원서 반환 |
+| getType() | NotificationType | public | 알림 유형 반환 |
+| getCreatedAt() | LocalDateTime | public | 알림 생성일 반환 |
+| isRead() | boolean | public | 알림 읽음 여부 반환 |
+
+---
+
+# NotificationType
+
+지원 관련 알림 유형을 정의하는 **열거형(Enum)** 으로, 지원 발생, 수락, 거절 상황에 따라 알림 대상이 달라진다.
+
+## Enum Values
+
+| Value | Description |
+|-------|-------------|
+| APPLICATION_SUBMITTED | 지원 발생 → 공고 작성자에게 알림 |
+| APPLICATION_ACCEPTED  | 지원 수락 → 지원자에게 알림 |
+| APPLICATION_REJECTED  | 지원 거절 → 지원자에게 알림 |
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+|  |  |  |  |
+
+---
+
+# NotificationResponseDto
+
+사용자에게 전달되는 알림 정보를 담는 응답 DTO(Record)
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| notificationId | Long | private (record component) | 알림 ID |
+| applicationId | Long | private (record component) | 관련 지원서 ID |
+| category | RecruitmentCategory | private (record component) | 관련 모집 공고 카테고리 |
+| senderNickname | String | private (record component) | 알림 발신자 닉네임 |
+| type | NotificationType | private (record component) | 알림 유형 |
+| createdAt | LocalDateTime | private (record component) | 알림 생성일 |
+| isRead | boolean | private (record component) | 알림 읽음 상태 |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| notificationId() | Long | public | 알림 ID 반환 |
+| applicationId() | Long | public | 관련 지원서 ID 반환 |
+| category() | RecruitmentCategory | public | 관련 모집 공고 카테고리 반환 |
+| senderNickname() | String | public | 알림 발신자 닉네임 반환 |
+| type() | NotificationType | public | 알림 유형 반환 |
+| createdAt() | LocalDateTime | public | 알림 생성일 반환 |
+| isRead() | boolean | public | 알림 읽음 상태 반환 |
+
+---
+
 # Util
 
 ---
