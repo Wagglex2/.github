@@ -1003,6 +1003,91 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 Spring Framework 기반 애플리케이션의 전역 설정을 담당하는 클래스들의 구조를 보여준다.
 SecurityConfig를 통한 보안 설정, WebConfig를 통한 웹 관련 설정, JpaAuditingConfig를 통한 JPA Auditing 설정, QueryDslConfig를 통한 QueryDSL 설정, 그리고 PaginationProperties를 통한 페이지네이션 프로퍼티 설정 등 애플리케이션 전반의 설정 관리 클래스들의 구조와 관계를 표현한다.
 
+#### JpaAuditingConfig
+Spring Data JPA의 Auditing(감사 기능) 을 활성화하기 위한 환경 설정 클래스(Configuration Class).
+`@EnableJpaAuditing`을 통해 엔티티의 생성일(`createdAt`), 수정일(`updatedAt`) 필드를 자동으로 관리한다.
+
+##### Attributes
+| Name | Type | Visibility | Description |
+|------|------|-------------|--------------|
+
+##### Operations
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|--------------|
+
+
+#### PaginationProperties
+애플리케이션 전역에서 사용할 페이지네이션(Pagination) 관련 설정 클래스.
+Spring Boot의 `@ConfigurationProperties`를 사용하여
+`application.properties`의 `"pagination"` prefix 설정값을 자동 주입받는다.
+
+##### Attributes
+| Name        | Type | Visibility |  Description                                   |
+| ----------- |-----| ---------- |  --------------------------------------------- |
+| maxSize     | int | private    |  클라이언트가 요청할 수 있는 **최대 페이지 크기** (DoS 방지 목적)     |
+| defaultSize | int | private    |  클라이언트가 `size` 파라미터를 지정하지 않았을 때의 **기본 페이지 크기** |
+| maxPageNumber | int | private    |  허용되는 **최대 페이지 번호** (너무 깊은 페이지 요청 방지)          |
+
+##### Operations
+| Name                 | Return Type | Visibility | Description        |
+| -------------------- | ---- | ---------- | ------------------ |
+| `getMaxSize()`       | int  | public     | 최대 페이지 크기 값을 반환한다. |
+| `getDefaultSize()`   | int  | public     | 기본 페이지 크기 값을 반환한다. |
+| `getMaxPageNumber()` | int  | public     | 최대 페이지 번호 값을 반환한다. |
+
+
+#### QueryDslConfig
+`QueryDSL`을 사용하기 위한 Spring JPA 설정 클래스(Configuration Class).
+`EntityManager`를 기반으로 `JPAQueryFactory` Bean을 등록하여
+`QueryDSL`을 활용한 타입 안전한 동적 쿼리 작성이 가능하도록 지원한다.
+
+##### Attributes
+| Name          | Type          | Visibility | Description                                                                |
+| ------------- | ------------- | ---------- | -------------------------------------------------------------------------- |
+| entityManager | EntityManager | private    | JPA가 관리하는 엔티티 매니저. `@PersistenceContext`로 주입받아 QueryDSL의 쿼리 수행 기반 객체로 사용됨. |
+
+##### Operations
+| Name                | Return Type     | Visibility | Description                                                                                 |
+| ------------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------- |
+| `jpaQueryFactory()` | JPAQueryFactory | public     | `EntityManager`를 주입받아 `JPAQueryFactory` Bean을 생성 및 등록한다.<br>QueryDSL 기반 리포지토리에서 주입받아 사용 가능. |
+
+
+#### SecurityConfig
+Spring Security를 기반으로 한 전역 보안 설정 클래스.
+JWT 인증 방식을 사용하며, 세션을 생성하지 않는 Stateless 구조로 설정되어 있다.
+[JwtFilter](#jwtfilter)를 통해 요청 헤더의 토큰을 검증하고, [CustomAccessDeniedHandler](#customaccessdeniedhandler) 및 [CustomAuthenticationEntryPoint](#customauthenticationentrypoint)를 통해
+권한 및 인증 예외 상황을 처리한다.
+
+##### Attributes
+| Name                           | Type                           | Visibility    | Description                            |
+| ------------------------------ | ------------------------------ | ------------- | -------------------------------------- |
+| jwtFilter                      | JwtFilter                      | private final | JWT 토큰을 검증하고 인증 정보를 설정하는 커스텀 필터        |
+| authenticationConfiguration    | AuthenticationConfiguration    | private final | Spring Security의 인증 관리 설정 객체           |
+| customAccessDeniedHandler      | CustomAccessDeniedHandler      | private final | 인가(Authorization) 실패 시 실행되는 예외 처리 핸들러  |
+| customAuthenticationEntryPoint | CustomAuthenticationEntryPoint | private final | 인증(Authentication) 실패 시 실행되는 예외 처리 핸들러 |
+
+
+##### Operations
+| Name                             | Return Type         | Visibility | Description                                                      |
+| -------------------------------- |---------------------| ---------- | ---------------------------------------------------------------- |
+| `passwordEncoder()`              | PasswordEncoder     | public     | `BCryptPasswordEncoder`를 Bean으로 등록하여 비밀번호 암호화 기능 제공              |
+| `authenticationManager()`        | AuthenticationManager | public     | Spring Security의 인증 매니저 Bean을 생성 및 주입                            |
+| `filterChain(HttpSecurity http)` | SecurityFilterChain | public     | 보안 필터 체인(Security Filter Chain) 설정 및 구성 반환<br>JWT 기반 인증/인가 흐름 정의 |
+
+
+#### WebConfig
+Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 클래스.
+`StringToEnumConverterFactory`를 등록하여 HTTP 요청 파라미터로 전달된 문자열을 Enum 타입으로 자동 변환하도록 설정한다.
+
+##### Attributes
+| Name     | Type | Visibility | Description              |
+| -------- | ---- | ---------- | ------------------------ |
+
+##### Operations
+| Name                                        | Return Type | Visibility | Description                                                                                      |
+| ------------------------------------------- | --------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| `addFormatters(FormatterRegistry registry)` | void      | public     | Spring MVC의 `FormatterRegistry`에 `StringToEnumConverterFactory`를 등록하여 문자열 → Enum 자동 변환 기능을 추가한다. |
+
 ---
 
 ## 3.6 보안 클래스 (Security Classes)
