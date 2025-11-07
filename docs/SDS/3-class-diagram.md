@@ -306,7 +306,7 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 
 ---
 
-### 3.3.10 Auth/Security Summary
+### 3.3.10 Auth/Security
 
 <img width="4096" height="2094" alt="02-auth-security-summary" src="https://github.com/user-attachments/assets/fb65af14-7f14-4071-97ff-f32ea8978548" />
 
