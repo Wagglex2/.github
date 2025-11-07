@@ -996,6 +996,20 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 
 공고 마감 스케줄러의 자동화 처리 구조를 나타낸다. RecruitmentClosingScheduler 컴포넌트의 스케줄링 메커니즘, RecruitmentService와 ApplicationService를 활용한 일괄 처리 구조, 그리고 마감일 기반 상태 변경 프로세스를 표현한다.
 
+# RecruitmentClosingScheduler
+매일 자정(Asia/Seoul) 기준으로 마감일이 지난 모집 공고를 `CLOSED`로 전환하고, 해당 공고에 연결된 지원서 상태를 `CLOSED`로 일괄 업데이트하는 배치 스케줄러 컴포넌트.
+
+## Attributes
+| Name               | Type               | Visibility    | Description                                       |
+| ------------------ | ------------------ | ------------- | ------------------------------------------------- |
+| recruitmentService | RecruitmentService | private final | 만료된 모집 공고 상태를 `CLOSED`로 변경하는 도메인 서비스              |
+| applicationService | ApplicationService | private final | `CLOSED` 공고에 속한 지원서 상태를 `CLOSED`로 일괄 변경하는 도메인 서비스 |
+
+## Operations
+| Name                         | Return Type | Visibility | Description                                                                                                       |
+| ---------------------------- | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| `scheduleRecruitmentClosing()` | void        | public     | **매일 00:00:00 (Asia/Seoul)** 실행. `closeExpiredRecruitments()` → `closeApplicationsForClosedRecruitments()` 순으로 처리 |
+
 ---
 
 ## 3.5 설정 클래스 (Configuration Classes)
