@@ -383,8 +383,48 @@
 | **Due Date** |2025.11.15|
 
 ---
-### Use Case #9:
-내용 입력
+### Use Case #9: 공고 찜한다
+#### 1. GENERAL CHARACTERISTICS (개요)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자가 공고 목록이나 상세 페이지에서 관심 있는 공고를 '찜'한다.  |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자가 로그인한 상태여야 하며, 사용자가 공고 목록이나 공고 상세 페이지를 보고 있어야 한다. |
+| **Trigger** |사용자가 아직 찜하지 않은 공고의 ‘찜하기’ 아이콘을 클릭한다.  |
+| **Success Post Condition** |해당 공고가 사용자의 '찜한 공고' 목록에 추가되고, '찜하기' 아이콘이 '찜 완료' 상태로 즉시 변경된다. |
+| **Failed Post Condition** |공고가 찜 목록에 추가되지 않고, 아이콘이 변경되지 않는다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자가 ‘찜하기’ 아이콘을 클릭해 공고를 찜한다. |
+| **1** |이 Use Case는 사용자가 공고 목록 또는 공고 상세 페이지에서 찜하지 않은 공고의 '찜하기' 아이콘을 클릭하는 것으로 시작된다. |
+| **2** |서버는 해당 공고와 사용자 정보를 데이터베이스에 저장한다. |
+| **3** |시스템은 즉시 찜하기 아이콘의 시각적 상태를 ‘찜 완료’로 변경한다. |
+| **4** |이 Use Case는 찜 상태가 성공적으로 반영되면 종료된다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+|**2** |2a. 서버가 데이터베이스 저장에 실패하는 등 기술적 오류가 발생한다. <br> ...2a1. 시스템은 서버로부터 오류 응답을 받는다. <br> ...2a2. 찜하기 아이콘은 찜하지 않은 상태로 유지된다. |
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 1 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
+
 
 ---
 ### Use Case #10:
