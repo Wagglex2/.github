@@ -31,6 +31,102 @@
 
 사용자 도메인의 엔티티와 관련 열거형을 보여주는 다이어그램이다. User 엔티티의 구조와 University, UserRoleType, UserStatus, PositionType, Skill 등의 열거형과의 관계를 표현한다.
 
+#### User
+와글와글 서비스에 가입한 사용자의 기본 정보를 관리하는 엔티티 클래스.
+회원의 로그인 정보, 프로필, 기술 스택, 상태, 권한 등을 관리한다.
+
+##### Attributes
+| Name       | Type          | Visibility | Description                       |
+| ---------- |---------------| ---------- |-----------------------------------|
+| id         | Long          | private    | 사용자 식별자 (PK, 자동 증가)               |
+| username   | String        | private    | 로그인용 사용자 ID (고유값)                 |
+| password   | String        | private    | 비밀번호 (BCrypt 해시, 60자)             |
+| email      | String        | private    | 학교 이메일 (인증 및 고유값)                 |
+| university | University    | private    | 사용자의 대학교 정보                       |
+| nickname   | String        | private    | 서비스 내 표시 이름 (고유값)                 |
+| grade      | Integer       | private    | 학년 (1~4)                          |
+| position   | PositionType  | private    | 희망 포지션 (예: BACK_END, FRONT_END)   |
+| skills     | Set\<Skill>   | private    | 보유 기술 스택 (복수 선택 가능)               |
+| shortIntro | String        | private    | 짧은 자기소개 (Markdown 지원)             |
+| role       | UserRoleType  | private    | 사용자 권한 (ROLE_USER / ROLE_ADMIN 등) |
+| createdAt  | LocalDateTime | private    | 생성 시각 (Auditing 자동 기록)            |
+| updatedAt  | LocalDateTime | private    | 수정 시각 (Auditing 자동 기록)            |
+| status     | UserStatus    | private    | 사용자 상태 (ACTIVE, WITHDRAWN 등)      |
+
+##### Operations
+| Name                                     | Return Type | Visibility | Description                      |
+| ---------------------------------------- | ----------- | ---------- | -------------------------------- |
+| `changePassword(String encodedPassword)` | void        | public     | 사용자의 비밀번호를 암호화된 새 비밀번호로 변경       |
+| `updateNickname(String nickname)`        | void        | public     | 사용자의 닉네임을 변경                     |
+| `updateGrade(Integer grade)`             | void        | public     | 사용자의 학년 정보를 수정                   |
+| `updatePosition(PositionType position)`  | void        | public     | 희망 포지션을 변경                       |
+| `updateSkills(Set<Skill> skills)`        | void        | public     | 보유 기술 스택을 갱신                     |
+| `updateShortIntro(String shortIntro)`    | void        | public     | 자기소개 문구를 수정                      |
+| `withdraw()`                             | void        | public     | 사용자 상태를 `WITHDRAWN`으로 변경 (탈퇴 처리) |
+
+#### University
+와글와글 서비스에서 사용자의 소속 대학교 정보를 표현하는 열거형(Enum) 타입.
+각 상수는 학교의 한글명(desc) 과 이메일 도메인(domain) 을 매핑하며, 이메일 주소를 기반으로 소속 대학교를 판별하는 기능을 제공한다.
+
+##### Enum Values
+| Enum                      | Description | Domain          |
+|---------------------------| ----------- | --------------- |
+| `YOUNGNAM_UNIV`           | 영남대학교       | `yu.ac.kr`      |
+| `KYUNGBUK_UNIV`           | 경북대학교       | `knu.ac.kr`     |
+| `KUMOH_UNIV`              | 금오공과대학교     | `kumoh.ac.kr`   |
+| `GYEONGGUK_NATIONAL_UNIV` | 국립경국대학교     | `gknu.ac.kr`    |
+| `POSTECH`                 | 포항공과대학교     | `postech.ac.kr` |
+| `DAEGU_UNIV`              | 대구대학교       | `deagu.ac.kr`   |
+| `KEIMYUNG_UNIV`           | 계명대학교       | `stu.kmu.ac.kr` |
+
+
+##### Attributes
+| Name   | Type   | Visibility    | Description                |
+| ------ | ------ | ------------- | -------------------------- |
+| desc   | String | private final | 대학교 한글명                    |
+| domain | String | private final | 대학교 이메일 도메인 (ex. yu.ac.kr) |
+
+##### Operations
+| Name                    | Return Type | Visibility    | Description                                                            |
+| ----------------------- | ----------- | ------------- | ---------------------------------------------------------------------- |
+| `getName()`               | String      | public        | Enum 상수명 반환 (`name()` 호출)                                              |
+| `fromEmail(String email)` | University  | public static | 이메일 주소의 도메인 부분을 분석하여 해당 대학교 Enum 반환. 일치하지 않을 경우 `BusinessException` 발생 |
+
+#### UserRoleType
+와글와글 서비스 내 사용자 권한(Role)을 정의하는 열거형(Enum) 타입.
+사용자의 접근 수준과 기능 권한을 구분하기 위해 사용된다.
+
+##### Enum Values
+| Enum            | Description                                    |
+|----------------| ---------------------------------------------- |
+| `ROLE_USER`    | 일반 사용자 권한 — 기본 회원 권한으로, 일반적인 서비스 이용 가능         |
+
+##### Attributes
+| Name   | Type   | Visibility    | Description                |
+| ------ | ------ | ------------- | -------------------------- |
+
+##### Operations
+| Name                    | Return Type | Visibility    | Description                                                            |
+| ----------------------- | ----------- | ------------- | ---------------------------------------- |
+
+#### UserStatus
+사용자 계정의 활성 상태 및 탈퇴 여부를 나타내는 열거형(Enum).
+회원 계정의 유효성, 탈퇴 처리(Soft Delete) 등의 상태를 관리한다.
+
+##### Enum Values
+| Enum        | Description                                 |
+|-------------| ------------------------------------------- |
+| `ACTIVE`    | 정상적으로 활동 중인 상태. 로그인, 서비스 이용 가능.             |
+| `WITHDRAWN` | 사용자가 자발적으로 탈퇴한 상태 (Soft Delete). 서비스 이용 불가. |
+
+
+##### Attributes
+| Name   | Type   | Visibility    | Description                |
+| ------ | ------ | ------------- | -------------------------- |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
 
 ### 3.3.2 Project Domain
 
@@ -143,6 +239,328 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 사용자 프로필 관리 기능의 계층 구조를 나타낸다. UserController와 UserService의 의존 관계, 프로필 조회 시 ReviewService와의 연동 구조, 그리고 비밀번호 변경 및 회원 탈퇴 등의 보안 처리 과정을 표현한다.
 
+#### EmailRequestDto
+
+이메일 인증, 로그인, 회원가입 등에서 사용자의 이메일 입력값을 전달하기 위한 요청 DTO 클래스.
+입력값이 유효한 이메일 형식인지 `@Email` 어노테이션으로 검증한다.
+
+##### Attributes
+| Name  | Type   | Visibility                 | Description                         |
+| ----- | ------ | -------------------------- | ----------------------------------- |
+| email | String | private  | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### EmailVerificationRequestDto
+사용자가 입력한 이메일과 인증번호(6자리)를 서버로 전달하여
+이메일 인증 유효성을 검증하기 위한 요청 DTO.
+
+##### Attributes
+| Name      | Type   | Visibility                 | Description                                                         |
+| --------- | ------ | -------------------------- | ------------------------------------------------------------------- |
+| email     | String | private  | 사용자의 이메일 주소. `@NotBlank`, `@Email` 제약으로 비어 있지 않으며 올바른 형식인지 검증.      |
+| inputCode | String | private  | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### SignUpRequestDto
+회원가입 요청을 처리하기 위한 DTO.
+사용자 입력값을 검증한 뒤, 이를 기반으로 [User](#user) 엔티티를 생성한다.
+비밀번호 검증 및 암호화, 학년·포지션·기술스택 등의 도메인 속성을 포함한다.
+
+##### Attributes
+| Name            | Type         | Visibility                 | Description                                |
+| --------------- | ------------ | -------------------------- |--------------------------------------------|
+| username        | String       | private  | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
+| password        | String       | private  | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
+| passwordConfirm | String       | private  | 비밀번호 확인. password와 일치 여부 검증.               |
+| nickname        | String       | private  | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
+| email           | String       | private  | 이메일 주소. `@Email` 형식 검증.                    |
+| grade           | Integer      | private  | 학년 (1~4 범위, `@Min`, `@Max`).               |
+| position        | PositionType | private  | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
+| skills          | Set\<Skill>   | private  | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
+| shortIntro      | String       | private  | 한 줄 소개. 최대 100자 제한.                        |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+| `toEntity(PasswordEncoder passwordEncoder)` | User        | public     | 입력값을 기반으로 `User` 엔티티를 생성하고 비밀번호를 암호화하여 매핑.    |
+
+#### SignInRequestDto
+사용자의 로그인 요청 시 전달되는 DTO.
+입력받은 아이디(`username`)와 비밀번호(`password`)를 검증하여 인증 절차에 사용된다.
+
+##### Attributes
+| Name     | Type   | Visibility                 | Description                 |
+| -------- | ------ | -------------------------- | --------------------------- |
+| username | String | private  | 사용자 아이디. `@NotBlank` 제약 적용. |
+| password | String | private  | 비밀번호. `@NotBlank` 제약 적용.    |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### TokenPair
+JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환하기 위한 응답 DTO.
+인증 성공 후 클라이언트가 인증 상태를 유지하도록 두 종류의 토큰을 제공한다.
+
+##### Attributes
+| Name         | Type   | Visibility                 | Description                                 |
+| ------------ | ------ | -------------------------- | ------------------------------------------- |
+| accessToken  | String | private  | 클라이언트의 인증 요청 시 사용되는 짧은 수명의 JWT 액세스 토큰.      |
+| refreshToken | String | private  | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### PasswordRequestDto
+비밀번호 변경 요청 시 사용되는 DTO 클래스.
+사용자가 입력한 기존 비밀번호, 새로운 비밀번호, 비밀번호 확인 값을 검증하여 서버로 전달한다.
+요청 검증 실패 시 BusinessException이 발생한다.
+
+##### Attributes
+
+| Name            | Type   | Visibility                 | Description                                               |
+| --------------- | ------ | -------------------------- | --------------------------------------------------------- |
+| old             | String | private  | 기존 비밀번호. `@NotBlank`, `@Size(max=72)` 제약 적용.              |
+| newPassword     | String | private  | 새로운 비밀번호. `@NotBlank`, `@Pattern`(영문, 숫자, 특수문자 포함 8~72자). |
+| passwordConfirm | String | private  | 비밀번호 확인 입력값. `@NotBlank`.                                 |
+
+##### Operations
+| Name                                                                       | Return Type | Visibility | Description                                                                                                          |
+| -------------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
+
+#### UserUpdateRequestDto
+사용자 프로필 수정 요청을 처리하기 위한 DTO.
+클라이언트의 `/me` (PATCH) 요청 바디로 전달되며,
+닉네임·학년·포지션·기술 스택·한 줄 소개 등의 정보를 수정한다.
+
+##### Attributes
+| Name       | Type         | Visibility                 | Description                                         |
+| ---------- | ------------ | -------------------------- |-----------------------------------------------------|
+| nickname   | String       | private  | 닉네임. 선택 입력. 2~10자의 한글, 영문, 숫자만 허용 (`@Pattern`).     |
+| grade      | Integer      | private  | 학년. 필수 입력, 1~4 범위 (`@Min`, `@Max`).                 |
+| position   | PositionType | private  | 포지션(enum). 예: FRONT_END, BACK_END 등.                |
+| skills     | Set\<Skill>   | private  | 보유 기술 스택. 최대 10개 제한 (`@Size(max=10)`).              |
+| shortIntro | String       | private  | 한 줄 소개. 최대 100자 제한 (`@Size(max=100)`, `@NotBlank`). |
+
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### WithdrawRequestDto
+회원 탈퇴 요청 시 비밀번호를 입력받아 본인 여부를 확인하기 위한 요청 DTO.
+BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며, 비밀번호가 누락되거나 공백만 입력되는 경우 유효성 검증에 실패한다.
+
+##### Attributes
+| Name     | Type   | Visibility                 | Description                                   |
+| -------- | ------ | -------------------------- | --------------------------------------------- |
+| password | String | private  | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### UserResponseDto
+사용자 정보를 API 응답으로 전달하기 위한 DTO.
+[User](#user) 엔티티의 핵심 속성을 변환하여 노출하며, 보안 및 캡슐화를 위해 엔티티 자체를 직접 반환하지 않는다.
+
+##### Attributes
+| Name       | Type         | Visibility                 | Description                          |
+| ---------- | ------------ | -------------------------- |--------------------------------------|
+| username   | String       | private  | 사용자 아이디.                             |
+| email      | String       | private  | 이메일 주소.                              |
+| university | University   | private  | 이메일 도메인 기반의 소속 대학교(enum).            |
+| nickname   | String       | private  | 사용자 닉네임.                             |
+| grade      | Integer      | private  | 사용자 학년.                              |
+| position   | PositionType | private  | 포지션(enum). 예: FRONT_END, BACK_END 등. |
+| skills     | Set\<Skill>   | private  | 보유 기술 스택 목록.                         |
+| shortIntro | String       | private  | 사용자 한 줄 소개.                          |
+
+##### Operations
+| Name                 | Return Type     | Visibility    | Description                                |
+| -------------------- | --------------- | ------------- | ------------------------------------------ |
+| `from(User user)`      | UserResponseDto | public static | `User` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.          |
+
+
+#### UserController
+사용자 도메인([User](#user)) 관련 API 요청을 처리하는 REST Controller.
+회원정보 조회, 수정, 비밀번호 변경, 회원 탈퇴, 중복검사, 리뷰 조회 등의 기능을 제공한다.
+
+##### Attributes
+| Name                      | Type          | Visibility           | Description                                    |
+| ------------------------- | ------------- | -------------------- | ---------------------------------------------- |
+| REFRESH_TOKEN_COOKIE_NAME | String        | private static final | Refresh Token을 저장/삭제할 쿠키 이름 (`refresh_token`). |
+| userService               | UserService   | private final        | 사용자 관련 비즈니스 로직을 처리하는 서비스 계층.                   |
+| reviewService             | ReviewService | private final        | 리뷰 조회 로직을 담당하는 서비스 계층.                         |
+
+##### Operations
+| Name                                                                                            | Return Type                                                  | Mapping                                      | Visibility | Description                              |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- | ---------- | ---------------------------------------- |
+| `existsByUsername(String username)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사                             |
+| `existsByEmail(String email)`                                                                   | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사                             |
+| `existsByNickname(String nickname)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사                             |
+| `passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)`                         | ResponseEntity\<ApiResponse\<Void>>                            | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경                         |
+| `getMe(CustomUserDetails userDetails)`                                                          | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회                      |
+| `updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)`                             | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정                      |
+| `withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response)` | ResponseEntity\<ApiResponse\<Void>>                            | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (`Soft Delete` + Refresh Token 제거) |
+| `getReviews(Long userId, Pageable pageable)`                                                    | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회                      |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)`         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리             |
+
+
+
+#### AuthController
+인증 관련 API 요청을 처리하는 REST Controller.
+회원가입, 로그인, 이메일 인증, 토큰 재발급/로그아웃 등의 요청을 받아 [AuthService](#authservice) 및 [UserService](#userservice)를 호출하여 비즈니스 로직을 수행한다.
+
+##### Attributes
+| Name                      | Type        | Visibility           | Description                                 |
+| ------------------------- | ----------- | -------------------- | ------------------------------------------- |
+| REFRESH_TOKEN_COOKIE_NAME | String      | private static final | Refresh Token을 저장할 쿠키 이름 (`refresh_token`). |
+| jwtUtil                   | JwtUtil     | private final        | JWT 생성 및 검증 유틸리티.                           |
+| authService               | AuthService | private final        | 인증 관련 비즈니스 로직 서비스.                          |
+| userService               | UserService | private final        | 사용자 회원가입 및 사용자 관련 서비스.                      |
+
+##### Operations
+| Name                                                                                    | Return Type                       | Mapping                          | Visibility | Description                                                     |
+| --------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------- | --------------------------------------------------------------- |
+| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
+| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
+| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<ApiResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
+| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
+| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
+| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)` | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (`HttpOnly`, `Secure`, `SameSite=Lax`) |
+
+#### UserService
+사용자([User](#user)) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
+회원가입, 비밀번호 변경, 사용자 정보 조회 및 수정, 탈퇴 등 주요 기능을 제공한다.
+
+##### Attributes
+| Name    | Type   | Visibility                 | Description |
+| ------- | ------ | -------------------------- | ----------- |
+
+##### Operations
+| Name                                                    | Return Type     | Description                          |
+| ------------------------------------------------------- | --------------- | ------------------------------------ |
+| `findByUsername(String username)`                       | User            | 사용자 이름으로 사용자 조회 — 존재하지 않으면 예외 발생     |
+| `findById(Long id)`                                     | User            | 사용자 ID로 조회 — 존재하지 않으면 예외 발생          |
+| `findByIdWithSkills(Long id)`                           | User            | 사용자 및 보유 기술 스택을 함께 조회 (`Fetch Join`) |
+| `existsById(Long id)`                                   | boolean         | 해당 ID의 사용자가 존재하는지 확인                 |
+| `existsByEmail(String email)`                           | boolean         | 이메일 중복 여부 확인                         |
+| `existsByUsername(String username)`                     | boolean         | 아이디 중복 여부 확인                         |
+| `existsByNickname(String nickname)`                     | boolean         | 닉네임 중복 여부 확인                         |
+| `signUp(SignUpRequestDto dto)`                          | Long            | 신규 사용자 등록 후 생성된 사용자 ID 반환            |
+| `changePassword(Long userId, PasswordRequestDto dto)`   | void            | 기존 비밀번호 검증 후 새 비밀번호로 변경              |
+| `getUserInfo(Long userId)`                              | UserResponseDto | 사용자 프로필 정보 조회                        |
+| `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | 사용자 정보 수정 후 갱신된 데이터 반환               |
+| `withdraw(Long userId, String rawPassword)`             | void            | 비밀번호 검증 후 회원 탈퇴 (`Soft Delete`)      |
+
+
+#### AuthService
+인증(Authentication) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
+이메일 인증, 로그인, 리프레시 토큰 삭제 및 재발급 등의 기능을 포함한다.
+구체 구현체([AuthServiceImpl](#authserviceimpl))가 실제 로직을 담당한다.
+
+##### Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
+
+##### Operations
+| Name                                                         | Return Type | Visibility | Description                      |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 입력된 이메일 주소로 인증 코드를 발송            |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | 이메일과 인증번호를 기반으로 인증 메일을 전송        |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | 사용자가 입력한 인증번호를 검증                |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 로그인 요청 DTO를 기반으로 인증 수행 및 JWT 발급  |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | 로그아웃 시 사용자의 리프레시 토큰을 삭제          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 리프레시 토큰을 검증 후 새로운 액세스/리프레시 토큰 발급 |
+
+
+#### UserServiceImpl
+[UserService](#userservice)의 실제 구현체로,
+사용자 관리 도메인([User](#user))에 대한 모든 핵심 비즈니스 로직을 수행한다.
+회원가입, 비밀번호 변경, 프로필 조회 및 수정, 회원 탈퇴를 처리한다.
+
+##### Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
+| REFRESH_TOKEN_PREFIX | String                        | private static final | Redis에 저장된 Refresh Token의 key prefix (`RT:`). |
+| userRepository       | UserRepository                | private final        | 사용자 데이터 접근 계층.                                |
+| passwordEncoder      | PasswordEncoder               | private final        | 비밀번호 암호화/검증을 담당하는 Spring Security 컴포넌트.       |
+| redisTemplate        | RedisTemplate\<String, String> | private final        | Refresh Token 캐시 저장 및 삭제용 Redis 클라이언트.        |
+
+##### Operations
+| Name                                                    | Return Type     | Visibility | Description                                                   |
+| ------------------------------------------------------- | --------------- | ---------- | ------------------------------------------------------------- |
+| `findByUsername(String username)`                       | User            | public     | 사용자 이름으로 조회 — 없을 시 `USER_NOT_FOUND` 예외 발생                     |
+| `findById(Long id)`                                     | User            | public     | 사용자 ID로 조회 — 없을 시 `USER_NOT_FOUND` 예외 발생                      |
+| `findByIdWithSkills(Long id)`                           | User            | public     | 사용자 및 기술 스택(`fetch join`) 조회                                  |
+| `existsById(Long id)`                                   | boolean         | public     | ID 존재 여부 반환                                                   |
+| `existsByEmail(String email)`                           | boolean         | public     | 이메일 중복 여부 반환                                                  |
+| `existsByUsername(String username)`                     | boolean         | public     | 아이디 중복 여부 반환                                                  |
+| `existsByNickname(String nickname)`                     | boolean         | public     | 닉네임 중복 여부 반환                                                  |
+| `signUp(SignUpRequestDto dto)`                          | Long            | public     | 회원가입 처리 — 중복 체크 후 비밀번호 암호화 및 엔티티 저장                           |
+| `changePassword(Long userId, PasswordRequestDto dto)`   | void            | public     | 기존 비밀번호 검증 후 새 비밀번호로 변경                                       |
+| `getUserInfo(Long userId)`                              | UserResponseDto | public     | 사용자 상세 정보 조회 후 DTO 변환                                         |
+| `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | public     | 사용자 프로필 정보 수정 (`grade`, `position`, `skills`, `shortIntro` 등) |
+| `withdraw(Long userId, String rawPassword)`             | void            | public     | 비밀번호 검증 후 Soft Delete(`WITHDRAWN`) 처리 및 Redis 토큰 삭제           |
+
+
+#### AuthServiceImpl
+인증 서비스([AuthService](#authservice))의 구현체로,
+이메일 인증, 로그인/로그아웃, JWT 토큰 발급 및 재발급을 담당한다.
+`Spring Security`, `Redis`, `JavaMailSender`를 활용하여 인증 절차와 세션 관리를 수행한다.
+
+##### Attributes
+| Name                      | Type                          | Visibility           | Description                                  |
+| ------------------------- | ----------------------------- | -------------------- | -------------------------------------------- |
+| REFRESH_TOKEN_PREFIX      | String                        | private static final | Redis에 저장될 Refresh Token Key prefix (`RT:`). |
+| EMAIL_VERIFICATION_PREFIX | String                        | private static final | Redis에 저장될 이메일 인증번호 Key prefix (`EMAIL:`).   |
+| EXPIRATION_MINUTES        | int                           | private static final | 이메일 인증번호 TTL(3분).                            |
+| fromEmail                 | String                        | private              | 인증 메일 발신자 주소 (application.yml에서 주입).         |
+| jwtUtil                   | JwtUtil                       | private final        | JWT 생성 및 검증 유틸리티 클래스.                        |
+| userService               | UserService                   | private final        | 사용자 조회 및 유효성 검증 서비스.                         |
+| mailSender                | JavaMailSender                | private final        | 인증 메일 전송을 위한 메일 발송 컴포넌트.                     |
+| redisTemplate             | RedisTemplate\<String, String> | private final        | 이메일 인증번호 및 토큰 저장소.                           |
+| authenticationManager     | AuthenticationManager         | private final        | Spring Security 인증 처리 매니저.                   |
+
+##### Operations
+| Name                                                         | Return Type | Visibility | Description                                        |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 랜덤 6자리 인증번호를 생성 후 Redis에 저장하고, 해당 이메일로 발송          |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | HTML 이메일 템플릿을 생성하여 인증번호 발송                         |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | Redis에 저장된 인증번호와 입력값을 비교하여 검증                      |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 사용자 로그인 인증 수행 후 Access/Refresh Token 발급            |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | Redis에서 특정 사용자 Refresh Token 삭제 (로그아웃 처리)          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 유효한 Refresh Token을 기반으로 새 Access/Refresh Token 재발급 |
+| `generateVerificationCode()`                                 | String      | private    | 6자리 랜덤 인증번호 생성                                     |
+| `createEmailTemplate(String verificationCode)`               | String      | private    | 인증 이메일 HTML 템플릿 문자열 생성                             |
+
+
+#### UserRepository
+사용자([User](#user)) 엔티티에 대한 데이터 접근을 담당하는 JPA Repository.
+Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
+이메일, 닉네임, 아이디 중복 검증 및 Fetch Join을 통한 `skills` 컬렉션 로딩 기능을 추가로 제공한다.
+
+##### Attributes
+| Name    | Type   | Visibility                 | Description |
+| ------- | ------ | -------------------------- | ----------- |
+
+##### Operations
+| Name                                | Return Type    | Description                               |
+| ----------------------------------- | -------------- | ----------------------------------------- |
+| `findByUsername(String username)`   | Optional\<User> | 사용자 아이디(`username`)로 조회                   |
+| `existsByEmail(String email)`       | boolean        | 이메일 중복 여부 확인                              |
+| `existsByUsername(String username)` | boolean        | 아이디 중복 여부 확인                              |
+| `existsByNickname(String nickname)` | boolean        | 닉네임 중복 여부 확인                              |
+| `findByIdWithSkills(Long id)`       | Optional\<User> | Fetch Join으로 `skills` 컬렉션을 함께 로딩하여 사용자 조회 |
 
 ### 3.4.7 Review Process Structure
 
