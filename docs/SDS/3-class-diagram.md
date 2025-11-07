@@ -2260,3 +2260,23 @@ StringToEnumConverterFactory의 내부 클래스로, 실제 문자열 → Enum �
 | Name | Return Type | Visibility | Description |
 |------|:-----------:|-----------|-------------|
 | `convert(String source)` | T | public | 입력 문자열을 Enum 값으로 변환 <br> 소문자, 공백, 하이픈(-) 등을 Enum 형식에 맞게 처리 |
+
+---
+
+# WaggleApplication
+
+이 클래스는 Waggle 프로젝트의 메인 실행 진입점으로, Spring Boot의 자동 구성 및 실행 환경을 초기화한다.
+
+`SpringApplication.run()`을 호출하여 애플리케이션 컨텍스트를 생성하고 서버를 실행한다.
+
+## Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|      |      |           |             |
+
+## Operations
+
+| Name | Return Type | Visibility | Description |
+|------|--------------|------------|--------------|
+| `main(String[] args)` | void | public static   | Spring Boot 애플리케이션을 실행한다. |
