@@ -54,7 +54,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |사용자당 1번|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 ### Use Case #4: 회원탈퇴한다.
 
@@ -101,7 +101,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |사용자당 1번|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #5: 기본 정보 입력한다.
@@ -146,7 +146,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |사용자당 1번|
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |3025.11.15|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #22: 팀 조회한다.
@@ -191,7 +191,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #23: 팀원 삭제한다.
@@ -236,7 +236,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음|
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #24: 팀원 평가한다.
@@ -284,7 +284,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |프로젝트 완료 시 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #25: 팀원 리뷰 수정한다.
@@ -328,7 +328,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #26: 팀원 리뷰 삭제한다.
@@ -374,7 +374,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #27: 올린 공고 목록 조회한다.
@@ -417,7 +417,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #28: 공고 수정한다.
@@ -466,7 +466,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #29: 공고 삭제한다.
@@ -511,7 +511,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |N/A (공고 작성자 본인만 실행) |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 ### Use Case #30: 지원자 조회한다.
 
@@ -555,7 +555,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #31: 지원자 수락한다.
@@ -598,7 +598,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #32: 지원자 거절한다.
@@ -641,7 +641,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #33: 지원한 공고 조회한다.
@@ -688,7 +688,7 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 수시로 |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
 
 
 ### Use Case #34: 지원한 공고 취소한다.
@@ -733,4 +733,4 @@
 | **Performance** |≤ 1 second |
 | **Frequency** |필요시 (낮음) |
 | **&lt;Concurrency&gt;** |제한 없음 |
-| **Due Date** |2025.11.20|
+| **Due Date** |2025.11.15|
