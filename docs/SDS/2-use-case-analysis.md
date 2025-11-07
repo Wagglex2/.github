@@ -1,5 +1,7 @@
 ## 2. Use case analysis
-
+<p align="center">
+  <img width="55%" height="2356" alt="Image" src="https://github.com/user-attachments/assets/94074080-5ca2-479f-828c-289148beb474" />
+</p>
 
 ### Use Case #1: 로그인한다.
 #### 1. GENERAL CHARACTERISTICS (개요)
