@@ -301,8 +301,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| position | PositionType | private (record component) | 포지션 (필수 입력) |
-| maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
+| position | PositionType | private | 포지션 (필수 입력) |
+| maxParticipants | int | private | 모집 인원수 (최소 1 이상, 필수 입력) |
 
 ## Operations
 
@@ -320,8 +320,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| maxParticipants | int | private (record component) | 모집 인원수 (최소 1 이상, 필수 입력) |
-| currParticipants | int | private (record component) | 현재 인원수 (최소 0 이상, 모집 인원수 초과 불가, 필수 입력) |
+| maxParticipants | int | private | 모집 인원수 (최소 1 이상, 필수 입력) |
+| currParticipants | int | private | 현재 인원수 (최소 0 이상, 모집 인원수 초과 불가, 필수 입력) |
 
 ## Operations
 
@@ -339,8 +339,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| position | PositionType | private (record component) | 포지션 (필수 입력) |
-| participantInfo | ParticipantInfoUpdateRequestDto | private (record component) | 포지션별 인원 정보 (유효성 검사 포함, 필수 입력) |
+| position | PositionType | private | 포지션 (필수 입력) |
+| participantInfo | ParticipantInfoUpdateRequestDto | private | 포지션별 인원 정보 (유효성 검사 포함, 필수 입력) |
 
 ## Operations
 
@@ -358,8 +358,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| startDate | LocalDate | private (record component) | 시작일 (필수 입력) |
-| endDate | LocalDate | private (record component) | 종료일 (오늘 이후, 시작일 이전 불가, 필수 입력) |
+| startDate | LocalDate | private | 시작일 (필수 입력) |
+| endDate | LocalDate | private | 종료일 (오늘 이후, 시작일 이전 불가, 필수 입력) |
 
 ## Operations
 
@@ -447,8 +447,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| maxParticipants | int | private (record component) | 모집 인원 |
-| currParticipants | int | private (record component) | 현재 인원 |
+| maxParticipants | int | private | 모집 인원 |
+| currParticipants | int | private | 현재 인원 |
 
 ## Operations
 
@@ -466,8 +466,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| position | PositionType | private (record component) | 포지션 |
-| participantInfo | ParticipantInfoResponseDto | private (record component) | 포지션별 인원 정보 |
+| position | PositionType | private | 포지션 |
+| participantInfo | ParticipantInfoResponseDto | private | 포지션별 인원 정보 |
 
 ## Operations
 
@@ -485,8 +485,8 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| startDate | LocalDate | private (record component) | 시작일 (`yyyy-MM-dd`) |
-| endDate | LocalDate | private (record component) | 종료일 (`yyyy-MM-dd`) |
+| startDate | LocalDate | private | 시작일 (`yyyy-MM-dd`) |
+| endDate | LocalDate | private | 종료일 (`yyyy-MM-dd`) |
 
 ## Operations
 
@@ -504,12 +504,12 @@
 
 | Name | Type | Visibility | Description |
 |------|------|-------------|--------------|
-| content | List<T> | private (record component) | 페이지 내 데이터 목록 |
-| pageNumber | int | private (record component) | 현재 페이지 번호 |
-| pageSize | int | private (record component) | 페이지 크기 |
-| totalElements | long | private (record component) | 전체 요소 수 |
-| totalPages | int | private (record component) | 전체 페이지 수 |
-| last | boolean | private (record component) | 마지막 페이지 여부 |
+| content | List<T> | private | 페이지 내 데이터 목록 |
+| pageNumber | int | private | 현재 페이지 번호 |
+| pageSize | int | private | 페이지 크기 |
+| totalElements | long | private | 전체 요소 수 |
+| totalPages | int | private | 전체 페이지 수 |
+| last | boolean | private | 마지막 페이지 여부 |
 
 ## Operations
 
@@ -1402,10 +1402,10 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 ## Attributes
 
 | Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| keywords | Set\<String\> | public final | 검색 키워드 목록 |
-| skills | Set\<Skill\> | public final | 기술 스택 목록 |
-| status | RecruitmentStatus | public final | 모집 공고 상태 |
+|------|------|--------|-------------|
+| keywords | Set\<String\> | public | 검색 키워드 목록 |
+| skills | Set\<Skill\> | public | 기술 스택 목록 |
+| status | RecruitmentStatus | public | 모집 공고 상태 |
 
 ## Operations
 
@@ -2048,13 +2048,13 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 | Name | Type | Visibility | Description |
 |------|------|-----------|-------------|
-| notificationId | Long | private (record component) | 알림 ID |
-| applicationId | Long | private (record component) | 관련 지원서 ID |
-| category | RecruitmentCategory | private (record component) | 관련 모집 공고 카테고리 |
-| senderNickname | String | private (record component) | 알림 발신자 닉네임 |
-| type | NotificationType | private (record component) | 알림 유형 |
-| createdAt | LocalDateTime | private (record component) | 알림 생성일 |
-| isRead | boolean | private (record component) | 알림 읽음 상태 |
+| notificationId | Long | private | 알림 ID |
+| applicationId | Long | private | 관련 지원서 ID |
+| category | RecruitmentCategory | private | 관련 모집 공고 카테고리 |
+| senderNickname | String | private | 알림 발신자 닉네임 |
+| type | NotificationType | private | 알림 유형 |
+| createdAt | LocalDateTime | private | 알림 생성일 |
+| isRead | boolean | private | 알림 읽음 상태 |
 
 ## Operations
 
