@@ -38,8 +38,8 @@
 
 
 # Team
-각 공고(`BaseRecruitment`)와 1:1로 연결되어 팀 정보를 관리하는 엔티티.
-팀은 여러 명의 팀원(`TeamMember`)을 포함하며, 팀 생성 및 삭제 시 팀원과의 연결관계를 일관되게 유지한다.
+각 공고([BaseRecruitment](#baserecruitment))와 1:1로 연결되어 팀 정보를 관리하는 엔티티.
+팀은 여러 명의 팀원([TeamMember](#teammember))을 포함하며, 팀 생성 및 삭제 시 팀원과의 연결관계를 일관되게 유지한다.
 
 ## Attributes
 | Name        | Type              | Visibility | Description                                               |
@@ -60,9 +60,9 @@
 
 
 # TeamMember
-팀(Team)에 소속된 개별 팀원 정보를 나타내는 엔티티.
+팀([Team](#team))에 소속된 개별 팀원 정보를 나타내는 엔티티.
 팀과 사용자 간의 관계를 연결하며, 팀 내 역할 및 포지션 정보를 함께 관리한다.
-Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나 Assignment 팀에서는 null이 허용된다.
+[Project](#project) 팀의 경우에만 포지션(position) 정보가 필수이며, [Study](#study)나 [Assignment](#assignment) 팀에서는 null이 허용된다.
 
 ## Attributes
 | Name      | Type          | Visibility | Description                                    |
@@ -206,7 +206,7 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 
 # SignUpRequestDto
 회원가입 요청을 처리하기 위한 DTO.
-사용자 입력값을 검증한 뒤, 이를 기반으로 `User` 엔티티를 생성한다.
+사용자 입력값을 검증한 뒤, 이를 기반으로 [User](#user) 엔티티를 생성한다.
 비밀번호 검증 및 암호화, 학년·포지션·기술스택 등의 도메인 속성을 포함한다.
 
 ## Attributes
@@ -309,7 +309,7 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 
 # UserResponseDto
 사용자 정보를 API 응답으로 전달하기 위한 DTO.
-`User` 엔티티의 핵심 속성을 변환하여 노출하며, 보안 및 캡슐화를 위해 엔티티 자체를 직접 반환하지 않는다.
+[User](#user) 엔티티의 핵심 속성을 변환하여 노출하며, 보안 및 캡슐화를 위해 엔티티 자체를 직접 반환하지 않는다.
 
 ## Attributes
 | Name       | Type         | Visibility                 | Description                          |
@@ -332,9 +332,9 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 # Team 관련 VO
 
 # TeamResponseDto
-팀(Team) 엔티티 및 관련 모집공고 정보를 통합하여 API 응답으로 전달하기 위한 DTO.
-`Project`, `Study`, `Assignment` 등의 모집 유형에 관계없이 공통 구조로 팀 정보를 제공한다.
-또한 각 팀 멤버의 상세 정보(`TeamMemberResponseDto`)를 포함한다.
+팀([Team](#team)) 엔티티 및 관련 모집공고 정보를 통합하여 API 응답으로 전달하기 위한 DTO.
+[Project](#project), [Study](#study), [Assignment](#assignment) 등의 모집 유형에 관계없이 공통 구조로 팀 정보를 제공한다.
+또한 각 팀 멤버의 상세 정보([TeamMemberResponseDto](#teammemberresponsedto))를 포함한다.
 
 ## Attributes
 | Name             | Type                        | Visibility                 | Description                            |
@@ -360,7 +360,7 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 
 # TeamRole
 팀 내 역할을 정의하는 Enum 클래스.
-`TeamMember` 엔티티에서 팀원의 권한을 구분하기 위해 사용된다.
+[TeamMember](#teammember) 엔티티에서 팀원의 권한을 구분하기 위해 사용된다.
 리더(LEADER)와 일반 멤버(MEMBER) 두 가지 역할을 가진다.
 
 # Enum Values
@@ -383,7 +383,7 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 
 
 # TeamMemberResponseDto
-팀 멤버(`TeamMember`) 정보를 API 응답 형태로 표현하는 DTO.
+팀 멤버([TeamMember](#teammember)) 정보를 API 응답 형태로 표현하는 DTO.
 `TeamMember` 엔티티에서 필요한 최소 필드만 추출하며,
 팀 내 역할(`TeamRole`), 포지션(`PositionType`), 사용자 기본 정보 등을 포함한다.
 
@@ -457,7 +457,7 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 
 # ReviewResponseDto
 리뷰 정보를 클라이언트에게 응답하기 위한 DTO.
-`Review` 엔티티의 데이터를 안전하게 변환하여 외부에 노출한다.
+[Review](#review) 엔티티의 데이터를 안전하게 변환하여 외부에 노출한다.
 
 ## Attributes
 | Name    | Type   | Visibility                 | Description |
@@ -473,7 +473,7 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 # User 관련 Controller-Service-Repository
 
 # UserRepository
-사용자(`User`) 엔티티에 대한 데이터 접근을 담당하는 JPA Repository.
+사용자([User](#user)) 엔티티에 대한 데이터 접근을 담당하는 JPA Repository.
 Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 이메일, 닉네임, 아이디 중복 검증 및 Fetch Join을 통한 `skills` 컬렉션 로딩 기능을 추가로 제공한다.
 
@@ -493,7 +493,7 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 
 
 # UserService
-사용자(`User`) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
+사용자([User](#user)) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
 회원가입, 비밀번호 변경, 사용자 정보 조회 및 수정, 탈퇴 등 주요 기능을 제공한다.
 
 ## Attributes
@@ -519,8 +519,8 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 
 
 # UserServiceImpl
-`UserService`의 실제 구현체로,
-사용자 관리 도메인(`User`)에 대한 모든 핵심 비즈니스 로직을 수행한다.
+[UserService](#userservice)의 실제 구현체로,
+사용자 관리 도메인([User](#user))에 대한 모든 핵심 비즈니스 로직을 수행한다.
 회원가입, 비밀번호 변경, 프로필 조회 및 수정, 회원 탈퇴를 처리한다.
 
 ## Attributes
@@ -552,7 +552,7 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 # AuthService
 인증(Authentication) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
 이메일 인증, 로그인, 리프레시 토큰 삭제 및 재발급 등의 기능을 포함한다.
-구체 구현체(`AuthServiceImpl`)가 실제 로직을 담당한다.
+구체 구현체([AuthServiceImpl](#authserviceimpl))가 실제 로직을 담당한다.
 
 ## Attributes
 | Name                 | Type                          | Visibility           | Description                                   |
@@ -571,7 +571,7 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 
 
 # AuthServiceImpl
-인증 서비스(`AuthService`)의 구현체로,
+인증 서비스([AuthService](#authservice))의 구현체로,
 이메일 인증, 로그인/로그아웃, JWT 토큰 발급 및 재발급을 담당한다.
 `Spring Security`, `Redis`, `JavaMailSender`를 활용하여 인증 절차와 세션 관리를 수행한다.
 
@@ -603,7 +603,7 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 
 
 ## UserController
-사용자 도메인(`User`) 관련 API 요청을 처리하는 REST Controller.
+사용자 도메인([User](#user)) 관련 API 요청을 처리하는 REST Controller.
 회원정보 조회, 수정, 비밀번호 변경, 회원 탈퇴, 중복검사, 리뷰 조회 등의 기능을 제공한다.
 
 ## Attributes
@@ -630,7 +630,7 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 
 # AuthController
 인증 관련 API 요청을 처리하는 REST Controller.
-회원가입, 로그인, 이메일 인증, 토큰 재발급/로그아웃 등의 요청을 받아 `AuthService` 및 `UserService`를 호출하여 비즈니스 로직을 수행한다.
+회원가입, 로그인, 이메일 인증, 토큰 재발급/로그아웃 등의 요청을 받아 [AuthService](#authservice) 및 [UserService](#userservice)를 호출하여 비즈니스 로직을 수행한다.
 
 ## Attributes
 | Name                      | Type        | Visibility           | Description                                 |
@@ -671,8 +671,8 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 | `findByIdWithMembers(Long id)`                                                                                                                                      | Optional\<Team> | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다.           |
 
 # TeamService
-팀(Team) 도메인과 관련된 핵심 비즈니스 로직의 인터페이스 계층.
-서비스 구현체(`TeamServiceImpl`)가 실제 로직을 담당하며,
+팀([Team](#team)) 도메인과 관련된 핵심 비즈니스 로직의 인터페이스 계층.
+서비스 구현체([TeamServiceImpl](#teamserviceimpl))가 실제 로직을 담당하며,
 팀 생성, 조회, 페이징 조회 등 주요 기능의 계약(Contract)을 정의한다.
 
 ## Attributes
@@ -690,8 +690,8 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 
 
 # TeamServiceImpl
-`TeamService` 인터페이스의 구현체로,
-`Team` 엔티티의 조회 및 저장, 사용자별 팀 목록 조회 기능을 담당하는 서비스 클래스.
+[TeamService](#teamservice) 인터페이스의 구현체로,
+[Team](#team) 엔티티의 조회 및 저장, 사용자별 팀 목록 조회 기능을 담당하는 서비스 클래스.
 
 ## Attributes
 | Name                | Type            | Visibility           | Description                          |
@@ -711,7 +711,7 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 
 
 # TeamController
-팀(Team) 관련 REST API 요청을 처리하는 컨트롤러 계층 클래스.
+팀([Team](#team)) 관련 REST API 요청을 처리하는 컨트롤러 계층 클래스.
 사용자의 인증 정보를 바탕으로 본인의 팀 목록을 카테고리와 상태별로 페이징 조회할 수 있도록 한다.
 
 ## Attributes
@@ -729,7 +729,7 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 # TeamMember 관련 Repository-Service-Controller
 
 # TeamMemberRepository
-`TeamMember` 엔티티에 대한 데이터 접근 계층(Repository).
+[TeamMember](#teammember) 엔티티에 대한 데이터 접근 계층(Repository).
 Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한다.
 
 ## Attributes
@@ -744,7 +744,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 # TeamMemberService
 팀 멤버 관리 기능을 정의하는 서비스 계층 인터페이스.
-`TeamMemberServiceImpl`에서 구현되며, 팀 내 멤버 삭제(리더 권한 기반)와 같은 비즈니스 로직의 계약(Contract)을 명시한다.
+[TeamMemberServiceImpl](#teammemberserviceimpl)에서 구현되며, 팀 내 멤버 삭제(리더 권한 기반)와 같은 비즈니스 로직의 계약(Contract)을 명시한다.
 
 ## Attributes
 | Name          | Type          | Visibility    | Description                   |
@@ -758,7 +758,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 
 # TeamMemberServiceImpl
-`TeamMemberService` 인터페이스의 구현체로,
+[TeamMemberService](#teammemberservice) 인터페이스의 구현체로,
 팀 멤버 관리 및 리더 권한 기반 삭제 로직을 수행하는 서비스 클래스.
 동시성 제어를 위해 `@Version` 기반 Optimistic Lock과 Spring Retry를 활용하며, 비즈니스 예외를 통한 명확한 검증 로직을 갖는다.
 
@@ -778,7 +778,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 
 # TeamMemberController
-팀 멤버(TeamMember) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
+팀 멤버([TeamMember](#teammember)) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
 팀 리더가 특정 멤버를 팀에서 강제 탈퇴시키는 기능을 제공한다.
 
 ## Attributes
@@ -795,7 +795,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 # Review 관련 Repository-Service-Controller
 
 # ReviewRepository
-`Review` 엔티티에 대한 데이터 접근 계층(Repository).
+[Review](#review) 엔티티에 대한 데이터 접근 계층(Repository).
 Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하며,
 리뷰 대상자(피평가자) 및 리뷰 작성자 기준으로 리뷰를 조회하는 기능을 제공한다.
 
@@ -810,8 +810,8 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 | `findByReviewerIdAndStatus(Long reviewerId, ReviewStatus status, Pageable pageable)` | Page\<Review> | public     | 특정 리뷰 작성자(`reviewerId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다. |
 
 # ReviewService
-리뷰(Review) 도메인의 핵심 비즈니스 로직 계약(Contract)을 정의하는 서비스 인터페이스.
-`ReviewServiceImpl`에서 구현되며, 리뷰의 생성(Create), 조회(Read), 수정(Update), 삭제(Delete) 기능을 수행한다.
+리뷰([Review](#review)) 도메인의 핵심 비즈니스 로직 계약(Contract)을 정의하는 서비스 인터페이스.
+[ReviewServiceImpl](#reviewserviceimpl)에서 구현되며, 리뷰의 생성(Create), 조회(Read), 수정(Update), 삭제(Delete) 기능을 수행한다.
 
 ## Attributes
 | Name          | Type          | Visibility    | Description                   |
@@ -829,9 +829,9 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 
 
 # ReviewServiceImpl
-ReviewService 인터페이스의 구현체로,
+[ReviewService](#reviewservice) 인터페이스의 구현체로,
 리뷰 생성, 조회, 수정, 삭제(Soft Delete) 기능을 제공하는 서비스 클래스.
-리뷰 작성자·피평가자 간의 관계 및 상태(ReviewStatus)를 검증한다.
+리뷰 작성자·피평가자 간의 관계 및 상태([ReviewStatus](#reviewstatus))를 검증한다.
 
 ## Attributes
 | Name           | Type           | Visibility    | Description                     |
@@ -852,8 +852,8 @@ ReviewService 인터페이스의 구현체로,
 
 
 # ReviewController
-리뷰(Review) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
-리뷰 작성, 조회(받은/작성한), 수정, 삭제(Soft Delete) 기능을 담당하며, `ReviewService`를 호출해 비즈니스 로직을 수행한다.
+리뷰([Review](#review)) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
+리뷰 작성, 조회(받은/작성한), 수정, 삭제(Soft Delete) 기능을 담당하며, [ReviewService](#reviewservice)를 호출해 비즈니스 로직을 수행한다.
 
 ## Attributes
 | Name          | Type          | Visibility    | Description                    |
@@ -932,7 +932,7 @@ Spring Boot의 `@ConfigurationProperties`를 사용하여
 # SecurityConfig
 Spring Security를 기반으로 한 전역 보안 설정 클래스.
 JWT 인증 방식을 사용하며, 세션을 생성하지 않는 Stateless 구조로 설정되어 있다.
-`JwtFilter`를 통해 요청 헤더의 토큰을 검증하고, `CustomAccessDeniedHandler` 및 `CustomAuthenticationEntryPoint`를 통해
+[JwtFilter](#jwtfilter)를 통해 요청 헤더의 토큰을 검증하고, [CustomAccessDeniedHandler](#customaccessdeniedhandler) 및 [CustomAuthenticationEntryPoint](#customauthenticationentrypoint)를 통해
 권한 및 인증 예외 상황을 처리한다.
 
 ## Attributes
@@ -968,7 +968,7 @@ Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 �
 
 # GlobalExceptionHandler
 애플리케이션 전역에서 발생하는 예외를 처리하는 전역 예외 처리 클래스 (Global Exception Handler).
-각종 예외(`BusinessException`, `Validation`, `TypeMismatch` 등)를 잡아 일관된 `ApiResponse` 형식으로 클라이언트에게 응답한다.
+각종 예외([BusinessException](#businessexception), `Validation`, `TypeMismatch` 등)를 잡아 일관된 [ApiResponse](#apiresponset) 형식으로 클라이언트에게 응답한다.
 Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 적용된다.
 
 ## Attributes
@@ -987,7 +987,7 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 # ErrorCode
 애플리케이션 전역에서 사용되는 표준 에러 코드 정의 Enum.
 각 예외 상황에 대한 HTTP 상태 코드(HttpStatus), 에러 식별 코드(String), 사용자 메시지(String) 를 포함한다.
-모든 예외(`BusinessException`, `GlobalExceptionHandler`)는 이 Enum을 기반으로 일관된 에러 응답을 생성한다.
+모든 예외([BusinessException](#businessexception), [GlobalExceptionHandler](#globalexceptionhandler))는 이 Enum을 기반으로 일관된 에러 응답을 생성한다.
 
 ## Enum Values
 | 구분                                         | Enum Name | HttpStatus                              | Code                                       | Message |
@@ -1104,7 +1104,7 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 # BusinessException
 도메인 및 서비스 계층에서 발생하는 비즈니스 로직 예외의 표준 클래스.
 모든 커스텀 예외는 이 클래스를 상속하거나 이 클래스를 직접 발생시켜야 한다.
-`ErrorCode`와 메시지를 함께 전달하여 일관된 예외 처리 및 응답 구조를 보장한다.
+[ErrorCode](#errorcode)와 메시지를 함께 전달하여 일관된 예외 처리 및 응답 구조를 보장한다.
 
 ## Attributes
 | Name      | Type      | Visibility    | Description                |
@@ -1215,7 +1215,7 @@ Spring Security 인가 과정에서 권한이 없거나(403), 인증되지 않�
 
 # CustomAuthenticationEntryPoint
 Spring Security에서 인증(Authentication)되지 않은 사용자가 보호된 리소스에 접근할 때 `401 Unauthorized` 응답을 반환하는 커스텀 엔트리 포인트.
-AccessDeniedHandler가 인가(`Authorization`) 실패를 담당한다면, `AuthenticationEntryPoint`는 인증 자체가 되지 않은 상태의 접근을 처리한다.
+[AccessDeniedHandler](#customaccessdeniedhandler)가 인가(`Authorization`) 실패를 담당한다면, `AuthenticationEntryPoint`는 인증 자체가 되지 않은 상태의 접근을 처리한다.
 
 ## Attributes
 | Name         | Type         | Visibility    | Description                                  |
@@ -1295,7 +1295,7 @@ JWT에서 추출한 사용자 정보 또는 `User` 엔티티 기반으로 생성
 
 
 # CustomUserDetailsService
-Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 DB에 저장된 `User` 엔티티를 조회하고, 이를 `CustomUserDetails` 객체로 변환하여 반환한다.
+Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 DB에 저장된 [User](#user) 엔티티를 조회하고, 이를 [CustomUserDetails](#customuserdetails) 객체로 변환하여 반환한다.
 
 ## Attributes
 | Name        | Type        | Visibility    | Description             |
@@ -1323,4 +1323,3 @@ Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 D
 | `validateSort(Pageable pageable, Set<String> allowedProperties)` | void        | public     | 요청된 정렬 필드가 허용된 필드 목록에 포함되는지 검증                      |
 | `validatePageSize(int pageSize)`                                 | void        | private    | 페이지 크기(`size`)가 1 이상인지 검증                           |
 | `validatePageNumber(int pageNumber)`                             | void        | private    | 페이지 번호(`page`)가 0 이상이며 `maxPageNumber`를 초과하지 않는지 검증 |
-
