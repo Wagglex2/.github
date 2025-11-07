@@ -1229,3 +1229,212 @@ Spring Security에서 인증(Authentication)되지 않은 사용자가 보호된
 
 시스템 전반에서 공통으로 사용되는 유틸리티 클래스들의 구조를 보여준다.
 한국어 형태소 분석을 위한 KomoranUtil, String과 Enum 간의 타입 변환을 위한 StringToEnumConverterFactory, 페이지네이션 요청의 유효성을 검증하는 PageableValidator 등 다양한 기능을 지원하는 유틸리티 클래스들의 구조와 사용 방식을 표현한다.
+
+
+#### ErrorCode
+애플리케이션 전역에서 사용되는 표준 에러 코드 정의 Enum.
+각 예외 상황에 대한 HTTP 상태 코드(HttpStatus), 에러 식별 코드(String), 사용자 메시지(String) 를 포함한다.
+모든 예외([BusinessException](#businessexception), [GlobalExceptionHandler](#globalexceptionhandler))는 이 Enum을 기반으로 일관된 에러 응답을 생성한다.
+
+##### Enum Values
+| 구분                                         | Enum Name | HttpStatus                              | Code                                       | Message |
+| ------------------------------------------ | --------- | --------------------------------------- | ------------------------------------------ | ------- |
+| **`400 BAD_REQUEST (잘못된 요청)`**             |           |                                         |                                            |         |
+| `INVALID_REQUEST`                          | 400       | INVALID_REQUEST                         | 잘못된 요청입니다.                                 |         |
+| `VALIDATION_FAILED`                        | 400       | VALIDATION_FAILED                       | 요청 값이 유효하지 않습니다.                           |         |
+| `REQUIRED_FIELD_MISSING`                   | 400       | REQUIRED_FIELD_MISSING                  | 필수 값이 누락되었습니다.                             |         |
+| `INVALID_EMAIL_FORMAT`                     | 400       | INVALID_EMAIL_FORMAT                    | 이메일 형식이 올바르지 않습니다.                         |         |
+| `INVALID_NICKNAME_FORMAT`                  | 400       | INVALID_NICKNAME_FORMAT                 | 닉네임 형식이 올바르지 않습니다.                         |         |
+| `INVALID_PASSWORD_FORMAT`                  | 400       | INVALID_PASSWORD_FORMAT                 | 비밀번호 형식이 올바르지 않습니다.                        |         |
+| `MISMATCHED_PASSWORD`                      | 400       | MISMATCHED_PASSWORD                     | 비밀번호와 비밀번호 확인이 일치하지 않습니다.                  |         |
+| `PASSWORD_SAME_AS_OLD`                     | 400       | PASSWORD_SAME_AS_OLD                    | 기존 비밀번호와 새로운 비밀번호가 일치합니다.                  |         |
+| `OLD_PASSWORD_INCORRECT`                   | 400       | OLD_PASSWORD_INCORRECT                  | 기존 비밀번호가 일치하지 않습니다.                        |         |
+| `UNSUPPORTED_UNIVERSITY_DOMAIN`            | 400       | UNSUPPORTED_UNIVERSITY_DOMAIN           | 지원하지 않는 학교 도메인입니다.                         |         |
+| `VERIFICATION_CODE_EXPIRED`                | 400       | VERIFICATION_CODE_EXPIRED               | 인증번호가 만료되었습니다.                             |         |
+| `INVALID_VERIFICATION_CODE`                | 400       | INVALID_VERIFICATION_CODE               | 인증번호가 일치하지 않습니다.                           |         |
+| `INVALID_DATE_RANGE`                       | 400       | INVALID_DATE_RANGE                      | 유효하지 않은 날짜 범위입니다.                          |         |
+| `MAX_PARTICIPANTS_EXCEEDED`                | 400       | MAX_PARTICIPANTS_EXCEEDED               | 참가 인원이 최대 모집 인원을 초과했습니다.                   |         |
+| `SELF_REVIEW_NOT_ALLOWED`                  | 400       | SELF_REVIEW_NOT_ALLOWED                 | 자기 자신에 대한 리뷰는 작성할 수 없습니다.                  |         |
+| `INVALID_PAGE_NUMBER`                      | 400       | INVALID_PAGE_NUMBER                     | 페이지 번호는 1 이상이어야 합니다.                       |         |
+| `INVALID_ENUM_VALUE`                       | 400       | INVALID_ENUM_VALUE                      | 쿼리 파라미터 값이 유효하지 않습니다. 허용 가능한 값 목록을 확인해주세요. |         |
+| `MISMATCHED_RECRUITMENT_CATEGORY`          | 400       | MISMATCHED_RECRUITMENT_CATEGORY         | 지원하려는 공고의 카테고리가 요청한 카테고리와 일치하지 않습니다.       |         |
+| `INVALID_SORT_PROPERTY`                    | 400       | INVALID_SORT_PROPERTY                   | 잘못된 정렬 기준입니다.                              |         |
+| `INVALID_SORT_DIRECTION`                   | 400       | INVALID_SORT_DIRECTION                  | 정렬 방향은 asc 또는 desc만 가능합니다.                 |         |
+| `PAGE_SIZE_OUT_OF_RANGE`                   | 400       | PAGE_SIZE_OUT_OF_RANGE                  | 페이지 크기는 1 이상이어야 합니다.                       |         |
+| `PAGE_INDEX_OUT_OF_RANGE`                  | 400       | PAGE_INDEX_OUT_OF_RANGE                 | 페이지 번호는 0 이상이어야 합니다.                       |         |
+| `INVALID_MEMBER_COUNT`                     | 400       | INVALID_MEMBER_COUNT                    | 현재 인원이 0명 이하일 때는 감소할 수 없습니다.               |         |
+| **`401 UNAUTHORIZED (인증 실패)`**             |           |                                         |                                            |         |
+| `UNAUTHORIZED`                             | 401       | UNAUTHORIZED                            | 인증이 필요합니다.                                 |         |
+| `INVALID_CREDENTIALS`                      | 401       | INVALID_CREDENTIALS                     | 아이디 또는 비밀번호가 올바르지 않습니다.                    |         |
+| `REFRESH_TOKEN_EXPIRED`                    | 401       | REFRESH_TOKEN_EXPIRED                   | 리프레시 토큰이 만료되었습니다.                          |         |
+| `REFRESH_TOKEN_INVALID`                    | 401       | REFRESH_TOKEN_INVALID                   | 유효하지 않은 리프레시 토큰입니다.                        |         |
+| `REFRESH_TOKEN_TYPE_INVALID`               | 401       | REFRESH_TOKEN_TYPE_INVALID              | 리프레시 토큰 타입이 일치하지 않습니다.                     |         |
+| `REFRESH_TOKEN_MISMATCH`                   | 401       | REFRESH_TOKEN_MISMATCH                  | 리프레시 토큰이 일치하지 않습니다.                        |         |
+| `REFRESH_TOKEN_NOT_FOUND`                  | 401       | REFRESH_TOKEN_NOT_FOUND                 | 리프레시 토큰을 찾을 수 없습니다.                        |         |
+| `ACCESS_TOKEN_INVALID`                     | 401       | ACCESS_TOKEN_INVALID                    | 유효하지 않은 액세스 토큰입니다.                         |         |
+| **`403 FORBIDDEN (권한 없음)`**                |           |                                         |                                            |         |
+| `FORBIDDEN`                                | 403       | FORBIDDEN                               | 접근 권한이 없습니다.                               |         |
+| `ACCESS_DENIED`                            | 403       | ACCESS_DENIED                           | 요청한 리소스에 접근할 수 없습니다.                       |         |
+| `NOT_UPDATE_NOT_ACTIVE_REVIEW`             | 403       | NOT_UPDATE_NOT_ACTIVE_REVIEW            | 비활성화된 리뷰는 수정할 수 없습니다.                      |         |
+| `NOT_DELETE_NOT_ACTIVE_REVIEW`             | 403       | NOT_DELETE_NOT_ACTIVE_REVIEW            | 비활성화된 리뷰는 삭제할 수 없습니다.                      |         |
+| `NOT_UPDATE_ANOTHER_USER_REVIEW`           | 403       | NOT_UPDATE_ANOTHER_USER_REVIEW          | 본인 리뷰만 수정할 수 있습니다.                         |         |
+| `NOT_DELETE_ANOTHER_USER_REVIEW`           | 403       | NOT_DELETE_ANOTHER_USER_REVIEW          | 본인 리뷰만 삭제할 수 있습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_BOOKMARK`      | 403       | CANNOT_DELETE_ANOTHER_USER_BOOKMARK     | 다른 사용자의 찜은 취소할 수 없습니다.                     |         |
+| `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT`    | 403       | CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT   | 다른 사용자의 과제는 삭제할 수 없습니다.                    |         |
+| `CANNOT_APPLY_OWN_RECRUITMENT`             | 403       | CANNOT_APPLY_OWN_RECRUITMENT            | 본인 공고에는 지원할 수 없습니다.                        |         |
+| `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT`   | 403       | FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT  | 타 대학의 공고입니다.                               |         |
+| `FORBIDDEN_DECIDE_APPLICATION`             | 403       | FORBIDDEN_DECIDE_APPLICATION            | 지원 수락/거절 권한이 없습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_APPLICATION`   | 403       | CANNOT_DELETE_ANOTHER_USER_APPLICATION  | 다른 사용자의 지원은 취소할 수 없습니다.                    |         |
+| `CANNOT_REMOVE_NOT_LEADER`                 | 403       | CANNOT_REMOVE_NOT_LEADER                | 리더만 멤버를 삭제할 수 있습니다.                        |         |
+| `CANNOT_REMOVE_SELF`                       | 403       | CANNOT_REMOVE_SELF                      | 자기 자신은 삭제할 수 없습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION`  | 403       | CANNOT_DELETE_ANOTHER_USER_NOTIFICATION | 다른 사용자의 알림은 삭제할 수 없습니다.                    |         |
+| **`404 NOT_FOUND (리소스 없음)`**               |           |                                         |                                            |         |
+| `USER_NOT_FOUND`                           | 404       | USER_NOT_FOUND                          | 사용자를 찾을 수 없습니다.                            |         |
+| `IMAGE_NOT_FOUND`                          | 404       | IMAGE_NOT_FOUND                         | 파일을 찾을 수 없습니다.                             |         |
+| `RECRUITMENT_NOT_FOUND`                    | 404       | RECRUITMENT_NOT_FOUND                   | 공고를 찾을 수 없습니다.                             |         |
+| `PROJECT_NOT_FOUND`                        | 404       | PROJECT_NOT_FOUND                       | 프로젝트 공고를 찾을 수 없습니다.                        |         |
+| `ASSIGNMENT_NOT_FOUND`                     | 404       | ASSIGNMENT_NOT_FOUND                    | 과제 공고를 찾을 수 없습니다.                          |         |
+| `STUDY_NOT_FOUND`                          | 404       | STUDY_NOT_FOUND                         | 스터디 공고를 찾을 수 없습니다.                         |         |
+| `POSITION_NOT_FOUND`                       | 404       | POSITION_NOT_FOUND                      | 역할을 찾을 수 없습니다.                             |         |
+| `SKILL_NOT_FOUND`                          | 404       | SKILL_NOT_FOUND                         | 기술 스택을 찾을 수 없습니다.                          |         |
+| `REVIEW_NOT_FOUND`                         | 404       | REVIEW_NOT_FOUND                        | 리뷰를 찾을 수 없습니다.                             |         |
+| `BOOKMARK_NOT_FOUND`                       | 404       | BOOKMARK_NOT_FOUND                      | 찜 정보를 찾을 수 없습니다.                           |         |
+| `APPLICATION_NOT_FOUND`                    | 404       | APPLICATION_NOT_FOUND                   | 지원 정보를 찾을 수 없습니다.                          |         |
+| `TEAM_NOT_FOUND`                           | 404       | TEAM_NOT_FOUND                          | 팀을 찾을 수 없습니다.                              |         |
+| `LEADER_NOT_FOUND`                         | 404       | LEADER_NOT_FOUND                        | 리더를 찾을 수 없습니다.                             |         |
+| `TARGET_MEMBER_NOT_FOUND`                  | 404       | TARGET_MEMBER_NOT_FOUND                 | 삭제할 멤버를 찾을 수 없습니다.                         |         |
+| `NOTIFICATION_NOT_FOUND`                   | 404       | NOTIFICATION_NOT_FOUND                  | 알림을 찾을 수 없습니다.                             |         |
+| **`406 NOT_ACCEPTABLE`**                   |           |                                         |                                            |         |
+| `NOT_ACCEPTABLE`                           | 406       | NOT_ACCEPTABLE                          | 응답 가능한 미디어 타입이 없습니다.                       |         |
+| **`409 CONFLICT (중복 또는 상태 충돌)`**           |           |                                         |                                            |         |
+| `DUPLICATED_USERNAME`                      | 409       | DUPLICATED_USERNAME                     | 이미 가입된 아이디입니다.                             |         |
+| `DUPLICATED_EMAIL`                         | 409       | DUPLICATED_EMAIL                        | 이미 가입된 이메일입니다.                             |         |
+| `DUPLICATED_NICKNAME`                      | 409       | DUPLICATED_NICKNAME                     | 이미 존재하는 닉네임입니다.                            |         |
+| `ALREADY_WITHDRAWN_USER`                   | 409       | ALREADY_WITHDRAWN_USER                  | 이미 탈퇴한 회원입니다.                              |         |
+| `ALREADY_BOOKMARKED`                       | 409       | ALREADY_BOOKMARKED                      | 이미 찜한 공고입니다.                               |         |
+| `ALREADY_APPLIED_RECRUITMENT`              | 409       | ALREADY_APPLIED_RECRUITMENT             | 이미 지원한 공고입니다.                              |         |
+| `RECRUITMENT_CLOSED`                       | 409       | RECRUITMENT_CLOSED                      | 모집 기간이 종료된 공고입니다.                          |         |
+| `RECRUITMENT_FULL`                         | 409       | RECRUITMENT_FULL                        | 이미 모집이 완료된 공고입니다.                          |         |
+| `NOT_RECRUITING_POSITION`                  | 409       | NOT_RECRUITING_POSITION                 | 해당 포지션은 모집 대상이 아닙니다.                       |         |
+| `POSITION_FULL`                            | 409       | POSITION_FULL                           | 이미 모집이 완료된 포지션입니다.                         |         |
+| `ALREADY_PROCESSED_APPLICATION`            | 409       | ALREADY_PROCESSED_APPLICATION           | 이미 처리된 지원서입니다.                             |         |
+| `TEAM_FULL`                                | 409       | TEAM_FULL                               | 이미 모집이 완료되었습니다.                            |         |
+| **`413 PAYLOAD_TOO_LARGE`**                |           |                                         |                                            |         |
+| `PAYLOAD_TOO_LARGE`                        | 413       | PAYLOAD_TOO_LARGE                       | 요청 또는 파일 크기가 너무 큽니다.                       |         |
+| **`415 UNSUPPORTED_MEDIA_TYPE`**           |           |                                         |                                            |         |
+| `UNSUPPORTED_MEDIA_TYPE`                   | 415       | UNSUPPORTED_MEDIA_TYPE                  | 지원하지 않는 Content-Type 입니다.                  |         |
+| **`429 TOO_MANY_REQUESTS`**                |           |                                         |                                            |         |
+| `TOO_MANY_REQUESTS`                        | 429       | TOO_MANY_REQUESTS                       | 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.               |         |
+| **`500 INTERNAL_SERVER_ERROR (서버 내부 오류)`** |           |                                         |                                            |         |
+| `INTERNAL_SERVER_ERROR`                    | 500       | INTERNAL_ERROR                          | 서버 오류가 발생했습니다.                             |         |
+| `DATABASE_ERROR`                           | 500       | DATABASE_ERROR                          | 데이터베이스 오류가 발생했습니다.                         |         |
+| `REDIS_CONNECTION_ERROR`                   | 500       | REDIS_CONNECTION_ERROR                  | Redis 연결에 실패했습니다.                          |         |
+| `EMAIL_CREATE_MESSAGE_FAILED`              | 500       | EMAIL_CREATE_MESSAGE_FAILED             | 이메일 메시지를 생성하는데 실패했습니다.                     |         |
+| `EMAIL_SEND_FAILED`                        | 500       | EMAIL_SEND_FAILED                       | 이메일 발송에 실패했습니다.                            |         |
+
+##### Attributes
+| Name    | Type   | Visibility    | Description                                            |
+| ------- | ------ | ------------- | ------------------------------------------------------ |
+| httpStatus | HttpStatus | private final | 예외에 해당하는 HTTP 응답 상태 코드 (예: `BAD_REQUEST`, `FORBIDDEN`) |
+| code    | String | private final | 클라이언트 및 로그 식별용 에러 코드 문자열 (예: `"USER_NOT_FOUND"`)       |
+| message | String | private final | 클라이언트에게 전달할 한글 에러 메시지                                  |
+
+##### Operations
+| Name              | Return Type | Visibility | Description       |
+| ----------------- | ------ | ---------- | ----------------- |
+| `getHttpStatus()` | HttpStatus | public     | HTTP 상태 코드를 반환한다. |
+| `getCode()`       | String | public     | 에러 코드 문자열을 반환한다.  |
+| `getMessage()`    | String | public     | 에러 메시지를 반환한다.     |
+
+
+#### BusinessException
+도메인 및 서비스 계층에서 발생하는 비즈니스 로직 예외의 표준 클래스.
+모든 커스텀 예외는 이 클래스를 상속하거나 이 클래스를 직접 발생시켜야 한다.
+[ErrorCode](#errorcode)와 메시지를 함께 전달하여 일관된 예외 처리 및 응답 구조를 보장한다.
+
+##### Attributes
+| Name      | Type      | Visibility    | Description                |
+| --------- | --------- | ------------- | -------------------------- |
+| errorCode | ErrorCode | private final | 예외의 원인을 나타내는 표준 에러 코드 Enum |
+
+##### Operations
+| Name             | Return Type | Visibility | Description                    |
+| ---------------- | --------- | ---------- | ------------------------------ |
+| `getErrorCode()` | ErrorCode | public     | 예외에 해당하는 `ErrorCode` 객체를 반환한다. |
+
+
+#### ApiResponse\<T>
+모든 REST API 응답의 표준 응답 포맷을 정의하는 제네릭 클래스.
+성공(`ok`)과 실패(`error`) 응답을 구분하며, `code`, `message`, `data` 세 가지 필드를 통해 일관된 응답 구조를 제공한다.
+
+##### Attributes
+| Name  | Type  | Visibility    | Description                                   |
+| ----- |-------| ------------- | --------------------------------------------- |
+| code  | String | private final | 응답 상태 코드 (예: `"SUCCESS"`, `"USER_NOT_FOUND"`) |
+| message | String | private final | 사용자에게 전달되는 응답 메시지                             |
+| data  | T     | private final | 응답 본문 데이터 (null일 수도 있음)                       |
+
+##### Operations
+| Name                                      | Return Type    | Visibility    | Description                          |
+| ----------------------------------------- | -------------- | ------------- | ------------------------------------ |
+| `of(String code, String message, T data)` | ApiResponse\<T> | public static | 정적 팩토리 메서드로 새로운 응답 객체 생성             |
+| `ok()`                                    | ApiResponse\<T> | public static | 데이터 없이 기본 성공 응답 ("SUCCESS", "성공") 반환 |
+| `ok(String message)`                      | ApiResponse\<T> | public static | 커스텀 메시지를 포함한 성공 응답 반환                |
+| `ok(T data)`                              | ApiResponse\<T> | public static | 데이터 포함 기본 성공 응답 반환                   |
+| `ok(String message, T data)`              | ApiResponse\<T> | public static | 메시지와 데이터 모두 포함한 성공 응답 반환             |
+| `error(ErrorCode errorCode)`              | ApiResponse\<T> | public static | 지정된 에러 코드 기반 실패 응답 반환                |
+| `error(String code, String message)`      | ApiResponse\<T> | public static | 커스텀 코드와 메시지를 포함한 실패 응답 반환            |
+| `error(ErrorCode errorCode, T data)`      | ApiResponse\<T> | public static | 실패 응답과 함께 추가 데이터 포함                  |
+
+
+#### GlobalExceptionHandler
+애플리케이션 전역에서 발생하는 예외를 처리하는 전역 예외 처리 클래스 (Global Exception Handler).
+각종 예외([BusinessException](#businessexception), `Validation`, `TypeMismatch` 등)를 잡아 일관된 [ApiResponse](#apiresponset) 형식으로 클라이언트에게 응답한다.
+Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 적용된다.
+
+##### Attributes
+| Name     | Type | Visibility | Description               |
+| -------- | ---- | ---------- | ------------------------- |
+
+##### Operations
+| Name                                                                                        | Return Type                                    | Visibility | Description                                                                                                                |
+| ------------------------------------------------------------------------------------------- |------------------------------------------------| ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `handleBusinessException(BusinessException ex)`                                             | ResponseEntity\<ApiResponse\<Void>>              | public     | 비즈니스 로직(`Service`, `Domain`)에서 발생한 `BusinessException`을 처리한다.<br>응답에는 `ErrorCode`와 예외 메시지가 포함된다.                           |
+| `handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)`                 | ResponseEntity\<ApiResponse\<List\<ValidationError>>> | public     | DTO 검증 실패(`@Valid`, `@Validated`) 시 발생하는 `MethodArgumentNotValidException`을 처리하고<br>모든 필드 에러를 `ValidationError` 리스트로 반환한다. |
+| `handleMissingServletRequestParameterException(MissingServletRequestParameterException ex)` | ResponseEntity\<ApiResponse\<String>>            | public     | 필수 `@RequestParam`이 누락된 경우 발생하는 예외를 처리한다.<br>누락된 파라미터 이름과 함께 `REQUIRED_FIELD_MISSING` 에러코드 반환.                             |
+| `handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)`         | ResponseEntity\<ApiResponse\<String>>            | public     | 요청 파라미터의 타입이 예상과 다를 때 발생하는 예외 처리.<br>특히 Enum 타입에 잘못된 값이 전달될 때(`INVALID_ENUM_VALUE`) 메시지를 반환한다.                             |
+
+
+#### ValidationError
+유효성 검증(Validation) 실패 시 발생한 단일 필드 오류 정보를 표현하는 불변 데이터 객체.
+각 필드의 이름(`field`)과 오류 메시지(`message`)를 한 쌍으로 관리한다.
+`record`로 정의되어 불변성(immutability)과 간결한 코드 구조를 제공한다.
+
+##### Attributes
+| Name    | Type   | Visibility               | Description           |
+| ------- | ------ |--------------------------| --------------------- |
+| field   | String | private final (implicit) | 오류가 발생한 필드명 |
+| message | String | private final (implicit) | 해당 필드에 대한 구체적인 오류 메시지 |
+
+##### Operations
+| Name      | Return Type | Visibility | Description |
+| --------- | ------- | ------ | ----------- |
+| `field()`   | String | public | 오류 필드명을 반환 |
+| `message()` | String | public | 오류 메시지를 반환 |
+
+
+#### PageableValidator
+클라이언트의 잘못된 페이징 요청(너무 큰 페이지 번호, 음수, 비허용 필드 정렬 등)을 차단하여 서버 성능 저하 및 보안 이슈를 예방한다.
+
+##### Attributes
+| Name                 | Type                 | Visibility    | Description                                                 |
+| -------------------- | -------------------- | ------------- | ----------------------------------------------------------- |
+| paginationProperties | PaginationProperties | private final | 페이지 관련 설정값을 보유하는 설정 클래스 (`maxPageNumber`, `defaultSize`, 등) |
+
+##### Operations
+| Name                                                             | Return Type | Visibility | Description                                         |
+| ---------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------- |
+| `validate(Pageable pageable)`                                    | Pageable    | public     | `page`, `size` 값을 검증한 후 동일 객체를 반환                   |
+| `validateSort(Pageable pageable, Set<String> allowedProperties)` | void        | public     | 요청된 정렬 필드가 허용된 필드 목록에 포함되는지 검증                      |
+| `validatePageSize(int pageSize)`                                 | void        | private    | 페이지 크기(`size`)가 1 이상인지 검증                           |
+| `validatePageNumber(int pageNumber)`                             | void        | private    | 페이지 번호(`page`)가 0 이상이며 `maxPageNumber`를 초과하지 않는지 검증 |
