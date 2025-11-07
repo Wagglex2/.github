@@ -338,7 +338,7 @@
 | **Due Date** |2025.11.15|
 
 ---
-### Use Case #8: 공고 내역 조회한다
+### Use Case #8: 공고 내역 조회한다.
 #### 1. GENERAL CHARACTERISTICS (개요)
 
 | 항목 | 내용 |
