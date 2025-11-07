@@ -338,8 +338,49 @@
 | **Due Date** |2025.11.15|
 
 ---
-### Use Case #8:
-내용 입력
+### Use Case #8: 공고 내역 조회한다
+#### 1. GENERAL CHARACTERISTICS (개요)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Summary** |사용자가 헤더의 메인 카테고리(프로젝트, 과제, 스터디)를 선택하여, 해당 카테고리에 속한 전체 공고 목록을 조회한다.  |
+| **Scope** |WaggleWaggle |
+| **Level** |User level |
+| **Last Update** |2025.11.06 |
+| **Status** |Analysis |
+| **Primary Actor** |User |
+| **Secondary Actors**|system |
+| **Preconditions** |사용자가 로그인한 상태여야 한다. |
+| **Trigger** |사용자가 헤더의 메인 내비게이션 바에서 '프로젝트', '과제', '스터디' 탭 중 하나를 클릭한다.  |
+| **Success Post Condition** |시스템이 선택한 카테고리의 공고 목록 페이지로 이동한 후, 해당 카테고리의 전체 공고 목록이 화면에 카드 형태로 표시된다. |
+| **Failed Post Condition** |공고 목록을 불러오지 못한다. |
+
+#### 2. MAIN SUCCESS SCENARIO (주요 성공 시나리오)
+
+| Step | Action |
+| :--- | :--- |
+| **S** |사용자가 헤더의 카테고리 탭을 선택하여 공고 목록을 조회한다. |
+| **1** |이 Use Case는 사용자가 헤더의 메인 카테고리 탭을 클릭하는 것으로 시작된다. |
+| **2** |시스템은 서버에 해당 카테고리의 모든 공고 목록을 요청한다. |
+| **3** |시스템은 서버로부터 공고 목록 데이터를 수신한다. |
+| **4** |시스템은 ‘공고 내역 조회’ 페이지로 이동하여 수신한 공고 목록을 카드 형태로 나열한다. |
+| **5** |이 Use Case는 공고 목록이 성공적으로 화면에 표시되면 종료된다. |
+
+#### 3. EXTENSION SCENARIOS (예외 및 대안 흐름)
+
+| Step | Branching Action |
+| :--- | :--- |
+|**4** |4a. 해당 카테고리에 등록된 공고가 하나도 없다. <br> ...4a1. 시스템은 목록 영역에 등록된 공고가 없음을 알리는 메시지를 표시한다. |
+
+
+#### 4. RELATED INFORMATION (관련 정보)
+
+| 항목 | 내용 |
+| :--- | :--- |
+| **Performance** |≤ 2 second |
+| **Frequency** |제한 없음|
+| **&lt;Concurrency&gt;** |제한 없음 |
+| **Due Date** |2025.11.15|
 
 ---
 ### Use Case #9:
