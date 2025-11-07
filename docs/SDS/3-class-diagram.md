@@ -8,7 +8,7 @@
 
 ## Attributes
 | Name       | Type          | Visibility | Description                       |
-| ---------- | ------------- | ---------- |-----------------------------------|
+| ---------- |---------------| ---------- |-----------------------------------|
 | id         | Long          | private    | 사용자 식별자 (PK, 자동 증가)               |
 | username   | String        | private    | 로그인용 사용자 ID (고유값)                 |
 | password   | String        | private    | 비밀번호 (BCrypt 해시, 60자)             |
@@ -17,7 +17,7 @@
 | nickname   | String        | private    | 서비스 내 표시 이름 (고유값)                 |
 | grade      | Integer       | private    | 학년 (1~4)                          |
 | position   | PositionType  | private    | 희망 포지션 (예: BACK_END, FRONT_END)   |
-| skills     | Set<Skill>    | private    | 보유 기술 스택 (복수 선택 가능)               |
+| skills     | Set\<Skill>   | private    | 보유 기술 스택 (복수 선택 가능)               |
 | shortIntro | String        | private    | 짧은 자기소개 (Markdown 지원)             |
 | role       | UserRoleType  | private    | 사용자 권한 (ROLE_USER / ROLE_ADMIN 등) |
 | createdAt  | LocalDateTime | private    | 생성 시각 (Auditing 자동 기록)            |
@@ -25,15 +25,16 @@
 | status     | UserStatus    | private    | 사용자 상태 (ACTIVE, WITHDRAWN 등)      |
 
 ## Operations
-| Name                                   | Return Type | Visibility | Description                      |
-| -------------------------------------- | ----------- | ---------- | -------------------------------- |
-| changePassword(String encodedPassword) | void        | public     | 사용자의 비밀번호를 암호화된 새 비밀번호로 변경       |
-| updateNickname(String nickname)        | void        | public     | 사용자의 닉네임을 변경                     |
-| updateGrade(Integer grade)             | void        | public     | 사용자의 학년 정보를 수정                   |
-| updatePosition(PositionType position)  | void        | public     | 희망 포지션을 변경                       |
-| updateSkills(Set<Skill> skills)        | void        | public     | 보유 기술 스택을 갱신                     |
-| updateShortIntro(String shortIntro)    | void        | public     | 자기소개 문구를 수정                      |
-| withdraw()                             | void        | public     | 사용자 상태를 `WITHDRAWN`으로 변경 (탈퇴 처리) |
+| Name                                     | Return Type | Visibility | Description                      |
+| ---------------------------------------- | ----------- | ---------- | -------------------------------- |
+| `changePassword(String encodedPassword)` | void        | public     | 사용자의 비밀번호를 암호화된 새 비밀번호로 변경       |
+| `updateNickname(String nickname)`        | void        | public     | 사용자의 닉네임을 변경                     |
+| `updateGrade(Integer grade)`             | void        | public     | 사용자의 학년 정보를 수정                   |
+| `updatePosition(PositionType position)`  | void        | public     | 희망 포지션을 변경                       |
+| `updateSkills(Set<Skill> skills)`        | void        | public     | 보유 기술 스택을 갱신                     |
+| `updateShortIntro(String shortIntro)`    | void        | public     | 자기소개 문구를 수정                      |
+| `withdraw()`                             | void        | public     | 사용자 상태를 `WITHDRAWN`으로 변경 (탈퇴 처리) |
+
 
 
 # Team
@@ -41,20 +42,21 @@
 팀은 여러 명의 팀원(`TeamMember`)을 포함하며, 팀 생성 및 삭제 시 팀원과의 연결관계를 일관되게 유지한다.
 
 ## Attributes
-| Name        | Type             | Visibility | Description                                               |
-| ----------- | ---------------- | ---------- | --------------------------------------------------------- |
-| id          | Long             | private    | 팀 식별자 (PK, 자동 증가)                                         |
-| recruitment | BaseRecruitment  | private    | 연결된 모집 공고 (1:1 관계, Not Null, Unique)                      |
-| members     | List<TeamMember> | private    | 팀에 속한 팀원 목록 (1:N 관계, cascade = ALL, orphanRemoval = true) |
-| createdAt   | LocalDateTime    | private    | 팀 생성 시각 (Auditing 자동 기록)                                  |
-| updatedAt   | LocalDateTime    | private    | 마지막 수정 시각 (Auditing 자동 기록)                                |
+| Name        | Type              | Visibility | Description                                               |
+| ----------- |-------------------| ---------- | --------------------------------------------------------- |
+| id          | Long              | private    | 팀 식별자 (PK, 자동 증가)                                         |
+| recruitment | BaseRecruitment   | private    | 연결된 모집 공고 (1:1 관계, Not Null, Unique)                      |
+| members     | List\<TeamMember> | private    | 팀에 속한 팀원 목록 (1:N 관계, cascade = ALL, orphanRemoval = true) |
+| createdAt   | LocalDateTime     | private    | 팀 생성 시각 (Auditing 자동 기록)                                  |
+| updatedAt   | LocalDateTime     | private    | 마지막 수정 시각 (Auditing 자동 기록)                                |
 
 ## Operations
 | Name                              | Return Type          | Visibility | Description                                      |
 | --------------------------------- | -------------------- | ---------- | ------------------------------------------------ |
-| addMember(TeamMember member)      | void                 | public     | 팀원 추가 및 양방향 연관관계 설정 (`member.setTeam(this)`)     |
-| findMember(Long userId)           | Optional<TeamMember> | public     | 사용자 ID를 통해 특정 팀원을 조회                             |
-| removeMember(TeamMember member)   | void                 | public     | 팀원 삭제 및 연관관계 해제. 팀원 미존재 시 `BusinessException` 발생 |
+| `addMember(TeamMember member)`    | void                 | public     | 팀원 추가 및 양방향 연관관계 설정 (`member.setTeam(this)`)     |
+| `findMember(Long userId)`         | Optional\<TeamMember> | public     | 사용자 ID를 통해 특정 팀원을 조회                             |
+| `removeMember(TeamMember member)` | void                 | public     | 팀원 삭제 및 연관관계 해제. 팀원 미존재 시 `BusinessException` 발생 |
+
 
 
 # TeamMember
@@ -77,7 +79,7 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Operations
 | Name                                            | Return Type | Visibility | Description                    |
 | ----------------------------------------------- | ----------- | ---------- | ------------------------------ |
-| setTeam(Team team)                              | void        | public     | 소속 팀 정보를 변경 (양방향 연관관계 설정 시 사용) |
+| `setTeam(Team team)`                              | void        | public     | 소속 팀 정보를 변경 (양방향 연관관계 설정 시 사용) |
 
 
 # Review
@@ -100,8 +102,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Operations
 | Name                                                 | Return Type | Visibility | Description                      |
 | ---------------------------------------------------- | ----------- | ---------- | -------------------------------- |
-| update(ReviewUpdateRequestDto dto)                   | void        | public     | 리뷰 내용을 수정 (`dto.content()` 반영)   |
-| delete()                                             | void        | public     | 리뷰 상태를 `DELETED`로 변경 (소프트 삭제 처리) |
+| `update(ReviewUpdateRequestDto dto)`                   | void        | public     | 리뷰 내용을 수정 (`dto.content()` 반영)   |
+| `delete()`                                             | void        | public     | 리뷰 상태를 `DELETED`로 변경 (소프트 삭제 처리) |
 
 # 3.2 VO
 
@@ -132,8 +134,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Operations
 | Name                    | Return Type | Visibility    | Description                                                            |
 | ----------------------- | ----------- | ------------- | ---------------------------------------------------------------------- |
-| getName()               | String      | public        | Enum 상수명 반환 (`name()` 호출)                                              |
-| fromEmail(String email) | University  | public static | 이메일 주소의 도메인 부분을 분석하여 해당 대학교 Enum 반환. 일치하지 않을 경우 `BusinessException` 발생 |
+| `getName()`               | String      | public        | Enum 상수명 반환 (`name()` 호출)                                              |
+| `fromEmail(String email)` | University  | public static | 이메일 주소의 도메인 부분을 분석하여 해당 대학교 Enum 반환. 일치하지 않을 경우 `BusinessException` 발생 |
 
 
 # UserRoleType
@@ -181,7 +183,7 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Attributes
 | Name  | Type   | Visibility                 | Description                         |
 | ----- | ------ | -------------------------- | ----------------------------------- |
-| email | String | private (record component) | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
+| email | String | private  | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -195,8 +197,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Attributes
 | Name      | Type   | Visibility                 | Description                                                         |
 | --------- | ------ | -------------------------- | ------------------------------------------------------------------- |
-| email     | String | private (record component) | 사용자의 이메일 주소. `@NotBlank`, `@Email` 제약으로 비어 있지 않으며 올바른 형식인지 검증.      |
-| inputCode | String | private (record component) | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
+| email     | String | private  | 사용자의 이메일 주소. `@NotBlank`, `@Email` 제약으로 비어 있지 않으며 올바른 형식인지 검증.      |
+| inputCode | String | private  | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -210,20 +212,20 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Attributes
 | Name            | Type         | Visibility                 | Description                                |
 | --------------- | ------------ | -------------------------- |--------------------------------------------|
-| username        | String       | private (record component) | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
-| password        | String       | private (record component) | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
-| passwordConfirm | String       | private (record component) | 비밀번호 확인. password와 일치 여부 검증.               |
-| nickname        | String       | private (record component) | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
-| email           | String       | private (record component) | 이메일 주소. `@Email` 형식 검증.                    |
-| grade           | Integer      | private (record component) | 학년 (1~4 범위, `@Min`, `@Max`).               |
-| position        | PositionType | private (record component) | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
-| skills          | Set<Skill>   | private (record component) | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
-| shortIntro      | String       | private (record component) | 한 줄 소개. 최대 100자 제한.                        |
+| username        | String       | private  | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
+| password        | String       | private  | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
+| passwordConfirm | String       | private  | 비밀번호 확인. password와 일치 여부 검증.               |
+| nickname        | String       | private  | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
+| email           | String       | private  | 이메일 주소. `@Email` 형식 검증.                    |
+| grade           | Integer      | private  | 학년 (1~4 범위, `@Min`, `@Max`).               |
+| position        | PositionType | private  | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
+| skills          | Set\<Skill>   | private  | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
+| shortIntro      | String       | private  | 한 줄 소개. 최대 100자 제한.                        |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
 | ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-| toEntity(PasswordEncoder passwordEncoder) | User        | public     | 입력값을 기반으로 `User` 엔티티를 생성하고 비밀번호를 암호화하여 매핑.    |
+| `toEntity(PasswordEncoder passwordEncoder)` | User        | public     | 입력값을 기반으로 `User` 엔티티를 생성하고 비밀번호를 암호화하여 매핑.    |
 
 
 # SignInRequestDto
@@ -233,8 +235,8 @@ Project 팀의 경우에만 포지션(position) 정보가 필수이며, Study나
 ## Attributes
 | Name     | Type   | Visibility                 | Description                 |
 | -------- | ------ | -------------------------- | --------------------------- |
-| username | String | private (record component) | 사용자 아이디. `@NotBlank` 제약 적용. |
-| password | String | private (record component) | 비밀번호. `@NotBlank` 제약 적용.    |
+| username | String | private  | 사용자 아이디. `@NotBlank` 제약 적용. |
+| password | String | private  | 비밀번호. `@NotBlank` 제약 적용.    |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -247,8 +249,8 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 ## Attributes
 | Name         | Type   | Visibility                 | Description                                 |
 | ------------ | ------ | -------------------------- | ------------------------------------------- |
-| accessToken  | String | private (record component) | 클라이언트의 인증 요청 시 사용되는 짧은 수명의 JWT 액세스 토큰.      |
-| refreshToken | String | private (record component) | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
+| accessToken  | String | private  | 클라이언트의 인증 요청 시 사용되는 짧은 수명의 JWT 액세스 토큰.      |
+| refreshToken | String | private  | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -264,9 +266,9 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 | Name            | Type   | Visibility                 | Description                                               |
 | --------------- | ------ | -------------------------- | --------------------------------------------------------- |
-| old             | String | private (record component) | 기존 비밀번호. `@NotBlank`, `@Size(max=72)` 제약 적용.              |
-| newPassword     | String | private (record component) | 새로운 비밀번호. `@NotBlank`, `@Pattern`(영문, 숫자, 특수문자 포함 8~72자). |
-| passwordConfirm | String | private (record component) | 비밀번호 확인 입력값. `@NotBlank`.                                 |
+| old             | String | private  | 기존 비밀번호. `@NotBlank`, `@Size(max=72)` 제약 적용.              |
+| newPassword     | String | private  | 새로운 비밀번호. `@NotBlank`, `@Pattern`(영문, 숫자, 특수문자 포함 8~72자). |
+| passwordConfirm | String | private  | 비밀번호 확인 입력값. `@NotBlank`.                                 |
 
 ## Operations
 | Name                                                                       | Return Type | Visibility | Description                                                                                                          |
@@ -281,11 +283,11 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 ## Attributes
 | Name       | Type         | Visibility                 | Description                                         |
 | ---------- | ------------ | -------------------------- |-----------------------------------------------------|
-| nickname   | String       | private (record component) | 닉네임. 선택 입력. 2~10자의 한글, 영문, 숫자만 허용 (`@Pattern`).     |
-| grade      | Integer      | private (record component) | 학년. 필수 입력, 1~4 범위 (`@Min`, `@Max`).                 |
-| position   | PositionType | private (record component) | 포지션(enum). 예: FRONT_END, BACK_END 등.                |
-| skills     | Set<Skill>   | private (record component) | 보유 기술 스택. 최대 10개 제한 (`@Size(max=10)`).              |
-| shortIntro | String       | private (record component) | 한 줄 소개. 최대 100자 제한 (`@Size(max=100)`, `@NotBlank`). |
+| nickname   | String       | private  | 닉네임. 선택 입력. 2~10자의 한글, 영문, 숫자만 허용 (`@Pattern`).     |
+| grade      | Integer      | private  | 학년. 필수 입력, 1~4 범위 (`@Min`, `@Max`).                 |
+| position   | PositionType | private  | 포지션(enum). 예: FRONT_END, BACK_END 등.                |
+| skills     | Set\<Skill>   | private  | 보유 기술 스택. 최대 10개 제한 (`@Size(max=10)`).              |
+| shortIntro | String       | private  | 한 줄 소개. 최대 100자 제한 (`@Size(max=100)`, `@NotBlank`). |
 
 
 ## Operations
@@ -299,7 +301,7 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ## Attributes
 | Name     | Type   | Visibility                 | Description                                   |
 | -------- | ------ | -------------------------- | --------------------------------------------- |
-| password | String | private (record component) | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
+| password | String | private  | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -312,19 +314,19 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ## Attributes
 | Name       | Type         | Visibility                 | Description                          |
 | ---------- | ------------ | -------------------------- |--------------------------------------|
-| username   | String       | private (record component) | 사용자 아이디.                             |
-| email      | String       | private (record component) | 이메일 주소.                              |
-| university | University   | private (record component) | 이메일 도메인 기반의 소속 대학교(enum).            |
-| nickname   | String       | private (record component) | 사용자 닉네임.                             |
-| grade      | Integer      | private (record component) | 사용자 학년.                              |
-| position   | PositionType | private (record component) | 포지션(enum). 예: FRONT_END, BACK_END 등. |
-| skills     | Set<Skill>   | private (record component) | 보유 기술 스택 목록.                         |
-| shortIntro | String       | private (record component) | 사용자 한 줄 소개.                          |
+| username   | String       | private  | 사용자 아이디.                             |
+| email      | String       | private  | 이메일 주소.                              |
+| university | University   | private  | 이메일 도메인 기반의 소속 대학교(enum).            |
+| nickname   | String       | private  | 사용자 닉네임.                             |
+| grade      | Integer      | private  | 사용자 학년.                              |
+| position   | PositionType | private  | 포지션(enum). 예: FRONT_END, BACK_END 등. |
+| skills     | Set\<Skill>   | private  | 보유 기술 스택 목록.                         |
+| shortIntro | String       | private  | 사용자 한 줄 소개.                          |
 
 ## Operations
 | Name                 | Return Type     | Visibility    | Description                                |
 | -------------------- | --------------- | ------------- | ------------------------------------------ |
-| from(User user)      | UserResponseDto | public static | `User` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.          |
+| `from(User user)`      | UserResponseDto | public static | `User` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.          |
 
 
 # Team 관련 VO
@@ -337,21 +339,21 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ## Attributes
 | Name             | Type                        | Visibility                 | Description                            |
 | ---------------- | --------------------------- | -------------------------- | -------------------------------------- |
-| id               | Long                        | private (record component) | 팀 식별자 ID                               |
-| recruitmentId    | Long                        | private (record component) | 연결된 모집공고(`BaseRecruitment`)의 ID        |
-| recruitmentTitle | String                      | private (record component) | 모집공고 제목                                |
-| category         | RecruitmentCategory         | private (record component) | 모집 유형 (PROJECT/STUDY/ASSIGNMENT 등)     |
-| status           | RecruitmentStatus           | private (record component) | 모집 상태 (RECRUITING, CLOSED, CANCELED 등) |
-| period           | PeriodResponseDto           | private (record component) | 모집 기간 정보 (Project/Study만 해당)           |
-| durationDays     | Long                        | private (record component) | 모집 기간 일수 (`endDate - startDate`)       |
-| leaderNickname   | String                      | private (record component) | 팀 리더(공고 작성자)의 닉네임                      |
-| memberCount      | int                         | private (record component) | 팀 멤버 수                                 |
-| members          | List<TeamMemberResponseDto> | private (record component) | 팀 멤버 정보 리스트                            |
+| id               | Long                        | private  | 팀 식별자 ID                               |
+| recruitmentId    | Long                        | private  | 연결된 모집공고(`BaseRecruitment`)의 ID        |
+| recruitmentTitle | String                      | private  | 모집공고 제목                                |
+| category         | RecruitmentCategory         | private  | 모집 유형 (PROJECT/STUDY/ASSIGNMENT 등)     |
+| status           | RecruitmentStatus           | private  | 모집 상태 (RECRUITING, CLOSED, CANCELED 등) |
+| period           | PeriodResponseDto           | private  | 모집 기간 정보 (Project/Study만 해당)           |
+| durationDays     | Long                        | private  | 모집 기간 일수 (`endDate - startDate`)       |
+| leaderNickname   | String                      | private  | 팀 리더(공고 작성자)의 닉네임                      |
+| memberCount      | int                         | private  | 팀 멤버 수                                 |
+| members          | List\<TeamMemberResponseDto> | private  | 팀 멤버 정보 리스트                            |
 
 ## Operations
 | Name                  | Return Type     | Visibility    | Description                                                     |
 | --------------------- | --------------- | ------------- | --------------------------------------------------------------- |
-| fromEntity(Team team) | TeamResponseDto | public static | `Team` 엔티티와 연결된 `BaseRecruitment`, `TeamMember` 정보를 DTO 형태로 변환. |
+| `fromEntity(Team team)` | TeamResponseDto | public static | `Team` 엔티티와 연결된 `BaseRecruitment`, `TeamMember` 정보를 DTO 형태로 변환. |
 
 
 # TeamMember VO
@@ -376,8 +378,8 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ## Operations
 | Name      | Return Type | Visibility | Description                       |
 | --------- | ----------- | ---------- | --------------------------------- |
-| getDesc() | String      | public     | 역할의 설명(한글)을 반환.                   |
-| getName() | String      | public     | Enum 이름(LEADER, MEMBER)을 문자열로 반환. |
+| `getDesc()` | String      | public     | 역할의 설명(한글)을 반환.                   |
+| `getName()` | String      | public     | Enum 이름(LEADER, MEMBER)을 문자열로 반환. |
 
 
 # TeamMemberResponseDto
@@ -388,15 +390,15 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ## Attributes
 | Name     | Type         | Visibility                 | Description                        |
 | -------- | ------------ | -------------------------- |------------------------------------|
-| userId   | Long         | private (record component) | 팀 멤버(User)의 고유 식별자 ID              |
-| nickname | String       | private (record component) | 팀 멤버의 닉네임                          |
-| role     | TeamRole     | private (record component) | 팀 내 역할 (리더 / 일반 멤버 등)              |
-| position | PositionType | private (record component) | 사용자 포지션 (예: BACK_END, FRONT_END 등) |
+| userId   | Long         | private  | 팀 멤버(User)의 고유 식별자 ID              |
+| nickname | String       | private  | 팀 멤버의 닉네임                          |
+| role     | TeamRole     | private  | 팀 내 역할 (리더 / 일반 멤버 등)              |
+| position | PositionType | private  | 사용자 포지션 (예: BACK_END, FRONT_END 등) |
 
 ## Operations
 | Name                              | Return Type           | Visibility    | Description                              |
 | --------------------------------- | --------------------- | ------------- | ---------------------------------------- |
-| fromEntity(TeamMember teamMember) | TeamMemberResponseDto | public static | `TeamMember` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.  |
+| `fromEntity(TeamMember teamMember)` | TeamMemberResponseDto | public static | `TeamMember` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.  |
 
 
 # Review 관련 VO
@@ -420,8 +422,8 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 ## Operations
 | Name      | Return Type | Visibility | Description                        |
 | --------- | ----------- | ---------- | ---------------------------------- |
-| getDesc() | String      | public     | 상태 설명 반환.                          |
-| getName() | String      | public     | Enum 이름(ACTIVE, DELETED)을 문자열로 반환. |
+| `getDesc()` | String      | public     | 상태 설명 반환.                          |
+| `getName()` | String      | public     | Enum 이름(ACTIVE, DELETED)을 문자열로 반환. |
 
 
 # ReviewCreationRequestDto
@@ -431,13 +433,13 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 ## Attributes
 | Name       | Type   | Visibility                 | Description                                 |
 | ---------- | ------ | -------------------------- | ------------------------------------------- |
-| revieweeId | Long   | private (record component) | 후기 대상 사용자 ID. `@NotNull` 제약 적용.             |
-| content    | String | private (record component) | 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
+| revieweeId | Long   | private  | 후기 대상 사용자 ID. `@NotNull` 제약 적용.             |
+| content    | String | private  | 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
 
 ## Operations
 | Name                                                      | Return Type | Visibility | Description                                 |
 | --------------------------------------------------------- | ----------- | ---------- | ------------------------------------------- |
-| toEntity(User reviewer, User reviewee, String content)    | Review      | public     | 리뷰 작성자와 대상 유저 정보를 받아 `Review` 엔티티로 변환.      |
+| `toEntity(User reviewer, User reviewee, String content)`    | Review      | public     | 리뷰 작성자와 대상 유저 정보를 받아 `Review` 엔티티로 변환.      |
 
 
 # ReviewUpdateRequestDto
@@ -447,7 +449,7 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 ## Attributes
 | Name    | Type   | Visibility                 | Description                                     |
 | ------- | ------ | -------------------------- | ----------------------------------------------- |
-| content | String | private (record component) | 수정된 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
+| content | String | private  | 수정된 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
 
 ## Operations
 | Name                                      | Return Type | Visibility | Description                                   |
@@ -460,12 +462,12 @@ Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewS
 ## Attributes
 | Name    | Type   | Visibility                 | Description |
 | ------- | ------ | -------------------------- | ----------- |
-| content | String | private (record component) | 리뷰 본문 내용.   |
+| content | String | private  | 리뷰 본문 내용.   |
 
 ## Operations
 | Name                              | Return Type       | Visibility    | Description                                         |
 | --------------------------------- | ----------------- | ------------- | --------------------------------------------------- |
-| from(Review review)               | ReviewResponseDto | public static | `Review` 엔티티를 `ReviewResponseDto`로 변환하는 정적 팩토리 메서드. |
+| `from(Review review)`               | ReviewResponseDto | public static | `Review` 엔티티를 `ReviewResponseDto`로 변환하는 정적 팩토리 메서드. |
 
 
 # User 관련 Controller-Service-Repository
@@ -480,13 +482,14 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | ------- | ------ | -------------------------- | ----------- |
 
 ## Operations
-| Name                              | Return Type    | Description                              |
-| --------------------------------- | -------------- | ---------------------------------------- |
-| findByUsername(String username)   | Optional<User> | 사용자 아이디(username)로 조회.                   |
-| existsByEmail(String email)       | boolean        | 이메일 중복 여부 확인.                            |
-| existsByUsername(String username) | boolean        | 아이디 중복 여부 확인.                            |
-| existsByNickname(String nickname) | boolean        | 닉네임 중복 여부 확인.                            |
-| findByIdWithSkills(Long id)       | Optional<User> | Fetch Join으로 skills 컬렉션을 함께 로딩하여 사용자 조회. |
+| Name                                | Return Type    | Description                               |
+| ----------------------------------- | -------------- | ----------------------------------------- |
+| `findByUsername(String username)`   | Optional\<User> | 사용자 아이디(`username`)로 조회                   |
+| `existsByEmail(String email)`       | boolean        | 이메일 중복 여부 확인                              |
+| `existsByUsername(String username)` | boolean        | 아이디 중복 여부 확인                              |
+| `existsByNickname(String nickname)` | boolean        | 닉네임 중복 여부 확인                              |
+| `findByIdWithSkills(Long id)`       | Optional\<User> | Fetch Join으로 `skills` 컬렉션을 함께 로딩하여 사용자 조회 |
+
 
 
 # UserService
@@ -498,20 +501,21 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | ------- | ------ | -------------------------- | ----------- |
 
 ## Operations
-| Name                                                  | Return Type     | Description                                  |
-| ----------------------------------------------------- | --------------- | -------------------------------------------- |
-| findByUsername(String username)                       | User            | 사용자 이름으로 사용자 조회. 존재하지 않으면 예외 발생.             |
-| findById(Long id)                                     | User            | 사용자 ID로 조회. 존재하지 않으면 예외 발생.                  |
-| findByIdWithSkills(Long id)                           | User            | 사용자 및 보유 기술 스택을 함께 조회. (Fetch Join)          |
-| existsById(Long id)                                   | boolean         | 해당 ID의 사용자가 존재하는지 확인.                        |
-| existsByEmail(String email)                           | boolean         | 이메일 중복 여부 확인.                                |
-| existsByUsername(String username)                     | boolean         | 아이디 중복 여부 확인.                                |
-| existsByNickname(String nickname)                     | boolean         | 닉네임 중복 여부 확인.                                |
-| signUp(SignUpRequestDto dto)                          | Long            | 신규 사용자 등록 후 생성된 사용자 ID 반환.                   |
-| changePassword(Long userId, PasswordRequestDto dto)   | void            | 기존 비밀번호 검증 후 새 비밀번호로 변경.                     |
-| getUserInfo(Long userId)                              | UserResponseDto | 사용자 프로필 정보 조회.                               |
-| updateUserInfo(Long userId, UserUpdateRequestDto dto) | UserResponseDto | 사용자 정보 수정 후 갱신된 데이터 반환.                      |
-| withdraw(Long userId, String rawPassword)             | void            | 비밀번호 검증 후 회원 탈퇴(Soft Delete). |
+| Name                                                    | Return Type     | Description                          |
+| ------------------------------------------------------- | --------------- | ------------------------------------ |
+| `findByUsername(String username)`                       | User            | 사용자 이름으로 사용자 조회 — 존재하지 않으면 예외 발생     |
+| `findById(Long id)`                                     | User            | 사용자 ID로 조회 — 존재하지 않으면 예외 발생          |
+| `findByIdWithSkills(Long id)`                           | User            | 사용자 및 보유 기술 스택을 함께 조회 (`Fetch Join`) |
+| `existsById(Long id)`                                   | boolean         | 해당 ID의 사용자가 존재하는지 확인                 |
+| `existsByEmail(String email)`                           | boolean         | 이메일 중복 여부 확인                         |
+| `existsByUsername(String username)`                     | boolean         | 아이디 중복 여부 확인                         |
+| `existsByNickname(String nickname)`                     | boolean         | 닉네임 중복 여부 확인                         |
+| `signUp(SignUpRequestDto dto)`                          | Long            | 신규 사용자 등록 후 생성된 사용자 ID 반환            |
+| `changePassword(Long userId, PasswordRequestDto dto)`   | void            | 기존 비밀번호 검증 후 새 비밀번호로 변경              |
+| `getUserInfo(Long userId)`                              | UserResponseDto | 사용자 프로필 정보 조회                        |
+| `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | 사용자 정보 수정 후 갱신된 데이터 반환               |
+| `withdraw(Long userId, String rawPassword)`             | void            | 비밀번호 검증 후 회원 탈퇴 (`Soft Delete`)      |
+
 
 
 # UserServiceImpl
@@ -525,23 +529,24 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | REFRESH_TOKEN_PREFIX | String                        | private static final | Redis에 저장된 Refresh Token의 key prefix (`RT:`). |
 | userRepository       | UserRepository                | private final        | 사용자 데이터 접근 계층.                                |
 | passwordEncoder      | PasswordEncoder               | private final        | 비밀번호 암호화/검증을 담당하는 Spring Security 컴포넌트.       |
-| redisTemplate        | RedisTemplate<String, String> | private final        | Refresh Token 캐시 저장 및 삭제용 Redis 클라이언트.        |
+| redisTemplate        | RedisTemplate\<String, String> | private final        | Refresh Token 캐시 저장 및 삭제용 Redis 클라이언트.        |
 
 ## Operations
-| Name                                                  | Return Type     | Description                                            |
-| ----------------------------------------------------- | --------------- | ------------------------------------------------------ |
-| findByUsername(String username)                       | User            | 사용자 이름으로 조회. 없을 시 `USER_NOT_FOUND` 예외 발생.              |
-| findById(Long id)                                     | User            | 사용자 ID로 조회. 없을 시 `USER_NOT_FOUND`.                     |
-| findByIdWithSkills(Long id)                           | User            | 사용자 및 기술 스택(fetch join) 조회.                            |
-| existsById(Long id)                                   | boolean         | ID 존재 여부 반환.                                           |
-| existsByEmail(String email)                           | boolean         | 이메일 중복 여부 반환.                                          |
-| existsByUsername(String username)                     | boolean         | 아이디 중복 여부 반환.                                          |
-| existsByNickname(String nickname)                     | boolean         | 닉네임 중복 여부 반환.                                          |
-| signUp(SignUpRequestDto dto)                          | Long            | 회원가입 처리. 중복 체크 후 비밀번호 암호화 및 엔티티 저장.                    |
-| changePassword(Long userId, PasswordRequestDto dto)   | void            | 기존 비밀번호 검증 후 새 비밀번호로 변경.                               |
-| getUserInfo(Long userId)                              | UserResponseDto | 사용자 상세 정보 조회 후 DTO 변환.                                 |
-| updateUserInfo(Long userId, UserUpdateRequestDto dto) | UserResponseDto | 사용자 프로필 정보 수정. (grade, position, skills, shortIntro 등) |
-| withdraw(Long userId, String rawPassword)             | void            | 비밀번호 검증 후 Soft Delete(`WITHDRAWN`) 처리 및 Redis 토큰 삭제.   |
+| Name                                                    | Return Type     | Visibility | Description                                                   |
+| ------------------------------------------------------- | --------------- | ---------- | ------------------------------------------------------------- |
+| `findByUsername(String username)`                       | User            | public     | 사용자 이름으로 조회 — 없을 시 `USER_NOT_FOUND` 예외 발생                     |
+| `findById(Long id)`                                     | User            | public     | 사용자 ID로 조회 — 없을 시 `USER_NOT_FOUND` 예외 발생                      |
+| `findByIdWithSkills(Long id)`                           | User            | public     | 사용자 및 기술 스택(`fetch join`) 조회                                  |
+| `existsById(Long id)`                                   | boolean         | public     | ID 존재 여부 반환                                                   |
+| `existsByEmail(String email)`                           | boolean         | public     | 이메일 중복 여부 반환                                                  |
+| `existsByUsername(String username)`                     | boolean         | public     | 아이디 중복 여부 반환                                                  |
+| `existsByNickname(String nickname)`                     | boolean         | public     | 닉네임 중복 여부 반환                                                  |
+| `signUp(SignUpRequestDto dto)`                          | Long            | public     | 회원가입 처리 — 중복 체크 후 비밀번호 암호화 및 엔티티 저장                           |
+| `changePassword(Long userId, PasswordRequestDto dto)`   | void            | public     | 기존 비밀번호 검증 후 새 비밀번호로 변경                                       |
+| `getUserInfo(Long userId)`                              | UserResponseDto | public     | 사용자 상세 정보 조회 후 DTO 변환                                         |
+| `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | public     | 사용자 프로필 정보 수정 (`grade`, `position`, `skills`, `shortIntro` 등) |
+| `withdraw(Long userId, String rawPassword)`             | void            | public     | 비밀번호 검증 후 Soft Delete(`WITHDRAWN`) 처리 및 Redis 토큰 삭제           |
+
 
 
 # AuthService
@@ -554,14 +559,15 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
-| Name                                                       | Return Type | Visibility | Description                       |
-| ---------------------------------------------------------- | ----------- | ---------- | --------------------------------- |
-| sendAuthCode(String toEmail)                               | void        | public     | 입력된 이메일 주소로 인증 코드를 발송.            |
-| sendEmailAuthCode(String toEmail, String verificationCode) | void        | public     | 이메일과 인증번호를 기반으로 인증 메일을 전송.        |
-| verifyCode(String toEmail, String inputCode)               | void        | public     | 사용자가 입력한 인증번호를 검증.                |
-| login(SignInRequestDto dto)                                | TokenPair   | public     | 로그인 요청 DTO를 기반으로 인증 수행 및 JWT 발급.  |
-| deleteRefreshToken(Long userId)                            | void        | public     | 로그아웃 시 사용자의 리프레시 토큰을 삭제.          |
-| reissueTokens(String refreshToken)                         | TokenPair   | public     | 리프레시 토큰을 검증 후 새로운 액세스/리프레시 토큰 발급. |
+| Name                                                         | Return Type | Visibility | Description                      |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 입력된 이메일 주소로 인증 코드를 발송            |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | 이메일과 인증번호를 기반으로 인증 메일을 전송        |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | 사용자가 입력한 인증번호를 검증                |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 로그인 요청 DTO를 기반으로 인증 수행 및 JWT 발급  |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | 로그아웃 시 사용자의 리프레시 토큰을 삭제          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 리프레시 토큰을 검증 후 새로운 액세스/리프레시 토큰 발급 |
+
 
 
 # AuthServiceImpl
@@ -579,20 +585,21 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | jwtUtil                   | JwtUtil                       | private final        | JWT 생성 및 검증 유틸리티 클래스.                        |
 | userService               | UserService                   | private final        | 사용자 조회 및 유효성 검증 서비스.                         |
 | mailSender                | JavaMailSender                | private final        | 인증 메일 전송을 위한 메일 발송 컴포넌트.                     |
-| redisTemplate             | RedisTemplate<String, String> | private final        | 이메일 인증번호 및 토큰 저장소.                           |
+| redisTemplate             | RedisTemplate\<String, String> | private final        | 이메일 인증번호 및 토큰 저장소.                           |
 | authenticationManager     | AuthenticationManager         | private final        | Spring Security 인증 처리 매니저.                   |
 
 ## Operations
-| Name                                                       | Return Type | Description                                         |
-| ---------------------------------------------------------- | ----------- | --------------------------------------------------- |
-| sendAuthCode(String toEmail)                               | void        | 랜덤 6자리 인증번호를 생성 후 Redis에 저장하고, 해당 이메일로 발송.          |
-| sendEmailAuthCode(String toEmail, String verificationCode) | void        | HTML 이메일 템플릿을 생성하여 인증번호 발송.                         |
-| verifyCode(String toEmail, String inputCode)               | void        | Redis에 저장된 인증번호와 입력값을 비교하여 검증.                      |
-| login(SignInRequestDto dto)                                | TokenPair   | 사용자 로그인 인증 수행 후 Access/Refresh Token 발급.            |
-| deleteRefreshToken(Long userId)                            | void        | Redis에서 특정 사용자 Refresh Token 삭제 (로그아웃 처리).          |
-| reissueTokens(String refreshToken)                         | TokenPair   | 유효한 Refresh Token을 기반으로 새 Access/Refresh Token 재발급. |
-| generateVerificationCode()                                 | String      | 6자리 랜덤 인증번호 생성.                                     |
-| createEmailTemplate(String verificationCode)               | String      | 인증 이메일 HTML 템플릿 문자열 생성.                             |
+| Name                                                         | Return Type | Visibility | Description                                        |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 랜덤 6자리 인증번호를 생성 후 Redis에 저장하고, 해당 이메일로 발송          |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | HTML 이메일 템플릿을 생성하여 인증번호 발송                         |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | Redis에 저장된 인증번호와 입력값을 비교하여 검증                      |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 사용자 로그인 인증 수행 후 Access/Refresh Token 발급            |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | Redis에서 특정 사용자 Refresh Token 삭제 (로그아웃 처리)          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 유효한 Refresh Token을 기반으로 새 Access/Refresh Token 재발급 |
+| `generateVerificationCode()`                                 | String      | private    | 6자리 랜덤 인증번호 생성                                     |
+| `createEmailTemplate(String verificationCode)`               | String      | private    | 인증 이메일 HTML 템플릿 문자열 생성                             |
+
 
 
 ## UserController
@@ -607,17 +614,18 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | reviewService             | ReviewService | private final        | 리뷰 조회 로직을 담당하는 서비스 계층.                         |
 
 ## Operations
-| Name                                                                                          | Return Type                                                  | Mapping                                      | Visibility | Description                             |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |----------------------------------------------|------------|-----------------------------------------|
-| existsByUsername(String username)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사.                           |
-| existsByEmail(String email)                                                                   | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사.                           |
-| existsByNickname(String nickname)                                                             | ResponseEntity<ApiResponse<Boolean>>                         | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사.                           |
-| passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)                         | ResponseEntity<ApiResponse<Void>>                            | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경.                       |
-| getMe(CustomUserDetails userDetails)                                                          | ResponseEntity<ApiResponse<UserResponseDto>>                 | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회.                    |
-| updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)                             | ResponseEntity<ApiResponse<UserResponseDto>>                 | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정.                    |
-| withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response) | ResponseEntity<ApiResponse<Void>>                            | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (Soft Delete + Refresh Token 제거). |
-| getReviews(Long userId, Pageable pageable)                                                    | ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회.                    |
-| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리.           |
+| Name                                                                                            | Return Type                                                  | Mapping                                      | Visibility | Description                              |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- | ---------- | ---------------------------------------- |
+| `existsByUsername(String username)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사                             |
+| `existsByEmail(String email)`                                                                   | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사                             |
+| `existsByNickname(String nickname)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사                             |
+| `passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)`                         | ResponseEntity\<ApiResponse\<Void>>                            | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경                         |
+| `getMe(CustomUserDetails userDetails)`                                                          | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회                      |
+| `updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)`                             | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정                      |
+| `withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response)` | ResponseEntity\<ApiResponse\<Void>>                            | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (`Soft Delete` + Refresh Token 제거) |
+| `getReviews(Long userId, Pageable pageable)`                                                    | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회                      |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)`         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리             |
+
 
 
 # AuthController
@@ -633,15 +641,16 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 | userService               | UserService | private final        | 사용자 회원가입 및 사용자 관련 서비스.                      |
 
 ## Operations
-| Name                                                                                  | Return Type                       | Mapping                          | Visibility | Description                                                |
-| ------------------------------------------------------------------------------------- | --------------------------------- |----------------------------------|------------|------------------------------------------------------------|
-| sendEmailAuthCode(EmailRequestDto dto)                                                | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송.                                          |
-| verifyAuthCode(EmailVerificationRequestDto dto)                                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증.                                      |
-| signUp(SignUpRequestDto dto)                                                          | ResponseEntity<ApiResponse<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리. 성공 시 생성된 `userId` 반환.                          |
-| signIn(SignInRequestDto dto, HttpServletResponse response)                            | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급.                          |
-| signOut(HttpServletResponse response, CustomUserDetails userDetails)                  | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제.                                     |
-| refreshToken(String refreshToken, HttpServletResponse response)                       | ResponseEntity<ApiResponse<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급.                 |
-| addCookie(HttpServletResponse response, String token, String cookieName, long maxAge) | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (HttpOnly, Secure, SameSite=Lax). |
+| Name                                                                                    | Return Type                       | Mapping                          | Visibility | Description                                                     |
+| --------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------- | --------------------------------------------------------------- |
+| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
+| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
+| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<ApiResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
+| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
+| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
+| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)` | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (`HttpOnly`, `Secure`, `SameSite=Lax`) |
+
 
 
 # Team 관련 Repository-Service-Controller
@@ -656,10 +665,10 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 | -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
-| Name                                                                                                                                                                | Return Type      | Visibility | Description                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
-| `findDistinctByRecruitmentCategoryAndRecruitmentStatusAndRecruitmentUserId(RecruitmentCategory category, RecruitmentStatus status, Long userId, Pageable pageable)` | `Page<Team>`     | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다.<br>연관된 `Recruitment` 및 `User`를 `EntityGraph`로 함께 로딩. |
-| `findByIdWithMembers(Long id)`                                                                                                                                      | `Optional<Team>` | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다.           |
+| Name                                                                                                                                                                | Return Type   | Visibility | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| `findDistinctByRecruitmentCategoryAndRecruitmentStatusAndRecruitmentUserId(RecruitmentCategory category, RecruitmentStatus status, Long userId, Pageable pageable)` | Page\<Team>    | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다.<br>연관된 `Recruitment` 및 `User`를 `EntityGraph`로 함께 로딩. |
+| `findByIdWithMembers(Long id)`                                                                                                                                      | Optional\<Team> | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다.           |
 
 # TeamService
 팀(Team) 도메인과 관련된 핵심 비즈니스 로직의 인터페이스 계층.
@@ -671,13 +680,13 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 | -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ## Operations
-| Name                                                                                                                      | Return Type             | Visibility | Description                                      |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ---------- | ------------------------------------------------ |
-| `save(Team team)`                                                                                                         | `void`                  | public     | 새 팀을 저장한다.                                       |
-| `findById(Long id)`                                                                                                       | `Team`                  | public     | 팀 ID로 팀 엔티티를 조회한다.<br>존재하지 않을 경우 예외 발생.          |
-| `findByIdWithMembers(Long id)`                                                                                            | `Team`                  | public     | 팀 ID로 조회하며, 팀 멤버(`members`, `user`)를 함께 로딩한다.    |
-| `existsById(Long id)`                                                                                                     | `boolean`               | public     | 특정 팀 ID의 존재 여부를 반환한다.                            |
-| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | `Page<TeamResponseDto>` | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리와 상태의 팀 목록을 페이징 조회한다. |
+| Name                                                                                                                      | Return Type  | Visibility | Description                                      |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------------------------------------------ |
+| `save(Team team)`                                                                                                         | void         | public     | 새 팀을 저장한다.                                       |
+| `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀 엔티티를 조회한다.<br>존재하지 않을 경우 예외 발생.          |
+| `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 조회하며, 팀 멤버(`members`, `user`)를 함께 로딩한다.    |
+| `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 팀 ID의 존재 여부를 반환한다.                            |
+| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리와 상태의 팀 목록을 페이징 조회한다. |
 
 
 # TeamServiceImpl
@@ -685,20 +694,20 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 `Team` 엔티티의 조회 및 저장, 사용자별 팀 목록 조회 기능을 담당하는 서비스 클래스.
 
 ## Attributes
-| Name                  | Type                | Visibility           | Description                          |
-| --------------------- | ------------------- | -------------------- | ------------------------------------ |
-| `teamRepository`      | `TeamRepository`    | private final        | Team 엔티티에 대한 데이터 접근을 담당하는 Repository |
-| `pageableValidator`   | `PageableValidator` | private final        | 페이지 및 정렬 요청을 검증하는 유틸리티 클래스           |
-| `MY_TEAM_SORT_FIELDS` | `Set<String>`       | private static final | 허용된 정렬 기준 필드 목록 (현재 `createdAt`만 허용) |
+| Name                | Type            | Visibility           | Description                          |
+|---------------------|-----------------| -------------------- | ------------------------------------ |
+| teamRepository      | TeamRepository  | private final        | Team 엔티티에 대한 데이터 접근을 담당하는 Repository |
+| pageableValidator   | PageableValidator | private final        | 페이지 및 정렬 요청을 검증하는 유틸리티 클래스           |
+| MY_TEAM_SORT_FIELDS | Set\<String>     | private static final | 허용된 정렬 기준 필드 목록 (현재 `createdAt`만 허용) |
 
 ## Operations
-| Name                                                                                                                      | Return Type             | Visibility | Description                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ---------- | ------------------------------------------------------------------------------------------ |
-| `save(Team team)`                                                                                                         | `void`                  | public     | 새 팀 정보를 데이터베이스에 저장한다.                                                                      |
-| `findById(Long id)`                                                                                                       | `Team`                  | public     | 팀 ID로 팀을 조회하고, 없을 경우 `TEAM_NOT_FOUND` 예외를 발생시킨다.                                           |
-| `findByIdWithMembers(Long id)`                                                                                            | `Team`                  | public     | 팀 ID로 팀을 조회하며, 팀 멤버(`members` 및 `user`)를 함께 로딩한다.                                          |
-| `existsById(Long id)`                                                                                                     | `boolean`               | public     | 특정 ID의 팀 존재 여부를 반환한다.                                                                      |
-| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | `Page<TeamResponseDto>` | public     | 특정 사용자가 생성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이지 단위로 조회한다.<br>조회된 엔티티는 `TeamResponseDto`로 변환된다. |
+| Name                                                                                                                      | Return Type  | Visibility | Description                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------------------------------------------------------------------------------------ |
+| `save(Team team)`                                                                                                         | void         | public     | 새 팀 정보를 데이터베이스에 저장한다.                                                                      |
+| `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀을 조회하고, 없을 경우 `TEAM_NOT_FOUND` 예외를 발생시킨다.                                           |
+| `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 팀을 조회하며, 팀 멤버(`members` 및 `user`)를 함께 로딩한다.                                          |
+| `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 ID의 팀 존재 여부를 반환한다.                                                                      |
+| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 생성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이지 단위로 조회한다.<br>조회된 엔티티는 `TeamResponseDto`로 변환된다. |
 
 
 # TeamController
@@ -706,15 +715,15 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 사용자의 인증 정보를 바탕으로 본인의 팀 목록을 카테고리와 상태별로 페이징 조회할 수 있도록 한다.
 
 ## Attributes
-| Name          | Type          | Visibility    | Description                   |
-| ------------- | ------------- | ------------- | ----------------------------- |
-| `teamService` | `TeamService` | private final | 팀 관련 비즈니스 로직을 수행하는 서비스 계층 의존성 |
+| Name        | Type        | Visibility    | Description                   |
+| ----------- | ----------- | ------------- | ----------------------------- |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직을 수행하는 서비스 계층 의존성 |
 
 
 ## Operations
-| Name                                                                                                                            | Return Type                                          | Mapping              | Visibility | Description                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |----------------------|------------| ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | `ResponseEntity<ApiResponse<Page<TeamResponseDto>>>` | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
+| Name                                                                                                                            | Return Type                                        | Mapping              | Visibility | Description                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |----------------------|------------| ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<TeamResponseDto>>> | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
 
 
 # TeamMember 관련 Repository-Service-Controller
@@ -728,9 +737,9 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
-| Name                                              | Return Type            | Visibility | Description                                                   |
-| ------------------------------------------------- | ---------------------- | ---------- | ------------------------------------------------------------- |
-| `findByTeamIdAndUserId(Long teamId, Long userId)` | `Optional<TeamMember>` | public     | 특정 팀 ID와 사용자 ID로 팀 멤버를 조회한다.<br>결과가 없을 경우 빈 `Optional`을 반환한다. |
+| Name                                              | Return Type          | Visibility | Description                                                   |
+| ------------------------------------------------- | -------------------- | ---------- | ------------------------------------------------------------- |
+| `findByTeamIdAndUserId(Long teamId, Long userId)` | Optional\<TeamMember> | public     | 특정 팀 ID와 사용자 ID로 팀 멤버를 조회한다.<br>결과가 없을 경우 빈 `Optional`을 반환한다. |
 
 
 # TeamMemberService
@@ -743,8 +752,8 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 ## Operations
 | Name                                                       | Return Type | Visibility | Description                                                                                                 |
-| ---------------------------------------------------------- | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
-| `removeMember(Long teamId, Long removerId, Long targetId)` | `void`      | public     | 특정 팀(`teamId`)에서 리더(`removerId`)가 특정 멤버(`targetId`)를 삭제(강제 탈퇴)한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다. |
+| ---------------------------------------------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
+| `removeMember(Long teamId, Long removerId, Long targetId)` | void      | public     | 특정 팀(`teamId`)에서 리더(`removerId`)가 특정 멤버(`targetId`)를 삭제(강제 탈퇴)한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다. |
 
 
 
@@ -754,17 +763,18 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 동시성 제어를 위해 `@Version` 기반 Optimistic Lock과 Spring Retry를 활용하며, 비즈니스 예외를 통한 명확한 검증 로직을 갖는다.
 
 ## Attributes
-| Name                   | Type                   | Visibility    | Description                     |
-| ---------------------- | ---------------------- | ------------- | ------------------------------- |
-| `teamMemberRepository` | `TeamMemberRepository` | private final | 팀 멤버 엔티티에 대한 데이터 접근 계층          |
-| `teamService`          | `TeamService`          | private final | 팀 엔티티 조회 및 검증을 담당하는 서비스         |
-| `recruitmentService`   | `RecruitmentService`   | private final | 모집공고(BaseRecruitment) 관련 서비스 계층 |
+| Name                 | Type                 | Visibility    | Description                     |
+| -------------------- | -------------------- | ------------- | ------------------------------- |
+| teamMemberRepository | TeamMemberRepository | private final | 팀 멤버 엔티티에 대한 데이터 접근 계층          |
+| teamService          | TeamService          | private final | 팀 엔티티 조회 및 검증을 담당하는 서비스         |
+| recruitmentService   | RecruitmentService   | private final | 모집공고(BaseRecruitment) 관련 서비스 계층 |
+
 
 ## Operations
 | Name                                                                                             | Return Type | Visibility | Description                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------------------------------ | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `removeMember(Long teamId, Long removerId, Long targetId)`                                       | `void`      | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
-| `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | `void`      | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `removeMember(Long teamId, Long removerId, Long targetId)`                                       | void    | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
+| `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void    | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
 
 
 # TeamMemberController
@@ -772,14 +782,14 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 팀 리더가 특정 멤버를 팀에서 강제 탈퇴시키는 기능을 제공한다.
 
 ## Attributes
-| Name                | Type                | Visibility    | Description                 |
-| ------------------- | ------------------- | ------------- | --------------------------- |
-| `teamMemberService` | `TeamMemberService` | private final | 팀 멤버 관리 로직을 수행하는 서비스 계층 의존성 |
+| Name              | Type              | Visibility    | Description                 |
+| ----------------- | ----------------- | ------------- | --------------------------- |
+| teamMemberService | TeamMemberService | private final | 팀 멤버 관리 로직을 수행하는 서비스 계층 의존성 |
 
 ## Operations
-| Name                                                                      | Return Type                         | Mapping                                           | Visibility | Description                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------- | ----------------------------------- |---------------------------------------------------|------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Void>>` | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
+| Name                                                                      | Return Type                       | Mapping                                           | Visibility | Description                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------- | --------------------------------- |---------------------------------------------------|------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void>> | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
 
 
 # Review 관련 Repository-Service-Controller
@@ -794,10 +804,10 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 | ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
-| Name                                                                                 | Return Type    | Visibility | Description                                                      |
-| ------------------------------------------------------------------------------------ | -------------- | ---------- | ---------------------------------------------------------------- |
-| `findByRevieweeIdAndStatus(Long revieweeId, ReviewStatus status, Pageable pageable)` | `Page<Review>` | public     | 특정 피평가자(`revieweeId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다.   |
-| `findByReviewerIdAndStatus(Long reviewerId, ReviewStatus status, Pageable pageable)` | `Page<Review>` | public     | 특정 리뷰 작성자(`reviewerId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다. |
+| Name                                                                                 | Return Type  | Visibility | Description                                                      |
+| ------------------------------------------------------------------------------------ | ------------ | ---------- | ---------------------------------------------------------------- |
+| `findByRevieweeIdAndStatus(Long revieweeId, ReviewStatus status, Pageable pageable)` | Page\<Review> | public     | 특정 피평가자(`revieweeId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다.   |
+| `findByReviewerIdAndStatus(Long reviewerId, ReviewStatus status, Pageable pageable)` | Page\<Review> | public     | 특정 리뷰 작성자(`reviewerId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다. |
 
 # ReviewService
 리뷰(Review) 도메인의 핵심 비즈니스 로직 계약(Contract)을 정의하는 서비스 인터페이스.
@@ -808,14 +818,14 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 | ------------- | ------------- | ------------- | ----------------------------- |
 
 ## Operations
-| Name                                                                   | Return Type                       | Visibility | Description                                                       |
-| ---------------------------------------------------------------------- | --------------------------------- | ---------- | ----------------------------------------------------------------- |
-| `findById(Long id)`                                                    | `Review`                          | public     | 리뷰 ID로 리뷰 엔티티를 조회한다. 존재하지 않을 경우 예외 발생.                            |
-| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | `Long`                            | public     | 리뷰 작성자 ID와 요청 DTO를 기반으로 리뷰를 생성하고, 생성된 리뷰의 ID를 반환한다.               |
-| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | `PageResponse<ReviewResponseDto>` | public     | 특정 사용자가 **받은 리뷰 목록**을 페이징 조건에 맞게 조회한다.                            |
-| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | `PageResponse<ReviewResponseDto>` | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이징 조건에 맞게 조회한다.                           |
-| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | `Long`                            | public     | 본인이 작성한 활성 상태의 리뷰만 수정할 수 있다.                                      |
-| `deleteReview(Long userId, Long reviewId)`                             | `void`                            | public     | 본인이 작성한 활성 상태의 리뷰만 **Soft Delete** 처리한다. (`ReviewStatus.DELETED`) |
+| Name                                                                   | Return Type               | Visibility | Description                                                       |
+| ---------------------------------------------------------------------- | ------------------------- | ---------- | ----------------------------------------------------------------- |
+| `findById(Long id)`                                                    | Review                    | public     | 리뷰 ID로 리뷰 엔티티를 조회한다. 존재하지 않을 경우 예외 발생.                            |
+| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | Long                      | public     | 리뷰 작성자 ID와 요청 DTO를 기반으로 리뷰를 생성하고, 생성된 리뷰의 ID를 반환한다.               |
+| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **받은 리뷰 목록**을 페이징 조건에 맞게 조회한다.                            |
+| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이징 조건에 맞게 조회한다.                           |
+| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | Long                      | public     | 본인이 작성한 활성 상태의 리뷰만 수정할 수 있다.                                      |
+| `deleteReview(Long userId, Long reviewId)`                             | void                      | public     | 본인이 작성한 활성 상태의 리뷰만 **Soft Delete** 처리한다. (`ReviewStatus.DELETED`) |
 
 
 # ReviewServiceImpl
@@ -824,20 +834,20 @@ ReviewService 인터페이스의 구현체로,
 리뷰 작성자·피평가자 간의 관계 및 상태(ReviewStatus)를 검증한다.
 
 ## Attributes
-| Name               | Type               | Visibility    | Description                     |
-| ------------------ | ------------------ | ------------- | ------------------------------- |
-| `reviewRepository` | `ReviewRepository` | private final | 리뷰 엔티티에 대한 데이터 접근 계층            |
-| `userService`      | `UserService`      | private final | 리뷰 작성자 및 피평가자 검증을 위한 사용자 조회 서비스 |
+| Name           | Type           | Visibility    | Description                     |
+| -------------- |----------------| ------------- | ------------------------------- |
+| reviewRepository | ReviewRepository | private final | 리뷰 엔티티에 대한 데이터 접근 계층            |
+| userService    | UserService    | private final | 리뷰 작성자 및 피평가자 검증을 위한 사용자 조회 서비스 |
 
 ## Operations
-| Name                                                                   | Return Type                       | Visibility | Description                                                                                          |
-| ---------------------------------------------------------------------- | --------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `findById(Long id)`                                                    | `Review`                          | public     | 리뷰 ID로 리뷰를 조회하고, 존재하지 않을 경우 `REVIEW_NOT_FOUND` 예외를 발생시킨다.                                            |
-| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | `Long`                            | public     | 리뷰 작성자와 피평가자 정보를 조회 후, 새로운 리뷰를 생성 및 저장한다.<br>자기 자신에게 리뷰를 남기는 경우 `SELF_REVIEW_NOT_ALLOWED` 예외 발생.     |
-| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | `PageResponse<ReviewResponseDto>` | public     | 특정 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환.  |
-| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | `PageResponse<ReviewResponseDto>` | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환. |
-| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | `Long`                            | public     | 본인이 작성한 활성 상태 리뷰만 수정할 수 있다.<br>리뷰 소유자 불일치 또는 비활성 리뷰일 경우 예외 발생.                                       |
-| `deleteReview(Long userId, Long reviewId)`                             | `void`                            | public     | 본인이 작성한 활성 상태 리뷰만 **Soft Delete** 처리(`ReviewStatus.DELETED`) 가능.                                     |
+| Name                                                                   | Return Type               | Visibility | Description                                                                                          |
+| ---------------------------------------------------------------------- |---------------------------| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `findById(Long id)`                                                    | Review                    | public     | 리뷰 ID로 리뷰를 조회하고, 존재하지 않을 경우 `REVIEW_NOT_FOUND` 예외를 발생시킨다.                                            |
+| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | Long                      | public     | 리뷰 작성자와 피평가자 정보를 조회 후, 새로운 리뷰를 생성 및 저장한다.<br>자기 자신에게 리뷰를 남기는 경우 `SELF_REVIEW_NOT_ALLOWED` 예외 발생.     |
+| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환.  |
+| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환. |
+| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | Long                      | public     | 본인이 작성한 활성 상태 리뷰만 수정할 수 있다.<br>리뷰 소유자 불일치 또는 비활성 리뷰일 경우 예외 발생.                                       |
+| `deleteReview(Long userId, Long reviewId)`                             | void                      | public     | 본인이 작성한 활성 상태 리뷰만 **Soft Delete** 처리(`ReviewStatus.DELETED`) 가능.                                     |
 
 
 
@@ -846,18 +856,18 @@ ReviewService 인터페이스의 구현체로,
 리뷰 작성, 조회(받은/작성한), 수정, 삭제(Soft Delete) 기능을 담당하며, `ReviewService`를 호출해 비즈니스 로직을 수행한다.
 
 ## Attributes
-| Name            | Type            | Visibility    | Description                    |
-| --------------- | --------------- | ------------- | ------------------------------ |
-| `reviewService` | `ReviewService` | private final | 리뷰 관련 비즈니스 로직을 담당하는 서비스 계층 의존성 |
+| Name          | Type          | Visibility    | Description                    |
+| ------------- | ------------- | ------------- | ------------------------------ |
+| reviewService | ReviewService | private final | 리뷰 관련 비즈니스 로직을 담당하는 서비스 계층 의존성 |
 
 ## Operations
-| Name                                                                                     | Return Type                                                    | Mapping                                       | Visibility | Description                                                                     |
-| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------- |-----------------------------------------------|------------| ------------------------------------------------------------------------------- |
-| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | `ResponseEntity<ApiResponse<Long>>`                            | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
-| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
-| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | `ResponseEntity<ApiResponse<PageResponse<ReviewResponseDto>>>` | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
-| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | `ResponseEntity<ApiResponse<Long>>`                            | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
-| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | `ResponseEntity<ApiResponse<Void>>`                            | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
+| Name                                                                                     | Return Type                                            | Mapping                                       | Visibility | Description                                                                     |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |-----------------------------------------------|------------| ------------------------------------------------------------------------------- |
+| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | ResponseEntity\<ApiResponse\<Long>>                      | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
+| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long>>                      | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
+| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | ResponseEntity\<ApiResponse\<Void>>                      | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
 
 
 
@@ -889,18 +899,18 @@ Spring Boot의 `@ConfigurationProperties`를 사용하여
 `application.properties`의 `"pagination"` prefix 설정값을 자동 주입받는다.
 
 ## Attributes
-| Name            | Type  | Visibility | Default | Description                                   |
-| --------------- | ----- | ---------- | ------- | --------------------------------------------- |
-| `maxSize`       | `int` | private    | `100`   | 클라이언트가 요청할 수 있는 **최대 페이지 크기** (DoS 방지 목적)     |
-| `defaultSize`   | `int` | private    | `20`    | 클라이언트가 `size` 파라미터를 지정하지 않았을 때의 **기본 페이지 크기** |
-| `maxPageNumber` | `int` | private    | `10000` | 허용되는 **최대 페이지 번호** (너무 깊은 페이지 요청 방지)          |
+| Name        | Type | Visibility |  Description                                   |
+| ----------- |-----| ---------- |  --------------------------------------------- |
+| maxSize     | int | private    |  클라이언트가 요청할 수 있는 **최대 페이지 크기** (DoS 방지 목적)     |
+| defaultSize | int | private    |  클라이언트가 `size` 파라미터를 지정하지 않았을 때의 **기본 페이지 크기** |
+| maxPageNumber | int | private    |  허용되는 **최대 페이지 번호** (너무 깊은 페이지 요청 방지)          |
 
 ## Operations
 | Name                 | Return Type | Visibility | Description        |
-| -------------------- | ----------- | ---------- | ------------------ |
-| `getMaxSize()`       | `int`       | public     | 최대 페이지 크기 값을 반환한다. |
-| `getDefaultSize()`   | `int`       | public     | 기본 페이지 크기 값을 반환한다. |
-| `getMaxPageNumber()` | `int`       | public     | 최대 페이지 번호 값을 반환한다. |
+| -------------------- | ---- | ---------- | ------------------ |
+| `getMaxSize()`       | int  | public     | 최대 페이지 크기 값을 반환한다. |
+| `getDefaultSize()`   | int  | public     | 기본 페이지 크기 값을 반환한다. |
+| `getMaxPageNumber()` | int  | public     | 최대 페이지 번호 값을 반환한다. |
 
 
 # QueryDslConfig
@@ -909,14 +919,14 @@ Spring Boot의 `@ConfigurationProperties`를 사용하여
 `QueryDSL`을 활용한 타입 안전한 동적 쿼리 작성이 가능하도록 지원한다.
 
 ## Attributes
-| Name            | Type            | Visibility | Description                                                                |
-| --------------- | --------------- | ---------- | -------------------------------------------------------------------------- |
-| `entityManager` | `EntityManager` | private    | JPA가 관리하는 엔티티 매니저. `@PersistenceContext`로 주입받아 QueryDSL의 쿼리 수행 기반 객체로 사용됨. |
+| Name          | Type          | Visibility | Description                                                                |
+| ------------- | ------------- | ---------- | -------------------------------------------------------------------------- |
+| entityManager | EntityManager | private    | JPA가 관리하는 엔티티 매니저. `@PersistenceContext`로 주입받아 QueryDSL의 쿼리 수행 기반 객체로 사용됨. |
 
 ## Operations
-| Name                | Return Type       | Visibility | Description                                                                                 |
-| ------------------- | ----------------- | ---------- | ------------------------------------------------------------------------------------------- |
-| `jpaQueryFactory()` | `JPAQueryFactory` | public     | `EntityManager`를 주입받아 `JPAQueryFactory` Bean을 생성 및 등록한다.<br>QueryDSL 기반 리포지토리에서 주입받아 사용 가능. |
+| Name                | Return Type     | Visibility | Description                                                                                 |
+| ------------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------- |
+| `jpaQueryFactory()` | JPAQueryFactory | public     | `EntityManager`를 주입받아 `JPAQueryFactory` Bean을 생성 및 등록한다.<br>QueryDSL 기반 리포지토리에서 주입받아 사용 가능. |
 
 
 # SecurityConfig
@@ -926,19 +936,20 @@ JWT 인증 방식을 사용하며, 세션을 생성하지 않는 Stateless 구�
 권한 및 인증 예외 상황을 처리한다.
 
 ## Attributes
-| Name                             | Type                             | Visibility    | Description                            |
-| -------------------------------- | -------------------------------- | ------------- | -------------------------------------- |
-| `jwtFilter`                      | `JwtFilter`                      | private final | JWT 토큰을 검증하고 인증 정보를 설정하는 커스텀 필터        |
-| `authenticationConfiguration`    | `AuthenticationConfiguration`    | private final | Spring Security의 인증 관리 설정 객체           |
-| `customAccessDeniedHandler`      | `CustomAccessDeniedHandler`      | private final | 인가(Authorization) 실패 시 실행되는 예외 처리 핸들러  |
-| `customAuthenticationEntryPoint` | `CustomAuthenticationEntryPoint` | private final | 인증(Authentication) 실패 시 실행되는 예외 처리 핸들러 |
+| Name                           | Type                           | Visibility    | Description                            |
+| ------------------------------ | ------------------------------ | ------------- | -------------------------------------- |
+| jwtFilter                      | JwtFilter                      | private final | JWT 토큰을 검증하고 인증 정보를 설정하는 커스텀 필터        |
+| authenticationConfiguration    | AuthenticationConfiguration    | private final | Spring Security의 인증 관리 설정 객체           |
+| customAccessDeniedHandler      | CustomAccessDeniedHandler      | private final | 인가(Authorization) 실패 시 실행되는 예외 처리 핸들러  |
+| customAuthenticationEntryPoint | CustomAuthenticationEntryPoint | private final | 인증(Authentication) 실패 시 실행되는 예외 처리 핸들러 |
+
 
 ## Operations
-| Name                             | Return Type             | Visibility | Description                                                      |
-| -------------------------------- | ----------------------- | ---------- | ---------------------------------------------------------------- |
-| `passwordEncoder()`              | `PasswordEncoder`       | public     | `BCryptPasswordEncoder`를 Bean으로 등록하여 비밀번호 암호화 기능 제공              |
-| `authenticationManager()`        | `AuthenticationManager` | public     | Spring Security의 인증 매니저 Bean을 생성 및 주입                            |
-| `filterChain(HttpSecurity http)` | `SecurityFilterChain`   | public     | 보안 필터 체인(Security Filter Chain) 설정 및 구성 반환<br>JWT 기반 인증/인가 흐름 정의 |
+| Name                             | Return Type         | Visibility | Description                                                      |
+| -------------------------------- |---------------------| ---------- | ---------------------------------------------------------------- |
+| `passwordEncoder()`              | PasswordEncoder     | public     | `BCryptPasswordEncoder`를 Bean으로 등록하여 비밀번호 암호화 기능 제공              |
+| `authenticationManager()`        | AuthenticationManager | public     | Spring Security의 인증 매니저 Bean을 생성 및 주입                            |
+| `filterChain(HttpSecurity http)` | SecurityFilterChain | public     | 보안 필터 체인(Security Filter Chain) 설정 및 구성 반환<br>JWT 기반 인증/인가 흐름 정의 |
 
 
 # WebConfig
@@ -951,8 +962,8 @@ Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 �
 
 ## Operations
 | Name                                        | Return Type | Visibility | Description                                                                                      |
-| ------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------------ |
-| `addFormatters(FormatterRegistry registry)` | `void`      | public     | Spring MVC의 `FormatterRegistry`에 `StringToEnumConverterFactory`를 등록하여 문자열 → Enum 자동 변환 기능을 추가한다. |
+| ------------------------------------------- | --------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| `addFormatters(FormatterRegistry registry)` | void      | public     | Spring MVC의 `FormatterRegistry`에 `StringToEnumConverterFactory`를 등록하여 문자열 → Enum 자동 변환 기능을 추가한다. |
 
 
 # GlobalExceptionHandler
@@ -965,12 +976,12 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 | -------- | ---- | ---------- | ------------------------- |
 
 ## Operations
-| Name                                                                                        | Return Type                                          | Visibility | Description                                                                                                                |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `handleBusinessException(BusinessException ex)`                                             | `ResponseEntity<ApiResponse<Void>>`                  | public     | 비즈니스 로직(`Service`, `Domain`)에서 발생한 `BusinessException`을 처리한다.<br>응답에는 `ErrorCode`와 예외 메시지가 포함된다.                           |
-| `handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)`                 | `ResponseEntity<ApiResponse<List<ValidationError>>>` | public     | DTO 검증 실패(`@Valid`, `@Validated`) 시 발생하는 `MethodArgumentNotValidException`을 처리하고<br>모든 필드 에러를 `ValidationError` 리스트로 반환한다. |
-| `handleMissingServletRequestParameterException(MissingServletRequestParameterException ex)` | `ResponseEntity<ApiResponse<String>>`                | public     | 필수 `@RequestParam`이 누락된 경우 발생하는 예외를 처리한다.<br>누락된 파라미터 이름과 함께 `REQUIRED_FIELD_MISSING` 에러코드 반환.                             |
-| `handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)`         | `ResponseEntity<ApiResponse<String>>`                | public     | 요청 파라미터의 타입이 예상과 다를 때 발생하는 예외 처리.<br>특히 Enum 타입에 잘못된 값이 전달될 때(`INVALID_ENUM_VALUE`) 메시지를 반환한다.                             |
+| Name                                                                                        | Return Type                                    | Visibility | Description                                                                                                                |
+| ------------------------------------------------------------------------------------------- |------------------------------------------------| ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `handleBusinessException(BusinessException ex)`                                             | ResponseEntity\<ApiResponse\<Void>>              | public     | 비즈니스 로직(`Service`, `Domain`)에서 발생한 `BusinessException`을 처리한다.<br>응답에는 `ErrorCode`와 예외 메시지가 포함된다.                           |
+| `handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)`                 | ResponseEntity\<ApiResponse\<List\<ValidationError>>> | public     | DTO 검증 실패(`@Valid`, `@Validated`) 시 발생하는 `MethodArgumentNotValidException`을 처리하고<br>모든 필드 에러를 `ValidationError` 리스트로 반환한다. |
+| `handleMissingServletRequestParameterException(MissingServletRequestParameterException ex)` | ResponseEntity\<ApiResponse\<String>>            | public     | 필수 `@RequestParam`이 누락된 경우 발생하는 예외를 처리한다.<br>누락된 파라미터 이름과 함께 `REQUIRED_FIELD_MISSING` 에러코드 반환.                             |
+| `handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)`         | ResponseEntity\<ApiResponse\<String>>            | public     | 요청 파라미터의 타입이 예상과 다를 때 발생하는 예외 처리.<br>특히 Enum 타입에 잘못된 값이 전달될 때(`INVALID_ENUM_VALUE`) 메시지를 반환한다.                             |
 
 
 # ErrorCode
@@ -979,115 +990,116 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 모든 예외(`BusinessException`, `GlobalExceptionHandler`)는 이 Enum을 기반으로 일관된 에러 응답을 생성한다.
 
 ## Enum Values
-| 구분 | Enum Name | HttpStatus | Code | Message |
-|------|------------|-------------|-------|----------|
-| **400 BAD_REQUEST (잘못된 요청)** |  |  |  |  |
-| `INVALID_REQUEST` | 400 | `INVALID_REQUEST` | 잘못된 요청입니다. |  |
-| `VALIDATION_FAILED` | 400 | `VALIDATION_FAILED` | 요청 값이 유효하지 않습니다. |  |
-| `REQUIRED_FIELD_MISSING` | 400 | `REQUIRED_FIELD_MISSING` | 필수 값이 누락되었습니다. |  |
-| `INVALID_EMAIL_FORMAT` | 400 | `INVALID_EMAIL_FORMAT` | 이메일 형식이 올바르지 않습니다. |  |
-| `INVALID_NICKNAME_FORMAT` | 400 | `INVALID_NICKNAME_FORMAT` | 닉네임 형식이 올바르지 않습니다. |  |
-| `INVALID_PASSWORD_FORMAT` | 400 | `INVALID_PASSWORD_FORMAT` | 비밀번호 형식이 올바르지 않습니다. |  |
-| `MISMATCHED_PASSWORD` | 400 | `MISMATCHED_PASSWORD` | 비밀번호와 비밀번호 확인이 일치하지 않습니다. |  |
-| `PASSWORD_SAME_AS_OLD` | 400 | `PASSWORD_SAME_AS_OLD` | 기존 비밀번호와 새로운 비밀번호가 일치합니다. |  |
-| `OLD_PASSWORD_INCORRECT` | 400 | `OLD_PASSWORD_INCORRECT` | 기존 비밀번호가 일치하지 않습니다. |  |
-| `UNSUPPORTED_UNIVERSITY_DOMAIN` | 400 | `UNSUPPORTED_UNIVERSITY_DOMAIN` | 지원하지 않는 학교 도메인입니다. |  |
-| `VERIFICATION_CODE_EXPIRED` | 400 | `VERIFICATION_CODE_EXPIRED` | 인증번호가 만료되었습니다. |  |
-| `INVALID_VERIFICATION_CODE` | 400 | `INVALID_VERIFICATION_CODE` | 인증번호가 일치하지 않습니다. |  |
-| `INVALID_DATE_RANGE` | 400 | `INVALID_DATE_RANGE` | 유효하지 않은 날짜 범위입니다. |  |
-| `MAX_PARTICIPANTS_EXCEEDED` | 400 | `MAX_PARTICIPANTS_EXCEEDED` | 참가 인원이 최대 모집 인원을 초과했습니다. |  |
-| `SELF_REVIEW_NOT_ALLOWED` | 400 | `SELF_REVIEW_NOT_ALLOWED` | 자기 자신에 대한 리뷰는 작성할 수 없습니다. |  |
-| `INVALID_PAGE_NUMBER` | 400 | `INVALID_PAGE_NUMBER` | 페이지 번호는 1 이상이어야 합니다. |  |
-| `INVALID_ENUM_VALUE` | 400 | `INVALID_ENUM_VALUE` | 쿼리 파라미터 값이 유효하지 않습니다. 허용 가능한 값 목록을 확인해주세요. |  |
-| `MISMATCHED_RECRUITMENT_CATEGORY` | 400 | `MISMATCHED_RECRUITMENT_CATEGORY` | 지원하려는 공고의 카테고리가 요청한 카테고리와 일치하지 않습니다. |  |
-| `INVALID_SORT_PROPERTY` | 400 | `INVALID_SORT_PROPERTY` | 잘못된 정렬 기준입니다. |  |
-| `INVALID_SORT_DIRECTION` | 400 | `INVALID_SORT_DIRECTION` | 정렬 방향은 asc 또는 desc만 가능합니다. |  |
-| `PAGE_SIZE_OUT_OF_RANGE` | 400 | `PAGE_SIZE_OUT_OF_RANGE` | 페이지 크기는 1 이상이어야 합니다. |  |
-| `PAGE_INDEX_OUT_OF_RANGE` | 400 | `PAGE_INDEX_OUT_OF_RANGE` | 페이지 번호는 0 이상이어야 합니다. |  |
-| `INVALID_MEMBER_COUNT` | 400 | `INVALID_MEMBER_COUNT` | 현재 인원이 0명 이하일 때는 감소할 수 없습니다. |  |
-| **401 UNAUTHORIZED (인증 실패)** |  |  |  |  |
-| `UNAUTHORIZED` | 401 | `UNAUTHORIZED` | 인증이 필요합니다. |  |
-| `INVALID_CREDENTIALS` | 401 | `INVALID_CREDENTIALS` | 아이디 또는 비밀번호가 올바르지 않습니다. |  |
-| `REFRESH_TOKEN_EXPIRED` | 401 | `REFRESH_TOKEN_EXPIRED` | 리프레시 토큰이 만료되었습니다. |  |
-| `REFRESH_TOKEN_INVALID` | 401 | `REFRESH_TOKEN_INVALID` | 유효하지 않은 리프레시 토큰입니다. |  |
-| `REFRESH_TOKEN_TYPE_INVALID` | 401 | `REFRESH_TOKEN_TYPE_INVALID` | 리프레시 토큰 타입이 일치하지 않습니다. |  |
-| `REFRESH_TOKEN_MISMATCH` | 401 | `REFRESH_TOKEN_MISMATCH` | 리프레시 토큰이 일치하지 않습니다. |  |
-| `REFRESH_TOKEN_NOT_FOUND` | 401 | `REFRESH_TOKEN_NOT_FOUND` | 리프레시 토큰을 찾을 수 없습니다. |  |
-| `ACCESS_TOKEN_INVALID` | 401 | `ACCESS_TOKEN_INVALID` | 유효하지 않은 액세스 토큰입니다. |  |
-| **403 FORBIDDEN (권한 없음)** |  |  |  |  |
-| `FORBIDDEN` | 403 | `FORBIDDEN` | 접근 권한이 없습니다. |  |
-| `ACCESS_DENIED` | 403 | `ACCESS_DENIED` | 요청한 리소스에 접근할 수 없습니다. |  |
-| `NOT_UPDATE_NOT_ACTIVE_REVIEW` | 403 | `NOT_UPDATE_NOT_ACTIVE_REVIEW` | 비활성화된 리뷰는 수정할 수 없습니다. |  |
-| `NOT_DELETE_NOT_ACTIVE_REVIEW` | 403 | `NOT_DELETE_NOT_ACTIVE_REVIEW` | 비활성화된 리뷰는 삭제할 수 없습니다. |  |
-| `NOT_UPDATE_ANOTHER_USER_REVIEW` | 403 | `NOT_UPDATE_ANOTHER_USER_REVIEW` | 본인 리뷰만 수정할 수 있습니다. |  |
-| `NOT_DELETE_ANOTHER_USER_REVIEW` | 403 | `NOT_DELETE_ANOTHER_USER_REVIEW` | 본인 리뷰만 삭제할 수 있습니다. |  |
-| `CANNOT_DELETE_ANOTHER_USER_BOOKMARK` | 403 | `CANNOT_DELETE_ANOTHER_USER_BOOKMARK` | 다른 사용자의 찜은 취소할 수 없습니다. |  |
-| `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT` | 403 | `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT` | 다른 사용자의 과제는 삭제할 수 없습니다. |  |
-| `CANNOT_APPLY_OWN_RECRUITMENT` | 403 | `CANNOT_APPLY_OWN_RECRUITMENT` | 본인 공고에는 지원할 수 없습니다. |  |
-| `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT` | 403 | `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT` | 타 대학의 공고입니다. |  |
-| `FORBIDDEN_DECIDE_APPLICATION` | 403 | `FORBIDDEN_DECIDE_APPLICATION` | 지원 수락/거절 권한이 없습니다. |  |
-| `CANNOT_DELETE_ANOTHER_USER_APPLICATION` | 403 | `CANNOT_DELETE_ANOTHER_USER_APPLICATION` | 다른 사용자의 지원은 취소할 수 없습니다. |  |
-| `CANNOT_REMOVE_NOT_LEADER` | 403 | `CANNOT_REMOVE_NOT_LEADER` | 리더만 멤버를 삭제할 수 있습니다. |  |
-| `CANNOT_REMOVE_SELF` | 403 | `CANNOT_REMOVE_SELF` | 자기 자신은 삭제할 수 없습니다. |  |
-| `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION` | 403 | `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION` | 다른 사용자의 알림은 삭제할 수 없습니다. |  |
-| **404 NOT_FOUND (리소스 없음)** |  |  |  |  |
-| `USER_NOT_FOUND` | 404 | `USER_NOT_FOUND` | 사용자를 찾을 수 없습니다. |  |
-| `IMAGE_NOT_FOUND` | 404 | `IMAGE_NOT_FOUND` | 파일을 찾을 수 없습니다. |  |
-| `RECRUITMENT_NOT_FOUND` | 404 | `RECRUITMENT_NOT_FOUND` | 공고를 찾을 수 없습니다. |  |
-| `PROJECT_NOT_FOUND` | 404 | `PROJECT_NOT_FOUND` | 프로젝트 공고를 찾을 수 없습니다. |  |
-| `ASSIGNMENT_NOT_FOUND` | 404 | `ASSIGNMENT_NOT_FOUND` | 과제 공고를 찾을 수 없습니다. |  |
-| `STUDY_NOT_FOUND` | 404 | `STUDY_NOT_FOUND` | 스터디 공고를 찾을 수 없습니다. |  |
-| `POSITION_NOT_FOUND` | 404 | `POSITION_NOT_FOUND` | 역할을 찾을 수 없습니다. |  |
-| `SKILL_NOT_FOUND` | 404 | `SKILL_NOT_FOUND` | 기술 스택을 찾을 수 없습니다. |  |
-| `REVIEW_NOT_FOUND` | 404 | `REVIEW_NOT_FOUND` | 리뷰를 찾을 수 없습니다. |  |
-| `BOOKMARK_NOT_FOUND` | 404 | `BOOKMARK_NOT_FOUND` | 찜 정보를 찾을 수 없습니다. |  |
-| `APPLICATION_NOT_FOUND` | 404 | `APPLICATION_NOT_FOUND` | 지원 정보를 찾을 수 없습니다. |  |
-| `TEAM_NOT_FOUND` | 404 | `TEAM_NOT_FOUND` | 팀을 찾을 수 없습니다. |  |
-| `LEADER_NOT_FOUND` | 404 | `LEADER_NOT_FOUND` | 리더를 찾을 수 없습니다. |  |
-| `TARGET_MEMBER_NOT_FOUND` | 404 | `TARGET_MEMBER_NOT_FOUND` | 삭제할 멤버를 찾을 수 없습니다. |  |
-| `NOTIFICATION_NOT_FOUND` | 404 | `NOTIFICATION_NOT_FOUND` | 알림을 찾을 수 없습니다. |  |
-| **406 NOT_ACCEPTABLE** |  |  |  |  |
-| `NOT_ACCEPTABLE` | 406 | `NOT_ACCEPTABLE` | 응답 가능한 미디어 타입이 없습니다. |  |
-| **409 CONFLICT (중복 또는 상태 충돌)** |  |  |  |  |
-| `DUPLICATED_USERNAME` | 409 | `DUPLICATED_USERNAME` | 이미 가입된 아이디입니다. |  |
-| `DUPLICATED_EMAIL` | 409 | `DUPLICATED_EMAIL` | 이미 가입된 이메일입니다. |  |
-| `DUPLICATED_NICKNAME` | 409 | `DUPLICATED_NICKNAME` | 이미 존재하는 닉네임입니다. |  |
-| `ALREADY_WITHDRAWN_USER` | 409 | `ALREADY_WITHDRAWN_USER` | 이미 탈퇴한 회원입니다. |  |
-| `ALREADY_BOOKMARKED` | 409 | `ALREADY_BOOKMARKED` | 이미 찜한 공고입니다. |  |
-| `ALREADY_APPLIED_RECRUITMENT` | 409 | `ALREADY_APPLIED_RECRUITMENT` | 이미 지원한 공고입니다. |  |
-| `RECRUITMENT_CLOSED` | 409 | `RECRUITMENT_CLOSED` | 모집 기간이 종료된 공고입니다. |  |
-| `RECRUITMENT_FULL` | 409 | `RECRUITMENT_FULL` | 이미 모집이 완료된 공고입니다. |  |
-| `NOT_RECRUITING_POSITION` | 409 | `NOT_RECRUITING_POSITION` | 해당 포지션은 모집 대상이 아닙니다. |  |
-| `POSITION_FULL` | 409 | `POSITION_FULL` | 이미 모집이 완료된 포지션입니다. |  |
-| `ALREADY_PROCESSED_APPLICATION` | 409 | `ALREADY_PROCESSED_APPLICATION` | 이미 처리된 지원서입니다. |  |
-| `TEAM_FULL` | 409 | `TEAM_FULL` | 이미 모집이 완료되었습니다. |  |
-| **413 PAYLOAD_TOO_LARGE** |  |  |  |  |
-| `PAYLOAD_TOO_LARGE` | 413 | `PAYLOAD_TOO_LARGE` | 요청 또는 파일 크기가 너무 큽니다. |  |
-| **415 UNSUPPORTED_MEDIA_TYPE** |  |  |  |  |
-| `UNSUPPORTED_MEDIA_TYPE` | 415 | `UNSUPPORTED_MEDIA_TYPE` | 지원하지 않는 Content-Type 입니다. |  |
-| **429 TOO_MANY_REQUESTS** |  |  |  |  |
-| `TOO_MANY_REQUESTS` | 429 | `TOO_MANY_REQUESTS` | 요청이 너무 많습니다. 잠시 후 다시 시도해주세요. |  |
-| **500 INTERNAL_SERVER_ERROR (서버 내부 오류)** |  |  |  |  |
-| `INTERNAL_SERVER_ERROR` | 500 | `INTERNAL_ERROR` | 서버 오류가 발생했습니다. |  |
-| `DATABASE_ERROR` | 500 | `DATABASE_ERROR` | 데이터베이스 오류가 발생했습니다. |  |
-| `REDIS_CONNECTION_ERROR` | 500 | `REDIS_CONNECTION_ERROR` | Redis 연결에 실패했습니다. |  |
-| `EMAIL_CREATE_MESSAGE_FAILED` | 500 | `EMAIL_CREATE_MESSAGE_FAILED` | 이메일 메시지를 생성하는데 실패했습니다. |  |
-| `EMAIL_SEND_FAILED` | 500 | `EMAIL_SEND_FAILED` | 이메일 발송에 실패했습니다. |  |
+| 구분                                         | Enum Name | HttpStatus                              | Code                                       | Message |
+| ------------------------------------------ | --------- | --------------------------------------- | ------------------------------------------ | ------- |
+| **`400 BAD_REQUEST (잘못된 요청)`**             |           |                                         |                                            |         |
+| `INVALID_REQUEST`                          | 400       | INVALID_REQUEST                         | 잘못된 요청입니다.                                 |         |
+| `VALIDATION_FAILED`                        | 400       | VALIDATION_FAILED                       | 요청 값이 유효하지 않습니다.                           |         |
+| `REQUIRED_FIELD_MISSING`                   | 400       | REQUIRED_FIELD_MISSING                  | 필수 값이 누락되었습니다.                             |         |
+| `INVALID_EMAIL_FORMAT`                     | 400       | INVALID_EMAIL_FORMAT                    | 이메일 형식이 올바르지 않습니다.                         |         |
+| `INVALID_NICKNAME_FORMAT`                  | 400       | INVALID_NICKNAME_FORMAT                 | 닉네임 형식이 올바르지 않습니다.                         |         |
+| `INVALID_PASSWORD_FORMAT`                  | 400       | INVALID_PASSWORD_FORMAT                 | 비밀번호 형식이 올바르지 않습니다.                        |         |
+| `MISMATCHED_PASSWORD`                      | 400       | MISMATCHED_PASSWORD                     | 비밀번호와 비밀번호 확인이 일치하지 않습니다.                  |         |
+| `PASSWORD_SAME_AS_OLD`                     | 400       | PASSWORD_SAME_AS_OLD                    | 기존 비밀번호와 새로운 비밀번호가 일치합니다.                  |         |
+| `OLD_PASSWORD_INCORRECT`                   | 400       | OLD_PASSWORD_INCORRECT                  | 기존 비밀번호가 일치하지 않습니다.                        |         |
+| `UNSUPPORTED_UNIVERSITY_DOMAIN`            | 400       | UNSUPPORTED_UNIVERSITY_DOMAIN           | 지원하지 않는 학교 도메인입니다.                         |         |
+| `VERIFICATION_CODE_EXPIRED`                | 400       | VERIFICATION_CODE_EXPIRED               | 인증번호가 만료되었습니다.                             |         |
+| `INVALID_VERIFICATION_CODE`                | 400       | INVALID_VERIFICATION_CODE               | 인증번호가 일치하지 않습니다.                           |         |
+| `INVALID_DATE_RANGE`                       | 400       | INVALID_DATE_RANGE                      | 유효하지 않은 날짜 범위입니다.                          |         |
+| `MAX_PARTICIPANTS_EXCEEDED`                | 400       | MAX_PARTICIPANTS_EXCEEDED               | 참가 인원이 최대 모집 인원을 초과했습니다.                   |         |
+| `SELF_REVIEW_NOT_ALLOWED`                  | 400       | SELF_REVIEW_NOT_ALLOWED                 | 자기 자신에 대한 리뷰는 작성할 수 없습니다.                  |         |
+| `INVALID_PAGE_NUMBER`                      | 400       | INVALID_PAGE_NUMBER                     | 페이지 번호는 1 이상이어야 합니다.                       |         |
+| `INVALID_ENUM_VALUE`                       | 400       | INVALID_ENUM_VALUE                      | 쿼리 파라미터 값이 유효하지 않습니다. 허용 가능한 값 목록을 확인해주세요. |         |
+| `MISMATCHED_RECRUITMENT_CATEGORY`          | 400       | MISMATCHED_RECRUITMENT_CATEGORY         | 지원하려는 공고의 카테고리가 요청한 카테고리와 일치하지 않습니다.       |         |
+| `INVALID_SORT_PROPERTY`                    | 400       | INVALID_SORT_PROPERTY                   | 잘못된 정렬 기준입니다.                              |         |
+| `INVALID_SORT_DIRECTION`                   | 400       | INVALID_SORT_DIRECTION                  | 정렬 방향은 asc 또는 desc만 가능합니다.                 |         |
+| `PAGE_SIZE_OUT_OF_RANGE`                   | 400       | PAGE_SIZE_OUT_OF_RANGE                  | 페이지 크기는 1 이상이어야 합니다.                       |         |
+| `PAGE_INDEX_OUT_OF_RANGE`                  | 400       | PAGE_INDEX_OUT_OF_RANGE                 | 페이지 번호는 0 이상이어야 합니다.                       |         |
+| `INVALID_MEMBER_COUNT`                     | 400       | INVALID_MEMBER_COUNT                    | 현재 인원이 0명 이하일 때는 감소할 수 없습니다.               |         |
+| **`401 UNAUTHORIZED (인증 실패)`**             |           |                                         |                                            |         |
+| `UNAUTHORIZED`                             | 401       | UNAUTHORIZED                            | 인증이 필요합니다.                                 |         |
+| `INVALID_CREDENTIALS`                      | 401       | INVALID_CREDENTIALS                     | 아이디 또는 비밀번호가 올바르지 않습니다.                    |         |
+| `REFRESH_TOKEN_EXPIRED`                    | 401       | REFRESH_TOKEN_EXPIRED                   | 리프레시 토큰이 만료되었습니다.                          |         |
+| `REFRESH_TOKEN_INVALID`                    | 401       | REFRESH_TOKEN_INVALID                   | 유효하지 않은 리프레시 토큰입니다.                        |         |
+| `REFRESH_TOKEN_TYPE_INVALID`               | 401       | REFRESH_TOKEN_TYPE_INVALID              | 리프레시 토큰 타입이 일치하지 않습니다.                     |         |
+| `REFRESH_TOKEN_MISMATCH`                   | 401       | REFRESH_TOKEN_MISMATCH                  | 리프레시 토큰이 일치하지 않습니다.                        |         |
+| `REFRESH_TOKEN_NOT_FOUND`                  | 401       | REFRESH_TOKEN_NOT_FOUND                 | 리프레시 토큰을 찾을 수 없습니다.                        |         |
+| `ACCESS_TOKEN_INVALID`                     | 401       | ACCESS_TOKEN_INVALID                    | 유효하지 않은 액세스 토큰입니다.                         |         |
+| **`403 FORBIDDEN (권한 없음)`**                |           |                                         |                                            |         |
+| `FORBIDDEN`                                | 403       | FORBIDDEN                               | 접근 권한이 없습니다.                               |         |
+| `ACCESS_DENIED`                            | 403       | ACCESS_DENIED                           | 요청한 리소스에 접근할 수 없습니다.                       |         |
+| `NOT_UPDATE_NOT_ACTIVE_REVIEW`             | 403       | NOT_UPDATE_NOT_ACTIVE_REVIEW            | 비활성화된 리뷰는 수정할 수 없습니다.                      |         |
+| `NOT_DELETE_NOT_ACTIVE_REVIEW`             | 403       | NOT_DELETE_NOT_ACTIVE_REVIEW            | 비활성화된 리뷰는 삭제할 수 없습니다.                      |         |
+| `NOT_UPDATE_ANOTHER_USER_REVIEW`           | 403       | NOT_UPDATE_ANOTHER_USER_REVIEW          | 본인 리뷰만 수정할 수 있습니다.                         |         |
+| `NOT_DELETE_ANOTHER_USER_REVIEW`           | 403       | NOT_DELETE_ANOTHER_USER_REVIEW          | 본인 리뷰만 삭제할 수 있습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_BOOKMARK`      | 403       | CANNOT_DELETE_ANOTHER_USER_BOOKMARK     | 다른 사용자의 찜은 취소할 수 없습니다.                     |         |
+| `CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT`    | 403       | CANNOT_DELETE_ANOTHER_USER_ASSIGNMENT   | 다른 사용자의 과제는 삭제할 수 없습니다.                    |         |
+| `CANNOT_APPLY_OWN_RECRUITMENT`             | 403       | CANNOT_APPLY_OWN_RECRUITMENT            | 본인 공고에는 지원할 수 없습니다.                        |         |
+| `FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT`   | 403       | FORBIDDEN_CROSS_UNIVERSITY_RECRUITMENT  | 타 대학의 공고입니다.                               |         |
+| `FORBIDDEN_DECIDE_APPLICATION`             | 403       | FORBIDDEN_DECIDE_APPLICATION            | 지원 수락/거절 권한이 없습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_APPLICATION`   | 403       | CANNOT_DELETE_ANOTHER_USER_APPLICATION  | 다른 사용자의 지원은 취소할 수 없습니다.                    |         |
+| `CANNOT_REMOVE_NOT_LEADER`                 | 403       | CANNOT_REMOVE_NOT_LEADER                | 리더만 멤버를 삭제할 수 있습니다.                        |         |
+| `CANNOT_REMOVE_SELF`                       | 403       | CANNOT_REMOVE_SELF                      | 자기 자신은 삭제할 수 없습니다.                         |         |
+| `CANNOT_DELETE_ANOTHER_USER_NOTIFICATION`  | 403       | CANNOT_DELETE_ANOTHER_USER_NOTIFICATION | 다른 사용자의 알림은 삭제할 수 없습니다.                    |         |
+| **`404 NOT_FOUND (리소스 없음)`**               |           |                                         |                                            |         |
+| `USER_NOT_FOUND`                           | 404       | USER_NOT_FOUND                          | 사용자를 찾을 수 없습니다.                            |         |
+| `IMAGE_NOT_FOUND`                          | 404       | IMAGE_NOT_FOUND                         | 파일을 찾을 수 없습니다.                             |         |
+| `RECRUITMENT_NOT_FOUND`                    | 404       | RECRUITMENT_NOT_FOUND                   | 공고를 찾을 수 없습니다.                             |         |
+| `PROJECT_NOT_FOUND`                        | 404       | PROJECT_NOT_FOUND                       | 프로젝트 공고를 찾을 수 없습니다.                        |         |
+| `ASSIGNMENT_NOT_FOUND`                     | 404       | ASSIGNMENT_NOT_FOUND                    | 과제 공고를 찾을 수 없습니다.                          |         |
+| `STUDY_NOT_FOUND`                          | 404       | STUDY_NOT_FOUND                         | 스터디 공고를 찾을 수 없습니다.                         |         |
+| `POSITION_NOT_FOUND`                       | 404       | POSITION_NOT_FOUND                      | 역할을 찾을 수 없습니다.                             |         |
+| `SKILL_NOT_FOUND`                          | 404       | SKILL_NOT_FOUND                         | 기술 스택을 찾을 수 없습니다.                          |         |
+| `REVIEW_NOT_FOUND`                         | 404       | REVIEW_NOT_FOUND                        | 리뷰를 찾을 수 없습니다.                             |         |
+| `BOOKMARK_NOT_FOUND`                       | 404       | BOOKMARK_NOT_FOUND                      | 찜 정보를 찾을 수 없습니다.                           |         |
+| `APPLICATION_NOT_FOUND`                    | 404       | APPLICATION_NOT_FOUND                   | 지원 정보를 찾을 수 없습니다.                          |         |
+| `TEAM_NOT_FOUND`                           | 404       | TEAM_NOT_FOUND                          | 팀을 찾을 수 없습니다.                              |         |
+| `LEADER_NOT_FOUND`                         | 404       | LEADER_NOT_FOUND                        | 리더를 찾을 수 없습니다.                             |         |
+| `TARGET_MEMBER_NOT_FOUND`                  | 404       | TARGET_MEMBER_NOT_FOUND                 | 삭제할 멤버를 찾을 수 없습니다.                         |         |
+| `NOTIFICATION_NOT_FOUND`                   | 404       | NOTIFICATION_NOT_FOUND                  | 알림을 찾을 수 없습니다.                             |         |
+| **`406 NOT_ACCEPTABLE`**                   |           |                                         |                                            |         |
+| `NOT_ACCEPTABLE`                           | 406       | NOT_ACCEPTABLE                          | 응답 가능한 미디어 타입이 없습니다.                       |         |
+| **`409 CONFLICT (중복 또는 상태 충돌)`**           |           |                                         |                                            |         |
+| `DUPLICATED_USERNAME`                      | 409       | DUPLICATED_USERNAME                     | 이미 가입된 아이디입니다.                             |         |
+| `DUPLICATED_EMAIL`                         | 409       | DUPLICATED_EMAIL                        | 이미 가입된 이메일입니다.                             |         |
+| `DUPLICATED_NICKNAME`                      | 409       | DUPLICATED_NICKNAME                     | 이미 존재하는 닉네임입니다.                            |         |
+| `ALREADY_WITHDRAWN_USER`                   | 409       | ALREADY_WITHDRAWN_USER                  | 이미 탈퇴한 회원입니다.                              |         |
+| `ALREADY_BOOKMARKED`                       | 409       | ALREADY_BOOKMARKED                      | 이미 찜한 공고입니다.                               |         |
+| `ALREADY_APPLIED_RECRUITMENT`              | 409       | ALREADY_APPLIED_RECRUITMENT             | 이미 지원한 공고입니다.                              |         |
+| `RECRUITMENT_CLOSED`                       | 409       | RECRUITMENT_CLOSED                      | 모집 기간이 종료된 공고입니다.                          |         |
+| `RECRUITMENT_FULL`                         | 409       | RECRUITMENT_FULL                        | 이미 모집이 완료된 공고입니다.                          |         |
+| `NOT_RECRUITING_POSITION`                  | 409       | NOT_RECRUITING_POSITION                 | 해당 포지션은 모집 대상이 아닙니다.                       |         |
+| `POSITION_FULL`                            | 409       | POSITION_FULL                           | 이미 모집이 완료된 포지션입니다.                         |         |
+| `ALREADY_PROCESSED_APPLICATION`            | 409       | ALREADY_PROCESSED_APPLICATION           | 이미 처리된 지원서입니다.                             |         |
+| `TEAM_FULL`                                | 409       | TEAM_FULL                               | 이미 모집이 완료되었습니다.                            |         |
+| **`413 PAYLOAD_TOO_LARGE`**                |           |                                         |                                            |         |
+| `PAYLOAD_TOO_LARGE`                        | 413       | PAYLOAD_TOO_LARGE                       | 요청 또는 파일 크기가 너무 큽니다.                       |         |
+| **`415 UNSUPPORTED_MEDIA_TYPE`**           |           |                                         |                                            |         |
+| `UNSUPPORTED_MEDIA_TYPE`                   | 415       | UNSUPPORTED_MEDIA_TYPE                  | 지원하지 않는 Content-Type 입니다.                  |         |
+| **`429 TOO_MANY_REQUESTS`**                |           |                                         |                                            |         |
+| `TOO_MANY_REQUESTS`                        | 429       | TOO_MANY_REQUESTS                       | 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.               |         |
+| **`500 INTERNAL_SERVER_ERROR (서버 내부 오류)`** |           |                                         |                                            |         |
+| `INTERNAL_SERVER_ERROR`                    | 500       | INTERNAL_ERROR                          | 서버 오류가 발생했습니다.                             |         |
+| `DATABASE_ERROR`                           | 500       | DATABASE_ERROR                          | 데이터베이스 오류가 발생했습니다.                         |         |
+| `REDIS_CONNECTION_ERROR`                   | 500       | REDIS_CONNECTION_ERROR                  | Redis 연결에 실패했습니다.                          |         |
+| `EMAIL_CREATE_MESSAGE_FAILED`              | 500       | EMAIL_CREATE_MESSAGE_FAILED             | 이메일 메시지를 생성하는데 실패했습니다.                     |         |
+| `EMAIL_SEND_FAILED`                        | 500       | EMAIL_SEND_FAILED                       | 이메일 발송에 실패했습니다.                            |         |
+
 
 
 ## Attributes
-| Name         | Type         | Visibility    | Description                                            |
-| ------------ | ------------ | ------------- | ------------------------------------------------------ |
-| `httpStatus` | `HttpStatus` | private final | 예외에 해당하는 HTTP 응답 상태 코드 (예: `BAD_REQUEST`, `FORBIDDEN`) |
-| `code`       | `String`     | private final | 클라이언트 및 로그 식별용 에러 코드 문자열 (예: `"USER_NOT_FOUND"`)       |
-| `message`    | `String`     | private final | 클라이언트에게 전달할 한글 에러 메시지                                  |
+| Name    | Type   | Visibility    | Description                                            |
+| ------- | ------ | ------------- | ------------------------------------------------------ |
+| httpStatus | HttpStatus | private final | 예외에 해당하는 HTTP 응답 상태 코드 (예: `BAD_REQUEST`, `FORBIDDEN`) |
+| code    | String | private final | 클라이언트 및 로그 식별용 에러 코드 문자열 (예: `"USER_NOT_FOUND"`)       |
+| message | String | private final | 클라이언트에게 전달할 한글 에러 메시지                                  |
 
 ## Operations
-| Name              | Return Type  | Visibility | Description       |
-| ----------------- | ------------ | ---------- | ----------------- |
-| `getHttpStatus()` | `HttpStatus` | public     | HTTP 상태 코드를 반환한다. |
-| `getCode()`       | `String`     | public     | 에러 코드 문자열을 반환한다.  |
-| `getMessage()`    | `String`     | public     | 에러 메시지를 반환한다.     |
+| Name              | Return Type | Visibility | Description       |
+| ----------------- | ------ | ---------- | ----------------- |
+| `getHttpStatus()` | HttpStatus | public     | HTTP 상태 코드를 반환한다. |
+| `getCode()`       | String | public     | 에러 코드 문자열을 반환한다.  |
+| `getMessage()`    | String | public     | 에러 메시지를 반환한다.     |
 
 # BusinessException
 도메인 및 서비스 계층에서 발생하는 비즈니스 로직 예외의 표준 클래스.
@@ -1095,38 +1107,39 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 `ErrorCode`와 메시지를 함께 전달하여 일관된 예외 처리 및 응답 구조를 보장한다.
 
 ## Attributes
-| Name        | Type        | Visibility    | Description                |
-| ----------- | ----------- | ------------- | -------------------------- |
-| `errorCode` | `ErrorCode` | private final | 예외의 원인을 나타내는 표준 에러 코드 Enum |
+| Name      | Type      | Visibility    | Description                |
+| --------- | --------- | ------------- | -------------------------- |
+| errorCode | ErrorCode | private final | 예외의 원인을 나타내는 표준 에러 코드 Enum |
 
 ## Operations
 | Name             | Return Type | Visibility | Description                    |
-| ---------------- | ----------- | ---------- | ------------------------------ |
-| `getErrorCode()` | `ErrorCode` | public     | 예외에 해당하는 `ErrorCode` 객체를 반환한다. |
+| ---------------- | --------- | ---------- | ------------------------------ |
+| `getErrorCode()` | ErrorCode | public     | 예외에 해당하는 `ErrorCode` 객체를 반환한다. |
 
 
-# ApiResponse<T>
+# ApiResponse\<T>
 모든 REST API 응답의 표준 응답 포맷을 정의하는 제네릭 클래스.
 성공(`ok`)과 실패(`error`) 응답을 구분하며, `code`, `message`, `data` 세 가지 필드를 통해 일관된 응답 구조를 제공한다.
 
 ## Attributes
-| Name      | Type     | Visibility    | Description                                   |
-| --------- | -------- | ------------- | --------------------------------------------- |
-| `code`    | `String` | private final | 응답 상태 코드 (예: `"SUCCESS"`, `"USER_NOT_FOUND"`) |
-| `message` | `String` | private final | 사용자에게 전달되는 응답 메시지                             |
-| `data`    | `T`      | private final | 응답 본문 데이터 (null일 수도 있음)                       |
+| Name  | Type  | Visibility    | Description                                   |
+| ----- |-------| ------------- | --------------------------------------------- |
+| code  | String | private final | 응답 상태 코드 (예: `"SUCCESS"`, `"USER_NOT_FOUND"`) |
+| message | String | private final | 사용자에게 전달되는 응답 메시지                             |
+| data  | T     | private final | 응답 본문 데이터 (null일 수도 있음)                       |
 
 ## Operations
-| Name                                    | Return Type    | Visibility    | Description                              |
-| --------------------------------------- | -------------- | ------------- | ---------------------------------------- |
-| `of(String code, String message, T data)` | `ApiResponse<T>` | `public static` | 정적 팩토리 메서드로 새로운 응답 객체 생성 |
-| `ok()`                                  | `ApiResponse<T>` | `public static` | 데이터 없이 기본 성공 응답 (`"SUCCESS"`, `"성공"`) 반환 |
-| `ok(String message)`                    | `ApiResponse<T>` | `public static` | 커스텀 메시지를 포함한 성공 응답 반환 |
-| `ok(T data)`                            | `ApiResponse<T>` | `public static` | 데이터 포함 기본 성공 응답 반환 |
-| `ok(String message, T data)`            | `ApiResponse<T>` | `public static` | 메시지와 데이터 모두 포함한 성공 응답 반환 |
-| `error(ErrorCode errorCode)`            | `ApiResponse<T>` | `public static` | 지정된 에러 코드 기반 실패 응답 반환 |
-| `error(String code, String message)`    | `ApiResponse<T>` | `public static` | 커스텀 코드와 메시지를 포함한 실패 응답 반환 |
-| `error(ErrorCode errorCode, T data)`    | `ApiResponse<T>` | `public static` | 실패 응답과 함께 추가 데이터 포함 |
+| Name                                      | Return Type    | Visibility    | Description                          |
+| ----------------------------------------- | -------------- | ------------- | ------------------------------------ |
+| `of(String code, String message, T data)` | ApiResponse\<T> | public static | 정적 팩토리 메서드로 새로운 응답 객체 생성             |
+| `ok()`                                    | ApiResponse\<T> | public static | 데이터 없이 기본 성공 응답 ("SUCCESS", "성공") 반환 |
+| `ok(String message)`                      | ApiResponse\<T> | public static | 커스텀 메시지를 포함한 성공 응답 반환                |
+| `ok(T data)`                              | ApiResponse\<T> | public static | 데이터 포함 기본 성공 응답 반환                   |
+| `ok(String message, T data)`              | ApiResponse\<T> | public static | 메시지와 데이터 모두 포함한 성공 응답 반환             |
+| `error(ErrorCode errorCode)`              | ApiResponse\<T> | public static | 지정된 에러 코드 기반 실패 응답 반환                |
+| `error(String code, String message)`      | ApiResponse\<T> | public static | 커스텀 코드와 메시지를 포함한 실패 응답 반환            |
+| `error(ErrorCode errorCode, T data)`      | ApiResponse\<T> | public static | 실패 응답과 함께 추가 데이터 포함                  |
+
 
 
 
@@ -1137,15 +1150,15 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 
 ## Attributes
 | Name    | Type   | Visibility               | Description           |
-| ------- | ------ | ------------------------ | --------------------- |
-| `field`   | `String` | `private final (implicit)` | 오류가 발생한 필드명 |
-| `message` | `String` | `private final (implicit)` | 해당 필드에 대한 구체적인 오류 메시지 |
+| ------- | ------ |--------------------------| --------------------- |
+| field   | String | private final (implicit) | 오류가 발생한 필드명 |
+| message | String | private final (implicit) | 해당 필드에 대한 구체적인 오류 메시지 |
 
 ## Operations
 | Name      | Return Type | Visibility | Description |
-| --------- | ----------- | ---------- | ----------- |
-| `field()`   | `String` | `public` | 오류 필드명을 반환 |
-| `message()` | `String` | `public` | 오류 메시지를 반환 |
+| --------- | ------- | ------ | ----------- |
+| `field()`   | String | public | 오류 필드명을 반환 |
+| `message()` | String | public | 오류 메시지를 반환 |
 
 
 
@@ -1153,15 +1166,15 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 매일 자정(Asia/Seoul) 기준으로 마감일이 지난 모집 공고를 `CLOSED`로 전환하고, 해당 공고에 연결된 지원서 상태를 `CLOSED`로 일괄 업데이트하는 배치 스케줄러 컴포넌트.
 
 ## Attributes
-| Name               | Type                 | Visibility    | Description                                       |
-| ------------------ | -------------------- | ------------- | ------------------------------------------------- |
-| recruitmentService | `RecruitmentService` | private final | 만료된 모집 공고 상태를 `CLOSED`로 변경하는 도메인 서비스              |
-| applicationService | `ApplicationService` | private final | `CLOSED` 공고에 속한 지원서 상태를 `CLOSED`로 일괄 변경하는 도메인 서비스 |
+| Name               | Type               | Visibility    | Description                                       |
+| ------------------ | ------------------ | ------------- | ------------------------------------------------- |
+| recruitmentService | RecruitmentService | private final | 만료된 모집 공고 상태를 `CLOSED`로 변경하는 도메인 서비스              |
+| applicationService | ApplicationService | private final | `CLOSED` 공고에 속한 지원서 상태를 `CLOSED`로 일괄 변경하는 도메인 서비스 |
 
 ## Operations
 | Name                         | Return Type | Visibility | Description                                                                                                       |
 | ---------------------------- | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------- |
-| scheduleRecruitmentClosing() | void        | public     | **매일 00:00:00 (Asia/Seoul)** 실행. `closeExpiredRecruitments()` → `closeApplicationsForClosedRecruitments()` 순으로 처리 |
+| `scheduleRecruitmentClosing()` | void        | public     | **매일 00:00:00 (Asia/Seoul)** 실행. `closeExpiredRecruitments()` → `closeApplicationsForClosedRecruitments()` 순으로 처리 |
 
 
 # JwtFilter
@@ -1179,10 +1192,10 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 ## Operations
 | Name                                                                   | Return Type | Visibility | Description                                                                            |
 | ---------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------- |
-| doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain) | void        | protected  | 요청 단위로 JWT 토큰을 검사하고, 유효 시 `SecurityContext`에 인증 정보를 설정                                 |
-| isWhiteListed(String uri)                                              | boolean     | private    | 요청 URI가 화이트리스트 패턴에 해당하는지 검사                                                            |
-| extractAccessToken(HttpServletRequest request)                         | String      | private    | `Authorization: Bearer ...` 헤더에서 Access Token 추출                                       |
-| setAuthenticationFromClaims(Claims claims)                             | void        | private    | JWT Claims를 기반으로 `CustomUserDetails` 및 `Authentication` 객체를 생성 후 `SecurityContext`에 설정 |
+| `doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)` | void        | protected  | 요청 단위로 JWT 토큰을 검사하고, 유효 시 `SecurityContext`에 인증 정보를 설정                                 |
+| `isWhiteListed(String uri)`                                              | boolean     | private    | 요청 URI가 화이트리스트 패턴에 해당하는지 검사                                                            |
+| `extractAccessToken(HttpServletRequest request)`                         | String      | private    | `Authorization: Bearer ...` 헤더에서 Access Token 추출                                       |
+| `setAuthenticationFromClaims(Claims claims)`                             | void        | private    | JWT Claims를 기반으로 `CustomUserDetails` 및 `Authentication` 객체를 생성 후 `SecurityContext`에 설정 |
 
 
 # CustomAccessDeniedHandler
@@ -1197,7 +1210,7 @@ Spring Security 인가 과정에서 권한이 없거나(403), 인증되지 않�
 ## Operations
 | Name                                                                                       | Return Type | Visibility | Description                                                        |
 | ------------------------------------------------------------------------------------------ | ----------- | ---------- | ------------------------------------------------------------------ |
-| handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex) | void        | public     | 인가 실패 발생 시 호출되어, 요청 상태(익명/권한 부족)에 따라 401 또는 403 응답을 JSON 형태로 반환한다. |
+| `handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex)` | void        | public     | 인가 실패 발생 시 호출되어, 요청 상태(익명/권한 부족)에 따라 401 또는 403 응답을 JSON 형태로 반환한다. |
 
 
 # CustomAuthenticationEntryPoint
@@ -1212,7 +1225,7 @@ AccessDeniedHandler가 인가(`Authorization`) 실패를 담당한다면, `Authe
 ## Operations
 | Name                                                                                                      | Return Type | Visibility | Description                                    |
 | --------------------------------------------------------------------------------------------------------- | ----------- | ---------- | ---------------------------------------------- |
-| commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) | void        | public     | 인증되지 않은 사용자가 접근 시 401 상태 코드와 JSON 에러 응답을 반환한다. |
+| `commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)` | void        | public     | 인증되지 않은 사용자가 접근 시 401 상태 코드와 JSON 에러 응답을 반환한다. |
 
 
 # JwtUtil
@@ -1235,21 +1248,22 @@ AccessToken과 RefreshToken을 각각 생성하며, 토큰 내 사용자 정보(
 | refreshExp     | long      | private final        | RefreshToken 만료 시간 (ms 단위)        |
 
 ## Operations
-| Name                                                                          | Return Type | Visibility | Description                                               |
-| ----------------------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------------- |
-| createAccessToken(Long userId, String username, String nickname, String role) | String      | public     | 사용자 정보(UID, username, nickname, role)를 포함한 AccessToken 생성 |
-| createRefreshToken(Long userId)                                               | String      | public     | 사용자 ID만 포함된 RefreshToken 생성                               |
-| parseToken(String token)                                                      | Claims      | public     | 서명 검증 및 Claims 추출. 만료·위조 시 `JwtException` 발생              |
-| validateToken(String token)                                                   | boolean     | public     | 파싱 성공 여부로 유효성 검증                                          |
-| isAccessToken(String token)                                                   | boolean     | public     | Claims의 `"token_type"`이 `"access"`인지 확인                   |
-| isRefreshToken(String token)                                                  | boolean     | public     | Claims의 `"token_type"`이 `"refresh"`인지 확인                  |
-| getUserId(String token)                                                       | Long        | public     | Claims에서 `uid` 추출                                         |
-| getUsername(String token)                                                     | String      | public     | Claims에서 `username` 추출                                    |
-| getNickname(String token)                                                     | String      | public     | Claims에서 `nickname` 추출                                    |
-| isTokenExpired(String token)                                                  | boolean     | public     | 만료일이 현재 시각 이전인지 여부 반환                                     |
-| getTimeToExpiration(String token)                                             | long        | public     | 토큰 만료까지 남은 시간(ms) 반환                                      |
-| getAccessExpMills()                                                           | long        | public     | AccessToken 만료 기간(ms) 반환                                  |
-| getRefreshExpMills()                                                          | long        | public     | RefreshToken 만료 기간(ms) 반환                                 |
+| Name                                                                            | Return Type | Visibility | Description                                               |
+| ------------------------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------------- |
+| `createAccessToken(Long userId, String username, String nickname, String role)` | String      | public     | 사용자 정보(UID, username, nickname, role)를 포함한 AccessToken 생성 |
+| `createRefreshToken(Long userId)`                                               | String      | public     | 사용자 ID만 포함된 RefreshToken 생성                               |
+| `parseToken(String token)`                                                      | Claims      | public     | 서명 검증 및 Claims 추출. 만료·위조 시 `JwtException` 발생              |
+| `validateToken(String token)`                                                   | boolean     | public     | 파싱 성공 여부로 유효성 검증                                          |
+| `isAccessToken(String token)`                                                   | boolean     | public     | Claims의 `"token_type"`이 `"access"`인지 확인                   |
+| `isRefreshToken(String token)`                                                  | boolean     | public     | Claims의 `"token_type"`이 `"refresh"`인지 확인                  |
+| `getUserId(String token)`                                                       | Long        | public     | Claims에서 `uid` 추출                                         |
+| `getUsername(String token)`                                                     | String      | public     | Claims에서 `username` 추출                                    |
+| `getNickname(String token)`                                                     | String      | public     | Claims에서 `nickname` 추출                                    |
+| `isTokenExpired(String token)`                                                  | boolean     | public     | 만료일이 현재 시각 이전인지 여부 반환                                     |
+| `getTimeToExpiration(String token)`                                             | long        | public     | 토큰 만료까지 남은 시간(ms) 반환                                      |
+| `getAccessExpMills()`                                                           | long        | public     | AccessToken 만료 기간(ms) 반환                                  |
+| `getRefreshExpMills()`                                                          | long        | public     | RefreshToken 만료 기간(ms) 반환                                 |
+
 
 
 # CustomUserDetails
@@ -1267,16 +1281,17 @@ JWT에서 추출한 사용자 정보 또는 `User` 엔티티 기반으로 생성
 | role     | String | private final | 사용자 권한 (`ROLE_USER`, `ROLE_ADMIN` 등) |
 
 ## Operations
-| Name                      | Return Type                            | Visibility | Description                                  |
-| ------------------------- | -------------------------------------- | ---------- | -------------------------------------------- |
-| getAuthorities()          | Collection<? extends GrantedAuthority> | public     | 사용자의 권한 목록 반환 (`SimpleGrantedAuthority`로 래핑) |
-| getPassword()             | String                                 | public     | 사용자 비밀번호 반환 (JWT 인증 시 null)                  |
-| getUsername()             | String                                 | public     | 로그인 ID 반환                                    |
-| isAccountNonExpired()     | boolean                                | public     | 계정 만료 여부 (`true` → 항상 활성)                    |
-| isAccountNonLocked()      | boolean                                | public     | 계정 잠금 여부 (`true` → 항상 활성)                    |
-| isCredentialsNonExpired() | boolean                                | public     | 비밀번호 만료 여부 (`true` → 항상 활성)                  |
-| isEnabled()               | boolean                                | public     | 계정 활성 여부 (`true` → 항상 활성)                    |
-| eraseCredentials()        | void                                   | public     | 인증 완료 후 비밀번호를 메모리에서 제거 (보안 목적)               |
+| Name                        | Return Type                            | Visibility | Description                                  |
+| --------------------------- | -------------------------------------- | ---------- | -------------------------------------------- |
+| `getAuthorities()`          | Collection\<? extends GrantedAuthority> | public     | 사용자의 권한 목록 반환 (`SimpleGrantedAuthority`로 래핑) |
+| `getPassword()`             | String                                 | public     | 사용자 비밀번호 반환 (JWT 인증 시 null)                  |
+| `getUsername()`             | String                                 | public     | 로그인 ID 반환                                    |
+| `isAccountNonExpired()`     | boolean                                | public     | 계정 만료 여부 (`true` → 항상 활성)                    |
+| `isAccountNonLocked()`      | boolean                                | public     | 계정 잠금 여부 (`true` → 항상 활성)                    |
+| `isCredentialsNonExpired()` | boolean                                | public     | 비밀번호 만료 여부 (`true` → 항상 활성)                  |
+| `isEnabled()`               | boolean                                | public     | 계정 활성 여부 (`true` → 항상 활성)                    |
+| `eraseCredentials()`        | void                                   | public     | 인증 완료 후 비밀번호를 메모리에서 제거 (보안 목적)               |
+
 
 
 # CustomUserDetailsService
@@ -1290,7 +1305,7 @@ Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 D
 ## Operations
 | Name                                | Return Type | Visibility | Description                                                                                      |
 | ----------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------------ |
-| loadUserByUsername(String username) | UserDetails | public     | 사용자 이름으로 `User` 엔티티를 조회하고, `CustomUserDetails`로 변환하여 반환. 존재하지 않으면 `UsernameNotFoundException` 발생 |
+| `loadUserByUsername(String username)` | UserDetails | public     | 사용자 이름으로 `User` 엔티티를 조회하고, `CustomUserDetails`로 변환하여 반환. 존재하지 않으면 `UsernameNotFoundException` 발생 |
 
 
 # PageableValidator
@@ -1302,9 +1317,10 @@ Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 D
 | paginationProperties | PaginationProperties | private final | 페이지 관련 설정값을 보유하는 설정 클래스 (`maxPageNumber`, `defaultSize`, 등) |
 
 ## Operations
-| Name                                                           | Return Type | Visibility | Description                                         |
-| -------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------- |
-| validate(Pageable pageable)                                    | Pageable    | public     | `page`, `size` 값을 검증한 후 동일 객체를 반환                   |
-| validateSort(Pageable pageable, Set<String> allowedProperties) | void        | public     | 요청된 정렬 필드가 허용된 필드 목록에 포함되는지 검증                      |
-| validatePageSize(int pageSize)                                 | void        | private    | 페이지 크기(`size`)가 1 이상인지 검증                           |
-| validatePageNumber(int pageNumber)                             | void        | private    | 페이지 번호(`page`)가 0 이상이며 `maxPageNumber`를 초과하지 않는지 검증 |
+| Name                                                             | Return Type | Visibility | Description                                         |
+| ---------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------- |
+| `validate(Pageable pageable)`                                    | Pageable    | public     | `page`, `size` 값을 검증한 후 동일 객체를 반환                   |
+| `validateSort(Pageable pageable, Set<String> allowedProperties)` | void        | public     | 요청된 정렬 필드가 허용된 필드 목록에 포함되는지 검증                      |
+| `validatePageSize(int pageSize)`                                 | void        | private    | 페이지 크기(`size`)가 1 이상인지 검증                           |
+| `validatePageNumber(int pageNumber)`                             | void        | private    | 페이지 번호(`page`)가 0 이상이며 `maxPageNumber`를 초과하지 않는지 검증 |
+
