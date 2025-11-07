@@ -730,7 +730,58 @@
 - 최종적으로 "북마크 생성에 성공했습니다." 메시지와 함께 생성된 bookmarkId를 포함한 ApiResponse.ok()가 201 Created 상태로 반환된다.
 
 
-### 4.10.2 북마크 삭제 (Delete Bookmark)
+### 4.10.2 북마크한 프로젝트 목록 조회 (Get Bookmarked Projects)
+
+<img width="1591" height="615" alt="bookmark-get-projects-sequence" src="https://github.com/user-attachments/assets/cb18e208-555e-477b-a8a3-fa325be5dacc" />
+
+이 Sequence Diagram은 사용자가 북마크한 프로젝트 공고 목록을 조회하는 과정을 나타낸다.
+
+- 사용자가 GET /api/v1/bookmarks/projects 요청을 전송하면, BookmarkController는 BookmarkService의 getBookmarkedProjectsByUserId() 메서드를 호출한다.
+
+- BookmarkServiceImpl은 BookmarkRepository의 findBookmarkedRecruitmentIdsByUserId() 메서드를 호출하여 북마크된 프로젝트 공고 ID 목록을 페이징 처리하여 조회한다.
+
+- 조회된 ID 목록이 비어있으면 빈 페이지를 반환하고, ID 목록이 존재하면 ProjectService의 getProjectSummariesByIds() 메서드를 호출하여 해당 ID들의 프로젝트 상세 정보를 조회한다.
+
+- 조회된 프로젝트 정보를 ProjectSummaryResponseDto로 변환한 후, 페이지 정보와 함께 PageImpl 객체로 생성하여 반환한다.
+
+- 최종적으로 "북마크한 프로젝트 목록 조회에 성공했습니다." 메시지와 함께 Page<ProjectSummaryResponseDto>를 포함한 ApiResponse.ok()가 반환된다.
+
+
+### 4.10.3 북마크한 과제 목록 조회 (Get Bookmarked Assignments)
+
+<img width="1727" height="615" alt="bookmark-get-assignments-sequence" src="https://github.com/user-attachments/assets/24d7b811-d47b-4dd4-bdab-8cc8966723ec" />
+
+이 Sequence Diagram은 사용자가 북마크한 과제 공고 목록을 조회하는 과정을 나타낸다.
+
+- 사용자가 GET /api/v1/bookmarks/assignments 요청을 전송하면, BookmarkController는 BookmarkService의 getBookmarkedAssignmentsByUserId() 메서드를 호출한다.
+
+- BookmarkServiceImpl은 BookmarkRepository의 findBookmarkedRecruitmentIdsByUserId() 메서드를 호출하여 북마크된 과제 공고 ID 목록을 페이징 처리하여 조회한다.
+
+- 조회된 ID 목록이 비어있으면 빈 페이지를 반환하고, ID 목록이 존재하면 AssignmentService의 getAssignmentSummariesByIds() 메서드를 호출하여 해당 ID들의 과제 상세 정보를 조회한다.
+
+- 조회된 과제 정보를 AssignmentSummaryResponseDto로 변환한 후, 페이지 정보와 함께 PageImpl 객체로 생성하여 반환한다.
+
+- 최종적으로 "북마크한 과제 목록 조회에 성공했습니다." 메시지와 함께 Page<AssignmentSummaryResponseDto>를 포함한 ApiResponse.ok()가 반환된다.
+
+
+### 4.10.4 북마크한 스터디 목록 조회 (Get Bookmarked Studies)
+
+<img width="1558" height="615" alt="bookmark-get-studies-sequence" src="https://github.com/user-attachments/assets/52b32783-c26e-4ea2-8d86-558bc00a9c49" />
+
+이 Sequence Diagram은 사용자가 북마크한 스터디 공고 목록을 조회하는 과정을 나타낸다.
+
+- 사용자가 GET /api/v1/bookmarks/studies 요청을 전송하면, BookmarkController는 BookmarkService의 getBookmarkedStudiesByUserId() 메서드를 호출한다.
+
+- BookmarkServiceImpl은 BookmarkRepository의 findBookmarkedRecruitmentIdsByUserId() 메서드를 호출하여 북마크된 스터디 공고 ID 목록을 페이징 처리하여 조회한다.
+
+- 조회된 ID 목록이 비어있으면 빈 페이지를 반환하고, ID 목록이 존재하면 StudyService의 getStudySummariesByIds() 메서드를 호출하여 해당 ID들의 스터디 상세 정보를 조회한다.
+
+- 조회된 스터디 정보를 StudySummaryResponseDto로 변환한 후, 페이지 정보와 함께 PageImpl 객체로 생성하여 반환한다.
+
+- 최종적으로 "북마크한 스터디 목록 조회에 성공했습니다." 메시지와 함께 Page<StudySummaryResponseDto>를 포함한 ApiResponse.ok()가 반환된다.
+
+
+### 4.10.5 북마크 삭제 (Delete Bookmark)
 
   <img width="1368" height="819" alt="bookmark-delete-sequence" src="https://github.com/user-attachments/assets/d1326802-c7c7-498d-a53c-5e75fe61b2ee" />
 
