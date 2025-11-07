@@ -2104,6 +2104,121 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 
 북마크 도메인의 구조를 보여주는 다이어그램이다. Bookmark 엔티티와 User, BaseRecruitment 간의 관계를 표현한다.
 
+#### Bookmark
+
+사용자가 공고를 찜할 때의 정보를 담는 엔티티로, 생성일자를 자동으로 기록하며 User와 BaseRecruitment를 참조한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| id | Long | private | 찜의 고유 식별자 (PK) |
+| user | User | private | 찜한 사용자 |
+| recruitment | BaseRecruitment | private | 북마크 대상 공고 |
+| bookmarkedAt | LocalDateTime | private | 북마크 생성일자 (자동 생성, 수정 불가) |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getId()` | Long | public | 찜 ID 반환 |
+| `getUser()` | User | public | 찜한 사용자 반환 |
+| `getRecruitment()` | BaseRecruitment | public | 찜한 공고 반환 |
+| `getBookmarkedAt()` | LocalDateTime | public | 찜 생성일자 반환 |
+
+---
+
+#### BookmarkController
+
+사용자의 북마크(찜) 관련 REST API를 제공하는 컨트롤러로, 생성, 조회, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(BookmarkService)을 통해 실제 비즈니스 로직을 수행한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| bookmarkService | BookmarkService | private final | 북마크(찜) 관련 비즈니스 로직 서비스 |
+
+##### Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| `createBookmark(Long recruitmentId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/bookmarks/recruitments/{recruitmentId}` | public | 공고를 찜 목록에 추가 |
+| `getBookmarkedProjectSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/projects` | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| `getBookmarkedAssignmentSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/assignments` | public | 사용자가 찜한 과제 공고 목록 조회 |
+| `getBookmarkedStudySummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/studies` | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| `deleteBookmark(Long bookmarkId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/bookmarks/{bookmarkId}` | public | 찜 취소 |
+
+---
+
+#### BookmarkService
+
+사용자의 북마크(찜) 관련 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 삭제 기능을 포함한다.  
+실제 구현체([BookmarkServiceImpl](#bookmarkserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createBookmark(Long userId, Long recruitmentId)` | Long | public | 공고를 찜 목록에 추가 |
+| `getBookmarkedProjectsByUserId(Long userId, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| `getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 사용자가 찜한 과제 공고 목록 조회 |
+| `getBookmarkedStudiesByUserId(Long userId, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| `deleteBookmark(Long userId, Long bookmarkId)` | void | public | 찜 취소 |
+
+---
+
+#### BookmarkServiceImpl
+
+[BookmarkService](#bookmarkservice)의 구현체로, 사용자의 북마크(찜) 관련 실제 비즈니스 로직을 수행하며, 트랜잭션 처리와 권한 검증, 중복 체크 등을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| bookmarkRepository | BookmarkRepository | private final | 북마크 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| recruitmentService | RecruitmentService | private final | 공고 관련 비즈니스 로직 계층 |
+| projectService | ProjectService | private final | 프로젝트 공고 관련 비즈니스 로직 계층 |
+| assignmentService | AssignmentService | private final | 과제 공고 관련 비즈니스 로직 계층 |
+| studyService | StudyService | private final | 스터디 공고 관련 비즈니스 로직 계층 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createBookmark(Long userId, Long recruitmentId)` | Long | public | 공고를 찜 목록에 추가. 이미 찜한 경우 예외 발생 |
+| `getBookmarkedProjectsByUserId(Long userId, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| `getBookmarkedAssignmentsByUserId(Long userId, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 사용자가 찜한 과제 공고 목록 조회 |
+| `getBookmarkedStudiesByUserId(Long userId, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| `deleteBookmark(Long userId, Long bookmarkId)` | void | public | 찜 취소 |
+
+---
+
+#### BookmarkRepository
+
+Bookmark 엔티티의 데이터 접근 계층으로, 사용자의 북마크 관련 CRUD 및 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `existsByUserIdAndRecruitmentId(Long userId, Long recruitmentId)` | boolean | public | 사용자가 특정 공고를 이미 찜했는지 여부 확인 |
+| `findBookmarkedRecruitmentIdsByUserId(Long userId, RecruitmentCategory category, Pageable pageable)` | Page\<Long\> | public | 특정 사용자가 찜한 프로젝트/과제/스터디 공고 ID 목록 조회 (최신순) |
+
+---
 
 ### 3.3.9 Review Domain
 
