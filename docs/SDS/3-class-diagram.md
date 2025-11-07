@@ -705,94 +705,6 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 사용자 프로필 관리 기능의 계층 구조를 나타낸다. UserController와 UserService의 의존 관계, 프로필 조회 시 ReviewService와의 연동 구조, 그리고 비밀번호 변경 및 회원 탈퇴 등의 보안 처리 과정을 표현한다.
 
-#### EmailRequestDto
-
-이메일 인증, 로그인, 회원가입 등에서 사용자의 이메일 입력값을 전달하기 위한 요청 DTO 클래스.
-입력값이 유효한 이메일 형식인지 `@Email` 어노테이션으로 검증한다.
-
-##### Attributes
-| Name  | Type   | Visibility                 | Description                         |
-| ----- | ------ | -------------------------- | ----------------------------------- |
-| email | String | private  | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-
-
----
-
-#### EmailVerificationRequestDto
-사용자가 입력한 이메일과 인증번호(6자리)를 서버로 전달하여
-이메일 인증 유효성을 검증하기 위한 요청 DTO.
-
-##### Attributes
-| Name      | Type   | Visibility                 | Description                                                         |
-| --------- | ------ | -------------------------- | ------------------------------------------------------------------- |
-| email     | String | private  | 사용자의 이메일 주소. `@NotBlank`, `@Email` 제약으로 비어 있지 않으며 올바른 형식인지 검증.      |
-| inputCode | String | private  | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-
----
-
-#### SignUpRequestDto
-회원가입 요청을 처리하기 위한 DTO.
-사용자 입력값을 검증한 뒤, 이를 기반으로 [User](#user) 엔티티를 생성한다.
-비밀번호 검증 및 암호화, 학년·포지션·기술스택 등의 도메인 속성을 포함한다.
-
-##### Attributes
-| Name            | Type         | Visibility                 | Description                                |
-| --------------- | ------------ | -------------------------- |--------------------------------------------|
-| username        | String       | private  | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
-| password        | String       | private  | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
-| passwordConfirm | String       | private  | 비밀번호 확인. password와 일치 여부 검증.               |
-| nickname        | String       | private  | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
-| email           | String       | private  | 이메일 주소. `@Email` 형식 검증.                    |
-| grade           | Integer      | private  | 학년 (1~4 범위, `@Min`, `@Max`).               |
-| position        | PositionType | private  | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
-| skills          | Set\<Skill>   | private  | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
-| shortIntro      | String       | private  | 한 줄 소개. 최대 100자 제한.                        |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-| `toEntity(PasswordEncoder passwordEncoder)` | User        | public     | 입력값을 기반으로 `User` 엔티티를 생성하고 비밀번호를 암호화하여 매핑.    |
-
----
-
-#### SignInRequestDto
-사용자의 로그인 요청 시 전달되는 DTO.
-입력받은 아이디(`username`)와 비밀번호(`password`)를 검증하여 인증 절차에 사용된다.
-
-##### Attributes
-| Name     | Type   | Visibility                 | Description                 |
-| -------- | ------ | -------------------------- | --------------------------- |
-| username | String | private  | 사용자 아이디. `@NotBlank` 제약 적용. |
-| password | String | private  | 비밀번호. `@NotBlank` 제약 적용.    |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-
-#### TokenPair
-JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환하기 위한 응답 DTO.
-인증 성공 후 클라이언트가 인증 상태를 유지하도록 두 종류의 토큰을 제공한다.
-
-##### Attributes
-| Name         | Type   | Visibility                 | Description                                 |
-| ------------ | ------ | -------------------------- | ------------------------------------------- |
-| accessToken  | String | private  | 클라이언트의 인증 요청 시 사용되는 짧은 수명의 JWT 액세스 토큰.      |
-| refreshToken | String | private  | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-
----
-
 #### PasswordRequestDto
 비밀번호 변경 요청 시 사용되는 DTO 클래스.
 사용자가 입력한 기존 비밀번호, 새로운 비밀번호, 비밀번호 확인 값을 검증하여 서버로 전달한다.
@@ -834,20 +746,6 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 ---
 
-#### WithdrawRequestDto
-회원 탈퇴 요청 시 비밀번호를 입력받아 본인 여부를 확인하기 위한 요청 DTO.
-BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며, 비밀번호가 누락되거나 공백만 입력되는 경우 유효성 검증에 실패한다.
-
-##### Attributes
-| Name     | Type   | Visibility                 | Description                                   |
-| -------- | ------ | -------------------------- | --------------------------------------------- |
-| password | String | private  | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
-
-##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
-
----
 
 #### UserResponseDto
 사용자 정보를 API 응답으로 전달하기 위한 DTO.
@@ -896,30 +794,6 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 | `getReviews(Long userId, Pageable pageable)`                                                    | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회                      |
 | `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)`         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리             |
 
----
-
-#### AuthController
-인증 관련 API 요청을 처리하는 REST Controller.
-회원가입, 로그인, 이메일 인증, 토큰 재발급/로그아웃 등의 요청을 받아 [AuthService](#authservice) 및 [UserService](#userservice)를 호출하여 비즈니스 로직을 수행한다.
-
-##### Attributes
-| Name                      | Type        | Visibility           | Description                                 |
-| ------------------------- | ----------- | -------------------- | ------------------------------------------- |
-| REFRESH_TOKEN_COOKIE_NAME | String      | private static final | Refresh Token을 저장할 쿠키 이름 (`refresh_token`). |
-| jwtUtil                   | JwtUtil     | private final        | JWT 생성 및 검증 유틸리티.                           |
-| authService               | AuthService | private final        | 인증 관련 비즈니스 로직 서비스.                          |
-| userService               | UserService | private final        | 사용자 회원가입 및 사용자 관련 서비스.                      |
-
-##### Operations
-| Name                                                                                    | Return Type                       | Mapping                          | Visibility | Description                                                     |
-| --------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------- | --------------------------------------------------------------- |
-| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
-| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
-| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<ApiResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
-| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
-| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
-| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
-| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)` | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (`HttpOnly`, `Secure`, `SameSite=Lax`) |
 
 ---
 
@@ -946,27 +820,6 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 | `getUserInfo(Long userId)`                              | UserResponseDto | 사용자 프로필 정보 조회                        |
 | `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | 사용자 정보 수정 후 갱신된 데이터 반환               |
 | `withdraw(Long userId, String rawPassword)`             | void            | 비밀번호 검증 후 회원 탈퇴 (`Soft Delete`)      |
-
----
-
-#### AuthService
-인증(Authentication) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
-이메일 인증, 로그인, 리프레시 토큰 삭제 및 재발급 등의 기능을 포함한다.
-구체 구현체([AuthServiceImpl](#authserviceimpl))가 실제 로직을 담당한다.
-
-##### Attributes
-| Name                 | Type                          | Visibility           | Description                                   |
-| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
-
-##### Operations
-| Name                                                         | Return Type | Visibility | Description                      |
-| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------- |
-| `sendAuthCode(String toEmail)`                               | void        | public     | 입력된 이메일 주소로 인증 코드를 발송            |
-| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | 이메일과 인증번호를 기반으로 인증 메일을 전송        |
-| `verifyCode(String toEmail, String inputCode)`               | void        | public     | 사용자가 입력한 인증번호를 검증                |
-| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 로그인 요청 DTO를 기반으로 인증 수행 및 JWT 발급  |
-| `deleteRefreshToken(Long userId)`                            | void        | public     | 로그아웃 시 사용자의 리프레시 토큰을 삭제          |
-| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 리프레시 토큰을 검증 후 새로운 액세스/리프레시 토큰 발급 |
 
 ---
 
@@ -998,38 +851,6 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 | `getUserInfo(Long userId)`                              | UserResponseDto | public     | 사용자 상세 정보 조회 후 DTO 변환                                         |
 | `updateUserInfo(Long userId, UserUpdateRequestDto dto)` | UserResponseDto | public     | 사용자 프로필 정보 수정 (`grade`, `position`, `skills`, `shortIntro` 등) |
 | `withdraw(Long userId, String rawPassword)`             | void            | public     | 비밀번호 검증 후 Soft Delete(`WITHDRAWN`) 처리 및 Redis 토큰 삭제           |
-
----
-
-#### AuthServiceImpl
-인증 서비스([AuthService](#authservice))의 구현체로,
-이메일 인증, 로그인/로그아웃, JWT 토큰 발급 및 재발급을 담당한다.
-`Spring Security`, `Redis`, `JavaMailSender`를 활용하여 인증 절차와 세션 관리를 수행한다.
-
-##### Attributes
-| Name                      | Type                          | Visibility           | Description                                  |
-| ------------------------- | ----------------------------- | -------------------- | -------------------------------------------- |
-| REFRESH_TOKEN_PREFIX      | String                        | private static final | Redis에 저장될 Refresh Token Key prefix (`RT:`). |
-| EMAIL_VERIFICATION_PREFIX | String                        | private static final | Redis에 저장될 이메일 인증번호 Key prefix (`EMAIL:`).   |
-| EXPIRATION_MINUTES        | int                           | private static final | 이메일 인증번호 TTL(3분).                            |
-| fromEmail                 | String                        | private              | 인증 메일 발신자 주소 (application.yml에서 주입).         |
-| jwtUtil                   | JwtUtil                       | private final        | JWT 생성 및 검증 유틸리티 클래스.                        |
-| userService               | UserService                   | private final        | 사용자 조회 및 유효성 검증 서비스.                         |
-| mailSender                | JavaMailSender                | private final        | 인증 메일 전송을 위한 메일 발송 컴포넌트.                     |
-| redisTemplate             | RedisTemplate\<String, String> | private final        | 이메일 인증번호 및 토큰 저장소.                           |
-| authenticationManager     | AuthenticationManager         | private final        | Spring Security 인증 처리 매니저.                   |
-
-##### Operations
-| Name                                                         | Return Type | Visibility | Description                                        |
-| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------------------------- |
-| `sendAuthCode(String toEmail)`                               | void        | public     | 랜덤 6자리 인증번호를 생성 후 Redis에 저장하고, 해당 이메일로 발송          |
-| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | HTML 이메일 템플릿을 생성하여 인증번호 발송                         |
-| `verifyCode(String toEmail, String inputCode)`               | void        | public     | Redis에 저장된 인증번호와 입력값을 비교하여 검증                      |
-| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 사용자 로그인 인증 수행 후 Access/Refresh Token 발급            |
-| `deleteRefreshToken(Long userId)`                            | void        | public     | Redis에서 특정 사용자 Refresh Token 삭제 (로그아웃 처리)          |
-| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 유효한 Refresh Token을 기반으로 새 Access/Refresh Token 재발급 |
-| `generateVerificationCode()`                                 | String      | private    | 6자리 랜덤 인증번호 생성                                     |
-| `createEmailTemplate(String verificationCode)`               | String      | private    | 인증 이메일 HTML 템플릿 문자열 생성                             |
 
 ---
 
@@ -1193,6 +1014,185 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하
 
 인증 및 인가 기능의 보안 계층 구조를 나타낸다. AuthController와 AuthService의 관계, JWT 기반 토큰 처리 구조, SecurityConfig의 필터 체인 구성, 그리고 JwtFilter를 통한 요청 검증 과정을 표현한다.
 
+#### EmailRequestDto
+
+이메일 인증, 로그인, 회원가입 등에서 사용자의 이메일 입력값을 전달하기 위한 요청 DTO 클래스.
+입력값이 유효한 이메일 형식인지 `@Email` 어노테이션으로 검증한다.
+
+##### Attributes
+| Name  | Type   | Visibility                 | Description                         |
+| ----- | ------ | -------------------------- | ----------------------------------- |
+| email | String | private  | 사용자 이메일 주소. `@Email` 제약으로 형식 검증 수행. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+---
+
+#### EmailVerificationRequestDto
+사용자가 입력한 이메일과 인증번호(6자리)를 서버로 전달하여
+이메일 인증 유효성을 검증하기 위한 요청 DTO.
+
+##### Attributes
+| Name      | Type   | Visibility                 | Description                                                         |
+| --------- | ------ | -------------------------- | ------------------------------------------------------------------- |
+| email     | String | private  | 사용자의 이메일 주소. `@NotBlank`, `@Email` 제약으로 비어 있지 않으며 올바른 형식인지 검증.      |
+| inputCode | String | private  | 사용자가 입력한 인증번호. `@NotBlank`, `@Pattern("^[0-9]{6}")`으로 6자리 숫자 형식 검증. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+---
+
+#### SignUpRequestDto
+회원가입 요청을 처리하기 위한 DTO.
+사용자 입력값을 검증한 뒤, 이를 기반으로 [User](#user) 엔티티를 생성한다.
+비밀번호 검증 및 암호화, 학년·포지션·기술스택 등의 도메인 속성을 포함한다.
+
+##### Attributes
+| Name            | Type         | Visibility                 | Description                                |
+| --------------- | ------------ | -------------------------- |--------------------------------------------|
+| username        | String       | private  | 사용자 아이디. 영문, 숫자, 언더스코어 4~20자 (`@Pattern`). |
+| password        | String       | private  | 비밀번호. 영문, 숫자, 특수문자 포함 8~72자 (`@Pattern`).  |
+| passwordConfirm | String       | private  | 비밀번호 확인. password와 일치 여부 검증.               |
+| nickname        | String       | private  | 닉네임. 한글/영문/숫자 2~10자 (`@Pattern`).          |
+| email           | String       | private  | 이메일 주소. `@Email` 형식 검증.                    |
+| grade           | Integer      | private  | 학년 (1~4 범위, `@Min`, `@Max`).               |
+| position        | PositionType | private  | 포지션(enum). 예: BACK_END, FRONT_END 등.       |
+| skills          | Set\<Skill>   | private  | 기술 스택 목록. 최대 10개 (`@Size(max=10)`).        |
+| shortIntro      | String       | private  | 한 줄 소개. 최대 100자 제한.                        |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+| `toEntity(PasswordEncoder passwordEncoder)` | User        | public     | 입력값을 기반으로 `User` 엔티티를 생성하고 비밀번호를 암호화하여 매핑.    |
+
+---
+
+#### SignInRequestDto
+사용자의 로그인 요청 시 전달되는 DTO.
+입력받은 아이디(`username`)와 비밀번호(`password`)를 검증하여 인증 절차에 사용된다.
+
+##### Attributes
+| Name     | Type   | Visibility                 | Description                 |
+| -------- | ------ | -------------------------- | --------------------------- |
+| username | String | private  | 사용자 아이디. `@NotBlank` 제약 적용. |
+| password | String | private  | 비밀번호. `@NotBlank` 제약 적용.    |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### TokenPair
+JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환하기 위한 응답 DTO.
+인증 성공 후 클라이언트가 인증 상태를 유지하도록 두 종류의 토큰을 제공한다.
+
+##### Attributes
+| Name         | Type   | Visibility                 | Description                                 |
+| ------------ | ------ | -------------------------- | ------------------------------------------- |
+| accessToken  | String | private  | 클라이언트의 인증 요청 시 사용되는 짧은 수명의 JWT 액세스 토큰.      |
+| refreshToken | String | private  | 액세스 토큰 만료 시 재발급을 위해 사용되는 장기 유효 JWT 리프레시 토큰. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+---
+
+#### WithdrawRequestDto
+회원 탈퇴 요청 시 비밀번호를 입력받아 본인 여부를 확인하기 위한 요청 DTO.
+BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며, 비밀번호가 누락되거나 공백만 입력되는 경우 유효성 검증에 실패한다.
+
+##### Attributes
+| Name     | Type   | Visibility                 | Description                                   |
+| -------- | ------ | -------------------------- | --------------------------------------------- |
+| password | String | private  | 비밀번호 입력값. `@NotBlank`, `@Size(max=72)` 제약 적용. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+---
+
+#### AuthController
+인증 관련 API 요청을 처리하는 REST Controller.
+회원가입, 로그인, 이메일 인증, 토큰 재발급/로그아웃 등의 요청을 받아 [AuthService](#authservice) 및 [UserService](#userservice)를 호출하여 비즈니스 로직을 수행한다.
+
+##### Attributes
+| Name                      | Type        | Visibility           | Description                                 |
+| ------------------------- | ----------- | -------------------- | ------------------------------------------- |
+| REFRESH_TOKEN_COOKIE_NAME | String      | private static final | Refresh Token을 저장할 쿠키 이름 (`refresh_token`). |
+| jwtUtil                   | JwtUtil     | private final        | JWT 생성 및 검증 유틸리티.                           |
+| authService               | AuthService | private final        | 인증 관련 비즈니스 로직 서비스.                          |
+| userService               | UserService | private final        | 사용자 회원가입 및 사용자 관련 서비스.                      |
+
+##### Operations
+| Name                                                                                    | Return Type                       | Mapping                          | Visibility | Description                                                     |
+| --------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------- | --------------------------------------------------------------- |
+| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
+| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
+| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<ApiResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
+| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
+| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
+| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)` | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (`HttpOnly`, `Secure`, `SameSite=Lax`) |
+
+---
+
+#### AuthService
+인증(Authentication) 관련 핵심 비즈니스 로직을 정의하는 서비스 인터페이스.
+이메일 인증, 로그인, 리프레시 토큰 삭제 및 재발급 등의 기능을 포함한다.
+구체 구현체([AuthServiceImpl](#authserviceimpl))가 실제 로직을 담당한다.
+
+##### Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
+
+##### Operations
+| Name                                                         | Return Type | Visibility | Description                      |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 입력된 이메일 주소로 인증 코드를 발송            |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | 이메일과 인증번호를 기반으로 인증 메일을 전송        |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | 사용자가 입력한 인증번호를 검증                |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 로그인 요청 DTO를 기반으로 인증 수행 및 JWT 발급  |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | 로그아웃 시 사용자의 리프레시 토큰을 삭제          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 리프레시 토큰을 검증 후 새로운 액세스/리프레시 토큰 발급 |
+
+---
+
+#### AuthServiceImpl
+인증 서비스([AuthService](#authservice))의 구현체로,
+이메일 인증, 로그인/로그아웃, JWT 토큰 발급 및 재발급을 담당한다.
+`Spring Security`, `Redis`, `JavaMailSender`를 활용하여 인증 절차와 세션 관리를 수행한다.
+
+##### Attributes
+| Name                      | Type                          | Visibility           | Description                                  |
+| ------------------------- | ----------------------------- | -------------------- | -------------------------------------------- |
+| REFRESH_TOKEN_PREFIX      | String                        | private static final | Redis에 저장될 Refresh Token Key prefix (`RT:`). |
+| EMAIL_VERIFICATION_PREFIX | String                        | private static final | Redis에 저장될 이메일 인증번호 Key prefix (`EMAIL:`).   |
+| EXPIRATION_MINUTES        | int                           | private static final | 이메일 인증번호 TTL(3분).                            |
+| fromEmail                 | String                        | private              | 인증 메일 발신자 주소 (application.yml에서 주입).         |
+| jwtUtil                   | JwtUtil                       | private final        | JWT 생성 및 검증 유틸리티 클래스.                        |
+| userService               | UserService                   | private final        | 사용자 조회 및 유효성 검증 서비스.                         |
+| mailSender                | JavaMailSender                | private final        | 인증 메일 전송을 위한 메일 발송 컴포넌트.                     |
+| redisTemplate             | RedisTemplate\<String, String> | private final        | 이메일 인증번호 및 토큰 저장소.                           |
+| authenticationManager     | AuthenticationManager         | private final        | Spring Security 인증 처리 매니저.                   |
+
+##### Operations
+| Name                                                         | Return Type | Visibility | Description                                        |
+| ------------------------------------------------------------ | ----------- | ---------- | -------------------------------------------------- |
+| `sendAuthCode(String toEmail)`                               | void        | public     | 랜덤 6자리 인증번호를 생성 후 Redis에 저장하고, 해당 이메일로 발송          |
+| `sendEmailAuthCode(String toEmail, String verificationCode)` | void        | public     | HTML 이메일 템플릿을 생성하여 인증번호 발송                         |
+| `verifyCode(String toEmail, String inputCode)`               | void        | public     | Redis에 저장된 인증번호와 입력값을 비교하여 검증                      |
+| `login(SignInRequestDto dto)`                                | TokenPair   | public     | 사용자 로그인 인증 수행 후 Access/Refresh Token 발급            |
+| `deleteRefreshToken(Long userId)`                            | void        | public     | Redis에서 특정 사용자 Refresh Token 삭제 (로그아웃 처리)          |
+| `reissueTokens(String refreshToken)`                         | TokenPair   | public     | 유효한 Refresh Token을 기반으로 새 Access/Refresh Token 재발급 |
+| `generateVerificationCode()`                                 | String      | private    | 6자리 랜덤 인증번호 생성                                     |
+| `createEmailTemplate(String verificationCode)`               | String      | private    | 인증 이메일 HTML 템플릿 문자열 생성                             |
+
+---
 
 ### 3.4.9 Bookmark Process Structure
 
