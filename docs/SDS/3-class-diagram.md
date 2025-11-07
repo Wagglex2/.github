@@ -984,11 +984,302 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ### 3.3.3 Assignment Domain
 
-
 <img width="2417" height="1467" alt="02-assignment-domain" src="https://github.com/user-attachments/assets/2b49fce4-7453-456b-972d-5ed6639c2f90" />
 
 과제 공고 도메인의 구조를 보여주는 다이어그램이다. BaseRecruitment를 상속하는 Assignment 엔티티와 ParticipantInfo 값 객체, 그리고 관련 열거형과의 관계를 표현한다.
 
+#### Assignment
+
+[BaseRecruitment](#baserecruitment)를 상속한 과제 공고 엔티티로, 학과, 과목, 인원 정보, 우대 학년 등을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| department | String | private | 학과명         |
+| lecture | String | private | 과목명         |
+| lectureCode | String | private | 과목 코드       |
+| participants | ParticipantInfo | private | 참여자 정보      |
+| grades | Set\<Integer\> | private | 우대 학년       |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getDepartment()` | String | public | 학과명 반환 |
+| `getLecture()` | String | public | 과목명 반환 |
+| `getLectureCode()` | String | public | 과목 코드 반환 |
+| `getParticipants()` | ParticipantInfo | public | 인원 정보 반환 |
+| `getGrades()` | Set\<Integer\> | public | 우대 학년 반환 |
+| `update(AssignmentUpdateRequestDto dto)` | void | public | 과제 공고 정보를 업데이트 |
+| `decreaseCurrParticipant(PositionType positionType)` | void | public | 현재 인원을 1명 감소 |
+
+---
+
+#### AssignmentCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 과제 공고 공통 추상 요청 DTO로, 학과, 강의 정보, 우대 학년 등의 공통 필드를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| department | String | private | 학과명 |
+| lecture | String | private | 과목명 |
+| lectureCode | String | private | 과목 코드 |
+| grades | Set\<GradeRequestDto\> | private | 우대 학년 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getDepartment()` | String | public | 학과명 반환 |
+| `getLecture()` | String | public | 과목명 반환 |
+| `getLectureCode()` | String | public | 과목 코드 반환 |
+| `getGrades()` | Set\<GradeRequestDto\> | public | 우대 학년 반환 |
+
+---
+
+#### AssignmentCreationRequestDto
+
+[AssignmentCommonRequestDto](#assignmentcommonrequestdto)를 상속한 과제 공고 생성 요청 DTO로, 모집 인원을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| maxParticipants | Integer | private final | 모집 인원 |
+
+##### Operations
+
+| Name | Return Type | Visibility    | Description |
+|------|-----------|---------------|-------------|
+| `toEntity(User user, AssignmentCreationRequestDto dto)` | Assignment | public static | AssignmentCreationRequestDto 객체를 Assignment 객체로 변환 |
+| `getMaxParticipants()` | Integer | public        | 모집 인원 반환 |
+
+---
+
+#### AssignmentUpdateRequestDto
+
+[AssignmentCommonRequestDto](#assignmentcommonrequestdto)를 상속한 과제 공고 수정 요청 DTO로, 인원 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoUpdateRequestDto | private final | 인원 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getParticipants()` | ParticipantInfoUpdateRequestDto | public | 인원 정보 반환 |
+
+---
+
+#### AssignmentSearchCondition
+
+사용자가 입력한 키워드, 학년, 모집 상태를 기준으로 과제를 검색하기 위한 조건을 담는 record이다.  
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| keywords | Set\<String\> | private | 검색 키워드 집합 |
+| grades | Set\<Integer\> | private | 학년 조건 집합 |
+| status | RecruitmentStatus | private | 모집 상태 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|------------|-------------|
+| `keywords()` | Set\<String\> | public | 키워드 반환 |
+| `grades()` | Set\<Integer\> | public | 학년 조건 반환 |
+| `status()` | RecruitmentStatus | public | 모집 상태 반환 |
+
+---
+
+#### AssignmentDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baseRecruitmentdetailresponsedto)를 상속한 응답 DTO로, 과제 공고의 상세 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| department | String | private | 학과          |
+| lecture | String | private | 강의명         |
+| lectureCode | String | private | 강의 코드       |
+| participants | ParticipantInfoResponseDto | private | 인원 정보       |
+| grades | Set\<Integer\> | private | 우대 학년       |
+
+##### Operations
+
+| Name              | Return Type | Visibility | Description |
+|-------------------|------------|------------|-------------|
+| `getDepartment()`   | String | public | 학과 반환       |
+| `getLecture()`      | String | public | 강의명 반환      |
+| `getLectureCode()`  | String | public | 강의 코드 반환    |
+| `getParticipants()` | ParticipantInfoResponseDto | public | 인원 정보 반환    |
+| `getGrades()`       | Set\<Integer\> | public | 우대 학년 반환    |
+
+---
+
+#### AssignmentSummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 과제 공고의 요약 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| department | String | private | 학과 |
+| lecture | String | private | 강의명 |
+| lectureCode | String | private | 강의 코드 |
+| grades | Set\<Integer\> | private | 우대 학년 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|------------|-------------|
+| `getDepartment()` | String | public | 학과 반환 |
+| `getLecture()` | String | public | 강의명 반환 |
+| `getLectureCode()` | String | public | 강의 코드 반환 |
+| `getGrades()` | Set\<Integer\> | public | 우대 학년 반환 |
+
+---
+
+#### AssignmentController
+
+과제 공고와 관련된 REST API를 제공하는 컨트롤러로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(AssignmentService)을 통해 실제 비즈니스 로직을 수행한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| assignmentService | AssignmentService | private final | 과제 관련 비즈니스 로직 서비스 |
+| komoranUtil | KomoranUtil | private final | 키워드 형태소 분석 유틸리티 |
+
+##### Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| `createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/assignments` | public | 과제 공고 생성 |
+| `getAssignment(Long assignmentId)` | ResponseEntity\<ApiResponse\<AssignmentDetailResponseDto\>\> | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회 |
+| `getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/assignments` | public | 과제 공고 목록 조회 |
+| `updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정 |
+| `deleteAssignment(Long assignmentId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제 |
+
+---
+
+#### AssignmentService
+
+과제 공고와 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+실제 구현체([AssignmentServiceImpl](#assignmentserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createAssignment(AssignmentCreationRequestDto assignmentCreationRequestDto, Long userId)` | Long | public | 과제 공고 생성 |
+| `getAssignment(Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
+| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| `updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto)` | void | public | 과제 공고 수정 |
+| `deleteAssignment(Long userId, Long assignmentId)` | void | public | 과제 공고 삭제 |
+
+---
+
+#### AssignmentServiceImpl
+
+[AssignmentService](#assignmentservice)의 구현체로, 과제 공고 생성, 조회, 수정, 삭제 등 실제 비즈니스 로직을 수행하며,  
+트랜잭션 처리, 권한 검증, 조회수 증가 등을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| assignmentRepository | AssignmentRepository | private final | 과제 공고 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createAssignment(AssignmentCreationRequestDto requestDto, Long userId)` | Long | public | 과제 공고 생성 |
+| `getAssignment(Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
+| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| `updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto)` | void | public | 과제 공고 수정 |
+| `deleteAssignment(Long userId, Long assignmentId)` | void | public | 과제 공고 삭제 |
+
+---
+
+#### AssignmentRepository
+
+Assignment 엔티티의 데이터 접근 계층으로, 조회수 증가 기능과 커스텀 쿼리 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `increaseViewCount(Long assignmentId)` | int | public | 과제 공고 조회수 증가 |
+
+---
+
+#### AssignmentRepositoryCustom
+
+QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 검색 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| `getAssignmentSummariesByIds(List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+
+---
+
+#### AssignmentRepositoryImpl
+
+[AssignmentRepositoryCustom](#assignmentrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 과제 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| `getAssignmentSummariesByIds(List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+| `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Assignment 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
+| `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
+| `containsAnyGrade(Set\<Integer\> grades)` | BooleanExpression | private | Assignment 우대 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
+
+---
 
 ### 3.3.4 Study Domain
 
