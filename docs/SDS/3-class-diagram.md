@@ -533,7 +533,7 @@
 
 #### RecruitmentServiceImpl
 
-[RecruitmentService](####recruitmentservice)를 구현한 서비스 클래스
+[RecruitmentService](#recruitmentservice)를 구현한 서비스 클래스
 모집 공고 조회, 마감 처리 등의 실제 비즈니스 로직을 수행하며, 트랜잭션 및 로깅을 포함한다.
 
 ##### Attributes
