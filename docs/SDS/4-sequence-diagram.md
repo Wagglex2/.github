@@ -1,4 +1,4 @@
-# 4. Sequence Diagram
+<img width="1180" height="565" alt="user-check-nickname-sequence" src="https://github.com/user-attachments/assets/0b241296-9514-455b-a74a-8b05d0e0a4b6" /># 4. Sequence Diagram
 
 본 장에서는 Waggle 시스템의 주요 기능별 시퀀스 다이어그램을 정리한다. 각 다이어그램은 요청부터 응답까지의 전체 처리 흐름을 시간 순서에 따라 표현하며, Controller, Service, Repository 계층 간의 상호작용과 데이터 흐름을 명확히 보여준다.
 
@@ -77,6 +77,8 @@
 
 ### 4.2.1 내 프로필 조회 (Get My Profile)
 
+<img width="910" height="534" alt="user-get-me-sequence" src="https://github.com/user-attachments/assets/f7f5b746-6d29-472c-8f96-6591e1fad804" />
+
 이 Sequence Diagram은 현재 로그인한 사용자가 자신의 프로필 정보를 조회하는 과정을 나타낸다.
 
 - 사용자가 GET /api/v1/users/me 요청을 전송하면, UserController는 UserService의 getUserInfo() 메서드를 호출한다.
@@ -90,6 +92,8 @@
 // user-get-me-sequence.puml
 
 ### 4.2.2 내 프로필 수정 (Update My Profile)
+
+<img width="1276" height="1178" alt="user-update-me-sequence" src="https://github.com/user-attachments/assets/5999cc60-499a-4008-99d2-7bb2efb72e3e" />
 
 이 Sequence Diagram은 사용자가 자신의 프로필 정보를 수정하는 과정을 나타낸다.
 
@@ -107,6 +111,8 @@
 
 ### 4.2.3 비밀번호 변경 (Change Password)
 
+<img width="1463" height="860" alt="user-change-password-sequence" src="https://github.com/user-attachments/assets/4e12cbe0-3ced-426e-b416-d7704840123f" />
+
 이 Sequence Diagram은 사용자가 자신의 비밀번호를 변경하는 과정을 나타낸다.
 
 - 사용자가 POST /api/v1/users/me/password-change 요청을 전송하면, UserController는 UserService의 changePassword() 메서드를 호출한다.
@@ -120,6 +126,8 @@
 // user-change-password-sequence.puml
 
 ### 4.2.4 회원 탈퇴 (Withdraw)
+
+<img width="1566" height="1079" alt="user-withdraw-sequence" src="https://github.com/user-attachments/assets/905ee5fe-aaeb-4296-bed4-5828d0df57f6" />
 
 이 Sequence Diagram은 사용자가 회원 탈퇴를 진행하는 과정을 나타낸다.
 
@@ -139,6 +147,8 @@
 
 ### 4.2.5 Username 중복 확인 (Check Username)
 
+<img width="1186" height="565" alt="user-check-username-sequence" src="https://github.com/user-attachments/assets/a2aa5b3e-1496-41b7-8e50-0cf77529f831" />
+
 이 Sequence Diagram은 회원가입 시 Username 중복 여부를 확인하는 과정을 나타낸다.
 
 - 사용자가 GET /api/v1/users/check-username?username= 요청을 전송하면, UserController는 UserService의 existsByUsername() 메서드를 호출한다.
@@ -150,6 +160,8 @@
 // user-check-username-sequence.puml
 
 ### 4.2.6 Email 중복 확인 (Check Email)
+
+<img width="1028" height="565" alt="user-check-email-sequence" src="https://github.com/user-attachments/assets/89045d3e-0d87-4216-ab04-8d926bf472fa" />
 
 이 Sequence Diagram은 회원가입 시 Email 중복 여부를 확인하는 과정을 나타낸다.
 
@@ -163,6 +175,8 @@
 
 ### 4.2.7 Nickname 중복 확인 (Check Nickname)
 
+<img width="1180" height="565" alt="user-check-nickname-sequence" src="https://github.com/user-attachments/assets/2fc8cf1c-5879-4e2a-9c01-a4efa6921c1d" />
+
 이 Sequence Diagram은 프로필 수정 시 Nickname 중복 여부를 확인하는 과정을 나타낸다.
 
 - 사용자가 GET /api/v1/users/check-nickname?nickname= 요청을 전송하면, UserController는 UserService의 existsByNickname() 메서드를 호출한다.
@@ -174,6 +188,8 @@
 // user-check-nickname-sequence.puml
 
 ### 4.2.8 받은 리뷰 목록 조회 (Get Reviews)
+
+<img width="1634" height="769" alt="user-get-reviews-sequence" src="https://github.com/user-attachments/assets/c4d65e8e-3d75-4806-8fc9-e41eabd3f470" />
 
 이 Sequence Diagram은 특정 사용자가 받은 리뷰 목록을 조회하는 과정을 나타낸다.
 
@@ -195,6 +211,8 @@
 
 ### 4.3.1 프로젝트 공고 생성 (Create Project)
 
+<img width="1514" height="895" alt="project-create-sequence" src="https://github.com/user-attachments/assets/38176eb0-da8b-4cd1-a501-e2aec0ee0edd" />
+
 이 Sequence Diagram은 사용자가 프로젝트 공고를 생성하고 팀이 자동으로 생성되는 과정을 나타낸다.
 
 - 사용자가 POST /api/v1/projects 요청을 전송하면, ProjectController는 ProjectService의 createProject() 메서드를 호출한다.
@@ -210,6 +228,8 @@
 // project-create-sequence.puml
 
 ### 4.3.2 프로젝트 공고 조회 (Get Project)
+
+<img width="1367" height="991" alt="project-get-sequence" src="https://github.com/user-attachments/assets/c274a528-e84c-4b81-bd20-96a67732824b" />
 
 이 Sequence Diagram은 프로젝트 공고의 상세 정보를 조회하는 과정을 나타낸다.
 
@@ -227,6 +247,8 @@
 
 ### 4.3.3 프로젝트 공고 목록 조회 (Get Project Summaries)
 
+<img width="1872" height="701" alt="project-get-summaries-sequence" src="https://github.com/user-attachments/assets/45b078db-a901-4358-a7d0-6c5a4aafda85" />
+
 이 Sequence Diagram은 프로젝트 공고 목록을 조회하고 검색하는 과정을 나타낸다.
 
 - 사용자가 GET /api/v1/projects 요청을 전송하면, ProjectController는 KomoranUtil의 getNouns() 메서드를 호출하여 검색 키워드에서 명사를 추출한다.
@@ -240,6 +262,8 @@
 // project-get-summaries-sequence.puml
 
 ### 4.3.4 프로젝트 공고 수정 (Update Project)
+
+<img width="1298" height="1022" alt="project-update-sequence" src="https://github.com/user-attachments/assets/647f5788-9866-4bbe-88e4-7ff114759f73" />
 
 이 Sequence Diagram은 사용자가 프로젝트 공고 정보를 수정하는 과정을 나타낸다.
 
@@ -256,6 +280,8 @@
 // project-update-sequence.puml
 
 ### 4.3.5 프로젝트 공고 삭제 (Delete Project)
+
+<img width="1253" height="877" alt="project-delete-sequence" src="https://github.com/user-attachments/assets/f1643ef9-8805-4984-8351-e2dd53a0583e" />
 
 이 Sequence Diagram은 사용자가 프로젝트 공고를 삭제하는 과정을 나타낸다.
 
@@ -277,6 +303,8 @@
 
 ### 4.4.1 과제 공고 생성 (Create Assignment)
 
+<img width="1661" height="852" alt="assignment-create-sequence" src="https://github.com/user-attachments/assets/68efebf9-7a7b-4830-b4cb-d1403b438d08" />
+
 이 Sequence Diagram은 사용자가 과제 공고를 생성하고 팀이 자동으로 생성되는 과정을 나타낸다.
 
 - 사용자가 POST /api/v1/assignments 요청을 전송하면, AssignmentController는 AssignmentService의 createAssignment() 메서드를 호출한다.
@@ -293,6 +321,8 @@
 
 ### 4.4.2 과제 공고 조회 (Get Assignment)
 
+<img width="1502" height="808" alt="assignment-get-sequence" src="https://github.com/user-attachments/assets/1dfdb488-ddc6-4f59-95af-6b89083ee4d0" />
+
 이 Sequence Diagram은 과제 공고의 상세 정보를 조회하는 과정을 나타낸다.
 
 - 사용자가 GET /api/v1/assignments/{assignmentId} 요청을 전송하면, AssignmentController는 AssignmentService의 getAssignment() 메서드를 호출한다.
@@ -306,6 +336,8 @@
 // assignment-get-sequence.puml
 
 ### 4.4.3 과제 공고 목록 조회 (Get Assignment Summaries)
+
+<img width="1791" height="701" alt="assignment-get-summaries-sequence" src="https://github.com/user-attachments/assets/306e6f04-d70a-44f6-905a-d827980e7a99" />
 
 이 Sequence Diagram은 과제 공고 목록을 조회하고 검색하는 과정을 나타낸다.
 
@@ -321,6 +353,8 @@
 
 ### 4.4.4 과제 공고 수정 (Update Assignment)
 
+<img width="1471" height="980" alt="assignment-update-sequence" src="https://github.com/user-attachments/assets/cd5df132-8614-4834-9c96-6799e451f54f" />
+
 이 Sequence Diagram은 사용자가 과제 공고 정보를 수정하는 과정을 나타낸다.
 
 - 사용자가 PUT /api/v1/assignments/{assignmentId} 요청을 전송하면, AssignmentController는 AssignmentService의 updateAssignment() 메서드를 호출한다.
@@ -334,6 +368,8 @@
 // assignment-update-sequence.puml
 
 ### 4.4.5 과제 공고 삭제 (Delete Assignment)
+
+<img width="1546" height="877" alt="assignment-delete-sequence" src="https://github.com/user-attachments/assets/76611166-6f01-461a-bf91-e6f66245b418" />
 
 이 Sequence Diagram은 사용자가 과제 공고를 삭제하는 과정을 나타낸다.
 
