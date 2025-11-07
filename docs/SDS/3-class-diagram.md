@@ -613,6 +613,374 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 프로젝트 공고 도메인의 구조를 보여주는 다이어그램이다. BaseRecruitment를 상속하는 Project 엔티티와 PositionParticipantInfo, ParticipantInfo, Period 등의 값 객체, 그리고 ProjectPurpose, MeetingType 등의 열거형과의 관계를 표현한다.
 
+#### Project
+
+[BaseRecruitment](#baserecruitment)를 상속한 프로젝트 공고 엔티티로, 프로젝트 목적, 모임 유형, 포지션, 필요 스킬, 학년, 기간 등의 상세 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description      |
+|------|------|-----------|------------------|
+| purpose | ProjectPurpose | private | 프로젝트 목적          |
+| meetingType | MeetingType | private | 진행 방식            |
+| positions | Set\<PositionParticipantInfo\> | private | 프로젝트 포지션별 참여자 정보 |
+| skills | Set\<Skill\> | private | 요구 기술 스택 목록      |
+| grades | Set\<Integer\> | private | 우대 학년            |
+| period | Period | private | 프로젝트 기간          |
+
+##### Operations
+
+| Name             | Return Type    | Visibility | Description             |
+|------------------|----------------|------------|-------------------------|
+| `getPurpose()`     | ProjectPurpose | public     | 프로젝트 목적 반환              |
+| `getMeetingType()` | MeetingType | public     | 진행 방식 반환                |
+| `getPositions()`   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 참여자 정보 반환     |
+| `getSkills()`      | Set\<Skill\> | public     | 요구 기술 스택 목록 반환          |
+| `getGrades()`      | Set\<Integer\> | public     | 우대 학년 반환                |
+| `getPeriod()`      | Period | public     | 프로젝트 기간 반환              |
+| `update(ProjectUpdateRequestDto dto)` | void | public | 프로젝트 공고 정보를 업데이트        |
+| `getPositionInfoByRole(PositionType position)` | Optional\<PositionParticipantInfo\> | public | 특정 포지션의 참여자 정보 조회       |
+| `decreaseCurrParticipant(PositionType positionType)` | void | public | 특정 포지션의 현재 참여 인원을 1명 감소 |
+
+---
+
+#### MeetingType
+
+회의 또는 프로젝트 진행 방식을 정의하는 **열거형(Enum)** 으로, 각 유형의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+##### Enum Values
+
+| Value | Description |
+|-------|-------------|
+| `ONLINE` | 온라인 |
+| `OFFLINE` | 오프라인 |
+| `HYBRID` | 온/오프라인 |
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| desc | String | private final | 진행 방식 설명    |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| `getDesc()` | String | public | 진행 방식 설명 반환 |
+| `getName()` | String | public | Enum 이름 반환  |
+
+---
+
+#### ProjectPurpose
+
+프로젝트의 목적을 정의하는 **열거형(Enum)** 으로, 각 목적의 설명(`desc`)과 해당 Enum 값을 제공한다.
+
+##### Enum Values
+
+| Value | Description |
+|-------|-------------|
+| `CONTEST` | 공모전 |
+| `HACKATHON` | 해커톤 |
+| `TOY_PROJECT` | 토이 프로젝트 |
+| `SIDE_PROJECT` | 사이드 프로젝트 |
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| desc | String | private final | 프로젝트 목적 설명 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| `getDesc()` | String | public | 프로젝트 목적 설명 반환 |
+| `getName()` | String | public | Enum 이름 반환 |
+
+---
+
+#### ProjectCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 추상 요청 DTO로, 프로젝트 공고 생성 및 수정 시 공통으로 필요한 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적     |
+| meetingType | MeetingType | private final | 진행 방식       |
+| skills | Set\<Skill\> | private final | 기술 스택 목록    |
+| grades | Set\<GradeRequestDto\> | private final | 우대 학년       |
+| period | PeriodRequestDto | private final | 프로젝트 기간     |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description   |
+|------|-----------|----------|---------------|
+| `getPurpose()`     | ProjectPurpose | public     | 프로젝트 목적 반환    |
+| `getMeetingType()` | MeetingType | public     | 진행 방식 반환      |
+| `getSkills()`      | Set\<Skill\> | public     | 기술 스택 목록 반환   |
+| `getGrades()`      | Set\<Integer\> | public     | 우대 학년 반환      |
+| `getPeriod()`      | Period | public     | 프로젝트 기간 반환    |
+| `validate()` | void | public | 마감일이 종료일 이전인지 검증 |
+
+---
+
+#### ProjectCreationRequestDto
+
+[ProjectCommonRequestDto](#projectcommonrequestdto)를 상속한 요청 DTO로, 프로젝트 공고 생성 시 필요한 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| positions | Set\<PositionInfoCreationRequestDto\> | private final | 포지션별 인원 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description          |
+|------|-----------|----------|----------------------|
+| `toEntity(User user, ProjectCreationRequestDto dto)` | Project | public static | DTO를 Project 엔티티로 변환 |
+| `getPositions()`   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
+
+---
+
+#### ProjectUpdateRequestDto
+
+[ProjectCommonRequestDto](#projectcommonrequestdto)를 상속한 요청 DTO로, 프로젝트 공고 수정 시 필요한 정보를 담는다.  
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| positions | Set\<PositionInfoUpdateRequestDto\> | private final | 포지션별 인원 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| `getPositions()`   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
+
+---
+
+#### ProjectSearchCondition
+
+프로젝트 공고 검색 조건을 담는 레코드(Record)로, 키워드, 목적, 포지션, 기술 스택, 모집 상태 등의 필드를 포함한다.  
+
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| keywords | Set\<String\> | public final | 검색 키워드 목록 |
+| purpose | ProjectPurpose | public final | 프로젝트 목적 |
+| positions | Set\<PositionType\> | public final | 포지션 목록 |
+| skills | Set\<Skill\> | public final | 기술 스택 목록 |
+| status | RecruitmentStatus | public final | 모집 공고 상태 |
+
+##### Operations
+
+| Name        | Return Type | Visibility | Description |
+|-------------|-----------|----------|-------------|
+| `keywords()`  | Set\<String\> | public | 검색 키워드 목록 반환 |
+| `purpose()`   | ProjectPurpose | public | 프로젝트 목적 반환 |
+| `positions()` | Set\<PositionType\> | public | 포지션 목록 반환 |
+| `skills()`    | Set\<Skill\> | public | 기술 스택 목록 반환 |
+| `status()`    | RecruitmentStatus | public | 모집 공고 상태 반환 |
+
+---
+
+#### ProjectDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baseRecruitmentdetailresponsedto)를 상속한 응답 DTO로, 프로젝트 공고의 상세 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적     |
+| meetingType | MeetingType | private final | 진행 방식       |
+| positions | Set\<PositionInfoResponseDto\> | private | 포지션별 인원 정보  |
+| skills | Set\<Skill\> | private | 기술 스택 목록    |
+| grades | Set\<Integer\> | private | 우대 학년       |
+| period | PeriodResponseDto | private final | 프로젝트 기간     |
+
+##### Operations
+
+| Name                        | Return Type | Visibility | Description |
+|-----------------------------|-----------|----------|-------------|
+| `fromEntity(Project project)` | ProjectDetailResponseDto | public static | Project 엔티티를 DTO로 변환 |
+| `getPurpose()`                | ProjectPurpose | public | 프로젝트 목적 반환 |
+| `getMeetingType()`            | MeetingType | public | 진행 방식 반환 |
+| `getPositions()`              | Set\<PositionType\> | public | 포지션 목록 반환 |
+| `getSkills()`                 | Set\<Skill\> | public | 기술 스택 목록 반환 |
+| `getGrades()`                 | Set\<Integer\> | public | 우대 학년 반환 |
+| `getPeriod()`                 | PeriodResponseDto | public | 프로젝트 기간 반환 |
+
+---
+
+#### ProjectSummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 프로젝트 공고의 요약 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| purpose | ProjectPurpose | private final | 프로젝트 목적 |
+| meetingType | MeetingType | private final | 진행 방식 |
+| positions | Set\<PositionType\> | private final | 포지션 목록 |
+| skills | Set\<Skill\> | private final | 기술 스택 목록 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| `getPurpose()`                | ProjectPurpose | public | 프로젝트 목적 반환 |
+| `getMeetingType()`            | MeetingType | public | 진행 방식 반환 |
+| `getPositions()`              | Set\<PositionType\> | public | 포지션 목록 반환 |
+| `getSkills()`                 | Set\<Skill\> | public | 기술 스택 목록 반환 |
+
+---
+
+#### ProjectController
+
+프로젝트 공고와 관련된 REST API를 제공하는 컨트롤러로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(ProjectService)을 통해 실제 비즈니스 로직을 수행한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| projectService | ProjectService | private final | 프로젝트 관련 비즈니스 로직 서비스 |
+| komoranUtil | KomoranUtil | private final | 키워드 형태소 분석 유틸리티 |
+
+##### Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| `createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/projects` | public | 프로젝트 공고 생성 |
+| `getProject(Long projectId)` | ResponseEntity\<ApiResponse\<ProjectDetailResponseDto\>\> | `GET /api/v1/projects/{projectId}` | public | 프로젝트 공고 상세 조회 |
+| `getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/projects` | public | 프로젝트 공고 목록 조회 |
+| `updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/projects/{projectId}` | public | 프로젝트 공고 수정 |
+| `deleteProject(Long projectId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제 |
+
+---
+
+#### ProjectService
+
+프로젝트 공고와 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+실제 구현체([ProjectServiceImpl](#projectserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createProject(Long userId, ProjectCreationRequestDto projectCreationRequestDto)` | Long | public | 프로젝트 공고 생성 |
+| `getProject(Long projectId)` | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
+| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 (조건 및 페이징 적용) |
+| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록에 해당하는 프로젝트 공고 조회 |
+| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void | public | 프로젝트 공고 수정 |
+| `deleteProject(Long userId, Long projectId)` | void | public | 프로젝트 공고 삭제 |
+
+---
+
+#### ProjectServiceImpl
+
+[ProjectService](#projectservice)의 구현체로, 프로젝트 공고 생성, 조회, 수정, 삭제 등 실제 비즈니스 로직을 수행하며, 트랜잭션 처리와 권한 검증, 조회수 증가 등을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| projectRepository | ProjectRepository | private final | 프로젝트 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createProject(Long userId, ProjectCreationRequestDto requestDto)` | Long | public | 프로젝트 공고 생성 |
+| `getProject(Long projectId)` | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
+| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 |
+| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록 프로젝트 요약 정보 조회 |
+| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void | public | 프로젝트 공고 수정 |
+| `deleteProject(Long userId, Long projectId)` | void | public | 프로젝트 공고 삭제 |
+
+---
+
+#### ProjectRepository
+
+Project 엔티티의 데이터 접근 계층으로, 프로젝트 공고와 관련된 User, Position, Skill, Grade 조회 및 조회수 증가 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `findByIdWithUser(Long id)` | Optional\<Project\> | public | 프로젝트와 작성자 정보 조회 |
+| `findPositionsByProjectId(Long id)` | Set\<PositionParticipantInfo\> | public | 프로젝트 포지션 조회 |
+| `findSkillsByProjectId(Long id)` | Set\<Skill\> | public | 프로젝트 기술 스택 조회 |
+| `findGradesByProjectId(Long id)` | Set\<Integer\> | public | 프로젝트 우대 학년 조회 |
+| `increaseViewCount(Long id)` | int | public | 조회수 증가 |
+
+---
+
+#### ProjectRepositoryCustom
+
+QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 검색 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
+| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
+
+---
+
+#### ProjectRepositoryImpl
+
+[ProjectRepositoryCustom](#projectrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 프로젝트 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
+| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
+| `eqPurpose(ProjectPurpose purpose)` | BooleanExpression | private | Project 목적(purpose)과 일치하는 조건 생성 |
+| `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Project 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
+| `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
+| `containsAnyPosition(Set\<PositionType\> positions)` | BooleanExpression | private | Project positions 컬렉션 중 하나라도 지정된 positions에 포함되는 조건 생성 |
+| `containsAnySkill(Set\<Skill\> skills)` | BooleanExpression | private | Project skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
+
+---
 
 ### 3.3.3 Assignment Domain
 
