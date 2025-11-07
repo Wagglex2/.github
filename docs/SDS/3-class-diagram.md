@@ -1287,6 +1287,284 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 스터디 공고 도메인의 구조를 보여주는 다이어그램이다. BaseRecruitment를 상속하는 Study 엔티티와 ParticipantInfo, Period 값 객체, 그리고 관련 열거형과의 관계를 표현한다.
 
+#### Study
+
+[BaseRecruitment](#baserecruitment)를 상속한 스터디 공고 엔티티로, 인원 정보, 기간, 기술 스택 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfo | private | 인원 정보 |
+| period | Period | private | 스터디 기간 |
+| skills | Set\<Skill\> | private | 스터디 기술 스택 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getParticipants()` | ParticipantInfo | public | 인원 정보 반환 |
+| `getPeriod()` | Period | public | 스터디 기간 반환 |
+| `getSkills()` | Set\<Skill\> | public | 기술 스택 반환 |
+| `update(StudyUpdateRequestDto dto)` | void | public | 스터디 공고 정보를 업데이트 |
+| `decreaseCurrParticipant(PositionType positionType)` | void | public | 현재 인원을 1명 감소 |
+
+---
+
+#### StudyCommonRequestDto
+
+[BaseRecruitmentRequestDto](#baserecruitmentrequestdto)를 상속한 스터디 공고 공통 추상 요청 DTO로, 진행 기간과 기술 스택 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| period | PeriodRequestDto | private final | 진행 기간 정보 |
+| skills | Set\<Skill\> | private final | 기술 스택 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getPeriod()` | PeriodRequestDto | public | 진행 기간 정보 반환 |
+| `getSkills()` | Set\<Skill\> | public | 기술 스택 정보 반환 |
+| `validate()` | void | public | 진행 기간과 마감일의 유효성을 검증 |
+
+---
+
+#### StudyCreationRequestDto
+
+[StudyCommonRequestDto](#studycommonrequestdto)를 상속한 스터디 공고 생성 요청 DTO로, 모집 인원 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| maxParticipants | Integer | private final | 모집 인원 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `toEntity(User user, StudyCreationRequestDto dto)` | Study | public static | StudyCreationRequestDto 객체를 Study 엔티티로 변환 |
+| `getMaxParticipants()` | Integer | public | 모집 인원 반환 |
+
+---
+
+#### StudyUpdateRequestDto
+
+[StudyCommonRequestDto](#studycommonrequestdto)를 상속한 스터디 공고 수정 요청 DTO로, 인원 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoUpdateRequestDto | private final | 인원 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getParticipants()` | ParticipantInfoUpdateRequestDto | public | 인원 정보 반환 |
+
+---
+
+#### StudySearchCondition
+
+스터디 공고 검색 조건을 담는 레코드(Record)로, 키워드, 기술 스택, 모집 상태 등의 필드를 포함한다.  
+컬렉션은 불변성을 보장하며, null 값이 들어오면 Empty Set으로 초기화한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|--------|-------------|
+| keywords | Set\<String\> | public | 검색 키워드 목록 |
+| skills | Set\<Skill\> | public | 기술 스택 목록 |
+| status | RecruitmentStatus | public | 모집 공고 상태 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|------------|-----------|-------------|
+| `keywords()` | Set\<String\> | public | 키워드 반환 |
+| `skills()` | Set\<Skill\> | public | 기술 스택 조건 반환 |
+| `status()` | RecruitmentStatus | public | 모집 상태 반환 |
+
+---
+
+#### StudyDetailResponseDto
+
+[BaseRecruitmentDetailResponseDto](#baserecruitmentdetailresponsedto)를 상속한 스터디 공고 상세 응답 DTO로, 인원 정보, 진행 기간, 기술 스택 정보를 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| participants | ParticipantInfoResponseDto | private final | 인원 정보 반환 |
+| period | PeriodResponseDto | private final | 진행 기간 정보 반환 |
+| skills | Set\<Skill\> | private | 기술 스택 정보 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `fromEntity(Study study)` | StudyResponseDto | public static | Study 엔티티를 StudyResponseDto 객체로 변환 |
+| `getParticipants()` | ParticipantInfoResponseDto | public | 인원 정보 반환 |
+| `getPeriod()` | PeriodResponseDto | public | 진행 기간 정보 반환 |
+| `getSkills()` | Set\<Skill\> | public | 기술 스택 정보 반환 |
+| `setSkills(Set\<Skill\> skills)` | void | public | 기술 스택 정보 수정 |
+
+---
+
+#### StudySummaryResponseDto
+
+[BaseRecruitmentSummaryResponseDto](#baserecruitmentsummaryresponsedto)를 상속한 응답 DTO로, 스터디 공고의 요약 정보를 담는다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| skills | Set\<Skill\> | private final | 기술 스택 목록 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|----------|-------------|
+| `getSkills()` | Set\<Skill\> | public | 기술 스택 목록 반환 |
+
+---
+
+#### StudyController
+
+스터디 공고와 관련된 REST API를 제공하는 컨트롤러로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+인증된 사용자만 접근 가능하며, 서비스 계층(StudyService)을 통해 실제 비즈니스 로직을 수행한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| studyService | StudyService | private final | 스터디 관련 비즈니스 로직 서비스 |
+| komoranUtil | KomoranUtil | private final | 키워드 형태소 분석 유틸리티 |
+
+##### Operations
+
+| Name | Return Type | Mapping | Visibility | Description |
+|------|-----------|---------|-----------|-------------|
+| `createStudy(StudyCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/studies` | public | 스터디 공고 생성 |
+| `getStudy(Long studyId)` | ResponseEntity\<ApiResponse\<StudyDetailResponseDto\>\> | `GET /api/v1/studies/{studyId}` | public | 스터디 공고 상세 조회 |
+| `getStudySummaries(String keywords, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/studies` | public | 스터디 공고 목록 조회 |
+| `updateStudy(Long studyId, StudyUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/studies/{studyId}` | public | 스터디 공고 수정 |
+| `deleteStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/studies/{studyId}` | public | 스터디 공고 삭제 |
+
+---
+
+#### StudyService
+
+스터디 공고와 관련된 비즈니스 로직을 정의한 서비스 인터페이스로, 생성, 조회, 수정, 삭제 기능을 포함한다.  
+실제 구현체([StudyServiceImpl](#studyserviceimpl))가 해당 기능을 수행하며, 트랜잭션과 검증 로직을 포함할 수 있다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createStudy(Long userId, StudyCreationRequestDto studyCreationRequestDto)` | Long | public | 스터디 공고 생성 |
+| `getStudy(Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회 |
+| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 (조건 및 페이징 적용) |
+| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록에 해당하는 스터디 공고 조회 |
+| `updateStudy(Long userId, Long studyId, StudyUpdateRequestDto updateDto)` | void | public | 스터디 공고 수정 |
+| `deleteStudy(Long userId, Long studyId)` | void | public | 스터디 공고 삭제 |
+
+---
+
+#### StudyServiceImpl
+
+[StudyService](#studyservice)의 구현체로, 스터디 공고 생성, 조회, 수정, 삭제 등 실제 비즈니스 로직을 수행하며, 트랜잭션 처리와 권한 검증, 조회수 증가 등을 포함한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| studyRepository | StudyRepository | private final | 스터디 데이터 접근 계층 |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `createStudy(Long userId, StudyCreationRequestDto requestDto)` | Long | public | 스터디 공고 생성 |
+| `getStudy(Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회 |
+| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 |
+| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록 스터디 요약 정보 조회 |
+| `updateStudy(Long userId, Long studyId, StudyUpdateRequestDto updateDto)` | void | public | 스터디 공고 수정 |
+| `deleteStudy(Long userId, Long studyId)` | void | public | 스터디 공고 삭제 |
+
+---
+
+#### StudyRepository
+
+Study 엔티티의 데이터 접근 계층으로, 조회수 증가 기능과 커스텀 쿼리 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `increaseViewCount(Long id)` | int | public | 조회수 증가 |
+
+---
+
+#### StudyRepositoryCustom
+
+QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 검색 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
+| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
+
+---
+
+#### StudyRepositoryImpl
+
+[StudyRepositoryCustom](#studyrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 스터디 요약 DTO 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
+| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
+| `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Study 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
+| `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
+| `containsAnySkill(Set\<Skill\> skills)` | BooleanExpression | private | Study skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
+
+---
 
 ### 3.3.5 Team Domain
 
