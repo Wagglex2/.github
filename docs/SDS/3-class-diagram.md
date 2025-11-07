@@ -249,6 +249,52 @@
 
 리뷰 도메인의 구조를 보여주는 다이어그램이다. Review 엔티티와 User 간의 관계, 그리고 ReviewStatus 열거형과의 관계를 표현한다.
 
+#### Review
+사용자 간 후기(리뷰) 정보를 저장하는 엔티티.
+리뷰 작성자(`reviewer`)와 리뷰 대상자(`reviewee`) 간의 관계를 표현하며, 내용(`content`)과 상태(`status`)를 포함한다.
+작성일(`createdAt`), 수정일(`updatedAt`)은 JPA Auditing으로 자동 관리된다.
+
+##### Attributes
+| Name      | Type          | Visibility | Description             |
+| --------- | ------------- | ---------- | ----------------------- |
+| id        | Long          | private    | 리뷰 식별자 (PK, 자동 증가)      |
+| reviewer  | User          | private    | 리뷰 작성자 (N:1 관계)         |
+| reviewee  | User          | private    | 리뷰 대상자 (N:1 관계)         |
+| content   | String        | private    | 리뷰 내용 (최대 100자)         |
+| status    | ReviewStatus  | private    | 리뷰 상태 (ACTIVE, DELETED) |
+| createdAt | LocalDateTime | private    | 작성일 (Auditing 자동 관리)    |
+| updatedAt | LocalDateTime | private    | 수정일 (Auditing 자동 관리)    |
+
+
+##### Operations
+| Name                                                 | Return Type | Visibility | Description                      |
+| ---------------------------------------------------- | ----------- | ---------- | -------------------------------- |
+| `update(ReviewUpdateRequestDto dto)`                   | void        | public     | 리뷰 내용을 수정 (`dto.content()` 반영)   |
+| `delete()`                                             | void        | public     | 리뷰 상태를 `DELETED`로 변경 (소프트 삭제 처리) |
+
+
+#### ReviewStatus
+리뷰의 상태(활성/삭제)를 관리하는 Enum 클래스.
+Soft Delete 정책에 따라 DB에서는 실제 삭제되지 않으며, `ReviewStatus` 필드를 통해 사용자 노출 여부를 제어한다.
+
+##### Enum Values
+| Enum      | Description                             |
+|-----------| --------------------------------------- |
+| `ACTIVE`  | 활성 상태 — 사용자에게 정상적으로 노출되는 리뷰             |
+| `DELETED` | 삭제 상태 — 사용자가 삭제한 리뷰 (비노출 처리됨, DB에는 유지됨) |
+
+
+##### Attributes
+| Name | Type   | Visibility    | Description                |
+| ---- | ------ | ------------- | -------------------------- |
+| desc | String | private final | 상태의 한글 설명 (예: “활성”, “삭제”). |
+
+##### Operations
+| Name      | Return Type | Visibility | Description                        |
+| --------- | ----------- | ---------- | ---------------------------------- |
+| `getDesc()` | String      | public     | 상태 설명 반환.                          |
+| `getName()` | String      | public     | Enum 이름(ACTIVE, DELETED)을 문자열로 반환. |
+
 
 ### 3.3.10 Auth/Security Summary
 
@@ -807,6 +853,126 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 <img width="3558" height="1844" alt="03-review-flow" src="https://github.com/user-attachments/assets/557e2815-cb61-4298-b353-9f218e7d786a" />
 
 리뷰 관리 기능의 계층 구조와 처리 과정을 나타낸다. ReviewController, ReviewService, ReviewRepository 간의 의존 관계를 표현하며, 리뷰 작성자와 수신자 간의 관계 구조와 소프트 삭제 메커니즘을 보여준다.
+
+
+#### ReviewCreationRequestDto
+리뷰 생성 요청을 처리하기 위한 DTO.
+사용자가 다른 사용자에 대한 후기를 작성할 때 전달되는 요청 데이터 구조이다.
+
+##### Attributes
+| Name       | Type   | Visibility                 | Description                                 |
+| ---------- | ------ | -------------------------- | ------------------------------------------- |
+| revieweeId | Long   | private  | 후기 대상 사용자 ID. `@NotNull` 제약 적용.             |
+| content    | String | private  | 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
+
+##### Operations
+| Name                                                      | Return Type | Visibility | Description                                 |
+| --------------------------------------------------------- | ----------- | ---------- | ------------------------------------------- |
+| `toEntity(User reviewer, User reviewee, String content)`    | Review      | public     | 리뷰 작성자와 대상 유저 정보를 받아 `Review` 엔티티로 변환.      |
+
+
+#### ReviewUpdateRequestDto
+리뷰 수정 요청 시 사용되는 DTO.
+사용자가 작성한 리뷰의 내용을 변경하기 위해 전달하는 요청 데이터 구조이다.
+
+##### Attributes
+| Name    | Type   | Visibility                 | Description                                     |
+| ------- | ------ | -------------------------- | ----------------------------------------------- |
+| content | String | private  | 수정된 리뷰 내용. `@NotBlank`, `@Size(max=100)` 검증 적용. |
+
+##### Operations
+| Name                                      | Return Type | Visibility | Description                                   |
+| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+
+#### ReviewResponseDto
+리뷰 정보를 클라이언트에게 응답하기 위한 DTO.
+[Review](#review) 엔티티의 데이터를 안전하게 변환하여 외부에 노출한다.
+
+##### Attributes
+| Name    | Type   | Visibility                 | Description |
+| ------- | ------ | -------------------------- | ----------- |
+| content | String | private  | 리뷰 본문 내용.   |
+
+##### Operations
+| Name                              | Return Type       | Visibility    | Description                                         |
+| --------------------------------- | ----------------- | ------------- | --------------------------------------------------- |
+| `from(Review review)`               | ReviewResponseDto | public static | `Review` 엔티티를 `ReviewResponseDto`로 변환하는 정적 팩토리 메서드. |
+
+
+#### ReviewController
+리뷰([Review](#review)) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
+리뷰 작성, 조회(받은/작성한), 수정, 삭제(Soft Delete) 기능을 담당하며, [ReviewService](#reviewservice)를 호출해 비즈니스 로직을 수행한다.
+
+##### Attributes
+| Name          | Type          | Visibility    | Description                    |
+| ------------- | ------------- | ------------- | ------------------------------ |
+| reviewService | ReviewService | private final | 리뷰 관련 비즈니스 로직을 담당하는 서비스 계층 의존성 |
+
+##### Operations
+| Name                                                                                     | Return Type                                            | Mapping                                       | Visibility | Description                                                                     |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |-----------------------------------------------|------------| ------------------------------------------------------------------------------- |
+| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | ResponseEntity\<ApiResponse\<Long>>                      | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
+| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long>>                      | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
+| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | ResponseEntity\<ApiResponse\<Void>>                      | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
+
+
+#### ReviewService
+리뷰([Review](#review)) 도메인의 핵심 비즈니스 로직 계약(Contract)을 정의하는 서비스 인터페이스.
+[ReviewServiceImpl](#reviewserviceimpl)에서 구현되며, 리뷰의 생성(Create), 조회(Read), 수정(Update), 삭제(Delete) 기능을 수행한다.
+
+##### Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
+
+##### Operations
+| Name                                                                   | Return Type               | Visibility | Description                                                       |
+| ---------------------------------------------------------------------- | ------------------------- | ---------- | ----------------------------------------------------------------- |
+| `findById(Long id)`                                                    | Review                    | public     | 리뷰 ID로 리뷰 엔티티를 조회한다. 존재하지 않을 경우 예외 발생.                            |
+| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | Long                      | public     | 리뷰 작성자 ID와 요청 DTO를 기반으로 리뷰를 생성하고, 생성된 리뷰의 ID를 반환한다.               |
+| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **받은 리뷰 목록**을 페이징 조건에 맞게 조회한다.                            |
+| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이징 조건에 맞게 조회한다.                           |
+| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | Long                      | public     | 본인이 작성한 활성 상태의 리뷰만 수정할 수 있다.                                      |
+| `deleteReview(Long userId, Long reviewId)`                             | void                      | public     | 본인이 작성한 활성 상태의 리뷰만 **Soft Delete** 처리한다. (`ReviewStatus.DELETED`) |
+
+
+#### ReviewServiceImpl
+[ReviewService](#reviewservice) 인터페이스의 구현체로,
+리뷰 생성, 조회, 수정, 삭제(Soft Delete) 기능을 제공하는 서비스 클래스.
+리뷰 작성자·피평가자 간의 관계 및 상태([ReviewStatus](#reviewstatus))를 검증한다.
+
+##### Attributes
+| Name           | Type           | Visibility    | Description                     |
+| -------------- |----------------| ------------- | ------------------------------- |
+| reviewRepository | ReviewRepository | private final | 리뷰 엔티티에 대한 데이터 접근 계층            |
+| userService    | UserService    | private final | 리뷰 작성자 및 피평가자 검증을 위한 사용자 조회 서비스 |
+
+##### Operations
+| Name                                                                   | Return Type               | Visibility | Description                                                                                          |
+| ---------------------------------------------------------------------- |---------------------------| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `findById(Long id)`                                                    | Review                    | public     | 리뷰 ID로 리뷰를 조회하고, 존재하지 않을 경우 `REVIEW_NOT_FOUND` 예외를 발생시킨다.                                            |
+| `createReview(Long reviewerId, ReviewCreationRequestDto dto)`          | Long                      | public     | 리뷰 작성자와 피평가자 정보를 조회 후, 새로운 리뷰를 생성 및 저장한다.<br>자기 자신에게 리뷰를 남기는 경우 `SELF_REVIEW_NOT_ALLOWED` 예외 발생.     |
+| `getReviewsByRevieweeId(Long revieweeId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환.  |
+| `getReviewsByReviewerId(Long reviewerId, Pageable pageable)`           | PageResponse\<ReviewResponseDto> | public     | 특정 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>`ReviewStatus.ACTIVE` 상태만 조회하며, DTO 변환 후 `PageResponse`로 반환. |
+| `updateReview(Long userId, Long reviewId, ReviewUpdateRequestDto dto)` | Long                      | public     | 본인이 작성한 활성 상태 리뷰만 수정할 수 있다.<br>리뷰 소유자 불일치 또는 비활성 리뷰일 경우 예외 발생.                                       |
+| `deleteReview(Long userId, Long reviewId)`                             | void                      | public     | 본인이 작성한 활성 상태 리뷰만 **Soft Delete** 처리(`ReviewStatus.DELETED`) 가능.                                     |
+
+
+#### ReviewRepository
+[Review](#review) 엔티티에 대한 데이터 접근 계층(Repository).
+Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공하며,
+리뷰 대상자(피평가자) 및 리뷰 작성자 기준으로 리뷰를 조회하는 기능을 제공한다.
+
+##### Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
+
+##### Operations
+| Name                                                                                 | Return Type  | Visibility | Description                                                      |
+| ------------------------------------------------------------------------------------ | ------------ | ---------- | ---------------------------------------------------------------- |
+| `findByRevieweeIdAndStatus(Long revieweeId, ReviewStatus status, Pageable pageable)` | Page\<Review> | public     | 특정 피평가자(`revieweeId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다.   |
+| `findByReviewerIdAndStatus(Long reviewerId, ReviewStatus status, Pageable pageable)` | Page\<Review> | public     | 특정 리뷰 작성자(`reviewerId`)와 상태(`status`)를 기준으로 리뷰 목록을 페이지 단위로 조회한다. |
 
 
 ### 3.4.8 Authentication & Authorization Process Structure
