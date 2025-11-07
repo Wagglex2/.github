@@ -156,6 +156,71 @@
 
 팀 및 팀 멤버 도메인의 구조를 보여주는 다이어그램이다. Team과 TeamMember 엔티티 간의 관계, TeamRole 열거형, 그리고 BaseRecruitment와의 연관 관계를 표현한다.
 
+#### Team
+각 공고([BaseRecruitment](#baserecruitment))와 1:1로 연결되어 팀 정보를 관리하는 엔티티.
+팀은 여러 명의 팀원([TeamMember](#teammember))을 포함하며, 팀 생성 및 삭제 시 팀원과의 연결관계를 일관되게 유지한다.
+
+##### Attributes
+| Name        | Type              | Visibility | Description                                               |
+| ----------- |-------------------| ---------- | --------------------------------------------------------- |
+| id          | Long              | private    | 팀 식별자 (PK, 자동 증가)                                         |
+| recruitment | BaseRecruitment   | private    | 연결된 모집 공고 (1:1 관계, Not Null, Unique)                      |
+| members     | List\<TeamMember> | private    | 팀에 속한 팀원 목록 (1:N 관계, cascade = ALL, orphanRemoval = true) |
+| createdAt   | LocalDateTime     | private    | 팀 생성 시각 (Auditing 자동 기록)                                  |
+| updatedAt   | LocalDateTime     | private    | 마지막 수정 시각 (Auditing 자동 기록)                                |
+
+##### Operations
+| Name                              | Return Type          | Visibility | Description                                      |
+| --------------------------------- | -------------------- | ---------- | ------------------------------------------------ |
+| `addMember(TeamMember member)`    | void                 | public     | 팀원 추가 및 양방향 연관관계 설정 (`member.setTeam(this)`)     |
+| `findMember(Long userId)`         | Optional\<TeamMember> | public     | 사용자 ID를 통해 특정 팀원을 조회                             |
+| `removeMember(TeamMember member)` | void                 | public     | 팀원 삭제 및 연관관계 해제. 팀원 미존재 시 `BusinessException` 발생 |
+
+
+#### TeamMember
+팀([Team](#team))에 소속된 개별 팀원 정보를 나타내는 엔티티.
+팀과 사용자 간의 관계를 연결하며, 팀 내 역할 및 포지션 정보를 함께 관리한다.
+[Project](#project) 팀의 경우에만 포지션(position) 정보가 필수이며, [Study](#study)나 [Assignment](#assignment) 팀에서는 null이 허용된다.
+
+##### Attributes
+| Name      | Type          | Visibility | Description                                    |
+| --------- | ------------- | ---------- |------------------------------------------------|
+| id        | Long          | private    | 팀 멤버 식별자 (PK, 자동 증가)                           |
+| team      | Team          | private    | 소속 팀 (N:1 관계, 필수)                              |
+| user      | User          | private    | 연결된 사용자 (N:1 관계, 필수)                           |
+| role      | TeamRole      | private    | 팀 내 역할 (LEADER, MEMBER 등)                      |
+| position  | PositionType  | private    | 팀 내 포지션 (Project 팀 한정, 예: BACK_END, FRONT_END) |
+| createdAt | LocalDateTime | private    | 등록 일시 (Auditing 자동 관리)                         |
+| updatedAt | LocalDateTime | private    | 수정 일시 (Auditing 자동 관리)                         |
+
+##### Operations
+| Name                                            | Return Type | Visibility | Description                    |
+| ----------------------------------------------- | ----------- | ---------- | ------------------------------ |
+| `setTeam(Team team)`                              | void        | public     | 소속 팀 정보를 변경 (양방향 연관관계 설정 시 사용) |
+
+
+#### TeamRole
+팀 내 역할을 정의하는 Enum 클래스.
+[TeamMember](#teammember) 엔티티에서 팀원의 권한을 구분하기 위해 사용된다.
+리더(LEADER)와 일반 멤버(MEMBER) 두 가지 역할을 가진다.
+
+##### Enum Values
+| Enum     | Description              |
+|----------| ------------------------ |
+| `LEADER` | 팀의 생성자이자 리더 (팀 관리 권한 보유) |
+| `MEMBER` | 일반 팀원 (리더의 관리하에 활동)      |
+
+
+##### Attributes
+| Name | Type   | Visibility    | Description                |
+| ---- | ------ | ------------- | -------------------------- |
+| desc | String | private final | 역할의 한글 설명 (예: “리더”, “멤버”). |
+
+##### Operations
+| Name      | Return Type | Visibility | Description                       |
+| --------- | ----------- | ---------- | --------------------------------- |
+| `getDesc()` | String      | public     | 역할의 설명(한글)을 반환.                   |
+| `getName()` | String      | public     | Enum 이름(LEADER, MEMBER)을 문자열로 반환. |
 
 ### 3.3.6 Application Domain
 
@@ -231,6 +296,181 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 <img width="4096" height="2352" alt="03-team-flow" src="https://github.com/user-attachments/assets/0d62b703-fcc9-45ed-861d-58b77c5967ef" />
 
 팀 및 팀 멤버 관리 기능의 계층 구조를 나타낸다. TeamController와 TeamMemberController의 역할 분리, TeamService와 TeamMemberService 간의 협력 구조, 그리고 Optimistic Locking을 통한 동시성 제어 메커니즘을 표현한다.
+
+#### TeamResponseDto
+팀([Team](#team)) 엔티티 및 관련 모집공고 정보를 통합하여 API 응답으로 전달하기 위한 DTO.
+[Project](#project), [Study](#study), [Assignment](#assignment) 등의 모집 유형에 관계없이 공통 구조로 팀 정보를 제공한다.
+또한 각 팀 멤버의 상세 정보([TeamMemberResponseDto](#teammemberresponsedto))를 포함한다.
+
+##### Attributes
+| Name             | Type                        | Visibility                 | Description                            |
+| ---------------- | --------------------------- | -------------------------- | -------------------------------------- |
+| id               | Long                        | private  | 팀 식별자 ID                               |
+| recruitmentId    | Long                        | private  | 연결된 모집공고(`BaseRecruitment`)의 ID        |
+| recruitmentTitle | String                      | private  | 모집공고 제목                                |
+| category         | RecruitmentCategory         | private  | 모집 유형 (PROJECT/STUDY/ASSIGNMENT 등)     |
+| status           | RecruitmentStatus           | private  | 모집 상태 (RECRUITING, CLOSED, CANCELED 등) |
+| period           | PeriodResponseDto           | private  | 모집 기간 정보 (Project/Study만 해당)           |
+| durationDays     | Long                        | private  | 모집 기간 일수 (`endDate - startDate`)       |
+| leaderNickname   | String                      | private  | 팀 리더(공고 작성자)의 닉네임                      |
+| memberCount      | int                         | private  | 팀 멤버 수                                 |
+| members          | List\<TeamMemberResponseDto> | private  | 팀 멤버 정보 리스트                            |
+
+##### Operations
+| Name                  | Return Type     | Visibility    | Description                                                     |
+| --------------------- | --------------- | ------------- | --------------------------------------------------------------- |
+| `fromEntity(Team team)` | TeamResponseDto | public static | `Team` 엔티티와 연결된 `BaseRecruitment`, `TeamMember` 정보를 DTO 형태로 변환. |
+
+
+
+#### TeamMemberResponseDto
+팀 멤버([TeamMember](#teammember)) 정보를 API 응답 형태로 표현하는 DTO.
+`TeamMember` 엔티티에서 필요한 최소 필드만 추출하며,
+팀 내 역할(`TeamRole`), 포지션(`PositionType`), 사용자 기본 정보 등을 포함한다.
+
+##### Attributes
+| Name     | Type         | Visibility                 | Description                        |
+| -------- | ------------ | -------------------------- |------------------------------------|
+| userId   | Long         | private  | 팀 멤버(User)의 고유 식별자 ID              |
+| nickname | String       | private  | 팀 멤버의 닉네임                          |
+| role     | TeamRole     | private  | 팀 내 역할 (리더 / 일반 멤버 등)              |
+| position | PositionType | private  | 사용자 포지션 (예: BACK_END, FRONT_END 등) |
+
+##### Operations
+| Name                              | Return Type           | Visibility    | Description                              |
+| --------------------------------- | --------------------- | ------------- | ---------------------------------------- |
+| `fromEntity(TeamMember teamMember)` | TeamMemberResponseDto | public static | `TeamMember` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.  |
+
+
+#### TeamController
+팀([Team](#team)) 관련 REST API 요청을 처리하는 컨트롤러 계층 클래스.
+사용자의 인증 정보를 바탕으로 본인의 팀 목록을 카테고리와 상태별로 페이징 조회할 수 있도록 한다.
+
+##### Attributes
+| Name        | Type        | Visibility    | Description                   |
+| ----------- | ----------- | ------------- | ----------------------------- |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직을 수행하는 서비스 계층 의존성 |
+
+
+##### Operations
+| Name                                                                                                                            | Return Type                                        | Mapping              | Visibility | Description                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |----------------------|------------| ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<TeamResponseDto>>> | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
+
+#### TeamService
+팀([Team](#team)) 도메인과 관련된 핵심 비즈니스 로직의 인터페이스 계층.
+서비스 구현체([TeamServiceImpl](#teamserviceimpl))가 실제 로직을 담당하며,
+팀 생성, 조회, 페이징 조회 등 주요 기능의 계약(Contract)을 정의한다.
+
+##### Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
+
+##### Operations
+| Name                                                                                                                      | Return Type  | Visibility | Description                                      |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------------------------------------------ |
+| `save(Team team)`                                                                                                         | void         | public     | 새 팀을 저장한다.                                       |
+| `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀 엔티티를 조회한다.<br>존재하지 않을 경우 예외 발생.          |
+| `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 조회하며, 팀 멤버(`members`, `user`)를 함께 로딩한다.    |
+| `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 팀 ID의 존재 여부를 반환한다.                            |
+| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리와 상태의 팀 목록을 페이징 조회한다. |
+
+#### TeamServiceImpl
+[TeamService](#teamservice) 인터페이스의 구현체로,
+[Team](#team) 엔티티의 조회 및 저장, 사용자별 팀 목록 조회 기능을 담당하는 서비스 클래스.
+
+##### Attributes
+| Name                | Type            | Visibility           | Description                          |
+|---------------------|-----------------| -------------------- | ------------------------------------ |
+| teamRepository      | TeamRepository  | private final        | Team 엔티티에 대한 데이터 접근을 담당하는 Repository |
+| pageableValidator   | PageableValidator | private final        | 페이지 및 정렬 요청을 검증하는 유틸리티 클래스           |
+| MY_TEAM_SORT_FIELDS | Set\<String>     | private static final | 허용된 정렬 기준 필드 목록 (현재 `createdAt`만 허용) |
+
+##### Operations
+| Name                                                                                                                      | Return Type  | Visibility | Description                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------------------------------------------------------------------------------------ |
+| `save(Team team)`                                                                                                         | void         | public     | 새 팀 정보를 데이터베이스에 저장한다.                                                                      |
+| `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀을 조회하고, 없을 경우 `TEAM_NOT_FOUND` 예외를 발생시킨다.                                           |
+| `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 팀을 조회하며, 팀 멤버(`members` 및 `user`)를 함께 로딩한다.                                          |
+| `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 ID의 팀 존재 여부를 반환한다.                                                                      |
+| `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 생성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이지 단위로 조회한다.<br>조회된 엔티티는 `TeamResponseDto`로 변환된다. |
+
+#### TeamRepository
+Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하는 Repository 인터페이스.
+팀 정보 조회, 모집 공고별 팀 목록 조회 등의 기능을 제공하며,
+`@EntityGraph`를 사용하여 연관 엔티티 로딩 시 N+1 문제를 방지한다.
+
+##### Attributes
+| Name                 | Type                          | Visibility           | Description                                   |
+| -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
+
+##### Operations
+| Name                                                                                                                                                                | Return Type   | Visibility | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| `findDistinctByRecruitmentCategoryAndRecruitmentStatusAndRecruitmentUserId(RecruitmentCategory category, RecruitmentStatus status, Long userId, Pageable pageable)` | Page\<Team>    | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다.<br>연관된 `Recruitment` 및 `User`를 `EntityGraph`로 함께 로딩. |
+| `findByIdWithMembers(Long id)`                                                                                                                                      | Optional\<Team> | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다.           |
+
+
+#### TeamMemberController
+팀 멤버([TeamMember](#teammember)) 관련 요청을 처리하는 REST API 컨트롤러 계층 클래스.
+팀 리더가 특정 멤버를 팀에서 강제 탈퇴시키는 기능을 제공한다.
+
+##### Attributes
+| Name              | Type              | Visibility    | Description                 |
+| ----------------- | ----------------- | ------------- | --------------------------- |
+| teamMemberService | TeamMemberService | private final | 팀 멤버 관리 로직을 수행하는 서비스 계층 의존성 |
+
+##### Operations
+| Name                                                                      | Return Type                       | Mapping                                           | Visibility | Description                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------- | --------------------------------- |---------------------------------------------------|------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void>> | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
+
+
+#### TeamMemberService
+팀 멤버 관리 기능을 정의하는 서비스 계층 인터페이스.
+[TeamMemberServiceImpl](#teammemberserviceimpl)에서 구현되며, 팀 내 멤버 삭제(리더 권한 기반)와 같은 비즈니스 로직의 계약(Contract)을 명시한다.
+
+##### Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
+
+##### Operations
+| Name                                                       | Return Type | Visibility | Description                                                                                                 |
+| ---------------------------------------------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
+| `removeMember(Long teamId, Long removerId, Long targetId)` | void      | public     | 특정 팀(`teamId`)에서 리더(`removerId`)가 특정 멤버(`targetId`)를 삭제(강제 탈퇴)한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다. |
+
+
+#### TeamMemberServiceImpl
+[TeamMemberService](#teammemberservice) 인터페이스의 구현체로,
+팀 멤버 관리 및 리더 권한 기반 삭제 로직을 수행하는 서비스 클래스.
+동시성 제어를 위해 `@Version` 기반 Optimistic Lock과 Spring Retry를 활용하며, 비즈니스 예외를 통한 명확한 검증 로직을 갖는다.
+
+##### Attributes
+| Name                 | Type                 | Visibility    | Description                     |
+| -------------------- | -------------------- | ------------- | ------------------------------- |
+| teamMemberRepository | TeamMemberRepository | private final | 팀 멤버 엔티티에 대한 데이터 접근 계층          |
+| teamService          | TeamService          | private final | 팀 엔티티 조회 및 검증을 담당하는 서비스         |
+| recruitmentService   | RecruitmentService   | private final | 모집공고(BaseRecruitment) 관련 서비스 계층 |
+
+
+##### Operations
+| Name                                                                                             | Return Type | Visibility | Description                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `removeMember(Long teamId, Long removerId, Long targetId)`                                       | void    | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
+| `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void    | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
+
+#### TeamMemberRepository
+[TeamMember](#teammember) 엔티티에 대한 데이터 접근 계층(Repository).
+Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한다.
+
+##### Attributes
+| Name          | Type          | Visibility    | Description                   |
+| ------------- | ------------- | ------------- | ----------------------------- |
+
+##### Operations
+| Name                                              | Return Type          | Visibility | Description                                                   |
+| ------------------------------------------------- | -------------------- | ---------- | ------------------------------------------------------------- |
+| `findByTeamIdAndUserId(Long teamId, Long userId)` | Optional\<TeamMember> | public     | 특정 팀 ID와 사용자 ID로 팀 멤버를 조회한다.<br>결과가 없을 경우 빈 `Optional`을 반환한다. |
 
 
 ### 3.4.6 User Profile Process Structure
