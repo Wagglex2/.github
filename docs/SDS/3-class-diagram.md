@@ -1095,6 +1095,134 @@ Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 �
 시스템의 인증 및 인가를 담당하는 보안 관련 클래스들의 구조를 보여준다.
 JWT 기반 토큰 관리를 위한 JwtUtil, 요청 검증을 위한 JwtFilter, Spring Security와의 통합을 위한 CustomUserDetails 및 CustomUserDetailsService, 그리고 인증 실패 및 접근 거부 상황을 처리하는 CustomAuthenticationEntryPoint와 CustomAccessDeniedHandler 등의 보안 클래스들의 구조와 상호작용을 표현한다.
 
+
+#### JwtUtil
+JWT(JSON Web Token)를 생성하고, 검증 및 파싱하는 유틸리티 클래스.
+AccessToken과 RefreshToken을 각각 생성하며, 토큰 내 사용자 정보(`uid`, `username`, `nickname`, `role`)를 Claims에 저장한다.
+서명은 `HMAC-SHA` 알고리즘 기반 `SecretKey`를 사용하여 보안 무결성을 보장한다.
+
+##### Attributes
+| Name           | Type      | Visibility           | Description                       |
+| -------------- | --------- | -------------------- | --------------------------------- |
+| CLAIM_UID      | String    | private static final | 사용자 ID Claim 키                    |
+| CLAIM_USERNAME | String    | private static final | 사용자명 Claim 키                      |
+| CLAIM_NICKNAME | String    | private static final | 닉네임 Claim 키                       |
+| CLAIM_ROLE     | String    | private static final | 권한 Claim 키                        |
+| CLAIM_TYPE     | String    | private static final | 토큰 종류 Claim 키                     |
+| TYPE_ACCESS    | String    | private static final | `"access"` (AccessToken 타입 식별자)   |
+| TYPE_REFRESH   | String    | private static final | `"refresh"` (RefreshToken 타입 식별자) |
+| secretKey      | SecretKey | private final        | JWT 서명 검증용 시크릿 키 (`HMAC-SHA`)     |
+| accessExp      | long      | private final        | AccessToken 만료 시간 (ms 단위)         |
+| refreshExp     | long      | private final        | RefreshToken 만료 시간 (ms 단위)        |
+
+##### Operations
+| Name                                                                            | Return Type | Visibility | Description                                               |
+| ------------------------------------------------------------------------------- | ----------- | ---------- | --------------------------------------------------------- |
+| `createAccessToken(Long userId, String username, String nickname, String role)` | String      | public     | 사용자 정보(UID, username, nickname, role)를 포함한 AccessToken 생성 |
+| `createRefreshToken(Long userId)`                                               | String      | public     | 사용자 ID만 포함된 RefreshToken 생성                               |
+| `parseToken(String token)`                                                      | Claims      | public     | 서명 검증 및 Claims 추출. 만료·위조 시 `JwtException` 발생              |
+| `validateToken(String token)`                                                   | boolean     | public     | 파싱 성공 여부로 유효성 검증                                          |
+| `isAccessToken(String token)`                                                   | boolean     | public     | Claims의 `"token_type"`이 `"access"`인지 확인                   |
+| `isRefreshToken(String token)`                                                  | boolean     | public     | Claims의 `"token_type"`이 `"refresh"`인지 확인                  |
+| `getUserId(String token)`                                                       | Long        | public     | Claims에서 `uid` 추출                                         |
+| `getUsername(String token)`                                                     | String      | public     | Claims에서 `username` 추출                                    |
+| `getNickname(String token)`                                                     | String      | public     | Claims에서 `nickname` 추출                                    |
+| `isTokenExpired(String token)`                                                  | boolean     | public     | 만료일이 현재 시각 이전인지 여부 반환                                     |
+| `getTimeToExpiration(String token)`                                             | long        | public     | 토큰 만료까지 남은 시간(ms) 반환                                      |
+| `getAccessExpMills()`                                                           | long        | public     | AccessToken 만료 기간(ms) 반환                                  |
+| `getRefreshExpMills()`                                                          | long        | public     | RefreshToken 만료 기간(ms) 반환                                 |
+
+#### JwtFilter
+모든 HTTP 요청마다 한 번씩 실행되는 JWT 인증 필터.
+`Authorization` 헤더의 Access Token을 검증하고, 유효한 경우 `SecurityContext`에 인증 정보를 설정한다.
+화이트리스트(`security.whitelist`) 경로 및 preflight(OPTIONS) 요청은 필터링에서 제외된다.
+
+##### Attributes
+| Name         | Type           | Visibility           | Description                                              |
+| ------------ | -------------- | -------------------- | -------------------------------------------------------- |
+| whiteList    | String[]       | private              | 인증 제외 경로 목록 (application.yml의 `security.whitelist`에서 주입) |
+| jwtUtil      | JwtUtil        | private final        | JWT 생성, 파싱, 검증 유틸리티 클래스                                  |
+| PATH_MATCHER | AntPathMatcher | private static final | URI 패턴 매칭 유틸리티 (`/api/**` 등 지원)                          |
+
+##### Operations
+| Name                                                                   | Return Type | Visibility | Description                                                                            |
+| ---------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------- |
+| `doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)` | void        | protected  | 요청 단위로 JWT 토큰을 검사하고, 유효 시 `SecurityContext`에 인증 정보를 설정                                 |
+| `isWhiteListed(String uri)`                                              | boolean     | private    | 요청 URI가 화이트리스트 패턴에 해당하는지 검사                                                            |
+| `extractAccessToken(HttpServletRequest request)`                         | String      | private    | `Authorization: Bearer ...` 헤더에서 Access Token 추출                                       |
+| `setAuthenticationFromClaims(Claims claims)`                             | void        | private    | JWT Claims를 기반으로 `CustomUserDetails` 및 `Authentication` 객체를 생성 후 `SecurityContext`에 설정 |
+
+#### CustomUserDetails
+Spring Security에서 인증된 사용자 정보를 저장하는 커스텀 구현체.
+JWT에서 추출한 사용자 정보 또는 `User` 엔티티 기반으로 생성되며, `SecurityContextHolder`를 통해 전역적으로 참조된다.
+비밀번호는 인증 이후 보안상 이유로 `eraseCredentials()`에 의해 제거된다.
+
+##### Attributes
+| Name     | Type   | Visibility    | Description                          |
+| -------- | ------ | ------------- | ------------------------------------ |
+| userId   | Long   | private final | 사용자 고유 ID                            |
+| username | String | private final | 로그인 ID (또는 이메일 등)                    |
+| password | String | private       | 로그인 시 비밀번호 (JWT 기반 인증 시 null)        |
+| nickname | String | private final | 사용자 닉네임                              |
+| role     | String | private final | 사용자 권한 (`ROLE_USER`, `ROLE_ADMIN` 등) |
+
+##### Operations
+| Name                        | Return Type                            | Visibility | Description                                  |
+| --------------------------- | -------------------------------------- | ---------- | -------------------------------------------- |
+| `getAuthorities()`          | Collection\<? extends GrantedAuthority> | public     | 사용자의 권한 목록 반환 (`SimpleGrantedAuthority`로 래핑) |
+| `getPassword()`             | String                                 | public     | 사용자 비밀번호 반환 (JWT 인증 시 null)                  |
+| `getUsername()`             | String                                 | public     | 로그인 ID 반환                                    |
+| `isAccountNonExpired()`     | boolean                                | public     | 계정 만료 여부 (`true` → 항상 활성)                    |
+| `isAccountNonLocked()`      | boolean                                | public     | 계정 잠금 여부 (`true` → 항상 활성)                    |
+| `isCredentialsNonExpired()` | boolean                                | public     | 비밀번호 만료 여부 (`true` → 항상 활성)                  |
+| `isEnabled()`               | boolean                                | public     | 계정 활성 여부 (`true` → 항상 활성)                    |
+| `eraseCredentials()`        | void                                   | public     | 인증 완료 후 비밀번호를 메모리에서 제거 (보안 목적)               |
+
+
+
+#### CustomUserDetailsService
+Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 DB에 저장된 [User](#user) 엔티티를 조회하고, 이를 [CustomUserDetails](#customuserdetails) 객체로 변환하여 반환한다.
+
+##### Attributes
+| Name        | Type        | Visibility    | Description             |
+| ----------- | ----------- | ------------- | ----------------------- |
+| userService | UserService | private final | 사용자 조회 로직을 담당하는 도메인 서비스 |
+
+##### Operations
+| Name                                | Return Type | Visibility | Description                                                                                      |
+| ----------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| `loadUserByUsername(String username)` | UserDetails | public     | 사용자 이름으로 `User` 엔티티를 조회하고, `CustomUserDetails`로 변환하여 반환. 존재하지 않으면 `UsernameNotFoundException` 발생 |
+
+
+#### CustomAccessDeniedHandler
+Spring Security 인가 과정에서 권한이 없거나(403), 인증되지 않은(401) 사용자의 접근을 감지하고, 표준화된 JSON 응답(`ApiResponse`) 형태로 클라이언트에 반환하는 핸들러.
+기본 HTML 오류 페이지 대신 JSON API 규격에 맞는 응답을 제공한다.
+
+##### Attributes
+| Name         | Type         | Visibility    | Description                                                    |
+| ------------ | ------------ | ------------- | -------------------------------------------------------------- |
+| objectMapper | ObjectMapper | private final | JSON 직렬화를 위한 Jackson 객체. 응답 객체(`ApiResponse`)를 JSON 문자열로 변환한다. |
+
+##### Operations
+| Name                                                                                       | Return Type | Visibility | Description                                                        |
+| ------------------------------------------------------------------------------------------ | ----------- | ---------- | ------------------------------------------------------------------ |
+| `handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex)` | void        | public     | 인가 실패 발생 시 호출되어, 요청 상태(익명/권한 부족)에 따라 401 또는 403 응답을 JSON 형태로 반환한다. |
+
+
+#### CustomAuthenticationEntryPoint
+Spring Security에서 인증(Authentication)되지 않은 사용자가 보호된 리소스에 접근할 때 `401 Unauthorized` 응답을 반환하는 커스텀 엔트리 포인트.
+[AccessDeniedHandler](#customaccessdeniedhandler)가 인가(`Authorization`) 실패를 담당한다면, `AuthenticationEntryPoint`는 인증 자체가 되지 않은 상태의 접근을 처리한다.
+
+##### Attributes
+| Name         | Type         | Visibility    | Description                                  |
+| ------------ | ------------ | ------------- | -------------------------------------------- |
+| objectMapper | ObjectMapper | private final | `ApiResponse` 객체를 JSON 문자열로 직렬화하는 Jackson 객체 |
+
+##### Operations
+| Name                                                                                                      | Return Type | Visibility | Description                                    |
+| --------------------------------------------------------------------------------------------------------- | ----------- | ---------- | ---------------------------------------------- |
+| `commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)` | void        | public     | 인증되지 않은 사용자가 접근 시 401 상태 코드와 JSON 에러 응답을 반환한다. |
+
 ---
 
 ## 3.7 공통 유틸리티 (Common Utilities)
