@@ -594,6 +594,26 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ---
 
+#### WaggleApplication
+
+이 클래스는 Waggle 프로젝트의 메인 실행 진입점으로, Spring Boot의 자동 구성 및 실행 환경을 초기화한다.
+
+`SpringApplication.run()`을 호출하여 애플리케이션 컨텍스트를 생성하고 서버를 실행한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|      |      |           |             |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|--------------|------------|--------------|
+| `main(String[] args)` | void | public static   | Spring Boot 애플리케이션을 실행한다. |
+
+---
+
 ## 3.3 도메인별 클래스 상세 구조
 
 각 도메인의 주요 엔티티, 값 객체, 열거형의 관계를 보여주는 다이어그램들이다. 
