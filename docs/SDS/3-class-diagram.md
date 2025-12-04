@@ -166,7 +166,7 @@
 ##### Enum Values
 
 | Value | Description |
-|-------|-------------|
+|-----|-------|
 | `HTML` | HTML |
 | `CSS` | CSS |
 | `JAVASCRIPT` | JavaScript |
@@ -174,7 +174,8 @@
 | `KOTLIN` | Kotlin |
 | `PYTHON` | Python |
 | `SWIFT` | Swift |
-| `C_CPP` | C/C++ |
+| `C` | C |
+| `CPP` | C++ |
 | `CSHARP` | C#### |
 | `TYPESCRIPT` | TypeScript |
 | `REACT` | React |
@@ -193,7 +194,8 @@
 | `REDIS` | Redis |
 | `MONGODB` | MongoDB |
 | `POSTGRESQL` | PostgreSQL |
-| `GIT_GITHUB` | Git/GitHub |
+| `GIT` | Git |
+| `GITHUB` | GitHub |
 | `GITHUB_ACTIONS` | GitHub Actions |
 | `FIGMA` | Figma |
 | `NOTION` | Notion |
@@ -405,35 +407,41 @@
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-------------|--------------|
-| id | Long | private final | 공고 ID |
-| authorId | Long | private final | 작성자 ID |
-| authorNickname | String | private final | 작성자 닉네임 |
-| category | RecruitmentCategory | private final | 공고 카테고리 |
-| university | University | private final | 작성자 소속 대학교 |
-| title | String | private final | 공고 제목 |
-| content | String | private final | 공고 본문 내용 |
+| Name | Type | Visibility | Description                    |
+|------|------|-------------|--------------------------------|
+| id | Long | private final | 공고 ID                          |
+| authorId | Long | private final | 작성자 ID                         |
+| authorNickname | String | private final | 작성자 닉네임                        |
+| authorProfileImageUrl | String | private final | 작성자 프로필 이미지 URL                |
+| category | RecruitmentCategory | private final | 공고 카테고리                        |
+| university | University | private final | 작성자 소속 대학교                     |
+| title | String | private final | 공고 제목                          |
+| content | String | private final | 공고 본문 내용                       |
 | deadline | LocalDateTime | private final | 모집 마감일 (`yyyy-MM-dd HH:mm:ss`) |
 | createdAt | LocalDateTime | private final | 공고 생성일 (`yyyy-MM-dd HH:mm:ss`) |
-| status | RecruitmentStatus | private final | 공고 상태 |
-| viewCount | int | private final | 조회수 |
+| status | RecruitmentStatus | private final | 공고 상태                          |
+| viewCount | int | private final | 조회수                            |
+| isBookmarked | boolean | private final | 찜 여부                           |
+| bookmarkId | Long | private final | 찜 ID                           |
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|----------|--------------|
-| `getId()` | Long | public | 공고 ID를 반환한다. |
-| `getAuthorId()` | Long | public | 작성자 ID를 반환한다. |
-| `getAuthorNickname()` | String | public | 작성자 닉네임을 반환한다. |
-| `getCategory()` | RecruitmentCategory | public | 공고 카테고리를 반환한다. |
-| `getUniversity()` | University | public | 작성자 소속 대학교를 반환한다. |
-| `getTitle()` | String | public | 공고 제목을 반환한다. |
-| `getContent()` | String | public | 공고 본문 내용을 반환한다. |
-| `getDeadline()` | LocalDateTime | public | 모집 마감일을 반환한다. |
-| `getCreatedAt()` | LocalDateTime | public | 공고 생성일을 반환한다. |
-| `getStatus()` | RecruitmentStatus | public | 공고 상태를 반환한다. |
-| `getViewCount()` | int | public | 조회수를 반환한다. |
+| Name                         | Return Type | Visibility | Description |
+|------------------------------|-----------|----------|--------------|
+| `getId()`                    | Long | public | 공고 ID를 반환한다. |
+| `getAuthorId()`              | Long | public | 작성자 ID를 반환한다. |
+| `getAuthorNickname()`        | String | public | 작성자 닉네임을 반환한다. |
+| `getAuthorProfileImageUrl()` | String | public | 작성자 프로필 이미지 URL을 반환한다. |
+| `getCategory()`              | RecruitmentCategory | public | 공고 카테고리를 반환한다. |
+| `getUniversity()`            | University | public | 작성자 소속 대학교를 반환한다. |
+| `getTitle()`                 | String | public | 공고 제목을 반환한다. |
+| `getContent()`               | String | public | 공고 본문 내용을 반환한다. |
+| `getDeadline()`              | LocalDateTime | public | 모집 마감일을 반환한다. |
+| `getCreatedAt()`             | LocalDateTime | public | 공고 생성일을 반환한다. |
+| `getStatus()`                | RecruitmentStatus | public | 공고 상태를 반환한다. |
+| `getViewCount()`             | int | public | 조회수를 반환한다. |
+| `getIsBookmarked()`          | boolean | public | 찜 여부를 반환한다. |
+| `getBookmarkId()`            | Long | public | 찜 ID를 반환한다. |
 
 ---
 
@@ -448,11 +456,14 @@
 | id | Long | private final | 공고 식별자 |
 | authorId | Long | private final | 작성자 식별자 |
 | authorNickname | String | private final | 작성자 닉네임 |
+| authorProfileImageUrl | String | private final | 작성자 프로필 이미지 URL    |
 | university | University | private final | 소속 대학교 |
 | category | RecruitmentCategory | private final | 공고 카테고리 |
 | title | String | private final | 공고 제목 |
 | deadline | LocalDateTime | private final | 모집 마감일 (yyyy-MM-dd) |
 | status | RecruitmentStatus | private final | 공고 상태 |
+| isBookmarked | boolean | private final | 찜 여부  |
+| bookmarkId | Long | private final | 찜 ID    |
 
 ##### Operations
 
@@ -461,11 +472,14 @@
 | `getId()` | Long | public | 공고 식별자 반환 |
 | `getAuthorId()` | Long | public | 작성자 식별자 반환 |
 | `getAuthorNickname()` | String | public | 작성자 닉네임 반환 |
+| `getAuthorProfileImageUrl()` | String | public | 작성자 프로필 이미지 URL을 반환한다. |
 | `getUniversity()` | University | public | 소속 대학교 반환 |
 | `getCategory()` | RecruitmentCategory | public | 공고 카테고리 반환 |
 | `getTitle()` | String | public | 공고 제목 반환 |
 | `getDeadline()` | LocalDateTime | public | 모집 마감일 반환 |
 | `getStatus()` | RecruitmentStatus | public | 공고 상태 반환 |
+| `getIsBookmarked()`          | boolean | public | 찜 여부를 반환한다. |
+| `getBookmarkId()`            | Long | public | 찜 ID를 반환한다. |
 
 ---
 
@@ -661,18 +675,21 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 | role       | UserRoleType  | private    | 사용자 권한 (ROLE_USER / ROLE_ADMIN 등) |
 | createdAt  | LocalDateTime | private    | 생성 시각 (Auditing 자동 기록)            |
 | updatedAt  | LocalDateTime | private    | 수정 시각 (Auditing 자동 기록)            |
-| status     | UserStatus    | private    | 사용자 상태 (ACTIVE, WITHDRAWN 등)      |
+| status     | UserStatus    | private    | 사용자 상태 (ACTIVE, WITHDRAWN, INCOMPLETED)    |
+| profileImageUrl |   String   |  private  | 사용자 프로필 이미지 URL                   |
 
 ##### Operations
-| Name                                     | Return Type | Visibility | Description                      |
-| ---------------------------------------- | ----------- | ---------- | -------------------------------- |
+| Name                                    | Return Type | Visibility | Description                      |
+| --------------------------------------- |-------------|------------|----------------------------------|
 | `changePassword(String encodedPassword)` | void        | public     | 사용자의 비밀번호를 암호화된 새 비밀번호로 변경       |
-| `updateNickname(String nickname)`        | void        | public     | 사용자의 닉네임을 변경                     |
-| `updateGrade(Integer grade)`             | void        | public     | 사용자의 학년 정보를 수정                   |
-| `updatePosition(PositionType position)`  | void        | public     | 희망 포지션을 변경                       |
-| `updateSkills(Set<Skill> skills)`        | void        | public     | 보유 기술 스택을 갱신                     |
-| `updateShortIntro(String shortIntro)`    | void        | public     | 자기소개 문구를 수정                      |
-| `withdraw()`                             | void        | public     | 사용자 상태를 `WITHDRAWN`으로 변경 (탈퇴 처리) |
+| `updateNickname(String nickname)`       | void        | public     | 사용자의 닉네임을 변경                     |
+| `updateGrade(Integer grade)`            | void        | public     | 사용자의 학년 정보를 수정                   |
+| `updatePosition(PositionType position)` | void        | public     | 희망 포지션을 변경                       |
+| `updateSkills(Set<Skill> skills)`       | void        | public     | 보유 기술 스택을 갱신                     |
+| `updateStatus(UserStatus status)`       | void        | public     | 사용자의 상태를 변경                      |
+| `updateShortIntro(String shortIntro)`   | void        | public     | 자기소개 문구를 수정                      |
+| `withdraw()`                            | void        | public     | 사용자 상태를 `WITHDRAWN`으로 변경 (탈퇴 처리) |
+| `updateProfileImageUrl(String profileImageUrl)`  | void        | public     | 사용자의 프로필 이미지 URL을 변경             |
 
 ---
 
@@ -710,9 +727,11 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 사용자의 접근 수준과 기능 권한을 구분하기 위해 사용된다.
 
 ##### Enum Values
-| Enum            | Description                                    |
-|----------------| ---------------------------------------------- |
-| `ROLE_USER`    | 일반 사용자 권한 — 기본 회원 권한으로, 일반적인 서비스 이용 가능         |
+| Enum            | Description                             |
+|----------------|-----------------------------------------|
+| `ROLE_USER`    | 일반 사용자 권한 — 기본 회원 권한으로, 일반적인 서비스 이용 가능  |
+| `ROLE_ADMIN`    | 관리자 사용자 권한 — 관리자 권한으로, 관리자 전용 서비스 이용 가능 |
+| `ROLE_MANAGER`    | 운영 사용자 권한 — 운영자 권한으로, 운영자 전용 서비스 이용 가능  |
 
 ##### Attributes
 | Name   | Type   | Visibility    | Description                |
@@ -730,9 +749,10 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ##### Enum Values
 | Enum        | Description                                 |
-|-------------| ------------------------------------------- |
+|-------------|---------------------------------------------|
 | `ACTIVE`    | 정상적으로 활동 중인 상태. 로그인, 서비스 이용 가능.             |
 | `WITHDRAWN` | 사용자가 자발적으로 탈퇴한 상태 (Soft Delete). 서비스 이용 불가. |
+| `INCOMPLETED` | 사용자가 기본 입력 정보를 등록하지 않은 상태                   |
 
 
 ##### Attributes
@@ -1076,15 +1096,16 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `getId()` | Long | public | 알림 ID 반환 |
-| `getSender()` | User | public | 알림 발신자 반환 |
-| `getReceiver()` | User | public | 알림 수신자 반환 |
-| `getApplication()` | Application | public | 알림 관련 지원서 반환 |
-| `getType()` | NotificationType | public | 알림 유형 반환 |
-| `getCreatedAt()` | LocalDateTime | public | 알림 생성일 반환 |
-| `isRead()` | boolean | public | 알림 읽음 여부 반환 |
+| Name | Return Type | Visibility | Description        |
+|------|-----------|-----------|--------------------|
+| `getId()` | Long | public | 알림 ID 반환           |
+| `getSender()` | User | public | 알림 발신자 반환          |
+| `getReceiver()` | User | public | 알림 수신자 반환          |
+| `getApplication()` | Application | public | 알림 관련 지원서 반환       |
+| `getType()` | NotificationType | public | 알림 유형 반환           |
+| `getCreatedAt()` | LocalDateTime | public | 알림 생성일 반환          |
+| `isRead()` | boolean | public | 알림 읽음 여부 반환        |
+| `markAsRead()` | void | public | 알림 읽음 여부를 true로 변경 |
 
 ---
 
@@ -1220,10 +1241,11 @@ JWT 인증 방식을 사용하며, 세션을 생성하지 않는 Stateless 구�
 
 ##### Operations
 | Name                             | Return Type         | Visibility | Description                                                      |
-| -------------------------------- |---------------------| ---------- | ---------------------------------------------------------------- |
+| -------------------------------- |---------------------| ---------- |------------------------------------------------------------------|
 | `passwordEncoder()`              | PasswordEncoder     | public     | `BCryptPasswordEncoder`를 Bean으로 등록하여 비밀번호 암호화 기능 제공              |
 | `authenticationManager()`        | AuthenticationManager | public     | Spring Security의 인증 매니저 Bean을 생성 및 주입                            |
 | `filterChain(HttpSecurity http)` | SecurityFilterChain | public     | 보안 필터 체인(Security Filter Chain) 설정 및 구성 반환<br>JWT 기반 인증/인가 흐름 정의 |
+| `corsConfigurationSource()` | CorsConfigurationSource | public     | CORS 설정 및 구성 반환                              |
 
 ---
 
@@ -1293,13 +1315,14 @@ JWT에서 추출한 사용자 정보 또는 `User` 엔티티 기반으로 생성
 비밀번호는 인증 이후 보안상 이유로 `eraseCredentials()`에 의해 제거된다.
 
 ##### Attributes
-| Name     | Type   | Visibility    | Description                          |
-| -------- | ------ | ------------- | ------------------------------------ |
-| userId   | Long   | private final | 사용자 고유 ID                            |
-| username | String | private final | 로그인 ID (또는 이메일 등)                    |
-| password | String | private       | 로그인 시 비밀번호 (JWT 기반 인증 시 null)        |
-| nickname | String | private final | 사용자 닉네임                              |
-| role     | String | private final | 사용자 권한 (`ROLE_USER`, `ROLE_ADMIN` 등) |
+| Name    | Type   | Visibility    | Description                        |
+| ------- | ------ | ------------- |------------------------------------|
+| userId  | Long   | private final | 사용자 고유 ID                          |
+| username | String | private final | 로그인 ID (또는 이메일 등)                  |
+| password | String | private       | 로그인 시 비밀번호 (JWT 기반 인증 시 null)      |
+| nickname | String | private final | 사용자 닉네임                            |
+| role    | String | private final | 사용자 권한 (`ROLE_USER`, `ROLE_ADMIN` 등) |
+| status  | UserStatus | private final | 사용자 기본 정보 등록 상태                    |
 
 ##### Operations
 | Name                        | Return Type                            | Visibility | Description                                  |
@@ -1383,20 +1406,22 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 |------|------|-----------|-------------|
 | purpose | ProjectPurpose | private final | 프로젝트 목적     |
 | meetingType | MeetingType | private final | 진행 방식       |
+| authorPosition | PositionType | private final | 작성자 포지션     |
 | skills | Set\<Skill\> | private final | 기술 스택 목록    |
 | grades | Set\<GradeRequestDto\> | private final | 우대 학년       |
 | period | PeriodRequestDto | private final | 프로젝트 기간     |
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description   |
-|------|-----------|----------|---------------|
-| `getPurpose()`     | ProjectPurpose | public     | 프로젝트 목적 반환    |
-| `getMeetingType()` | MeetingType | public     | 진행 방식 반환      |
-| `getSkills()`      | Set\<Skill\> | public     | 기술 스택 목록 반환   |
-| `getGrades()`      | Set\<Integer\> | public     | 우대 학년 반환      |
-| `getPeriod()`      | Period | public     | 프로젝트 기간 반환    |
-| `validate()` | void | public | 마감일이 종료일 이전인지 검증 |
+| Name                  | Return Type | Visibility | Description   |
+|-----------------------|-----------|----------|---------------|
+| `getPurpose()`        | ProjectPurpose | public     | 프로젝트 목적 반환    |
+| `getMeetingType()`    | MeetingType | public     | 진행 방식 반환      |
+| `getAuthorPosition()` | PositionType | public     | 작성자 포지션 반환      |
+| `getSkills()`         | Set\<Skill\> | public     | 기술 스택 목록 반환   |
+| `getGrades()`         | Set\<Integer\> | public     | 우대 학년 반환      |
+| `getPeriod()`         | Period | public     | 프로젝트 기간 반환    |
+| `validate()`          | void | public | 마감일이 종료일 이전인지 검증 |
 
 ---
 
@@ -1415,7 +1440,7 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 | Name | Return Type | Visibility | Description          |
 |------|-----------|----------|----------------------|
 | `toEntity(User user, ProjectCreationRequestDto dto)` | Project | public static | DTO를 Project 엔티티로 변환 |
-| `getPositions()`   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
+| `getPositions()`   | Set\<PositionInfoCreationRequestDto\> | public     | 프로젝트 포지션별 인원 정보 반환   |
 
 ---
 
@@ -1433,7 +1458,7 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|----------|-------------|
-| `getPositions()`   | Set\<PositionParticipantInfo\> | public     | 프로젝트 포지션별 인원 정보 반환   |
+| `getPositions()`   | Set\<PositionInfoUpdateRequestDto\> | public     | 프로젝트 포지션별 인원 정보 반환   |
 
 ---
 
@@ -1445,13 +1470,14 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| keywords | Set\<String\> | public final | 검색 키워드 목록 |
-| purpose | ProjectPurpose | public final | 프로젝트 목적 |
-| positions | Set\<PositionType\> | public final | 포지션 목록 |
-| skills | Set\<Skill\> | public final | 기술 스택 목록 |
-| status | RecruitmentStatus | public final | 모집 공고 상태 |
+| Name | Type | Visibility    | Description |
+|------|------|---------------|-------------|
+| keywords | Set\<String\> | private final | 검색 키워드 목록   |
+| purpose | ProjectPurpose | private final  | 프로젝트 목적     |
+| positions | Set\<PositionType\> | private final  | 포지션 목록      |
+| skills | Set\<Skill\> | private final  | 기술 스택 목록    |
+| status | RecruitmentStatus | private final  | 모집 공고 상태    |
+| isRandom | boolean | private final  | 랜덤 정렬 여부    |
 
 ##### Operations
 
@@ -1462,6 +1488,7 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 | `positions()` | Set\<PositionType\> | public | 포지션 목록 반환 |
 | `skills()`    | Set\<Skill\> | public | 기술 스택 목록 반환 |
 | `status()`    | RecruitmentStatus | public | 모집 공고 상태 반환 |
+| `isRandom()`    | boolean | public | 랜덤 정렬 여부 반환 |
 
 ---
 
@@ -1475,6 +1502,7 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 |------|------|-----------|-------------|
 | purpose | ProjectPurpose | private final | 프로젝트 목적     |
 | meetingType | MeetingType | private final | 진행 방식       |
+| authorPosition | PositionType | private final | 작성자 포지션     |
 | positions | Set\<PositionInfoResponseDto\> | private | 포지션별 인원 정보  |
 | skills | Set\<Skill\> | private | 기술 스택 목록    |
 | grades | Set\<Integer\> | private | 우대 학년       |
@@ -1482,11 +1510,12 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 ##### Operations
 
-| Name                        | Return Type | Visibility | Description |
-|-----------------------------|-----------|----------|-------------|
+| Name                          | Return Type | Visibility | Description |
+|-------------------------------|-----------|----------|-------------|
 | `fromEntity(Project project)` | ProjectDetailResponseDto | public static | Project 엔티티를 DTO로 변환 |
 | `getPurpose()`                | ProjectPurpose | public | 프로젝트 목적 반환 |
 | `getMeetingType()`            | MeetingType | public | 진행 방식 반환 |
+| `getAuthorPosition()`         | PositionType | public     | 작성자 포지션 반환      |
 | `getPositions()`              | Set\<PositionType\> | public | 포지션 목록 반환 |
 | `getSkills()`                 | Set\<Skill\> | public | 기술 스택 목록 반환 |
 | `getGrades()`                 | Set\<Integer\> | public | 우대 학년 반환 |
@@ -1532,13 +1561,15 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 ##### Operations
 
-| Name | Return Type | Mapping | Visibility | Description |
-|------|-----------|---------|-----------|-------------|
-| `createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/projects` | public | 프로젝트 공고 생성 |
-| `getProject(Long projectId)` | ResponseEntity\<ApiResponse\<ProjectDetailResponseDto\>\> | `GET /api/v1/projects/{projectId}` | public | 프로젝트 공고 상세 조회 |
-| `getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/projects` | public | 프로젝트 공고 목록 조회 |
-| `updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/projects/{projectId}` | public | 프로젝트 공고 수정 |
-| `deleteProject(Long projectId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제 |
+| Name                                                                                                                                                                                             | Return Type                                                           | Mapping                               | Visibility | Description               |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|---------------------------------------|-----------|---------------------------|
+| `createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                                                                             | ResponseEntity\<ApiResponse\<Long\>\>                                 | `POST /api/v1/projects`               | public | 프로젝트 공고 생성                |
+| `getProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                      | ResponseEntity\<ApiResponse\<ProjectDetailResponseDto\>\>             | `GET /api/v1/projects/{projectId}`    | public | 프로젝트 공고 상세 조회             |
+| `getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\>    | `GET /api/v1/projects`                | public | 프로젝트 공고 목록 조회             |
+| `getMyProjects(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                                                                      | ResponseEntity\<APIResponse<Page<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/projects/me`               | public | 특정 사용자가 등록한 프로젝트 공고 목록 조회 |
+| `getMyBookmarks(Pageable pageable, CustomUserDetails userDetails)`                                                                                                                               | ResponseEntity\<APIResponse<Page<ProjectSummaryResponseDto\>\>\>      | `GET /api/v1/projects/bookmarks`               | public | 특정 사용자가 찜한 프로젝트 공고 목록 조회  |
+| `updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                                                                               | ResponseEntity\<ApiResponse\<Void\>\>                                 | `PUT /api/v1/projects/{projectId}`    | public | 프로젝트 공고 수정                |
+| `deleteProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                   | ResponseEntity\<ApiResponse\<Void\>\>                                 | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제                |
 
 ---
 
@@ -1555,14 +1586,16 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `createProject(Long userId, ProjectCreationRequestDto projectCreationRequestDto)` | Long | public | 프로젝트 공고 생성 |
-| `getProject(Long projectId)` | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
-| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 (조건 및 페이징 적용) |
-| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록에 해당하는 프로젝트 공고 조회 |
-| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void | public | 프로젝트 공고 수정 |
-| `deleteProject(Long userId, Long projectId)` | void | public | 프로젝트 공고 삭제 |
+| Name | Return Type                            | Visibility | Description                 |
+|------|----------------------------------------|-----------|-----------------------------|
+| `createProject(Long userId, ProjectCreationRequestDto projectCreationRequestDto)` | Long                                   | public | 프로젝트 공고 생성                  |
+| `getProject(Long viewerId, Long projectId)` | ProjectDetailResponseDto               | public | 프로젝트 공고 상세 조회               |
+| `getProjectSummaries(Long viewerId, ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\>      | public | 프로젝트 공고 목록 조회 (조건 및 페이징 적용) |
+| `getProjectSummariesByIds(Long viewerId, List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\>      | public | 특정 ID 목록에 해당하는 프로젝트 공고 조회   |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 프로젝트 공고 목록 조회   |
+| `getBookmarkedProjectsByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<ProjectSummaryResponseDto\>      | public | 특정 사용자가 찜한 프로젝트 공고 목록 조회    |
+| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void                                   | public | 프로젝트 공고 수정                  |
+| `deleteProject(Long userId, Long projectId)` | void                                   | public | 프로젝트 공고 삭제                  |
 
 ---
 
@@ -1572,22 +1605,29 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| projectRepository | ProjectRepository | private final | 프로젝트 데이터 접근 계층 |
-| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
-| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+| Name | Type              | Visibility           | Description       |
+|------|-------------------|----------------------|-------------------|
+| PROJECT_SORT_FIELDS | Set\<String\>     | private static final | 가능한 정렬 필드         |
+| projectRepository | ProjectRepository | private final        | 프로젝트 데이터 접근 계층    |
+| userService | UserService       | private final        | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService       | private final        | 팀 관련 비즈니스 로직 계층   |
+| bookmarkService | BookmarkService       | private final        | 찜 관련 비즈니스 로직 계층   |
+| applicationService | ApplicationService       | private final        | 지원 관련 비즈니스 로직 계층  |
+| pageableValidator | PageableValidator       | private final        | 페이지네이션 정보 검증      |
+| publisher | ApplicationEventPublisher       | private final        | 이벤트 발행 담당         |
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `createProject(Long userId, ProjectCreationRequestDto requestDto)` | Long | public | 프로젝트 공고 생성 |
-| `getProject(Long projectId)` | ProjectDetailResponseDto | public | 프로젝트 공고 상세 조회 |
-| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 프로젝트 공고 목록 조회 |
-| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 특정 ID 목록 프로젝트 요약 정보 조회 |
-| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void | public | 프로젝트 공고 수정 |
-| `deleteProject(Long userId, Long projectId)` | void | public | 프로젝트 공고 삭제 |
+| Name | Return Type                            | Visibility | Description |
+|------|----------------------------------------|-----------|-------------|
+| `createProject(Long userId, ProjectCreationRequestDto requestDto)` | Long                                   | public | 프로젝트 공고 생성 |
+| `getProject(Long viewerId, Long projectId)` | ProjectDetailResponseDto               | public | 프로젝트 공고 상세 조회 |
+| `getProjectSummaries(Long viewerId, ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\>      | public | 프로젝트 공고 목록 조회 |
+| `getProjectSummariesByIds(Long viewerId, List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\>      | public | 특정 ID 목록 프로젝트 요약 정보 조회 |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 프로젝트 공고 목록 조회   |
+| `getBookmarkedProjectsByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<ProjectSummaryResponseDto\>      | public | 특정 사용자가 찜한 프로젝트 공고 목록 조회    |
+| `updateProject(Long userId, Long projectId, ProjectUpdateRequestDto updateDto)` | void                                   | public | 프로젝트 공고 수정 |
+| `deleteProject(Long userId, Long projectId)` | void                                   | public | 프로젝트 공고 삭제 |
 
 ---
 
@@ -1603,13 +1643,11 @@ Project 엔티티의 데이터 접근 계층으로, 프로젝트 공고와 관�
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `findByIdWithUser(Long id)` | Optional\<Project\> | public | 프로젝트와 작성자 정보 조회 |
-| `findPositionsByProjectId(Long id)` | Set\<PositionParticipantInfo\> | public | 프로젝트 포지션 조회 |
-| `findSkillsByProjectId(Long id)` | Set\<Skill\> | public | 프로젝트 기술 스택 조회 |
-| `findGradesByProjectId(Long id)` | Set\<Integer\> | public | 프로젝트 우대 학년 조회 |
-| `increaseViewCount(Long id)` | int | public | 조회수 증가 |
+| Name | Return Type         | Visibility | Description          |
+|------|---------------------|-----------|----------------------|
+| `findWithAllById(Long id)` | Optional\<Project\> | public | 컬렉션 필드를 포함한 프로젝트 조회  |
+| `findAllByUserId(Long userId,Pageable pageable)` | Page\<Project\>     | public | 특정 사용자가 등록한 프로젝트 목록 조회 |
+| `increaseViewCount(Long id)` | int | public | 조회수 증가               |
 
 ---
 
@@ -1627,8 +1665,8 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
-| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 검색 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
-| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
+| `getProjectSummaries(Long viewerId, ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 검색 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
+| `getProjectSummariesByIds(Long viewerId, List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
 
 ---
 
@@ -1644,15 +1682,16 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `getProjectSummaries(ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 조건에 맞는 프로젝트 요약 DTO를 페이징 조회 |
-| `getProjectSummariesByIds(List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장) |
-| `eqPurpose(ProjectPurpose purpose)` | BooleanExpression | private | Project 목적(purpose)과 일치하는 조건 생성 |
-| `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Project 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
-| `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
-| `containsAnyPosition(Set\<PositionType\> positions)` | BooleanExpression | private | Project positions 컬렉션 중 하나라도 지정된 positions에 포함되는 조건 생성 |
-| `containsAnySkill(Set\<Skill\> skills)` | BooleanExpression | private | Project skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
+| Name | Return Type                       | Visibility | Description                                            |
+|------|-----------------------------------|-----------|--------------------------------------------------------|
+| `getProjectSummaries(Long viewerId, ProjectSearchCondition condition, Pageable pageable)` | Page\<ProjectSummaryResponseDto\> | public | 조건에 맞는 프로젝트 요약 DTO를 페이징 조회                             |
+| `getProjectSummariesByIds(Long viewerId, List\<Long\> projectIds)` | List\<ProjectSummaryResponseDto\> | public | 주어진 Project ID 목록에 해당하는 프로젝트 요약 정보 조회 (입력 순서 보장)       |
+| `eqPurpose(ProjectPurpose purpose)` | BooleanExpression                 | private | Project 목적(purpose)과 일치하는 조건 생성                        |
+| `eqStatus(RecruitmentStatus status)` | BooleanExpression                 | private | Project 상태(status)와 일치하는 조건 생성 (CANCELED 제외)           |
+| `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder                    | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성        |
+| `containsAnyPosition(Set\<PositionType\> positions)` | BooleanExpression                 | private | Project positions 컬렉션 중 하나라도 지정된 positions에 포함되는 조건 생성 |
+| `containsAnySkill(Set\<Skill\> skills)` | BooleanExpression                 | private | Project skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성       |
+| `getOrderSpecifiers(boolean isRandom, Pageable pageable)` | OrderSpecifier\<?\>[]              | private | isRand이 true이면 랜덤 정렬, false이면 일반 필드 정렬 조건 생성           |
 
 ---
 
@@ -1810,13 +1849,15 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ##### Operations
 
-| Name | Return Type | Mapping | Visibility | Description |
-|------|-----------|---------|-----------|-------------|
-| `createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/assignments` | public | 과제 공고 생성 |
-| `getAssignment(Long assignmentId)` | ResponseEntity\<ApiResponse\<AssignmentDetailResponseDto\>\> | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회 |
-| `getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/assignments` | public | 과제 공고 목록 조회 |
-| `updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정 |
-| `deleteAssignment(Long assignmentId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제 |
+| Name                                                                                                                                         | Return Type                                                             | Mapping | Visibility | Description             |
+|----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|---------|-----------|-------------------------|
+| `createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                   | ResponseEntity\<ApiResponse\<Long\>\>                                   | `POST /api/v1/assignments` | public | 과제 공고 생성                |
+| `getAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                            | ResponseEntity\<ApiResponse\<AssignmentDetailResponseDto\>\>            | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회             |
+| `getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\>   | `GET /api/v1/assignments` | public | 과제 공고 목록 조회             |
+| `getMyAssignments(Pageable pageable, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<APIResponse\<Page\<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/assignments/me` | public | 특정 사용자가 등록한 과제 공고 목록 조회 |
+| `getMyBookmarks(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                 | ResponseEntity\<APIResponse\<Page\<ProjectSummaryResponseDto\>\>\>      | `GET /api/v1/assignments/bookmarks` | public | 특정 사용자가 찜한 과제 공고 목록 조회  |
+| `updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                  | ResponseEntity\<ApiResponse\<Void\>\>                                   | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정                |
+| `deleteAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<ApiResponse\<Void\>\>                                   | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제                |
 
 ---
 
@@ -1833,13 +1874,16 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `createAssignment(AssignmentCreationRequestDto assignmentCreationRequestDto, Long userId)` | Long | public | 과제 공고 생성 |
-| `getAssignment(Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
-| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
-| `updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto)` | void | public | 과제 공고 수정 |
-| `deleteAssignment(Long userId, Long assignmentId)` | void | public | 과제 공고 삭제 |
+| Name | Return Type | Visibility | Description             |
+|------|-----------|-----------|-------------------------|
+| `createAssignment(AssignmentCreationRequestDto assignmentCreationRequestDto, Long userId)` | Long | public | 과제 공고 생성                |
+| `getAssignment(Long viewerId, Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회             |
+| `getAssignmentSummaries(Long viewerId, AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회             |
+| `getAssignmentSummariesByIds(Long viewerId, List<Long> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 특정 ID 목록에 해당하는 과제 공고 조회 |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 과제 공고 목록 조회            |
+| `getBookmarkedAssignmentsByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 특정 사용자가 찜한 과제 공고 목록 조회 |
+| `updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto)` | void | public | 과제 공고 수정                |
+| `deleteAssignment(Long userId, Long assignmentId)` | void | public | 과제 공고 삭제                |
 
 ---
 
@@ -1850,19 +1894,27 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| assignmentRepository | AssignmentRepository | private final | 과제 공고 데이터 접근 계층 |
-| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
-| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+| Name | Type                 | Visibility           | Description       |
+|------|----------------------|----------------------|-------------------|
+| ASSIGNMENT_SORT_FIELDS | Set\<String\>        | private static final | 가능한 정렬 필드         |
+| assignmentRepository | AssignmentRepository | private final        | 과제 공고 데이터 접근 계층   |
+| userService | UserService          | private final        | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService          | private final        | 팀 관련 비즈니스 로직 계층   |
+| applicationService | ApplicationService          | private final        | 지원 관련 비즈니스 로직 계층  |
+| bookmarkService | BookmarkService          | private final        | 찜 관련 비즈니스 로직 계층   |
+| pageableValidator | PageableValidator          | private final        | 페이지네이션 정보 검증      |
+| publisher | ApplicationEventPublisher          | private final        | 이벤트 발행 담당         |
 
 ##### Operations
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | `createAssignment(AssignmentCreationRequestDto requestDto, Long userId)` | Long | public | 과제 공고 생성 |
-| `getAssignment(Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
-| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| `getAssignment(Long viewerId, Long assignmentId)` | AssignmentDetailResponseDto | public | 과제 공고 상세 조회 |
+| `getAssignmentSummaries(Long viewerId, AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 과제 공고 목록 조회 |
+| `getAssignmentSummariesByIds(Long viewerId, List<Long> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 특정 ID 목록에 해당하는 과제 공고 조회 |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 과제 공고 목록 조회            |
+| `getBookmarkedAssignmentsByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 특정 사용자가 찜한 과제 공고 목록 조회 |
 | `updateAssignment(Long userId, Long assignmentId, AssignmentUpdateRequestDto updateDto)` | void | public | 과제 공고 수정 |
 | `deleteAssignment(Long userId, Long assignmentId)` | void | public | 과제 공고 삭제 |
 
@@ -1880,9 +1932,11 @@ Assignment 엔티티의 데이터 접근 계층으로, 조회수 증가 기능�
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `increaseViewCount(Long assignmentId)` | int | public | 과제 공고 조회수 증가 |
+| Name | Return Type | Visibility | Description          |
+|------|-----------|-----------|----------------------|
+| `findWithAllById(Long assignmentId)` | Optional\<Assignment\> | public | 컬렉션 필드를 포함한 과제 조회    |
+| `findAllByUserId(Long userId,Pageable pageable)` | Page\<Assignment\>     | public | 특정 사용자가 등록한 과제 목록 조회 |
+| `increaseViewCount(Long assignmentId)` | int | public | 과제 공고 조회수 증가         |
 
 ---
 
@@ -1900,8 +1954,8 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
-| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 검색 조건에 맞는 과제 요약 DTO를 페이징 조회 |
-| `getAssignmentSummariesByIds(List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+| `getAssignmentSummaries(Long viewerId, AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 검색 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| `getAssignmentSummariesByIds(Long viewerId, List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
 
 ---
 
@@ -1919,8 +1973,8 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
-| `getAssignmentSummaries(AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 조건에 맞는 과제 요약 DTO를 페이징 조회 |
-| `getAssignmentSummariesByIds(List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
+| `getAssignmentSummaries(Long viewerId, AssignmentSearchCondition condition, Pageable pageable)` | Page\<AssignmentSummaryResponseDto\> | public | 조건에 맞는 과제 요약 DTO를 페이징 조회 |
+| `getAssignmentSummariesByIds(Long viewerId, List\<Long\> assignmentIds)` | List\<AssignmentSummaryResponseDto\> | public | 주어진 Assignment ID 목록에 해당하는 과제 요약 정보 조회 (입력 순서 보장) |
 | `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Assignment 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
 | `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
 | `containsAnyGrade(Set\<Integer\> grades)` | BooleanExpression | private | Assignment 우대 학년(grades) 중 하나라도 지정된 학년에 포함되는 조건 생성 |
@@ -2070,13 +2124,15 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 ##### Operations
 
-| Name | Return Type | Mapping | Visibility | Description |
-|------|-----------|---------|-----------|-------------|
-| `createStudy(StudyCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/studies` | public | 스터디 공고 생성 |
-| `getStudy(Long studyId)` | ResponseEntity\<ApiResponse\<StudyDetailResponseDto\>\> | `GET /api/v1/studies/{studyId}` | public | 스터디 공고 상세 조회 |
-| `getStudySummaries(String keywords, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/studies` | public | 스터디 공고 목록 조회 |
-| `updateStudy(Long studyId, StudyUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/studies/{studyId}` | public | 스터디 공고 수정 |
-| `deleteStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/studies/{studyId}` | public | 스터디 공고 삭제 |
+| Name | Return Type | Mapping | Visibility | Description              |
+|------|-----------|---------|-----------|--------------------------|
+| `createStudy(StudyCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/studies` | public | 스터디 공고 생성                |
+| `getStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<StudyDetailResponseDto\>\> | `GET /api/v1/studies/{studyId}` | public | 스터디 공고 상세 조회             |
+| `getStudySummaries(String keywords, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/studies` | public | 스터디 공고 목록 조회             |
+| `getMyStudies(Pageable pageable, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<APIResponse\<Page\<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/studies/me` | public | 특정 사용자가 등록한 스터디 공고 목록 조회 |
+| `getMyBookmarks(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                 | ResponseEntity\<APIResponse\<Page\<StudySummaryResponseDto\>\>\>      | `GET /api/v1/studies/bookmarks` | public | 특정 사용자가 찜한 스터디 공고 목록 조회  |
+| `updateStudy(Long studyId, StudyUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/studies/{studyId}` | public | 스터디 공고 수정                |
+| `deleteStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/studies/{studyId}` | public | 스터디 공고 삭제                |
 
 ---
 
@@ -2093,14 +2149,16 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `createStudy(Long userId, StudyCreationRequestDto studyCreationRequestDto)` | Long | public | 스터디 공고 생성 |
-| `getStudy(Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회 |
-| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 (조건 및 페이징 적용) |
-| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록에 해당하는 스터디 공고 조회 |
-| `updateStudy(Long userId, Long studyId, StudyUpdateRequestDto updateDto)` | void | public | 스터디 공고 수정 |
-| `deleteStudy(Long userId, Long studyId)` | void | public | 스터디 공고 삭제 |
+| Name | Return Type | Visibility | Description                |
+|------|-----------|-----------|----------------------------|
+| `createStudy(Long userId, StudyCreationRequestDto studyCreationRequestDto)` | Long | public | 스터디 공고 생성                  |
+| `getStudy(Long viewerId, Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회               |
+| `getStudySummaries(Long viewerId, StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 (조건 및 페이징 적용) |
+| `getStudySummariesByIds(Long viewerId, List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록에 해당하는 스터디 공고 조회   |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 스터디 공고 목록 조회   |
+| `getBookmarkedStudiesByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 특정 사용자가 찜한 스터디 공고 목록 조회    |
+| `updateStudy(Long userId, Long studyId, StudyUpdateRequestDto updateDto)` | void | public | 스터디 공고 수정                  |
+| `deleteStudy(Long userId, Long studyId)` | void | public | 스터디 공고 삭제                  |
 
 ---
 
@@ -2110,20 +2168,27 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| studyRepository | StudyRepository | private final | 스터디 데이터 접근 계층 |
-| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
-| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+| Name | Type            | Visibility        | Description       |
+|------|-----------------|-------------------|-------------------|
+| STUDY_SORT_FIELDS | Set\<String\>   | private static final | 가능한 정렬 필드         |
+| studyRepository | StudyRepository | private final     | 스터디 데이터 접근 계층     |
+| userService | UserService     | private final     | 사용자 관련 비즈니스 로직 계층 |
+| teamService | TeamService     | private final     | 팀 관련 비즈니스 로직 계층   |
+| applicationService | ApplicationService     | private final     | 지원 관련 비즈니스 로직 계층  |
+| bookmarkService | BookmarkService     | private final     | 찜 관련 비즈니스 로직 계층   |
+| pageableValidator | PageableValidator     | private final     | 페이지네이션 정보 검증      |
+| publisher | ApplicationEventPublisher     | private final     | 이벤트 발행 담당         |
 
 ##### Operations
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | `createStudy(Long userId, StudyCreationRequestDto requestDto)` | Long | public | 스터디 공고 생성 |
-| `getStudy(Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회 |
-| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 |
-| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록 스터디 요약 정보 조회 |
+| `getStudy(Long viewerId, Long studyId)` | StudyDetailResponseDto | public | 스터디 공고 상세 조회 |
+| `getStudySummaries(Long viewerId, StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 스터디 공고 목록 조회 |
+| `getStudySummariesByIds(Long viewerId, List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 특정 ID 목록 스터디 요약 정보 조회 |
+| `getAllByUserId(Long userId, Pageable pageable)` | Page\<RecruitmentWithAppsResponseDto\> | public | 특정 사용자가 등록한 스터디 공고 목록 조회   |
+| `getBookmarkedStudiesByUserId(Long userId, RecruitmentStatus status, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 특정 사용자가 찜한 스터디 공고 목록 조회    |
 | `updateStudy(Long userId, Long studyId, StudyUpdateRequestDto updateDto)` | void | public | 스터디 공고 수정 |
 | `deleteStudy(Long userId, Long studyId)` | void | public | 스터디 공고 삭제 |
 
@@ -2141,9 +2206,11 @@ Study 엔티티의 데이터 접근 계층으로, 조회수 증가 기능과 커
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `increaseViewCount(Long id)` | int | public | 조회수 증가 |
+| Name | Return Type | Visibility | Description           |
+|------|-----------|-----------|-----------------------|
+| `findWithAllById(Long studyId)` | Optional\<Study\> | public | 컬렉션 필드를 포함한 스터디 조회    |
+| `findAllByUserId(Long userId,Pageable pageable)` | Page\<Study\>     | public | 특정 사용자가 등록한 스터디 목록 조회 |
+| `increaseViewCount(Long id)` | int | public | 조회수 증가                |
 
 ---
 
@@ -2161,8 +2228,8 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
-| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 검색 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
-| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
+| `getStudySummaries(Long viewerId, StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 검색 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
+| `getStudySummariesByIds(Long viewerId, List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
 
 ---
 
@@ -2180,8 +2247,8 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
-| `getStudySummaries(StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
-| `getStudySummariesByIds(List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
+| `getStudySummaries(Long viewerId, StudySearchCondition condition, Pageable pageable)` | Page\<StudySummaryResponseDto\> | public | 조건에 맞는 스터디 요약 DTO를 페이징 조회 |
+| `getStudySummariesByIds(Long viewerId, List\<Long\> studyIds)` | List\<StudySummaryResponseDto\> | public | 주어진 Study ID 목록에 해당하는 스터디 요약 정보 조회 (입력 순서 보장) |
 | `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Study 상태(status)와 일치하는 조건 생성 (CANCELED 제외) |
 | `containsAnyKeyword(Set\<String\> keywords)` | BooleanBuilder | private | 제목(title) 또는 내용(content)에 키워드 중 하나라도 포함되는 조건 생성 |
 | `containsAnySkill(Set\<Skill\> skills)` | BooleanExpression | private | Study skills 컬렉션 중 하나라도 지정된 skills에 포함되는 조건 생성 |
