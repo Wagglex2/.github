@@ -625,6 +625,96 @@ BaseRecruitment 엔티티의 데이터 접근 계층 인터페이스로, 공고 
 
 ---
 
+#### SimpleRecruitmentCreatedEvent
+
+과제/스터디 공고가 생성되었을 때 발행되는 도메인 이벤트이다.  
+작성자 정보와 생성된 공고의 기본 식별 정보를 포함한다.  
+본 이벤트는 [TeamEventListener](#teameventlistener) 에서 처리된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| authorId | Long | private final | 공고 작성자의 ID |
+| recruitmentId | Long | private final | 생성된 과제/스터디 공고의 ID |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| `authorId()` | Long | public | 작성자 ID를 반환한다. |
+| `recruitmentId()` | Long | public | 과제/스터디 공고 ID를 반환한다. |
+
+---
+
+#### ProjectCreatedEvent
+
+프로젝트 공고가 생성되었을 때 발행되는 도메인 이벤트이다.  
+작성자 정보와 생성된 프로젝트 공고의 기본 식별 정보를 포함한다.
+본 이벤트는 [TeamEventListener](#teameventlistener) 에서 처리된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| authorId | Long | private final | 프로젝트 공고 작성자의 ID |
+| projectId | Long | private final | 생성된 프로젝트 공고의 ID |
+| authorPosition | PositionType | private final | 작성자의 포지션 타입 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| `authorId()` | Long | public | 작성자 ID를 반환한다. |
+| `projectId()` | Long | public | 프로젝트 공고 ID를 반환한다. |
+| `authorPosition()` | PositionType | public | 작성자의 포지션 타입을 반환한다. |
+
+---
+
+#### RecruitmentReopenedEvent
+
+모집 공고가 마감되었다가 재개되었을 때 발행되는 도메인 이벤트이다.  
+본 이벤트는 [ApplicationEventListener](#applicationeventlistener) 에서 처리된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| recruitmentId | Long | private final | 재개된 공고의 ID  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description      |
+|------|-------------|------------|------------------|
+| `recruitmentId()` | Long | public | 재개된 공고 ID를 반환한다. |
+
+---
+
+#### RecruitmentDeletedEvent
+
+모집 공고가 삭제되었을 때 발행되는 도메인 이벤트이다.  
+본 이벤트는
+
+- [TeamEventListener](#teameventlistener)
+- [ApplicationEventListener](#applicationeventlistener) 
+- [BookmarkEventListener](#bookmarkeventlistener) 
+
+에서 처리된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| recruitmentId | Long | private final | 삭제된 공고의 ID |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| `recruitmentId()` | Long | public | 삭제된 공고 ID를 반환한다. |
+
+---
+
 #### PageResponse<T>
 
 페이지 단위로 데이터를 반환하기 위한 제네릭 DTO로, 내용, 페이지 정보, 전체 요소 수 및 마지막 페이지 여부를 포함한다.
@@ -2602,6 +2692,51 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ---
 
+#### ApplicationProcessedEvent
+
+지원이 제출, 수락, 또는 거절되었을 때 발생하는 도메인 이벤트이다.  
+본 이벤트는 [NotificationEventListener](#notificationeventlistener)에서 처리된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| senderId | Long | public | 이벤트를 발생시킨 사용자 ID (지원자 또는 공고 작성자) |
+| receiverId | Long | public | 이벤트 수신 대상 사용자 ID |
+| applicationId | Long | public | 관련 지원 ID |
+| type | NotificationType | public | 알림 유형 (제출, 수락, 거절 등) |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| `senderId()` | Long | public | 이벤트를 발생시킨 사용자 ID 반환 |
+| `receiverId()` | Long | public | 이벤트 수신 대상 사용자 ID 반환 |
+| `applicationId()` | Long | public | 관련 지원 ID 반환 |
+| `type()` | NotificationType | public | 알림 유형 반환 |
+
+---
+
+#### ApplicationEventListener
+
+모집 공고 관련 도메인 이벤트를 비동기적으로 처리하는 이벤트 리스너이다.  
+발생한 이벤트에 따라 지원 상태를 취소하거나 공고 재개 시 관련 지원 정보를 업데이트한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| applicationService | ApplicationService | private final | 지원 관련 비즈니스 로직을 처리하는 서비스 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description                                                      |
+|------|-------------|------------|------------------------------------------------------------------|
+| `handleRecruitmentDeleted(RecruitmentDeletedEvent event)` | void | public | 모집 공고 삭제 이벤트 발생 시 해당 공고에 대한 모든 지원을 취소한다. |
+| `handleRecruitmentReopened(RecruitmentReopenedEvent event)` | void | public | 모집 공고 재개 이벤트 발생 시 관련 모든 지원 정보를 업데이트한다.   |
+
+---
+
 #### NotificationResponseDto
 
 사용자에게 전달되는 알림 정보를 담는 응답 DTO(Record)
@@ -2759,6 +2894,25 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | `getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable)` | Page\<NotificationResponseDto\> | public | 지정된 사용자 ID와 카테고리에 해당하는 알림 목록을 페이지 단위로 조회 (category가 null이면 전체 알림 포함) |
+
+---
+
+#### NotificationEventListener
+
+지원 관련 도메인 이벤트를 처리하는 이벤트 리스너이다.  
+알림을 생성한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description       |
+|------|------|------------|-------------------|
+| notificationService | NotificationService | private final | 알림 관련 비즈니스 계층 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| `createNotification(ApplicationProcessedEvent event)` | void | public | 이벤트 발생 시 알림을 생성한다. |
 
 ---
 
@@ -2941,6 +3095,27 @@ QueryDSL을 활용한 팀 데이터 접근 계층으로, 팀 및 팀 멤버 조�
 | `getPath(String property)` | Path\<?\>             | private | 입력된 속성에 따라 createdAt 경로를 선택한다. (기본값 createdAt)           |
 | `getOrderSpecifiers(Pageable pageable)` | OrderSpecifier\<?\>[] | private | 정렬 조건 생성                                                 |
 
+---
+
+#### TeamEventListener
+
+모집 공고 관련 도메인 이벤트를 비동기적으로 처리하는 이벤트 리스너이다.  
+발생한 이벤트에 따라 팀 생성 및 삭제를 처리한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|------------|-------------|
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직을 처리하는 서비스 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description                    |
+|------|-------------|------------|--------------------------------|
+| `handleSimpleRecruitmentCreated(SimpleRecruitmentCreatedEvent event)` | void | public | 과제/스터디 공고 생성 이벤트 발생 시 팀을 생성한다. |
+| `handleProjectCreated(ProjectCreatedEvent event)` | void | public | 프로젝트 공고 생성 이벤트 발생 시 팀을 생성한다.   |
+| `handleRecruitmentDeleted(RecruitmentDeletedEvent event)` | void | public | 모집 공고 삭제 이벤트 발생 시 팀을 삭제한다.     |
+
 
 ---
 
@@ -3013,7 +3188,6 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | ------------------------------------------------- | -------------------- | ---------- |---------------------------------------------------------------|
 | `findByTeamIdAndUserId(Long teamId, Long userId)` | Optional\<TeamMember> | public     | 특정 팀 ID와 사용자 ID로 팀 멤버를 조회한다.<br>결과가 없을 경우 빈 `Optional`을 반환한다. |
 | `getPositionInProject(Long projectId, Long userId)` | PositionType | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.                               |
-
 
 ---
 
@@ -3898,6 +4072,25 @@ QueryDSL을 활용한 북마크 데이터 접근 계층으로, 사용자가 찜�
 | `eqUserId(Long userId)` | BooleanExpression | private | Bookmark의 userId와 일치하는 조건 생성 |
 | `eqCategory(RecruitmentCategory category)` | BooleanExpression | private | Recruitment의 category와 일치하는 조건 생성 |
 | `eqStatus(RecruitmentStatus status)` | BooleanExpression | private | Recruitment의 status와 일치하는 조건 생성 (status가 null이면 CANCELED 제외) |
+
+---
+
+#### BookmarkEventListener
+
+모집 공고 관련 도메인 이벤트를 비동기적으로 처리하는 이벤트 리스너이다.
+삭제 이벤트 발생 시 관련 찜을 삭제한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description            |
+|------|------|------------|------------------------|
+| bookmarkService | BookmarkService | private final | 찜 관련 비즈니스 로직을 처리하는 서비스 |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description                          |
+|------|-------------|------------|--------------------------------------|
+| `handleRecruitmentDeleted(RecruitmentDeletedEvent event)` | void | public | 모집 공고 삭제 이벤트 발생 시 관련 찜을 삭제한다. |
 
 ---
 
