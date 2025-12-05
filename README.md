@@ -51,7 +51,7 @@
 
 
 ## 🧩 Swagger API 문서  
-[Swagger UI 바로가기](http://3.35.173.28:8080/swagger-ui/index.html#/)
+🔗 [Swagger UI](http://3.35.173.28:8080/swagger-ui/index.html#/)
 
 
 ## 👥 팀원
@@ -85,5 +85,10 @@
 - `Jira`, `Swagger`, `Notion`, `Figma`
 
 
-\+ 협업 관련 문서 추가(Jira, 컨벤션, 스웨거, 노션, 피그마)
-\+ SRS, SDS 문서 링크 추가 
+## 🤝 협업 툴 사용 내역 정리
+🔗 [Collaboration.md](https://github.com/Wagglex2/.github/blob/main/Collaboration.md)
+
+### 📄 SRS, SDS 문서
+
+🔗 [SDS](https://github.com/Wagglex2/.github/tree/main/docs/SDS)  
+🔗 [SRS](https://github.com/Wagglex2/.github/blob/main/docs/SRS.md)
