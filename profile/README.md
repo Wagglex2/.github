@@ -31,27 +31,27 @@
 
 | 로그인 | 메인 화면 |
 |--------|-----------|
-| <img width="1116" height="661" alt="스크린샷 2025-12-05 15 52 57" src="https://github.com/user-attachments/assets/e1ad6e72-749f-48cc-a6f2-fe10c86c1d93" /> | <img width="1708" height="838" alt="스크린샷 2025-12-05 12 04 35" src="https://github.com/user-attachments/assets/3ad0624e-8846-4195-9d94-50e2ee028785" /> |
+| <img width="1116" height="661" alt="스크린샷 2025-12-05 15 52 57" src="https://github.com/user-attachments/assets/e1ad6e72-749f-48cc-a6f2-fe10c86c1d93" /> | <img width="1708" height="838" alt="스크린샷 2025-12-05 12 04 35" src="https://github.com/user-attachments/assets/3ad0624e-8846-4195-9d94-50e2ee028785" /> |
 
 | 공고 목록 | 공고 상세 |
 |-----------|-----------|
-| <img width="1190" height="784" alt="스크린샷 2025-12-05 15 53 48" src="https://github.com/user-attachments/assets/22a4eecc-245c-44c0-864d-c28cc2ed18f9" /> | <img width="1080" height="777" alt="스크린샷 2025-12-05 15 53 18" src="https://github.com/user-attachments/assets/4c7a4ac0-1076-4d18-b41e-28cae51097ae" /> |
+| <img width="1190" height="784" alt="스크린샷 2025-12-05 15 53 48" src="https://github.com/user-attachments/assets/22a4eecc-245c-44c0-864d-c28cc2ed18f9" /> | <img width="1080" height="777" alt="스크린샷 2025-12-05 15 53 18" src="https://github.com/user-attachments/assets/4c7a4ac0-1076-4d18-b41e-28cae51097ae" /> |
 
 | 알림  | 내 프로필 |
 |--------------|--------------|
-| <img width="868" height="674" alt="스크린샷 2025-12-05 15 53 56" src="https://github.com/user-attachments/assets/6338b83c-c573-449f-8cb2-dc1cc5a426ae" /> | <img width="1002" height="684" alt="스크린샷 2025-12-05 15 53 30" src="https://github.com/user-attachments/assets/749523b3-53bc-4952-86c3-1e2598b6d8b3" /> |
+| <img width="868" height="674" alt="스크린샷 2025-12-05 15 53 56" src="https://github.com/user-attachments/assets/6338b83c-c573-449f-8cb2-dc1cc5a426ae" /> | <img width="1002" height="684" alt="스크린샷 2025-12-05 15 53 30" src="https://github.com/user-attachments/assets/749523b3-53bc-4952-86c3-1e2598b6d8b3" /> |
 
 | 내가 지원한 공고 | 내 팀 관리 |
 |--------------|--------------|
-| <img width="1016" height="554" alt="스크린샷 2025-12-05 15 54 07" src="https://github.com/user-attachments/assets/ecb1704b-a8e3-433b-b66d-982aac73ede7" /> | <img width="1077" height="553" alt="스크린샷 2025-12-05 15 54 14" src="https://github.com/user-attachments/assets/36968052-027a-4d2d-a03b-3f7f20e2565c" /> |
+| <img width="1016" height="554" alt="스크린샷 2025-12-05 15 54 07" src="https://github.com/user-attachments/assets/ecb1704b-a8e3-433b-b66d-982aac73ede7" /> | <img width="1077" height="553" alt="스크린샷 2025-12-05 15 54 14" src="https://github.com/user-attachments/assets/36968052-027a-4d2d-a03b-3f7f20e2565c" /> |
 
 
 ## 🏗️ 시스템 아키텍처
-<img alt="wagglel-아키텍처 drawio" src="https://github.com/user-attachments/assets/08677e9e-e210-420c-a9b8-d6f4ed5db425" width="80%"/>
+<img alt="wagglel-아키텍처 drawio" src="https://github.com/user-attachments/assets/08677e9e-e210-420c-a9b8-d6f4ed5db425" width="80%"/>
 
 
 ## 🧩 Swagger API 문서  
-[Swagger UI 바로가기](http://3.35.173.28:8080/swagger-ui/index.html#/)
+🔗 [Swagger UI](http://3.35.173.28:8080/swagger-ui/index.html#/)
 
 
 ## 👥 팀원
@@ -85,5 +85,10 @@
 - `Jira`, `Swagger`, `Notion`, `Figma`
 
 
-\+ 협업 관련 문서 추가(Jira, 컨벤션, 스웨거, 노션, 피그마)
-\+ SRS, SDS 문서 링크 추가 
+## 🤝 협업 툴 사용 내역 정리
+🔗 [Collaboration.md](https://github.com/Wagglex2/.github/blob/main/Collaboration.md)
+
+### 📄 SRS, SDS 문서
+
+🔗 [SDS](https://github.com/Wagglex2/.github/tree/main/docs/SDS)  
+🔗 [SRS](https://github.com/Wagglex2/.github/blob/main/docs/SRS.md)
