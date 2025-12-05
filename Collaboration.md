@@ -14,12 +14,14 @@
 
 ### 2) Notion :: 개발 전략 및 피드백 공유
 
-| 개발 전략 | 피드백 공유 |
-|--------|-----------|
-| <img width="1433" height="886" alt="스크린샷 2025-12-06 02 05 23" src="https://github.com/user-attachments/assets/29137c4e-1da3-42bc-9c97-9ee385dd4799" /> | <img width="948" height="828" alt="스크린샷 2025-12-06 02 04 24" src="https://github.com/user-attachments/assets/e77d15b3-68b6-41ec-b6b0-ad66ba61fdcc" /> |
+| 개발 전략 | 피드백 공유 | 코드 리뷰 |
+|--------|-----------|-------|
+| <img width="1433" height="886" alt="스크린샷 2025-12-06 02 05 23" src="https://github.com/user-attachments/assets/29137c4e-1da3-42bc-9c97-9ee385dd4799" /> | <img width="948" height="828" alt="스크린샷 2025-12-06 02 04 24" src="https://github.com/user-attachments/assets/e77d15b3-68b6-41ec-b6b0-ad66ba61fdcc" />  | <img width="1045" height="875" alt="스크린샷 2025-12-06 02 47 31" src="https://github.com/user-attachments/assets/dac05ae5-dc21-47e6-83ca-d1be2e053030" /> |
 
 * 협업 규칙은 Notion에 정리하여 `브랜치 전략`, `PR 규칙`, `커밋 컨벤션`을 한 페이지에서 볼 수 있게 했습니다.
 * “`브랜치 생성 → 개발 → PR → 코드리뷰 → 머지`” 순서로 정리하여 혼선이 없도록 하였고, **불필요한 Git 충돌을 줄이는 데 도움**이 되었습니다.
+* 또한 `develop 브랜치`는 직접 푸시를 금지하고, `PR 생성`후 팀원 2인의 승인을 받아야 머지되도록 설정했습니다.
+* `코드 리뷰`를 통하여 오류나 설계 문제 발견 및 다양한 의견을 공유할 수 있었습니다.
 * 커밋 메시지는 `feat:`, `fix:`, `refactor:` 등 Prefix를 통일해 사용하여, Git 로그만 봐도 변경 내역의 성격을 바로 파악할 수 있도록 했습니다.
 * FE/BE에서 발생한 `오류 및 개선사항을 공유`하여 팀원 모두가 이슈를 한눈에 파악할 수 있도록 했습니다.
 
@@ -27,7 +29,8 @@
 
 | 메인화면 | Request | Response |
 |--------|-----------|-----------|
-| <img width="1320" height="878" alt="스크린샷 2025-12-06 02 20 13" src="https://github.com/user-attachments/assets/729a7d97-d8c2-45f0-8368-04f330dd431b" /> | <img width="1249" height="798" alt="스크린샷 2025-12-06 02 21 02" src="https://github.com/user-attachments/assets/2a088929-a9f7-4fe4-a52c-975fda6de498" /> |  <img width="1260" height="880" alt="스크린샷 2025-12-06 02 21 14" src="https://github.com/user-attachments/assets/b7eb1297-2636-4e50-bbb1-1e7629aaedac" /> |
+| <img width="1320" height="878" alt="스크린샷 2025-12-06 02 20 13" src="https://github.com/user-attachments/assets/729a7d97-d8c2-45f0-8368-04f330dd431b" /> | <img width="1249" height="798" alt="스크린샷 2025-12-06 02 21 02" src="https://github.com/user-attachments/assets/2a088929-a9f7-4fe4-a52c-975fda6de498" /> |  <img width="1260" height="880" alt="스크린샷 2025-12-06 02 21 14" src="https://github.com/user-attachments/assets/b7eb1297-2636-4e50-bbb1-1e7629aaedac" />
+
 
 * 백엔드 API는 Swagger로 문서화하여, **모든 `엔드포인트`와 `요청/응답 스펙`을 한 곳에서 확인**할 수 있게 하였습니다.
 * 단순 성공 케이스뿐 아니라 `검증 실패`, `권한 없음`, `중복 요청` 등 에러 응답 케이스까지 예시를 정리해 두어,  
