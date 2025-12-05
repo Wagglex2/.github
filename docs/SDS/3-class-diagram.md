@@ -1354,13 +1354,13 @@ Spring Security 인증 과정에서 사용자 이름(username)을 기반으로 D
 ---
 
 #### CustomAccessDeniedHandler
-Spring Security 인가 과정에서 권한이 없거나(403), 인증되지 않은(401) 사용자의 접근을 감지하고, 표준화된 JSON 응답(`ApiResponse`) 형태로 클라이언트에 반환하는 핸들러.
+Spring Security 인가 과정에서 권한이 없거나(403), 인증되지 않은(401) 사용자의 접근을 감지하고, 표준화된 JSON 응답(`APIResponse`) 형태로 클라이언트에 반환하는 핸들러.
 기본 HTML 오류 페이지 대신 JSON API 규격에 맞는 응답을 제공한다.
 
 ##### Attributes
 | Name         | Type         | Visibility    | Description                                                    |
 | ------------ | ------------ | ------------- | -------------------------------------------------------------- |
-| objectMapper | ObjectMapper | private final | JSON 직렬화를 위한 Jackson 객체. 응답 객체(`ApiResponse`)를 JSON 문자열로 변환한다. |
+| objectMapper | ObjectMapper | private final | JSON 직렬화를 위한 Jackson 객체. 응답 객체(`APIResponse`)를 JSON 문자열로 변환한다. |
 
 ##### Operations
 | Name                                                                                       | Return Type | Visibility | Description                                                        |
@@ -1376,7 +1376,7 @@ Spring Security에서 인증(Authentication)되지 않은 사용자가 보호된
 ##### Attributes
 | Name         | Type         | Visibility    | Description                                  |
 | ------------ | ------------ | ------------- | -------------------------------------------- |
-| objectMapper | ObjectMapper | private final | `ApiResponse` 객체를 JSON 문자열로 직렬화하는 Jackson 객체 |
+| objectMapper | ObjectMapper | private final | `APIResponse` 객체를 JSON 문자열로 직렬화하는 Jackson 객체 |
 
 ##### Operations
 | Name                                                                                                      | Return Type | Visibility | Description                                    |
@@ -1563,13 +1563,13 @@ Controller, Service, Repository, DTO 등 계층 간의 요청 흐름을 기능 �
 
 | Name                                                                                                                                                                                             | Return Type                                                           | Mapping                               | Visibility | Description               |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|---------------------------------------|-----------|---------------------------|
-| `createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                                                                             | ResponseEntity\<ApiResponse\<Long\>\>                                 | `POST /api/v1/projects`               | public | 프로젝트 공고 생성                |
-| `getProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                      | ResponseEntity\<ApiResponse\<ProjectDetailResponseDto\>\>             | `GET /api/v1/projects/{projectId}`    | public | 프로젝트 공고 상세 조회             |
-| `getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\>    | `GET /api/v1/projects`                | public | 프로젝트 공고 목록 조회             |
+| `createProject(ProjectCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                                                                             | ResponseEntity\<APIResponse\<Long\>\>                                 | `POST /api/v1/projects`               | public | 프로젝트 공고 생성                |
+| `getProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                      | ResponseEntity\<APIResponse\<ProjectDetailResponseDto\>\>             | `GET /api/v1/projects/{projectId}`    | public | 프로젝트 공고 상세 조회             |
+| `getProjectSummaries(String keywords, ProjectPurpose purpose, List\<PositionType\> positions, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<ProjectSummaryResponseDto\>\>\>    | `GET /api/v1/projects`                | public | 프로젝트 공고 목록 조회             |
 | `getMyProjects(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                                                                      | ResponseEntity\<APIResponse<Page<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/projects/me`               | public | 특정 사용자가 등록한 프로젝트 공고 목록 조회 |
 | `getMyBookmarks(Pageable pageable, CustomUserDetails userDetails)`                                                                                                                               | ResponseEntity\<APIResponse<Page<ProjectSummaryResponseDto\>\>\>      | `GET /api/v1/projects/bookmarks`               | public | 특정 사용자가 찜한 프로젝트 공고 목록 조회  |
-| `updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                                                                               | ResponseEntity\<ApiResponse\<Void\>\>                                 | `PUT /api/v1/projects/{projectId}`    | public | 프로젝트 공고 수정                |
-| `deleteProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                   | ResponseEntity\<ApiResponse\<Void\>\>                                 | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제                |
+| `updateProject(Long projectId, ProjectUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                                                                               | ResponseEntity\<APIResponse\<Void\>\>                                 | `PUT /api/v1/projects/{projectId}`    | public | 프로젝트 공고 수정                |
+| `deleteProject(Long projectId, CustomUserDetails userDetails)`                                                                                                                                   | ResponseEntity\<APIResponse\<Void\>\>                                 | `DELETE /api/v1/projects/{projectId}` | public | 프로젝트 공고 삭제                |
 
 ---
 
@@ -1851,13 +1851,13 @@ QueryDSL을 활용한 프로젝트 데이터 접근 계층으로, 프로젝트 �
 
 | Name                                                                                                                                         | Return Type                                                             | Mapping | Visibility | Description             |
 |----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|---------|-----------|-------------------------|
-| `createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                   | ResponseEntity\<ApiResponse\<Long\>\>                                   | `POST /api/v1/assignments` | public | 과제 공고 생성                |
-| `getAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                            | ResponseEntity\<ApiResponse\<AssignmentDetailResponseDto\>\>            | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회             |
-| `getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\>   | `GET /api/v1/assignments` | public | 과제 공고 목록 조회             |
+| `createAssignment(AssignmentCreationRequestDto requestDto, CustomUserDetails userDetails)`                                                   | ResponseEntity\<APIResponse\<Long\>\>                                   | `POST /api/v1/assignments` | public | 과제 공고 생성                |
+| `getAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                            | ResponseEntity\<APIResponse\<AssignmentDetailResponseDto\>\>            | `GET /api/v1/assignments/{assignmentId}` | public | 과제 공고 상세 조회             |
+| `getAssignmentSummaries(String keywords, Set\<Integer\> grades, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<AssignmentSummaryResponseDto\>\>\>   | `GET /api/v1/assignments` | public | 과제 공고 목록 조회             |
 | `getMyAssignments(Pageable pageable, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<APIResponse\<Page\<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/assignments/me` | public | 특정 사용자가 등록한 과제 공고 목록 조회 |
 | `getMyBookmarks(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                 | ResponseEntity\<APIResponse\<Page\<ProjectSummaryResponseDto\>\>\>      | `GET /api/v1/assignments/bookmarks` | public | 특정 사용자가 찜한 과제 공고 목록 조회  |
-| `updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                  | ResponseEntity\<ApiResponse\<Void\>\>                                   | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정                |
-| `deleteAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<ApiResponse\<Void\>\>                                   | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제                |
+| `updateAssignment(Long assignmentId, AssignmentUpdateRequestDto requestDto, CustomUserDetails userDetails)`                                  | ResponseEntity\<APIResponse\<Void\>\>                                   | `PUT /api/v1/assignments/{assignmentId}` | public | 과제 공고 수정                |
+| `deleteAssignment(Long assignmentId, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<APIResponse\<Void\>\>                                   | `DELETE /api/v1/assignments/{assignmentId}` | public | 과제 공고 삭제                |
 
 ---
 
@@ -2126,13 +2126,13 @@ QueryDSL을 활용한 Assignment 커스텀 리포지토리로, 과제 요약 DTO
 
 | Name | Return Type | Mapping | Visibility | Description              |
 |------|-----------|---------|-----------|--------------------------|
-| `createStudy(StudyCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/studies` | public | 스터디 공고 생성                |
-| `getStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<StudyDetailResponseDto\>\> | `GET /api/v1/studies/{studyId}` | public | 스터디 공고 상세 조회             |
-| `getStudySummaries(String keywords, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/studies` | public | 스터디 공고 목록 조회             |
+| `createStudy(StudyCreationRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Long\>\> | `POST /api/v1/studies` | public | 스터디 공고 생성                |
+| `getStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<StudyDetailResponseDto\>\> | `GET /api/v1/studies/{studyId}` | public | 스터디 공고 상세 조회             |
+| `getStudySummaries(String keywords, List\<Skill\> skills, RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/studies` | public | 스터디 공고 목록 조회             |
 | `getMyStudies(Pageable pageable, CustomUserDetails userDetails)`                                                                         | ResponseEntity\<APIResponse\<Page\<RecruitmentWithAppsResponseDto\>\>\> | `GET /api/v1/studies/me` | public | 특정 사용자가 등록한 스터디 공고 목록 조회 |
 | `getMyBookmarks(RecruitmentStatus status, Pageable pageable, CustomUserDetails userDetails)`                                                 | ResponseEntity\<APIResponse\<Page\<StudySummaryResponseDto\>\>\>      | `GET /api/v1/studies/bookmarks` | public | 특정 사용자가 찜한 스터디 공고 목록 조회  |
-| `updateStudy(Long studyId, StudyUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `PUT /api/v1/studies/{studyId}` | public | 스터디 공고 수정                |
-| `deleteStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/studies/{studyId}` | public | 스터디 공고 삭제                |
+| `updateStudy(Long studyId, StudyUpdateRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `PUT /api/v1/studies/{studyId}` | public | 스터디 공고 수정                |
+| `deleteStudy(Long studyId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `DELETE /api/v1/studies/{studyId}` | public | 스터디 공고 삭제                |
 
 ---
 
@@ -2280,6 +2280,7 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 | Name | Return Type | Visibility | Description |
 |------|-----------|-----------|-------------|
 | `getCategory()` | RecruitmentCategory | public | 지원 공고 카테고리 반환 |
+| `getMeetingType()` | MeetingType | public | 선호 진행 방식 반환 |
 | `toEntity(User applicant, BaseRecruitment recruitment)` | Application | public abstract | DTO를 Application 엔티티로 변환 <br> 하위 클래스에서 구현 필요 |
 
 ---
@@ -2393,6 +2394,78 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 ---
 
+#### AppContentCommonResponseDto
+
+지원자 정보 기반의 공통 응답 DTO로, 지원서 ID, 지원자 프로필, 선호 진행 방식, 학년, 지원 내용, 지원 일자 등의 데이터를 포함하는 추상 클래스이다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| applicationId | Long | private final | 지원서 ID |
+| applicantId | Long | private final | 지원자 ID |
+| nickname | String | private final | 지원자 닉네임 |
+| profileImageUrl | String | private final | 지원자 프로필 이미지 URL |
+| meetingType | MeetingType | private final | 선호하는 진행 방식 |
+| grade | Integer | private final | 지원 학년 |
+| content | String | private final | 지원서 본문 내용 |
+| appliedAt | LocalDateTime | private final | 지원 일자 (`yyyy.MM.dd`) |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-------------|------------|-------------|
+| getApplicationId() | Long | public | 지원서 ID 반환 |
+| getApplicantId() | Long | public | 지원자 ID 반환 |
+| getNickname() | String | public | 지원자 닉네임 반환 |
+| getProfileImageUrl() | String | public | 프로필 이미지 URL 반환 |
+| getMeetingType() | MeetingType | public | 선호 진행 방식 반환 |
+| getGrade() | Integer | public | 지원 학년 반환 |
+| getContent() | String | public | 지원서 본문 반환 |
+| getAppliedAt() | LocalDateTime | public | 지원 일자 반환 |
+
+---
+
+#### AppContentProjectResponseDto
+
+[AppContentCommonResponseDto](#appcontentcommonresponsedto)를 상속한 응답 DTO로, **프로젝트 공고 지원서**에 사용된다.  
+지원 포지션 및 기술 스택 정보를 추가로 포함한다.
+
+##### Attributes
+
+| Name | Type         | Visibility | Description |
+|------|--------------|-----------|-------------|
+| position | PositionType | private final | 지원 포지션 |
+| skills | Set\<Skill\> | private final | 지원 기술 스택 |
+
+##### Operations
+
+| Name | Return Type  | Visibility | Description |
+|------|--------------|------------|-------------|
+| getPosition() | PositionType | public | 지원 포지션 반환 |
+| getSkills() | Set\<Skill\> | public | 지원 기술 스택 반환 |
+
+---
+
+#### AppContentSimpleResponseDto
+
+[AppContentCommonResponseDto](#appcontentcommonresponsedto)를 상속한 응답 DTO로, **과제 및 스터디 공고 지원서**에 사용된다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|-----|------------|-----------|-------------|
+|  |  |  |  |
+
+
+---
+
 #### ApplicationController
 
 공고 지원(프로젝트, 과제, 스터디)과 관련된 REST API를 제공하는 컨트롤러로, 지원서 제출, 조회, 수락, 거절, 취소 기능을 포함한다.  
@@ -2408,11 +2481,11 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 | Name | Return Type | Mapping | Visibility | Description |
 |------|-----------|---------|-----------|-------------|
-| `submitProjectApplication(Long recruitmentId, ApplicationCommonRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/applications/recruitments/{recruitmentId}` | public | 프로젝트, 과제, 스터디 지원서 제출 |
-| `getMyApplicationByCategory(RecruitmentCategory category, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<ApplicationCommonResponseDto\>\>\> | `GET /api/v1/applications/me` | public | 로그인 사용자 기준, 카테고리별 지원 내역 조회 |
-| `acceptApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/accept` | public | 특정 지원서 수락 |
-| `rejectApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/reject` | public | 특정 지원서 거절 |
-| `cancelApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/applications/{applicationId}` | public | 특정 지원서 취소/삭제 |
+| `submitProjectApplication(Long recruitmentId, ApplicationCommonRequestDto requestDto, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Long\>\> | `POST /api/v1/applications/recruitments/{recruitmentId}` | public | 프로젝트, 과제, 스터디 지원서 제출 |
+| `getMyApplicationByCategory(RecruitmentCategory category, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<ApplicationCommonResponseDto\>\>\> | `GET /api/v1/applications/me` | public | 로그인 사용자 기준, 카테고리별 지원 내역 조회 |
+| `acceptApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/accept` | public | 특정 지원서 수락 |
+| `rejectApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `POST /api/v1/applications/{applicationId}/reject` | public | 특정 지원서 거절 |
+| `cancelApplication(Long applicationId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `DELETE /api/v1/applications/{applicationId}` | public | 특정 지원서 취소/삭제 |
 
 ---
 
@@ -2429,15 +2502,17 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto)` | Long | public | 공고 지원서 제출 |
-| `findById(Long id)` | Application | public | ID로 지원서 조회 |
-| `getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable)` | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회 |
-| `acceptApplication(Long deciderId, Long applicationId)` | void | public | 지원서 수락 |
-| `rejectApplication(Long deciderId, Long applicationId)` | void | public | 지원서 거절 |
-| `cancelApplication(Long userId, Long applicationId)` | void | public | 지원서 취소 |
-| `closeApplicationsForClosedRecruitments()` | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경 |
+| Name                                                                                                 | Return Type | Visibility | Description                                |
+|------------------------------------------------------------------------------------------------------|-----------|-----------|--------------------------------------------|
+| `submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto)`         | Long | public | 공고 지원서 제출                                  |
+| `findById(Long id)`                                                                                  | Application | public | ID로 지원서 조회                                 |
+| `findAllByRecruitmentIds(List\<Long\> recruitmentId)`                                                | List\<Application\> | public | 특정 공고에 대한 지원서 목록 조회                        |
+| `getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable)` | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회                      |
+| `acceptApplication(Long deciderId, Long applicationId)`                                              | void | public | 지원서 수락                                     |
+| `rejectApplication(Long deciderId, Long applicationId)`                                              | void | public | 지원서 거절                                     |
+| `cancelApplication(Long userId, Long applicationId)`                                                 | void | public | 지원서 취소                                     |
+| `updateAllByRecruitmentReopened(Long recruitmentId)`                                                 | void | public | 마감된 공고가 재개된 경우 관련된 모든 지원 상태를 SUBMITTED로 변경 |
+| `closeApplicationsForClosedRecruitments()`                                                           | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경            |
 
 ---
 
@@ -2448,28 +2523,33 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| applicationRepository | ApplicationRepository | private final | 지원서 데이터 접근 계층 |
-| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층 |
-| recruitmentService | RecruitmentService | private final | 공고 관련 비즈니스 로직 계층 |
-| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층 |
+| Name | Type | Visibility | Description        |
+|------|------|-----------|--------------------|
+| applicationRepository | ApplicationRepository | private final | 지원서 데이터 접근 계층      |
+| userService | UserService | private final | 사용자 관련 비즈니스 로직 계층  |
+| recruitmentService | RecruitmentService | private final | 공고 관련 비즈니스 로직 계층   |
+| teamService | TeamService | private final | 팀 관련 비즈니스 로직 계층    |
+| teamMemberService | TeamMemberService | private final | 팀 멤버 관련 비즈니스 로직 계층 |
+| publisher | ApplicationEventPublisher | private final | 이벤트 발행 담당          |
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto)` | Long | public | 지원서 제출 |
-| `findById(Long id)` | Application | public | ID로 지원서 조회 |
-| `getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable)` | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회 |
-| `acceptApplication(Long deciderId, Long applicationId)` | void | public | 지원서 수락, 참여 인원 업데이트 및 팀에 추가 |
-| `rejectApplication(Long deciderId, Long applicationId)` | void | public | 지원서 거절 |
-| `cancelApplication(Long userId, Long applicationId)` | void | public | 지원서 취소 (논리적 삭제) |
-| `closeApplicationsForClosedRecruitments()` | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경 |
-| `applyProject(User applicant, Project project, ApplicationProjectRequestDto requestDto)` | Long | private | 프로젝트 지원 처리 |
-| `applyAssignment(User applicant, Assignment assignment, ApplicationCommonRequestDto requestDto)` | Long | private | 과제 지원 처리 |
-| `applyStudy(User applicant, Study study, ApplicationCommonRequestDto requestDto)` | Long | private | 스터디 지원 처리 |
-| `recover(ObjectOptimisticLockingFailureException e, Long deciderId, Long applicationId)` | void | protected | 낙관적 락 재시도 실패 시 처리 |
+| Name                                                                                                 | Return Type | Visibility | Description                                |
+|------------------------------------------------------------------------------------------------------|-----------|-----------|--------------------------------------------|
+| `submitApplication(Long userId, Long recruitmentId, ApplicationCommonRequestDto requestDto)`         | Long | public | 지원서 제출                                     |
+| `findById(Long id)`                                                                                  | Application | public | ID로 지원서 조회                                 |
+| `findAllByRecruitmentIds(List\<Long\> recruitmentId)`                                                | List\<Application\> | public | 특정 공고에 대한 지원서 목록 조회                        |
+| `getAllByUserIdAndRecruitmentCategory(Long userId, RecruitmentCategory category, Pageable pageable)` | Page\<ApplicationCommonResponseDto\> | public | 사용자별, 카테고리별 지원서 목록 조회                      |
+| `acceptApplication(Long deciderId, Long applicationId)`                                              | void | public | 지원서 수락, 참여 인원 업데이트 및 팀에 추가                 |
+| `rejectApplication(Long deciderId, Long applicationId)`                                              | void | public | 지원서 거절                                     |
+| `cancelApplication(Long userId, Long applicationId)`                                                 | void | public | 지원서 취소 (논리적 삭제)                            |
+| `updateAllByRecruitmentReopened(Long recruitmentId)`                                                 | void | public | 마감된 공고가 재개된 경우 관련된 모든 지원 상태를 SUBMITTED로 변경 |
+| `closeApplicationsForClosedRecruitments()`                                                           | void | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경            |
+| `applyProject(User applicant, Project project, ApplicationProjectRequestDto requestDto)`             | Long | private | 프로젝트 지원 처리                                 |
+| `applyAssignment(User applicant, Assignment assignment, ApplicationCommonRequestDto requestDto)`     | Long | private | 과제 지원 처리                                   |
+| `applyStudy(User applicant, Study study, ApplicationCommonRequestDto requestDto)`                    | Long | private | 스터디 지원 처리                                  |
+| `recover(ObjectOptimisticLockingFailureException e, Long deciderId, Long applicationId)`             | void | protected | 낙관적 락 재시도 실패 시 처리                          |
+| `recoverEvent(TransientDataAccessException e, Long recruitmentId)`                                   | void | protected | 이벤트 처리 재시도 실패 시 처리                         |
 
 ---
 
@@ -2485,12 +2565,15 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `existsByApplicantIdAndRecruitmentId(Long applicantId, Long recruitmentId)` | boolean | public | 특정 사용자가 특정 공고에 이미 지원했는지 확인 |
-| `findByIdAndNotDeletedWithRecruitmentAndAuthor(Long id)` | Optional\<Application\> | public | 지원서 조회 시 Recruitment 및 작성자(User)를 즉시 로딩 |
-| `findAllByApplicantIdAndRecruitmentCategoryAndIsDeletedFalse(Long applicantId, RecruitmentCategory category, Pageable pageable)` | Page\<Application\> | public | 삭제되지 않은 특정 사용자의 지원서 목록을 카테고리별로 페이지 단위 조회 |
-| `closeApplicationsForClosedRecruitments()` | int | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경하고 업데이트된 건수 반환 |
+| Name                                                                                                                             | Return Type             | Visibility | Description                                   |
+|----------------------------------------------------------------------------------------------------------------------------------|-------------------------|-----------|-----------------------------------------------|
+| `existsByApplicantIdAndRecruitmentId(Long applicantId, Long recruitmentId)`                                                      | boolean                 | public | 특정 사용자가 특정 공고에 이미 지원했는지 확인                    |
+| `findByIdAndNotDeletedWithRecruitmentAndAuthor(Long id)`                                                                         | Optional\<Application\> | public | 지원서 조회 시 Recruitment 및 작성자(User)를 즉시 로딩       |
+| `findAllByApplicantIdAndRecruitmentCategoryAndIsDeletedFalse(Long applicantId, RecruitmentCategory category, Pageable pageable)` | Page\<Application\>     | public | 삭제되지 않은 특정 사용자의 지원서 목록을 카테고리별로 페이지 단위 조회      |
+| `findAllByRecruitmentIds(List\<Long\> recruitmentIds)`                                                                           | List\<Application\>     | public | 특정 공고에 대한 지원 목록 조회                            |
+| `cancelAllByRecruitmentId(Long recruitmentId)`                                                                                   | void     | public | 특정 공고에 모든 지원 상태를 CANCELED로 변경                 |
+| `updateStatusAllByRecruitmentId(Long recruitmentId, ApplicationStatus from, ApplicationStatus to)`                               | void     | public | 특정 공고에 모든 지원 상태를 일괄 변경                        |
+| `closeApplicationsForClosedRecruitments()`                                                                                       | int                     | public | 마감된 공고에 대한 모든 지원 상태를 CLOSED로 변경하고 업데이트된 건수 반환 |
 
 ---
 
@@ -2500,15 +2583,16 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ##### Attributes
 
-| Name | Type | Visibility | Description |
-|------|------|-----------|-------------|
-| notificationId | Long | private | 알림 ID |
-| applicationId | Long | private | 관련 지원서 ID |
-| category | RecruitmentCategory | private | 관련 모집 공고 카테고리 |
-| senderNickname | String | private | 알림 발신자 닉네임 |
-| type | NotificationType | private | 알림 유형 |
-| createdAt | LocalDateTime | private | 알림 생성일 |
-| isRead | boolean | private | 알림 읽음 상태 |
+| Name | Type | Visibility | Description      |
+|------|------|-----------|------------------|
+| notificationId | Long | private | 알림 ID            |
+| applicationId | Long | private | 관련 지원서 ID        |
+| category | RecruitmentCategory | private | 관련 모집 공고 카테고리    |
+| recruitmentTitle | String | private | 알림에 관한 공고 제목 |
+| senderNickname | String | private | 알림 발신자 닉네임       |
+| type | NotificationType | private | 알림 유형            |
+| createdAt | LocalDateTime | private | 알림 생성일           |
+| isRead | boolean | private | 알림 읽음 상태         |
 
 ##### Operations
 
@@ -2517,6 +2601,7 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 | `notificationId()` | Long | public | 알림 ID 반환 |
 | `applicationId()` | Long | public | 관련 지원서 ID 반환 |
 | `category()` | RecruitmentCategory | public | 관련 모집 공고 카테고리 반환 |
+| `recruitmentTitle()` | String | public | 알림에 관한 공고 제목 반환 |
 | `senderNickname()` | String | public | 알림 발신자 닉네임 반환 |
 | `type()` | NotificationType | public | 알림 유형 반환 |
 | `createdAt()` | LocalDateTime | public | 알림 생성일 반환 |
@@ -2537,11 +2622,12 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ##### Operations
 
-| Name | Return Type | Mapping | Visibility | Description |
-|------|-----------|---------|-----------|-------------|
-| `getMyNotificationsByCategory(category, pageable, userDetails)` | ResponseEntity\<ApiResponse\<Page\<NotificationResponseDto\>\>\> | `GET /api/v1/notifications` | public | 사용자의 알림 목록 조회 (카테고리 선택 가능) |
-| `deleteById(notificationId, userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/notifications/{notificationId}` | public | 특정 알림 삭제 |
-| `deleteAll(category, userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/notifications` | public | 전체 또는 카테고리별 알림 삭제 |
+| Name | Return Type | Mapping                                             | Visibility | Description                |
+|------|-----------|-----------------------------------------------------|-----------|----------------------------|
+| `getMyNotificationsByCategory(RecruitmentCategory category, Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<NotificationResponseDto\>\>\> | `GET /api/v1/notifications`                         | public | 사용자의 알림 목록 조회 (카테고리 선택 가능) |
+| `markAsRead(Long notificationId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `PATCH /api/v1/notifications/{notificationId}/read` | public | 특정 알림 읽음 처리                |
+| `deleteById(Long notificationId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `DELETE /api/v1/notifications/{notificationId}`     | public | 특정 알림 삭제                   |
+| `deleteAll(RecruitmentCategory category, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `DELETE /api/v1/notifications`                      | public | 전체 또는 카테고리별 알림 삭제          |
 
 ---
 
@@ -2558,12 +2644,13 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
+| Name | Return Type | Visibility | Description                    |
+|------|-----------|-----------|--------------------------------|
 | `createNotification(Long senderId, Long receiverId, Long applicationId, NotificationType type)` | void | public | 알림 생성, 컨트롤러가 아닌 서비스 로직 내부에서 호출 |
-| `getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable)` | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회 |
-| `deleteById(Long userId, Long notificationId)` | void | public | 특정 알림 삭제 |
-| `deleteAll(Long receiverId, RecruitmentCategory category)` | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
+| `getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable)` | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회           |
+| `markAsRead(Long receiverId, Long notificationId)` | void | public | 특정 알림 읽음 처리                    |
+| `deleteById(Long userId, Long notificationId)` | void | public | 특정 알림 삭제                       |
+| `deleteAll(Long receiverId, RecruitmentCategory category)` | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제     |
 
 ---
 
@@ -2584,12 +2671,14 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 
 ##### Operations
 
-| Name | Return Type | Visibility | Description |
-|------|-----------|-----------|-------------|
-| `createNotification(Long senderId, Long receiverId, Long applicationId, NotificationType type)` | void | public | 알림 생성, 다른 서비스 로직에서 호출 |
-| `getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable)` | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회 |
-| `deleteById(Long userId, Long notificationId)` | void | public | 특정 알림 삭제, 권한 검증 포함 |
-| `deleteAll(Long receiverId, RecruitmentCategory category)` | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
+| Name                                                                                                 | Return Type | Visibility | Description                |
+|------------------------------------------------------------------------------------------------------|-----------|-----------|----------------------------|
+| `createNotification(Long senderId, Long receiverId, Long applicationId, NotificationType type)`      | void | public | 알림 생성, 다른 서비스 로직에서 호출      |
+| `getAllByUserIdAndCategory(Long receiverId, RecruitmentCategory category, Pageable pageable)`        | Page\<NotificationResponseDto\> | public | 사용자별, 카테고리별 알림 목록 조회       |
+| `markAsRead(Long receiverId, Long notificationId)`                                                   | void | public | 특정 알림 읽음 처리                |
+| `deleteById(Long userId, Long notificationId)`                                                       | void | public | 특정 알림 삭제, 권한 검증 포함         |
+| `deleteAll(Long receiverId, RecruitmentCategory category)`                                           | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
+| `recoverEvent(TransientDataAccessException e, Long senderId, Long receiverId, Long applicationId, NotificationType type)` | void | protected | 이벤트 처리 재시도 실패 시 처리         |
 
 ---
 
@@ -2690,6 +2779,7 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 | -------- | ------------ | -------------------------- |------------------------------------|
 | userId   | Long         | private  | 팀 멤버(User)의 고유 식별자 ID              |
 | nickname | String       | private  | 팀 멤버의 닉네임                          |
+| profileImageUrl | String       | private  | 팀 멤버의 프로필 이미지 URL                  |
 | role     | TeamRole     | private  | 팀 내 역할 (리더 / 일반 멤버 등)              |
 | position | PositionType | private  | 사용자 포지션 (예: BACK_END, FRONT_END 등) |
 
@@ -2712,7 +2802,7 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 ##### Operations
 | Name                                                                                                                            | Return Type                                        | Mapping              | Visibility | Description                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |----------------------|------------| ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | ResponseEntity\<ApiResponse\<Page\<TeamResponseDto>>> | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
+| `getMyTeamByCategory(RecruitmentCategory category, RecruitmentStatus status, CustomUserDetails userDetails, Pageable pageable)` | ResponseEntity\<APIResponse\<Page\<TeamResponseDto>>> | `GET api/v1/teams/me` | public     | 현재 로그인한 사용자의 팀 목록을 카테고리 및 상태별로 조회한다.<br>인증 사용자(`CustomUserDetails`)의 ID를 기반으로 `TeamService`를 호출한다.<br>기본 정렬은 `createdAt DESC`, 페이지 크기는 3으로 설정된다. |
 
 ---
 
@@ -2727,12 +2817,16 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 
 ##### Operations
 | Name                                                                                                                      | Return Type  | Visibility | Description                                      |
-| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- | ------------------------------------------------ |
+| ------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- |--------------------------------------------------|
 | `save(Team team)`                                                                                                         | void         | public     | 새 팀을 저장한다.                                       |
 | `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀 엔티티를 조회한다.<br>존재하지 않을 경우 예외 발생.          |
 | `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 조회하며, 팀 멤버(`members`, `user`)를 함께 로딩한다.    |
+| `findByRecruitmentId(Long recruitmentId)`                                                                                 | Team         | public     | 공고 ID로 조회한다.                                     |
 | `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 팀 ID의 존재 여부를 반환한다.                            |
+| `createByRecruitmentId(Long userId, Long recruitmentId)`                                                                  | void      | public     | 특정 과제/스터디 공고에 대한 팀을 생성한다.                        |
+| `createByRecruitmentId(Long userId, Long recruitmentId, PositionType authorPosition)`                                     | void      | public     | 특정 프로젝트 공고에 대한 팀을 생성한다.                          |
 | `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리와 상태의 팀 목록을 페이징 조회한다. |
+| `deleteByRecruitmentId(Long recruitmentId)` | void | public     | 특정 공고에 대한 팀을 삭제한다.                               |
 
 ---
 
@@ -2742,8 +2836,10 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 
 ##### Attributes
 | Name                | Type            | Visibility           | Description                          |
-|---------------------|-----------------| -------------------- | ------------------------------------ |
+|---------------------|-----------------| -------------------- |--------------------------------------|
 | teamRepository      | TeamRepository  | private final        | Team 엔티티에 대한 데이터 접근을 담당하는 Repository |
+| userService      | UserService  | private final        | 사용자 관련 비즈니스 로직 계층                    |
+| recruitmentService      | RecruitmentService  | private final        | 공고 관련 비즈니스 로직 계층                                  |
 | pageableValidator   | PageableValidator | private final        | 페이지 및 정렬 요청을 검증하는 유틸리티 클래스           |
 | MY_TEAM_SORT_FIELDS | Set\<String>     | private static final | 허용된 정렬 기준 필드 목록 (현재 `createdAt`만 허용) |
 
@@ -2753,8 +2849,12 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 | `save(Team team)`                                                                                                         | void         | public     | 새 팀 정보를 데이터베이스에 저장한다.                                                                      |
 | `findById(Long id)`                                                                                                       | Team         | public     | 팀 ID로 팀을 조회하고, 없을 경우 `TEAM_NOT_FOUND` 예외를 발생시킨다.                                           |
 | `findByIdWithMembers(Long id)`                                                                                            | Team         | public     | 팀 ID로 팀을 조회하며, 팀 멤버(`members` 및 `user`)를 함께 로딩한다.                                          |
+| `findByRecruitmentId(Long recruitmentId)`                                                                                 | Team         | public     | 공고 ID로 조회한다.                                     |
 | `existsById(Long id)`                                                                                                     | boolean      | public     | 특정 ID의 팀 존재 여부를 반환한다.                                                                      |
+| `createByRecruitmentId(Long userId, Long recruitmentId)`                                                                  | void      | public     | 특정 과제/스터디 공고에 대한 팀을 생성한다.                        |
+| `createByRecruitmentId(Long userId, Long recruitmentId, PositionType authorPosition)`                                     | void      | public     | 특정 프로젝트 공고에 대한 팀을 생성한다.                          |
 | `getByUserIdAndCategoryAndStatus(Long userId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<TeamResponseDto> | public     | 특정 사용자가 생성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이지 단위로 조회한다.<br>조회된 엔티티는 `TeamResponseDto`로 변환된다. |
+| `deleteByRecruitmentId(Long recruitmentId)` | void | public     | 특정 공고에 대한 팀을 삭제한다.                               |
 
 ---
 
@@ -2768,10 +2868,54 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 | -------------------- | ----------------------------- | -------------------- | --------------------------------------------- |
 
 ##### Operations
-| Name                                                                                                                                                                | Return Type   | Visibility | Description                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
-| `findDistinctByRecruitmentCategoryAndRecruitmentStatusAndRecruitmentUserId(RecruitmentCategory category, RecruitmentStatus status, Long userId, Pageable pageable)` | Page\<Team>    | public     | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다.<br>연관된 `Recruitment` 및 `User`를 `EntityGraph`로 함께 로딩. |
-| `findByIdWithMembers(Long id)`                                                                                                                                      | Optional\<Team> | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다.           |
+| Name                                                                                                                                                                | Return Type   | Visibility | Description                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- |----------------------------------------------------------------------------------------------|
+| `findByRecruitmentId(Long recruitmentId)` | Optional\<Team>    | public     | 특정 공고에 대한 팀을 조회한다.                                                                           |
+| `findByIdWithMembers(Long id)`                                                                                                                                      | Optional\<Team> | public     | 팀 ID로 팀 정보를 조회하며, `members`와 각 `member.user`를 함께 로딩한다.<br>N+1 문제 방지를 위해 `EntityGraph`를 사용한다. |
+
+---
+
+#### TeamRepositoryCustom
+
+QueryDSL을 활용한 팀 데이터 접근 계층으로, 팀 및 팀 멤버 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+|  |  |  |  |
+
+##### Operations
+
+| Name | Return Type | Visibility | Description |
+|------|-----------|-----------|-------------|
+| `getTeams(Long viewerId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<Team\> | public | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다. |
+| `fetchMembers(List<Long> teamIds)` | void | public | 팀 멤버와 연결된 사용자를 fetch join하여 지정된 팀 목록의 멤버 데이터를 한 번에 로딩한다. |
+
+---
+
+#### TeamRepositoryImpl
+
+[TeamRepositoryCustom](#teamrepositorycustom) 인터페이스의 구현체로, QueryDSL을 활용하여 팀 및 팀 멤버 조회 기능을 제공한다.
+
+##### Attributes
+
+| Name | Type | Visibility | Description |
+|------|------|-----------|-------------|
+| queryFactory | JPAQueryFactory | private final | QueryDSL용 JPA 쿼리 팩토리 |
+
+##### Operations
+
+| Name | Return Type           | Visibility | Description                                              |
+|------|-----------------------|-----------|----------------------------------------------------------|
+| `getTeams(Long viewerId, RecruitmentCategory category, RecruitmentStatus status, Pageable pageable)` | Page\<Team\>          | public | 특정 사용자가 작성한 모집공고 중 지정된 카테고리 및 상태의 팀 목록을 페이징 조회한다.        |
+| `fetchMembers(List<Long> teamIds)` | void                  | public | 팀 멤버와 연결된 사용자를 fetch join하여 지정된 팀 목록의 멤버 데이터를 한 번에 로딩한다. |
+| `eqCategory(RecruitmentCategory category)` | BooleanExpression     | private | 공고 카테고리(category)과 일치하는 조건 생성                            |
+| `eqStatus(RecruitmentStatus status)` | BooleanExpression     | private | 공고 상태(status)와 일치하는 조건 생성                                |
+| `eqUser(Long viewerId)` | BooleanExpression     | private | 사용자 ID와 일치하는 조건 생성                                       |
+| `getPath(String property)` | Path\<?\>             | private | 입력된 속성에 따라 createdAt 경로를 선택한다. (기본값 createdAt)           |
+| `getOrderSpecifiers(Pageable pageable)` | OrderSpecifier\<?\>[] | private | 정렬 조건 생성                                                 |
+
 
 ---
 
@@ -2787,7 +2931,7 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 ##### Operations
 | Name                                                                      | Return Type                       | Mapping                                           | Visibility | Description                                                                                                                                                                                                             |
 | ------------------------------------------------------------------------- | --------------------------------- |---------------------------------------------------|------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void>> | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
+| `deleteMember(Long teamId, Long memberId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void>> | `DELETE api/v1/teams/{teamId}/members/{memberId}` | public     | **팀 리더 권한으로 특정 팀 멤버를 삭제하는 엔드포인트.**<br><ul><li>`teamId`: 삭제 대상이 속한 팀 ID</li><li>`memberId`: 삭제할 멤버의 ID</li><li>`userDetails`: 현재 로그인한 사용자 정보 (리더 권한 검증용)</li></ul><br>성공 시 `"팀 멤버 삭제에 성공했습니다."` 메시지와 함께 200 OK 응답을 반환한다. |
 
 ---
 
@@ -2801,7 +2945,9 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 
 ##### Operations
 | Name                                                       | Return Type | Visibility | Description                                                                                                 |
-| ---------------------------------------------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------- |
+| ---------------------------------------------------------- | --------- | ---------- |-------------------------------------------------------------------------------------------------------------|
+| `createMember(Team team, Application application)` | TeamMember      | public     | 특정 지원자를 특정 공고의 팀에 추가한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다.                                           |
+| `getPositionInProject(Long projectId, Long userId)` | PositionType      | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다.                                   |
 | `removeMember(Long teamId, Long removerId, Long targetId)` | void      | public     | 특정 팀(`teamId`)에서 리더(`removerId`)가 특정 멤버(`targetId`)를 삭제(강제 탈퇴)한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다. |
 
 ---
@@ -2821,7 +2967,9 @@ Spring Data JPA를 활용하여 Team 엔티티의 데이터 접근을 담당하�
 
 ##### Operations
 | Name                                                                                             | Return Type | Visibility | Description                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ------------------------------------------------------------------------------------------------ | ------- | ---------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `createMember(Team team, Application application)` | TeamMember      | public     | 특정 지원자를 특정 공고의 팀에 추가한다.                                                                                                                                                                                                 |
+| `getPositionInProject(Long projectId, Long userId)` | PositionType      | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.                                                                                                                                                                                         |
 | `removeMember(Long teamId, Long removerId, Long targetId)`                                       | void    | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
 | `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void    | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
 
@@ -2837,8 +2985,9 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 ##### Operations
 | Name                                              | Return Type          | Visibility | Description                                                   |
-| ------------------------------------------------- | -------------------- | ---------- | ------------------------------------------------------------- |
+| ------------------------------------------------- | -------------------- | ---------- |---------------------------------------------------------------|
 | `findByTeamIdAndUserId(Long teamId, Long userId)` | Optional\<TeamMember> | public     | 특정 팀 ID와 사용자 ID로 팀 멤버를 조회한다.<br>결과가 없을 경우 빈 `Optional`을 반환한다. |
+| `getPositionInProject(Long projectId, Long userId)` | PositionType | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.                               |
 
 
 ---
@@ -2850,6 +2999,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 사용자 프로필 관리 기능의 계층 구조를 나타낸다. UserController와 UserService의 의존 관계, 프로필 조회 시 ReviewService와의 연동 구조, 그리고 비밀번호 변경 및 회원 탈퇴 등의 보안 처리 과정을 표현한다.
 
 #### PasswordRequestDto
+
 비밀번호 변경 요청 시 사용되는 DTO 클래스.
 사용자가 입력한 기존 비밀번호, 새로운 비밀번호, 비밀번호 확인 값을 검증하여 서버로 전달한다.
 요청 검증 실패 시 BusinessException이 발생한다.
@@ -2863,8 +3013,11 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | passwordConfirm | String | private  | 비밀번호 확인 입력값. `@NotBlank`.                                 |
 
 ##### Operations
-| Name                                                                       | Return Type | Visibility | Description                                                                                                          |
-| -------------------------------------------------------------------------- | ----------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
+| Name    | Return Type | Visibility | Description |
+|---------|-------------|------------|-------------|
+| `old()` | String      | public     | 기존 비밀번호 반환      |
+| `newPassword()` | String      | public     | 새로운 비밀번호 반환      |
+| `passwordConfirm()` | String      | public     | 비밀번호 확인 입력값 반환      |
 
 
 ---
@@ -2885,11 +3038,91 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 
 ##### Operations
-| Name                                      | Return Type | Visibility | Description                                   |
-| ----------------------------------------- | ----------- | ---------- | --------------------------------------------- |
+| Name         | Return Type | Visibility | Description                                   |
+|--------------| ----------- | ---------- | --------------------------------------------- |
+| `nickname()` | String      | public     | 닉네임 반환      |
+| `grade()` | String      | public     | 학년 반환      |
+| `position()` | PositionType      | public     | 포지션 반환      |
+| `skills()` | Set\<Skill>      | public     | 보유 기술 스택 반환      |
+| `shortIntro()` | String      | public     | 한 줄 소개 반환      |
 
 ---
 
+#### EmailCheckRequestDto
+
+회원가입 또는 계정 확인 과정에서 **이메일 형식 검증**을 위해 사용되는 DTO 클래스.  
+이메일 값이 비어있지 않고, 유효한 이메일 형식인지 검증한다.
+
+##### Attributes
+
+| Name  | Type   | Visibility | Description |
+|-------|--------|------------|-------------|
+| email | String | private    | 사용자 이메일. `@NotBlank`, `@Email` 제약 적용. |
+
+##### Operations
+
+| Name    | Return Type | Visibility | Description |
+|---------|-------------|------------|-------------|
+| email() | String      | public     | 사용자 이메일 반환  |
+
+---
+
+#### UsernameCheckRequestDto
+
+사용자 아이디 중복 검사 또는 형식 검증 시 사용되는 DTO 클래스.  
+영문, 숫자, 언더스코어만 허용하며 4~20자 제약을 가진다.
+
+##### Attributes
+
+| Name     | Type   | Visibility | Description |
+|----------|--------|-----------|-------------|
+| username | String | private   | 사용자 아이디. `@Pattern`(영문/숫자/언더스코어, 4~20자) 적용. |
+
+##### Operations
+
+| Name        | Return Type | Visibility | Description |
+|-------------|-------------|------------|-------------|
+| username()  | String      | public     | 사용자 아이디 반환 |
+
+---
+
+#### NicknameCheckRequestDto
+
+닉네임 중복 검사 또는 형식 검증 시 사용되는 DTO 클래스.  
+한글, 영문, 숫자만 허용되며 2~10자 제약을 가진다.
+
+##### Attributes
+
+| Name     | Type   | Visibility | Description |
+|----------|--------|-----------|-------------|
+| nickname | String | private   | 닉네임. `@Pattern`(한글/영문/숫자, 2~10자) 적용. |
+
+##### Operations
+
+| Name        | Return Type | Visibility | Description |
+|-------------|-------------|------------|-------------|
+| nickname()  | String      | public     | 닉네임 반환 |
+
+---
+
+#### WithdrawRequestDto
+
+회원 탈퇴 요청 시 사용되는 DTO 클래스.  
+사용자가 입력한 비밀번호의 존재 여부와 길이 제한을 검증하여 서버로 전달한다.
+
+##### Attributes
+
+| Name     | Type   | Visibility | Description |
+|----------|--------|-----------|-------------|
+| password | String | private   | 비밀번호. `@NotBlank`, `@Size(max=72)` 제약 적용. |
+
+##### Operations
+
+| Name       | Return Type | Visibility | Description |
+|------------|-------------|------------|-------------|
+| password() | String      | public     | 비밀번호 반환 |
+
+---
 
 #### UserResponseDto
 사용자 정보를 API 응답으로 전달하기 위한 DTO.
@@ -2906,15 +3139,54 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | position   | PositionType | private  | 포지션(enum). 예: FRONT_END, BACK_END 등. |
 | skills     | Set\<Skill>   | private  | 보유 기술 스택 목록.                         |
 | shortIntro | String       | private  | 사용자 한 줄 소개.                          |
+| profileImageUrl | String       | private  | 사용자 프로필 이미지 URL.                     |
 
 ##### Operations
 | Name                 | Return Type     | Visibility    | Description                                |
-| -------------------- | --------------- | ------------- | ------------------------------------------ |
+| -------------------- |-----------------| ------------- | ------------------------------------------ |
 | `from(User user)`      | UserResponseDto | public static | `User` 엔티티를 DTO로 변환하는 정적 팩토리 메서드.          |
+| username()                   | String          | public     | 사용자 아이디 반환 |
+| email()                      | String          | public     | 이메일 반환 |
+| university()                | University      | public     | 소속 대학 반환 |
+| nickname()                   | String          | public     | 닉네임 반환 |
+| grade()                      | Integer         | public     | 학년 반환 |
+| position()                   | PositionType    | public     | 포지션 반환 |
+| skills()                     | Set\<Skill\>    | public     | 기술 스택 반환 |
+| shortIntro()                 | String          | public     | 자기소개 반환 |
+| profileImageUrl()            | String          | public     | 프로필 이미지 URL 반환 |
+
+---
+
+#### PublicUserResponseDto
+
+공개 프로필 조회 시 사용되는 응답 DTO로, 사용자 정보 중 공개 가능한 항목만 포함한다.  
+닉네임, 포지션, 보유 기술 스택, 소개글 등을 다른 사용자에게 보여줄 때 사용된다.
+
+##### Attributes
+
+| Name            | Type                 | Visibility | Description |
+|-----------------|----------------------|------------|-------------|
+| nickname        | String               | private    | 사용자 닉네임 |
+| profileImageUrl | String               | private    | 프로필 이미지 URL |
+| positionType    | PositionType         | private    | 사용자 포지션 |
+| skills          | Set\<Skill\>         | private    | 보유 기술 스택 |
+| shortIntro      | String               | private    | 짧은 자기소개 |
+
+##### Operations
+
+| Name                | Return Type            | Visibility | Description |
+|---------------------|------------------------|------------|-------------|
+| `from(User user)`   | PublicUserResponseDto  | public static | User 엔티티 기반으로 DTO 생성 |
+| `nickname()`        | String                 | public     | 사용자 닉네임 반환 |
+| `profileImageUrl()` | String                 | public     | 프로필 이미지 URL 반환 |
+| `positionType()`    | PositionType           | public     | 포지션 반환 |
+| `skills()`          | Set\<Skill\>           | public     | 기술 스택 반환 |
+| `shortIntro()`      | String                 | public     | 자기소개 반환 |
 
 ---
 
 #### UserController
+
 사용자 도메인([User](#user)) 관련 API 요청을 처리하는 REST Controller.
 회원정보 조회, 수정, 비밀번호 변경, 회원 탈퇴, 중복검사, 리뷰 조회 등의 기능을 제공한다.
 
@@ -2926,17 +3198,21 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 | reviewService             | ReviewService | private final        | 리뷰 조회 로직을 담당하는 서비스 계층.                         |
 
 ##### Operations
-| Name                                                                                            | Return Type                                                  | Mapping                                      | Visibility | Description                              |
-| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- | ---------- | ---------------------------------------- |
-| `existsByUsername(String username)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사                             |
-| `existsByEmail(String email)`                                                                   | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사                             |
-| `existsByNickname(String nickname)`                                                             | ResponseEntity\<ApiResponse\<Boolean>>                         | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사                             |
-| `passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)`                         | ResponseEntity\<ApiResponse\<Void>>                            | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경                         |
-| `getMe(CustomUserDetails userDetails)`                                                          | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회                      |
-| `updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)`                             | ResponseEntity\<ApiResponse\<UserResponseDto>>                 | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정                      |
-| `withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response)` | ResponseEntity\<ApiResponse\<Void>>                            | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (`Soft Delete` + Refresh Token 제거) |
-| `getReviews(Long userId, Pageable pageable)`                                                    | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회                      |
-| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)`         | void                                                         | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리             |
+| Name                                                                                            | Return Type                                                        | Mapping                                      | Visibility | Description                              |
+|-------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|----------------------------------------------| ---------- |------------------------------------------|
+| `existsByUsername(UsernameCheckRequestDto dto)`                                                 | ResponseEntity\<APIResponse\<Boolean\>\>                           | `GET api/v1/users/username/check`            | public     | 아이디 중복 여부 검사                             |
+| `existsByEmail(EmailCheckRequestDto dto)`                                                       | ResponseEntity\<APIResponse\<Boolean\>\>                           | `GET api/v1/users/email/check`               | public     | 이메일 중복 여부 검사                             |
+| `existsByNickname(NicknameCheckRequestDto dto)`                                                 | ResponseEntity\<APIResponse\<Boolean\>\>                           | `GET api/v1/users/nickname/check`            | public     | 닉네임 중복 여부 검사                             |
+| `updateBasicInfo(CustomUserDetails userDetails, UserBasicInfoRequestDto dto)`                   | ResponseEntity\<APIResponse\<Void\>\>                              | `PATCH api/v1/users/basic-info`              | public     | 사용자 기본 정보 업데이트                           |
+| `passwordChange(PasswordRequestDto dto, CustomUserDetails userDetails)`                         | ResponseEntity\<APIResponse\<Void\>\>                              | `POST api/v1/users/me/password-change`       | public     | 인증된 사용자의 비밀번호 변경                         |
+| `getMe(CustomUserDetails userDetails)`                                                          | ResponseEntity\<APIResponse\<UserResponseDto\>\>                   | `GET api/v1/users/me`                        | public     | 현재 로그인한 사용자의 프로필 조회                      |
+| `updateMe(CustomUserDetails userDetails, UserUpdateRequestDto dto)`                             | ResponseEntity\<APIResponse\<UserResponseDto\>\>                   | `PATCH api/v1/users/me`                      | public     | 현재 로그인한 사용자의 프로필 수정                      |
+| `withdraw(CustomUserDetails userDetails, WithdrawRequestDto dto, HttpServletResponse response)` | ResponseEntity\<APIResponse\<Void\>\>                              | `DELETE api/v1/users/me/withdraw`            | public     | 회원 탈퇴 (`Soft Delete` + Refresh Token 제거) |
+| `getPublicUser(Long userId)`                                                                    | ResponseEntity\<APIResponse\<PublicUserResponseDto\>\>             | `GET api/v1/users/{userId}`                  | public     | 공개 사용자 정보 조회                             |
+| `getReviews(Long userId, Pageable pageable)`                                                    | ResponseEntity\<APIResponse\<PageResponse\<ReviewResponseDto\>\>\> | `GET api/v1/users/{userId}/reviews/received` | public     | 특정 사용자가 받은 리뷰 목록 조회                      |
+| `uploadProfileImage(CustomUserDetails userDetails, MultipartFile file)`                         | ResponseEntity\<APIResponse\<UserResponseDto\>\>                   | `POST api/v1/users/me/profile-image` | public     | 사용자의 프로필 이미지를 업로드                        |
+| `deleteProfileImage(CustomUserDetails userDetails)`                         | ResponseEntity\<APIResponse\<UserResponseDto\>\>                   | `DELETE api/v1/users/me/profile-image` | public     | 사용자의 프로필 이미지를 삭제                         |
+| `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)`         | void                                                               | -                                            | private    | Refresh Token 쿠키 생성 또는 만료 처리             |
 
 
 ---
@@ -3084,11 +3360,11 @@ Spring Data JPA를 기반으로 기본 CRUD 기능을 상속받으며,
 ##### Operations
 | Name                                                                                     | Return Type                                            | Mapping                                       | Visibility | Description                                                                     |
 | ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |-----------------------------------------------|------------| ------------------------------------------------------------------------------- |
-| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | ResponseEntity\<ApiResponse\<Long>>                      | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
-| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
-| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | ResponseEntity\<ApiResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
-| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long>>                      | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
-| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | ResponseEntity\<ApiResponse\<Void>>                      | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
+| `createReview(ReviewCreationRequestDto dto, CustomUserDetails userDetails)`              | ResponseEntity\<APIResponse\<Long>>                      | `POST api/v1/reviews`                         | public     | 인증된 사용자가 새로운 리뷰를 작성한다.<br>성공 시 생성된 리뷰 ID를 반환한다.                                 |
+| `getMyWrittenReviews(CustomUserDetails userDetails, Pageable pageable)`                  | ResponseEntity\<APIResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/written`               | public     | 현재 로그인한 사용자가 **작성한 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `getMyReceivedReviews(CustomUserDetails userDetails, Pageable pageable)`                 | ResponseEntity\<APIResponse\<PageResponse\<ReviewResponseDto>>> | `GET api/v1/reviews/me/received`              | public     | 현재 로그인한 사용자가 **받은 리뷰 목록**을 페이지 단위로 조회한다.<br>기본 정렬: `createdAt DESC`, 페이지 크기: 5 |
+| `updateReview(Long reviewId, ReviewUpdateRequestDto dto, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Long>>                      | `PATCH api/v1/reviews/me/written/{reviewId}`  | public     | 인증된 사용자가 **본인이 작성한 리뷰를 수정**한다.<br>PATCH 메서드를 통해 부분 업데이트 수행.                  |
+| `deleteReview(Long reviewId, CustomUserDetails userDetails)`                             | ResponseEntity\<APIResponse\<Void>>                      | `DELETE api/v1/reviews/me/written/{reviewId}` | public     | 인증된 사용자가 **본인이 작성한 리뷰를 Soft Delete** 처리한다.<br>`ReviewStatus.DELETED` 상태로 변경. |
 
 ---
 
@@ -3275,12 +3551,12 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 ##### Operations
 | Name                                                                                    | Return Type                       | Mapping                          | Visibility | Description                                                     |
 | --------------------------------------------------------------------------------------- | --------------------------------- | -------------------------------- | ---------- | --------------------------------------------------------------- |
-| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
-| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
-| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<ApiResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
-| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
-| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
-| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<ApiResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
+| `sendEmailAuthCode(EmailRequestDto dto)`                                                | ResponseEntity\<APIResponse\<Void>> | `POST /api/v1/auth/email/code`   | public     | 회원가입 이메일 인증번호 발송                                                |
+| `verifyAuthCode(EmailVerificationRequestDto dto)`                                       | ResponseEntity\<APIResponse\<Void>> | `POST /api/v1/auth/email/verify` | public     | 사용자가 입력한 이메일 인증번호 검증                                            |
+| `signUp(SignUpRequestDto dto)`                                                          | ResponseEntity\<APIResponse\<Long>> | `POST /api/v1/auth/sign-up`      | public     | 회원가입 요청 처리 — 성공 시 생성된 `userId` 반환                               |
+| `signIn(SignInRequestDto dto, HttpServletResponse response)`                            | ResponseEntity\<APIResponse\<Void>> | `POST /api/v1/auth/sign-in`      | public     | 로그인 처리 및 Access/Refresh Token 발급                                |
+| `signOut(HttpServletResponse response, CustomUserDetails userDetails)`                  | ResponseEntity\<APIResponse\<Void>> | `POST /api/v1/auth/sign-out`     | public     | 로그아웃 처리 및 Redis 토큰 삭제                                           |
+| `refreshToken(String refreshToken, HttpServletResponse response)`                       | ResponseEntity\<APIResponse\<Void>> | `POST /api/v1/auth/refresh`      | public     | Refresh Token 기반 Access/Refresh Token 재발급                       |
 | `addCookie(HttpServletResponse response, String token, String cookieName, long maxAge)` | void                              | -                                | private    | Refresh Token을 응답 쿠키에 설정 (`HttpOnly`, `Secure`, `SameSite=Lax`) |
 
 ---
@@ -3359,11 +3635,11 @@ BCrypt 해시 알고리즘 제약에 맞춘 최대 72자 제한을 적용하며,
 
 | Name | Return Type | Mapping | Visibility | Description |
 |------|-----------|---------|-----------|-------------|
-| `createBookmark(Long recruitmentId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Long\>\> | `POST /api/v1/bookmarks/recruitments/{recruitmentId}` | public | 공고를 찜 목록에 추가 |
-| `getBookmarkedProjectSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/projects` | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
-| `getBookmarkedAssignmentSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/assignments` | public | 사용자가 찜한 과제 공고 목록 조회 |
-| `getBookmarkedStudySummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/studies` | public | 사용자가 찜한 스터디 공고 목록 조회 |
-| `deleteBookmark(Long bookmarkId, CustomUserDetails userDetails)` | ResponseEntity\<ApiResponse\<Void\>\> | `DELETE /api/v1/bookmarks/{bookmarkId}` | public | 찜 취소 |
+| `createBookmark(Long recruitmentId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Long\>\> | `POST /api/v1/bookmarks/recruitments/{recruitmentId}` | public | 공고를 찜 목록에 추가 |
+| `getBookmarkedProjectSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<ProjectSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/projects` | public | 사용자가 찜한 프로젝트 공고 목록 조회 |
+| `getBookmarkedAssignmentSummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<AssignmentSummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/assignments` | public | 사용자가 찜한 과제 공고 목록 조회 |
+| `getBookmarkedStudySummariesByUserId(Pageable pageable, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Page\<StudySummaryResponseDto\>\>\> | `GET /api/v1/bookmarks/studies` | public | 사용자가 찜한 스터디 공고 목록 조회 |
+| `deleteBookmark(Long bookmarkId, CustomUserDetails userDetails)` | ResponseEntity\<APIResponse\<Void\>\> | `DELETE /api/v1/bookmarks/{bookmarkId}` | public | 찜 취소 |
 
 ---
 
@@ -3660,7 +3936,7 @@ Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 �
 
 ---
 
-#### ApiResponse\<T>
+#### APIResponse\<T>
 모든 REST API 응답의 표준 응답 포맷을 정의하는 제네릭 클래스.
 성공(`ok`)과 실패(`error`) 응답을 구분하며, `code`, `message`, `data` 세 가지 필드를 통해 일관된 응답 구조를 제공한다.
 
@@ -3674,20 +3950,20 @@ Spring MVC 환경에서 전역 웹 설정(Web Configuration) 을 정의하는 �
 ##### Operations
 | Name                                      | Return Type    | Visibility    | Description                          |
 | ----------------------------------------- | -------------- | ------------- | ------------------------------------ |
-| `of(String code, String message, T data)` | ApiResponse\<T> | public static | 정적 팩토리 메서드로 새로운 응답 객체 생성             |
-| `ok()`                                    | ApiResponse\<T> | public static | 데이터 없이 기본 성공 응답 ("SUCCESS", "성공") 반환 |
-| `ok(String message)`                      | ApiResponse\<T> | public static | 커스텀 메시지를 포함한 성공 응답 반환                |
-| `ok(T data)`                              | ApiResponse\<T> | public static | 데이터 포함 기본 성공 응답 반환                   |
-| `ok(String message, T data)`              | ApiResponse\<T> | public static | 메시지와 데이터 모두 포함한 성공 응답 반환             |
-| `error(ErrorCode errorCode)`              | ApiResponse\<T> | public static | 지정된 에러 코드 기반 실패 응답 반환                |
-| `error(String code, String message)`      | ApiResponse\<T> | public static | 커스텀 코드와 메시지를 포함한 실패 응답 반환            |
-| `error(ErrorCode errorCode, T data)`      | ApiResponse\<T> | public static | 실패 응답과 함께 추가 데이터 포함                  |
+| `of(String code, String message, T data)` | APIResponse\<T> | public static | 정적 팩토리 메서드로 새로운 응답 객체 생성             |
+| `ok()`                                    | APIResponse\<T> | public static | 데이터 없이 기본 성공 응답 ("SUCCESS", "성공") 반환 |
+| `ok(String message)`                      | APIResponse\<T> | public static | 커스텀 메시지를 포함한 성공 응답 반환                |
+| `ok(T data)`                              | APIResponse\<T> | public static | 데이터 포함 기본 성공 응답 반환                   |
+| `ok(String message, T data)`              | APIResponse\<T> | public static | 메시지와 데이터 모두 포함한 성공 응답 반환             |
+| `error(ErrorCode errorCode)`              | APIResponse\<T> | public static | 지정된 에러 코드 기반 실패 응답 반환                |
+| `error(String code, String message)`      | APIResponse\<T> | public static | 커스텀 코드와 메시지를 포함한 실패 응답 반환            |
+| `error(ErrorCode errorCode, T data)`      | APIResponse\<T> | public static | 실패 응답과 함께 추가 데이터 포함                  |
 
 ---
 
 #### GlobalExceptionHandler
 애플리케이션 전역에서 발생하는 예외를 처리하는 전역 예외 처리 클래스 (Global Exception Handler).
-각종 예외([BusinessException](#businessexception), `Validation`, `TypeMismatch` 등)를 잡아 일관된 [ApiResponse](#apiresponset) 형식으로 클라이언트에게 응답한다.
+각종 예외([BusinessException](#businessexception), `Validation`, `TypeMismatch` 등)를 잡아 일관된 [APIResponse](#APIResponset) 형식으로 클라이언트에게 응답한다.
 Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 적용된다.
 
 ##### Attributes
@@ -3697,10 +3973,10 @@ Spring MVC의 `@RestControllerAdvice`를 통해 모든 컨트롤러에 전역 �
 ##### Operations
 | Name                                                                                        | Return Type                                    | Visibility | Description                                                                                                                |
 | ------------------------------------------------------------------------------------------- |------------------------------------------------| ---------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `handleBusinessException(BusinessException ex)`                                             | ResponseEntity\<ApiResponse\<Void>>              | public     | 비즈니스 로직(`Service`, `Domain`)에서 발생한 `BusinessException`을 처리한다.<br>응답에는 `ErrorCode`와 예외 메시지가 포함된다.                           |
-| `handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)`                 | ResponseEntity\<ApiResponse\<List\<ValidationError>>> | public     | DTO 검증 실패(`@Valid`, `@Validated`) 시 발생하는 `MethodArgumentNotValidException`을 처리하고<br>모든 필드 에러를 `ValidationError` 리스트로 반환한다. |
-| `handleMissingServletRequestParameterException(MissingServletRequestParameterException ex)` | ResponseEntity\<ApiResponse\<String>>            | public     | 필수 `@RequestParam`이 누락된 경우 발생하는 예외를 처리한다.<br>누락된 파라미터 이름과 함께 `REQUIRED_FIELD_MISSING` 에러코드 반환.                             |
-| `handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)`         | ResponseEntity\<ApiResponse\<String>>            | public     | 요청 파라미터의 타입이 예상과 다를 때 발생하는 예외 처리.<br>특히 Enum 타입에 잘못된 값이 전달될 때(`INVALID_ENUM_VALUE`) 메시지를 반환한다.                             |
+| `handleBusinessException(BusinessException ex)`                                             | ResponseEntity\<APIResponse\<Void>>              | public     | 비즈니스 로직(`Service`, `Domain`)에서 발생한 `BusinessException`을 처리한다.<br>응답에는 `ErrorCode`와 예외 메시지가 포함된다.                           |
+| `handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)`                 | ResponseEntity\<APIResponse\<List\<ValidationError>>> | public     | DTO 검증 실패(`@Valid`, `@Validated`) 시 발생하는 `MethodArgumentNotValidException`을 처리하고<br>모든 필드 에러를 `ValidationError` 리스트로 반환한다. |
+| `handleMissingServletRequestParameterException(MissingServletRequestParameterException ex)` | ResponseEntity\<APIResponse\<String>>            | public     | 필수 `@RequestParam`이 누락된 경우 발생하는 예외를 처리한다.<br>누락된 파라미터 이름과 함께 `REQUIRED_FIELD_MISSING` 에러코드 반환.                             |
+| `handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex)`         | ResponseEntity\<APIResponse\<String>>            | public     | 요청 파라미터의 타입이 예상과 다를 때 발생하는 예외 처리.<br>특히 Enum 타입에 잘못된 값이 전달될 때(`INVALID_ENUM_VALUE`) 메시지를 반환한다.                             |
 
 ---
 
