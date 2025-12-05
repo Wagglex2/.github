@@ -4,9 +4,10 @@
 
 
 ### 개요
+> 본 프로젝트 와글와글은 대구·경북 지역 대학생을 위한 프로젝트·과제·스터디 팀 매칭 플랫폼이다. 기존 학교 커뮤니티에서 팀 > 모집 게시물이 묻히는 문제를 해결하고, 학교 인증 기반 독립 커뮤니티를 제공하여 학생들이 보다 쉽게 팀원을 찾고 교내 프로그> 래밍 활동과 교류를 활성화하는 것을 목표로 한다.
+>
+> 주요 기능으로 공고 등록 및 조회하기, 공고 지원 하기, 팀 생성 및 팀원 리뷰하기가 있다.
 
-- 대경권 어쩌구
-- 주요기능 3줄
 
 ### UI
 
@@ -46,8 +47,10 @@
 
 ### 기술 스택
   - Frontend
-    - Framework: React.js
-    - Language: JavaScript, HTML, CSS
+    - Framework / Library: React.js
+    - Language: JavaScript
+    - Build Tool: Vite
+    - Libraries: React Router, Axios, Zustand, Emotion
   - Backend
     - Framework: Spring Boot 3.5.6, Spring Security, Spring Data JPA
     - Libraries: OpenFeign, QueryDSL, KOMORAN, JJWT
@@ -57,6 +60,6 @@
     - Azure: Azure Database for MySQL
     - CI/CD: GitHub Actions
   - Collabortion
-    - Jira, Swagger, Notion
+    - Jira, Swagger, Notion, Figma
 
 ### 설치 & 실행 방법
