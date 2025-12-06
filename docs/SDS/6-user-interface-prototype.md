@@ -2,7 +2,7 @@
 
 ### 1. 헤더와 네비게이션
 <p align="center">
-  <img width="640" height="86" alt="Image" src="https://github.com/user-attachments/assets/8c7431bf-b412-4fc5-a91a-9e29e9c03db7" />
+  <img width="1895" height="213" alt="스크린샷 2025-12-07 030227" src="https://github.com/user-attachments/assets/bc256ca7-873e-4c3f-b82f-3e62c290ff69" />
 </p>
 위 그림은 헤더와 네비게이션으로 회원가입 및 로그인 페이지를 제외한 모든 페이지에 공통으로 노출된다. 로고를 클릭하면 메인 페이지로 이동할 수 있으며, 검색바를 통해 원하는 공고를 검색할 수 있다. 우측에 위치한 알림 버튼과 마이페이지 버튼을 통해 각각 관련 페이지로 이동할 수 있으며, 로그아웃 버튼을 통해 로그아웃할 수 있다.
 </br></br>
