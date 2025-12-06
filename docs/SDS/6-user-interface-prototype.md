@@ -25,7 +25,7 @@
 ---
 ### 4. 로그인
 <p align="center"> 
-  <img width="642" height="351" alt="로그인" src="https://github.com/user-attachments/assets/c78be2e2-2372-497a-87b8-5a3e4398f286" />
+  <img width="1919" height="944" alt="스크린샷 2025-12-07 030003" src="https://github.com/user-attachments/assets/132cd97b-8738-4feb-bac4-52552ea7f731" />
 </p>
  위 그림은 ‘와글와글’ 웹 서비스 실행 시 사용자가 가장 먼저 접하게 되는 로그인 화면이다. 회원가입 시 설정한 아이디와 비밀번호를 입력한 후, ‘로그인 하기’ 버튼을 클릭하면 로그인되어 메인 화면으로 이동한다. 아직 계정이 없는 사용자는 하단의 ‘회원가입’ 버튼을 클릭하여 회원가입 페이지로 이동할 수 있다.
 
