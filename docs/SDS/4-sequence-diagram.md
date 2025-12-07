@@ -141,7 +141,47 @@
 - 최종적으로 "회원 탈퇴에 성공했습니다." 메시지를 포함한 ApiResponse.ok()가 반환된다.
 
 
-### 4.2.5 Username 중복 확인 (Check Username)
+### 4.2.5 프로필 이미지 업로드 (Upload Profile Image)
+
+<img width="739" height="577" alt="user-upload-profile-image-sequence" src="https://github.com/user-attachments/assets/9a589ea6-325a-4560-a5a9-bf4f877d0660" />
+
+이 Sequence Diagram은 사용자가 프로필 이미지를 업로드하는 과정을 나타낸다.
+
+- 사용자가 POST /api/v1/users/me/profile-image 요청을 전송하면, UserController는 UserService의 uploadProfileImage() 메서드를 호출한다.
+
+- UserServiceImpl은 UserRepository의 findById() 메서드를 호출하여 사용자 정보를 조회하고, 기존 프로필 이미지 URL을 저장한다.
+
+- 이후 S3Service의 uploadImage() 메서드를 호출하여 새 이미지를 S3에 업로드한다. S3ServiceImpl은 파일 유효성 검증, 폴더 경로 정규화, S3Client를 통한 이미지 업로드를 수행한다.
+
+- 업로드가 완료되면 User 엔티티의 updateProfileImageUrl() 메서드를 호출하여 새 이미지 URL을 업데이트한다.
+
+- 기존 이미지가 기본 이미지가 아닌 경우, deleteOldProfileImage() 메서드를 통해 S3에서 기존 이미지를 삭제한다. 삭제 실패 시에도 롤백하지 않는다.
+
+- UserRepository의 findByIdWithSkills() 메서드를 호출하여 업데이트된 사용자 정보를 조회하고, UserResponseDto.from() 메서드를 통해 DTO로 변환한다.
+
+- 최종적으로 "프로필 이미지 업로드에 성공했습니다." 메시지와 함께 UserResponseDto를 포함한 ApiResponse.ok()가 반환된다.
+
+
+### 4.2.6 프로필 이미지 삭제 (Delete Profile Image)
+
+<img width="679" height="447" alt="user-delete-profile-image-sequence" src="https://github.com/user-attachments/assets/962a7cd1-ad02-48b3-9bd0-5827b623176b" />
+
+이 Sequence Diagram은 사용자가 프로필 이미지를 삭제하고 기본 이미지로 변경하는 과정을 나타낸다.
+
+- 사용자가 DELETE /api/v1/users/me/profile-image 요청을 전송하면, UserController는 UserService의 deleteProfileImage() 메서드를 호출한다.
+
+- UserServiceImpl은 UserRepository의 findById() 메서드를 호출하여 사용자 정보를 조회하고, 기존 프로필 이미지 URL을 저장한다.
+
+- User 엔티티의 updateProfileImageUrl() 메서드를 호출하여 기본 이미지 URL로 업데이트한다.
+
+- 기존 이미지가 기본 이미지가 아닌 경우, deleteOldProfileImage() 메서드를 통해 S3Service의 deleteImage() 메서드를 호출하여 S3에서 기존 이미지를 삭제한다. 삭제 실패 시에도 롤백하지 않는다.
+
+- UserRepository의 findByIdWithSkills() 메서드를 호출하여 업데이트된 사용자 정보를 조회하고, UserResponseDto.from() 메서드를 통해 DTO로 변환한다.
+
+- 최종적으로 "프로필 이미지가 기본 이미지로 변경되었습니다." 메시지와 함께 UserResponseDto를 포함한 ApiResponse.ok()가 반환된다.
+
+
+### 4.2.7 Username 중복 확인 (Check Username)
 
 <img width="637" height="449" alt="user-check-username-sequence" src="https://github.com/user-attachments/assets/8560a584-2d3b-4642-bce5-910bffe434bc" />
 
@@ -154,7 +194,7 @@
 - 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 아이디입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 아이디입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
-### 4.2.6 Email 중복 확인 (Check Email)
+### 4.2.8 Email 중복 확인 (Check Email)
 
 <img width="939" height="749" alt="user-check-email-sequence" src="https://github.com/user-attachments/assets/e8aa37f4-4851-48da-b30f-930bea4923f8" />
 
@@ -167,7 +207,7 @@
 - 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 이메일입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 이메일입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
-### 4.2.7 Nickname 중복 확인 (Check Nickname)
+### 4.2.9 Nickname 중복 확인 (Check Nickname)
 
 <img width="1057" height="749" alt="user-check-nickname-sequence" src="https://github.com/user-attachments/assets/a696ab86-ddba-42d9-bba0-87dce85f3b8d" />
 
@@ -180,7 +220,7 @@
 - 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 닉네임입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 닉네임입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
-### 4.2.8 받은 리뷰 목록 조회 (Get Reviews)
+### 4.2.10 받은 리뷰 목록 조회 (Get Reviews)
 
 <img width="1634" height="769" alt="user-get-reviews-sequence" src="https://github.com/user-attachments/assets/c4d65e8e-3d75-4806-8fc9-e41eabd3f470" />
 
