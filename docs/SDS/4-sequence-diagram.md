@@ -203,9 +203,9 @@
 
 ### 4.3.1 프로젝트 공고 생성 (Create Project)
 
-<img width="1514" height="895" alt="project-create-sequence" src="https://github.com/user-attachments/assets/38176eb0-da8b-4cd1-a501-e2aec0ee0edd" />
-
 이 Sequence Diagram은 사용자가 프로젝트 공고를 생성하고 팀이 자동으로 생성되는 과정을 나타낸다.
+
+<img width="1899" height="780" alt="project-create-sequence" src="https://github.com/user-attachments/assets/cd0d482d-eca3-427f-8e57-bfbb6c260211" />
 
 - 사용자가 POST /api/v1/projects 요청을 전송하면, ProjectController는 ProjectService의 createProject() 메서드를 호출한다.
 
@@ -213,9 +213,9 @@
 
 - 이후 ProjectCreationRequestDto.toEntity() 메서드를 통해 Project 엔티티를 생성하고, ProjectRepository의 save() 메서드를 호출하여 저장한다.
 
-- Project 생성이 완료되면, Team 엔티티와 TeamMember 엔티티(리더 역할)를 생성하고, TeamService의 save() 메서드를 호출하여 저장한다.
+- Project 생성이 완료되면, ApplicationEventPublisher를 통해 ProjectCreatedEvent를 발행한다. TeamEventListener가 이벤트를 수신하여 TeamService의 createByRecruitmentId() 메서드를 호출하여 팀을 생성한다.
 
-- 최종적으로 "프로젝트 공고 생성에 성공했습니다." 메시지와 함께 생성된 projectId를 포함한 ApiResponse.ok()가 201 Created 상태로 반환된다.
+- 최종적으로 "프로젝트 공고를 성공적으로 등록하였습니다." 메시지와 함께 생성된 projectId를 포함한 APIResponse.ok()가 201 Created 상태로 반환된다.
 
 
 ### 4.3.2 프로젝트 공고 조회 (Get Project)
@@ -290,7 +290,7 @@
 
 ### 4.4.1 과제 공고 생성 (Create Assignment)
 
-<img width="1661" height="852" alt="assignment-create-sequence" src="https://github.com/user-attachments/assets/68efebf9-7a7b-4830-b4cb-d1403b438d08" />
+<img width="2035" height="722" alt="assignment-create-sequence" src="https://github.com/user-attachments/assets/ba25cc1a-df60-422f-844e-2cc939f42fa9" />
 
 이 Sequence Diagram은 사용자가 과제 공고를 생성하고 팀이 자동으로 생성되는 과정을 나타낸다.
 
@@ -300,7 +300,7 @@
 
 - 이후 AssignmentRepository의 save() 메서드를 호출하여 저장한다.
 
-- Assignment 생성이 완료되면, Team 엔티티와 TeamMember 엔티티(리더 역할)를 생성하고, TeamService의 save() 메서드를 호출하여 저장한다.
+- Assignment 생성이 완료되면, ApplicationEventPublisher를 통해 SimpleRecruitmentCreatedEvent를 발행한다. TeamEventListener가 이벤트를 수신하여 TeamService의 createByRecruitmentId() 메서드를 호출하여 팀을 생성한다.
 
 - 최종적으로 "과제 공고 생성에 성공했습니다." 메시지와 함께 생성된 assignmentId를 포함한 ApiResponse.ok()가 201 Created 상태로 반환된다.
 
@@ -373,7 +373,7 @@
 
 ### 4.5.1 스터디 공고 생성 (Create Study)
 
-<img width="989" height="487" alt="study-create-sequence" src="https://github.com/user-attachments/assets/e609f858-e164-4798-b7ed-086c65f9caf8" />
+<img width="1816" height="722" alt="study-create-sequence" src="https://github.com/user-attachments/assets/5aca425d-5365-4d5a-b611-a0b9af997b39" />
 
 이 Sequence Diagram은 사용자가 스터디 공고를 생성하는 과정을 나타낸다.
 
@@ -382,6 +382,8 @@
 - StudyServiceImpl은 UserService의 findById() 메서드를 호출하여 사용자 정보를 조회한 후, StudyCreationRequestDto.toEntity() 메서드를 통해 Study 엔티티를 생성한다.
 
 - 이후 StudyRepository의 save() 메서드를 호출하여 저장한다. JOINED 상속 전략을 사용하여 BaseRecruitment와 Study가 별도 테이블에 저장된다.
+
+- Study 생성이 완료되면, ApplicationEventPublisher를 통해 SimpleRecruitmentCreatedEvent를 발행한다. TeamEventListener가 이벤트를 수신하여 TeamService의 createByRecruitmentId() 메서드를 호출하여 팀을 생성한다.
 
 - 최종적으로 "스터디 공고 생성에 성공했습니다." 메시지와 함께 생성된 studyId를 포함한 ApiResponse.ok()가 201 Created 상태로 반환된다.
 
