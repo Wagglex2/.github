@@ -469,7 +469,7 @@
 
 - 검증이 완료되면 Application 엔티티를 생성하고 ApplicationRepository의 save() 메서드를 호출하여 저장한다.
 
-- 지원이 성공적으로 생성되면, NotificationService의 createNotification() 메서드를 호출하여 공고 작성자에게 지원 제출 알림을 발송한다.
+- 지원이 성공적으로 생성되면, ApplicationEventPublisher를 통해 ApplicationProcessedEvent를 발행한다. NotificationEventListener가 이벤트를 수신하여 NotificationService의 createNotification() 메서드를 호출하여 공고 작성자에게 지원 제출 알림을 발송한다.
 
 - 최종적으로 "지원 제출에 성공했습니다." 메시지와 함께 생성된 applicationId를 포함한 ApiResponse.ok()가 201 Created 상태로 반환된다.
 
@@ -507,7 +507,7 @@
 
 - 이후 TeamService의 findByRecruitmentId() 메서드를 호출하여 팀을 조회하고, TeamMember 엔티티를 생성하여 팀에 추가한다.
 
-- 마지막으로 NotificationService의 createNotification() 메서드를 호출하여 지원자에게 수락 알림을 발송한다.
+- 마지막으로 ApplicationEventPublisher를 통해 ApplicationProcessedEvent를 발행한다. NotificationEventListener가 이벤트를 수신하여 NotificationService의 createNotification() 메서드를 호출하여 지원자에게 수락 알림을 발송한다.
 
 - 최종적으로 "지원 수락에 성공했습니다." 메시지를 포함한 ApiResponse.ok()가 반환된다.
 
@@ -524,7 +524,7 @@
 
 - 검증이 완료되면 application.reject() 메서드를 호출하여 지원 상태를 REJECTED로 변경한다.
 
-- 이후 NotificationService의 createNotification() 메서드를 호출하여 지원자에게 거절 알림을 발송한다.
+- 이후 ApplicationEventPublisher를 통해 ApplicationProcessedEvent를 발행한다. NotificationEventListener가 이벤트를 수신하여 NotificationService의 createNotification() 메서드를 호출하여 지원자에게 거절 알림을 발송한다.
 
 - 최종적으로 "지원 거절에 성공했습니다." 메시지를 포함한 ApiResponse.ok()가 반환된다.
 
