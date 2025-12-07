@@ -143,41 +143,41 @@
 
 ### 4.2.5 Username 중복 확인 (Check Username)
 
-<img width="1186" height="565" alt="user-check-username-sequence" src="https://github.com/user-attachments/assets/a2aa5b3e-1496-41b7-8e50-0cf77529f831" />
+<img width="637" height="449" alt="user-check-username-sequence" src="https://github.com/user-attachments/assets/8560a584-2d3b-4642-bce5-910bffe434bc" />
 
 이 Sequence Diagram은 회원가입 시 Username 중복 여부를 확인하는 과정을 나타낸다.
 
-- 사용자가 GET /api/v1/users/check-username?username= 요청을 전송하면, UserController는 UserService의 existsByUsername() 메서드를 호출한다.
+- 사용자가 POST /api/v1/users/username/check 요청을 전송하면, UserController는 UserService의 existsByUsername() 메서드를 호출한다.
+- 
+- UserServiceImpl은 UserRepository의 existsByUsernameAndStatusNot() 메서드를 호출하여 해당 Username이 이미 존재하는지 확인한다.
 
-- UserServiceImpl은 UserRepository의 existsByUsername() 메서드를 호출하여 해당 Username이 이미 존재하는지 확인한다.
-
-- 중복 여부를 boolean 값으로 반환하며, "Username 중복 확인에 성공했습니다." 메시지와 함께 결과를 포함한 ApiResponse.ok()가 반환된다.
+- 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 아이디입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 아이디입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
 ### 4.2.6 Email 중복 확인 (Check Email)
 
-<img width="1028" height="565" alt="user-check-email-sequence" src="https://github.com/user-attachments/assets/89045d3e-0d87-4216-ab04-8d926bf472fa" />
+<img width="939" height="749" alt="user-check-email-sequence" src="https://github.com/user-attachments/assets/e8aa37f4-4851-48da-b30f-930bea4923f8" />
 
 이 Sequence Diagram은 회원가입 시 Email 중복 여부를 확인하는 과정을 나타낸다.
 
-- 사용자가 GET /api/v1/users/check-email?email= 요청을 전송하면, UserController는 UserService의 existsByEmail() 메서드를 호출한다.
+- 사용자가 POST /api/v1/users/email/check 요청을 전송하면, UserController는 UserService의 existsByEmail() 메서드를 호출한다.
 
-- UserServiceImpl은 UserRepository의 existsByEmail() 메서드를 호출하여 해당 Email이 이미 존재하는지 확인한다.
+- UserServiceImpl은 UserRepository의 existsByEmailAndStatusNot() 메서드를 호출하여 해당 Email이 이미 존재하는지 확인한다.
 
-- 중복 여부를 boolean 값으로 반환하며, "Email 중복 확인에 성공했습니다." 메시지와 함께 결과를 포함한 ApiResponse.ok()가 반환된다.
+- 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 이메일입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 이메일입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
 ### 4.2.7 Nickname 중복 확인 (Check Nickname)
 
-<img width="1180" height="565" alt="user-check-nickname-sequence" src="https://github.com/user-attachments/assets/2fc8cf1c-5879-4e2a-9c01-a4efa6921c1d" />
+<img width="1057" height="749" alt="user-check-nickname-sequence" src="https://github.com/user-attachments/assets/a696ab86-ddba-42d9-bba0-87dce85f3b8d" />
 
 이 Sequence Diagram은 프로필 수정 시 Nickname 중복 여부를 확인하는 과정을 나타낸다.
 
-- 사용자가 GET /api/v1/users/check-nickname?nickname= 요청을 전송하면, UserController는 UserService의 existsByNickname() 메서드를 호출한다.
+- 사용자가 POST /api/v1/users/nickname/check 요청을 전송하면, UserController는 UserService의 existsByNickname() 메서드를 호출한다.
 
-- UserServiceImpl은 UserRepository의 existsByNickname() 메서드를 호출하여 해당 Nickname이 이미 존재하는지 확인한다.
+- UserServiceImpl은 UserRepository의 existsByNicknameAndStatusNot() 메서드를 호출하여 해당 Nickname이 이미 존재하는지 확인한다.
 
-- 중복 여부를 boolean 값으로 반환하며, "Nickname 중복 확인에 성공했습니다." 메시지와 함께 결과를 포함한 ApiResponse.ok()가 반환된다.
+- 중복 여부를 boolean 값으로 반환하며, 중복이면 "이미 사용 중인 닉네임입니다." 메시지와 함께 true를, 사용 가능하면 "사용 가능한 닉네임입니다." 메시지와 함께 false를 포함한 APIResponse.ok()가 반환된다.
 
 
 ### 4.2.8 받은 리뷰 목록 조회 (Get Reviews)
