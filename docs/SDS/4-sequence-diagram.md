@@ -8,13 +8,13 @@
 
 ### 4.1.1 회원가입 (Sign Up)
 
-<img width="583" height="451" alt="auth-sign-up-sequence" src="https://github.com/user-attachments/assets/286faaca-6a71-483e-957e-3ac8901b90c7" />
+<img width="471" height="625" alt="sign-up-sequence" src="https://github.com/user-attachments/assets/a275fc9f-a6a3-41e8-922e-ff3208b5c11c" />
 
 이 Sequence Diagram은 사용자가 회원가입을 진행하는 과정을 나타낸다.
 
 - 사용자가 POST /api/v1/auth/sign-up 요청을 전송하면, AuthController는 UserService의 signUp() 메서드를 호출한다.
 
-- UserServiceImpl은 UserRepository의 existsByUsername(), existsByEmail(), existsByNickname() 메서드를 순차적으로 호출하여 아이디, 이메일, 닉네임의 중복 여부를 확인한다. 중복이 발견되면 해당하는 BusinessException을 발생시킨다.
+- UserServiceImpl은 UserRepository의 existsByUsernameAndStatusNot(), existsByEmailAndStatusNot(), existsByNicknameAndStatusNot() 메서드를 순차적으로 호출하여 아이디, 이메일, 닉네임의 중복 여부를 확인한다. 중복이 발견되면 해당하는 BusinessException을 발생시킨다.
 
 - 모든 중복 검사가 통과하면, PasswordEncoder를 통해 비밀번호를 암호화한 후 User 엔티티를 생성하고 UserRepository의 save() 메서드를 호출하여 저장한다.
 
