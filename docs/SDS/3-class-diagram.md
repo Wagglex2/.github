@@ -3193,7 +3193,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 ### 3.4.6 User Profile Process Structure
 
-<img width="4096" height="2055" alt="03-user-profile-flow" src="https://github.com/user-attachments/assets/cae50c6e-d20a-4b94-a7ff-8e622a19505b" />
+<img width="1422" height="627" alt="3 4 6-user-profile-flow" src="https://github.com/user-attachments/assets/bdf32374-f9aa-461e-871b-761d6f6d2159" />
 
 사용자 프로필 관리 기능의 계층 구조를 나타낸다. UserController와 UserService의 의존 관계, 프로필 조회 시 ReviewService와의 연동 구조, 그리고 비밀번호 변경 및 회원 탈퇴 등의 보안 처리 과정을 표현한다.
 
