@@ -3944,7 +3944,7 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 ### 3.4.9 Bookmark Process Structure
 
-<img width="4096" height="1821" alt="03-bookmark-flow" src="https://github.com/user-attachments/assets/080958e1-c8fe-40db-a7c7-32fa795cba25" />
+<img width="721" height="455" alt="3 4 9-bookmark-flow" src="https://github.com/user-attachments/assets/40cf0ca3-7458-428d-ab6e-2c5d0a4cc88b" />
 
 북마크 관리 기능의 계층 구조와 연동 방식을 나타낸다. BookmarkController와 BookmarkService의 의존 관계, ProjectService, AssignmentService, StudyService와의 협력 구조를 통한 카테고리별 북마크 목록 조회 메커니즘을 표현한다.
 
