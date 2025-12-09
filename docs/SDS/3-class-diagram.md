@@ -2918,7 +2918,7 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 
 ### 3.4.5 Team Process Structure
 
-<img width="4096" height="2352" alt="03-team-flow" src="https://github.com/user-attachments/assets/0d62b703-fcc9-45ed-861d-58b77c5967ef" />
+<img width="1677" height="505" alt="3 4 5-team-flow" src="https://github.com/user-attachments/assets/5c5b2c6d-473e-4472-9748-309e21ed1df0" />
 
 팀 및 팀 멤버 관리 기능의 계층 구조를 나타낸다. TeamController와 TeamMemberController의 역할 분리, TeamService와 TeamMemberService 간의 협력 구조, 그리고 Optimistic Locking을 통한 동시성 제어 메커니즘을 표현한다.
 
