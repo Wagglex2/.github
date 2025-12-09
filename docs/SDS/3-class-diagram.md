@@ -2372,7 +2372,7 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 
 ### 3.4.4 Application & Notification Process Structure
 
-<img width="4096" height="2205" alt="03-application-notification-flow" src="https://github.com/user-attachments/assets/f94e6ed7-e241-4181-a66e-10dc793314bb" />
+<img width="1734" height="582" alt="3 4 4-application-notification-flow" src="https://github.com/user-attachments/assets/d2a5dca4-e81b-4251-825b-18661857d48c" />
 
 공고 지원 및 알림 기능의 통합 처리 구조를 나타낸다. ApplicationController와 NotificationService 간의 비동기 연동 방식, 지원 상태 변경에 따른 알림 생성 메커니즘, 그리고 ApplicationService와 NotificationService의 의존 관계를 표현한다.
 
