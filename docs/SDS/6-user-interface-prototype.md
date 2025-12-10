@@ -1,5 +1,3 @@
-<img width="2509" height="1321" alt="스크린샷 2025-12-10 221950" src="https://github.com/user-attachments/assets/befb4fb3-f827-4988-95b5-49f398d0055b" />## 6. User interface prototype
-
 ### 1. 헤더와 네비게이션
 <p align="center">
   <img width="1895" height="213" alt="스크린샷 2025-12-07 030227" src="https://github.com/user-attachments/assets/bc256ca7-873e-4c3f-b82f-3e62c290ff69" />
@@ -133,9 +131,9 @@
 ---
 #### 10.3. 내가 올린 공고
 <p align="center"> 
-  <img width="2505" height="1298" alt="image" src="https://github.com/user-attachments/assets/475dcf5f-a2af-49bf-91eb-5d082c011a25" />
-  <img width="2502" height="1322" alt="스크린샷 2025-12-10 221912" src="https://github.com/user-attachments/assets/2a9c2d62-6509-42ba-b2c8-33a0c8fe1de7" />
-  <img width="2499" height="1324" alt="image" src="https://github.com/user-attachments/assets/e8974f7c-4b8f-4859-922a-b63ebc56dffb" />
+<img width="2531" height="1320" alt="스크린샷 2025-12-10 221756" src="https://github.com/user-attachments/assets/4f797e53-fb56-4b8b-a895-83909b9a31de" />
+<img width="2519" height="1320" alt="스크린샷 2025-12-10 223624" src="https://github.com/user-attachments/assets/85f4457c-53b2-4193-a234-92a9c82cfc1a" />
+<img width="2519" height="1315" alt="스크린샷 2025-12-10 223648" src="https://github.com/user-attachments/assets/0bf25893-ac84-4699-af2f-e8c516d1cbb6" />
 
 </p>
  위 사진들은 내가 올린 공고 화면과 해당 화면에서 지원자를 확인하는 지원서 보기 모달 2종류를 보여준다. 메인 화면인 내가 올린 공고는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 올린 공고가 카드 형태로 나열되고, 각 카드에는 공고 제목과 [수정], [삭제] 버튼이 있다. 카드 우측의 [지원자 보기]를 클릭하면 해당 공고의 지원자 목록이 드롭다운으로 펼쳐진다. 이 목록에는 지원자 닉네임, 지원 날짜, [거절하기], [지원서보기] 버튼이 표시된다.
