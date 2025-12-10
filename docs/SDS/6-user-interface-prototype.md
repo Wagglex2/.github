@@ -124,7 +124,7 @@
 ---
 ### 10.2. 찜한 공고
 <p align="center"> 
- <img width="642" height="604" alt="Image" src="https://github.com/user-attachments/assets/aa0facc6-9e1a-49d0-94c9-0c368b84b49b" />
+ <img width="819" height="713" alt="image" src="https://github.com/user-attachments/assets/d3992f9c-6959-4a8f-9b8f-b3f60fe7cce3" /> <img width="879" height="714" alt="image" src="https://github.com/user-attachments/assets/339b7abf-54e3-42c1-abaa-6682b4f4d9da" /> <img width="829" height="713" alt="image" src="https://github.com/user-attachments/assets/5d5c5726-afb7-4841-a702-ae944bc1c67d" />
 </p>
  위 그림은 사용자가 관심 있는 공고를 모아볼 수 있는 '찜한 공고' 페이지의 화면이다. 이 페이지는 사용자의 ‘마이페이지’ 내에 위치하며, 좌측의 사이드바를 통해 접근할 수 있다. 화면 상단에는 ‘프로젝트’, ‘과제’, ‘스터디’ 탭이 있어, 사용자가 찜한 공고들을 카테고리 별로 나누어 확인할 수 있다. 
  </br></br>
