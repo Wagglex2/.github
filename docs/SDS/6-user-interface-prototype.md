@@ -2,7 +2,7 @@
 
 ### 1. 헤더와 네비게이션
 <p align="center">
-  <img width="640" height="86" alt="Image" src="https://github.com/user-attachments/assets/8c7431bf-b412-4fc5-a91a-9e29e9c03db7" />
+  <img width="1895" height="213" alt="스크린샷 2025-12-07 030227" src="https://github.com/user-attachments/assets/bc256ca7-873e-4c3f-b82f-3e62c290ff69" />
 </p>
 위 그림은 헤더와 네비게이션으로 회원가입 및 로그인 페이지를 제외한 모든 페이지에 공통으로 노출된다. 로고를 클릭하면 메인 페이지로 이동할 수 있으며, 검색바를 통해 원하는 공고를 검색할 수 있다. 우측에 위치한 알림 버튼과 마이페이지 버튼을 통해 각각 관련 페이지로 이동할 수 있으며, 로그아웃 버튼을 통해 로그아웃할 수 있다.
 </br></br>
@@ -11,7 +11,7 @@
 ---
 ### 2. 회원가입
 <p align="center"> 
-  <img width="70%" height="1009" alt="회원가입" src="https://github.com/user-attachments/assets/e723e05b-64ed-42de-a4bd-324ad3b9579d" />
+  <img width="870" height="809" alt="스크린샷 2025-12-07 030350" src="https://github.com/user-attachments/assets/0c0d59f5-bde1-4304-aac4-954fcad0fc78" />
 </p>
 위 그림은 회원가입 화면이다. 중앙에 '와글와글' 로고가 있고 그 아래 회원가입 폼이 위치한다. 사용자는 닉네임을 입력하고 [중복 확인] 버튼을 누른다. 학교 이메일을 입력하고 [인증 번호 받기] 버튼을 누른 뒤 받은 '인증 번호 입력' 칸에 인증 번호를 넣고 [확인] 버튼을 누른다. 마지막으로 비밀번호와 비밀번호 확인 칸을 채운다. 모든 정보 입력 후 [가입하기] 버튼을 누르면 회원가입이 완료되고 [로그인 하기] 링크를 통해 로그인 페이지로 돌아갈 수 있다.
 
@@ -25,7 +25,7 @@
 ---
 ### 4. 로그인
 <p align="center"> 
-  <img width="642" height="351" alt="로그인" src="https://github.com/user-attachments/assets/c78be2e2-2372-497a-87b8-5a3e4398f286" />
+  <img width="1919" height="944" alt="스크린샷 2025-12-07 030003" src="https://github.com/user-attachments/assets/132cd97b-8738-4feb-bac4-52552ea7f731" />
 </p>
  위 그림은 ‘와글와글’ 웹 서비스 실행 시 사용자가 가장 먼저 접하게 되는 로그인 화면이다. 회원가입 시 설정한 아이디와 비밀번호를 입력한 후, ‘로그인 하기’ 버튼을 클릭하면 로그인되어 메인 화면으로 이동한다. 아직 계정이 없는 사용자는 하단의 ‘회원가입’ 버튼을 클릭하여 회원가입 페이지로 이동할 수 있다.
 
@@ -62,7 +62,7 @@
 ### 7. 공고 내역 조회
 #### 7.1. 프로젝트 공고 내역 조회
 <p align="center"> 
-  <img width="619" height="593" alt="Image" src="https://github.com/user-attachments/assets/e028aace-1e69-4ffd-a5b6-8d6d305b1a3c" />
+  <img width="915" height="785" alt="image" src="https://github.com/user-attachments/assets/abbd3418-53b1-4580-9379-00f195eb7388" /> <img width="878" height="776" alt="image" src="https://github.com/user-attachments/assets/621574cf-f2d2-4e39-84f9-b4f46a6826ea" /> <img width="877" height="780" alt="image" src="https://github.com/user-attachments/assets/66cb069b-7b5f-4108-8b53-4a8db9da2a24" />
 </p>
  위 그림은 사용자가 ‘프로젝트’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 프로젝트 목적, 진행 방식, 공고 마감일, 공고 제목, 모집 포지션 및 사용 기술, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -72,7 +72,7 @@
 
 #### 7.2. 과제 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="615" alt="Image" src="https://github.com/user-attachments/assets/935f07f4-759e-4c01-bac7-c0ceed2b1ef5" />
+  <img width="873" height="777" alt="image" src="https://github.com/user-attachments/assets/fd7536e2-f17a-4933-b0cb-dd10b131041c" /> <img width="901" height="772" alt="image" src="https://github.com/user-attachments/assets/ffe12c36-94f0-4123-b404-385acdcd0230" /><img width="892" height="783" alt="image" src="https://github.com/user-attachments/assets/362cc06e-db1b-4e84-b66b-79b62257b8fd" />
 </p>
  위 그림은 사용자가 ‘과제’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘과제’), 소속 학과, 공고 마감일, 공고 제목, 과목명 및 수강번호, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -81,7 +81,7 @@
 
 #### 7.3. 스터디 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="618" alt="Image" src="https://github.com/user-attachments/assets/c4eff99d-0b97-43a9-a797-4337e0b6d42a" />
+  <img width="929" height="769" alt="image" src="https://github.com/user-attachments/assets/775e3585-8667-4602-981f-55eb6213bd5c" /> <img width="946" height="791" alt="image" src="https://github.com/user-attachments/assets/06857f85-6ae5-457d-a685-1ad4e5545bad" /> <img width="883" height="766" alt="image" src="https://github.com/user-attachments/assets/d63ab827-1b77-498b-926a-cefd2c180327" />
 </p>
  위 그림은 사용자가 ‘스터디’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘스터디’), 공고 마감일, 공고 제목, 스터디할 기술 스택, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -124,7 +124,7 @@
 ---
 ### 10.2. 찜한 공고
 <p align="center"> 
- <img width="642" height="604" alt="Image" src="https://github.com/user-attachments/assets/aa0facc6-9e1a-49d0-94c9-0c368b84b49b" />
+ <img width="819" height="713" alt="image" src="https://github.com/user-attachments/assets/d3992f9c-6959-4a8f-9b8f-b3f60fe7cce3" /> <img width="879" height="714" alt="image" src="https://github.com/user-attachments/assets/339b7abf-54e3-42c1-abaa-6682b4f4d9da" /> <img width="829" height="713" alt="image" src="https://github.com/user-attachments/assets/5d5c5726-afb7-4841-a702-ae944bc1c67d" />
 </p>
  위 그림은 사용자가 관심 있는 공고를 모아볼 수 있는 '찜한 공고' 페이지의 화면이다. 이 페이지는 사용자의 ‘마이페이지’ 내에 위치하며, 좌측의 사이드바를 통해 접근할 수 있다. 화면 상단에는 ‘프로젝트’, ‘과제’, ‘스터디’ 탭이 있어, 사용자가 찜한 공고들을 카테고리 별로 나누어 확인할 수 있다. 
  </br></br>
@@ -172,7 +172,7 @@
 ---
 ### 11. 검색 결과 조회
 <p align="center"> 
-  <img width="642" height="625" alt="Image" src="https://github.com/user-attachments/assets/8f3bb92e-1420-4e6d-b6df-7e86060d91e7" />
+  <img width="888" height="854" alt="image" src="https://github.com/user-attachments/assets/48de2f9c-db90-4711-8fd0-c067537bd881" />
 </p>
- 위 그림은 헤더의 검색창을 통해 검색을 실행한 결과를 보여주는 화면이다. 사용자가 헤더에 위치한 검색창에서 카테고리(프로젝트, 과제, 스터디)를 먼저 선택한 후, 검색어를 입력하면 그에 맞는 검색 결과가 표시된다. 검색 결과로 나열되는 공고 카드들의 형식과 상세 필터링 기능은 각 카테고리의 공고 내역 조회 페이지와 동일한 인터페이스를 제공한다.
+ 위 그림은 헤더의 검색창을 통해 검색을 실행한 결과를 보여주는 화면이다. 사용자가 헤더에 위치한 검색창에서 카테고리(프로젝트, 과제, 스터디)를 먼저 선택한 후, 검색어를 입력하면 검색이 실행된다. 제목과 본문의 내용에 대해 동일한 검색어가 존재하는지 확인 후 검색 결과를 표시한다. 검색 결과로 나열되는 공고 카드들의 형식과 상세 필터링 기능은 각 카테고리의 공고 내역 조회 페이지와 동일한 인터페이스를 제공한다.
 
