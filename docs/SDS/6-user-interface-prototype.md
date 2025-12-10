@@ -62,7 +62,7 @@
 ### 7. 공고 내역 조회
 #### 7.1. 프로젝트 공고 내역 조회
 <p align="center"> 
-  <img width="619" height="593" alt="Image" src="https://github.com/user-attachments/assets/e028aace-1e69-4ffd-a5b6-8d6d305b1a3c" />
+  <img width="915" height="785" alt="image" src="https://github.com/user-attachments/assets/abbd3418-53b1-4580-9379-00f195eb7388" /> <img width="878" height="776" alt="image" src="https://github.com/user-attachments/assets/621574cf-f2d2-4e39-84f9-b4f46a6826ea" /> <img width="877" height="780" alt="image" src="https://github.com/user-attachments/assets/66cb069b-7b5f-4108-8b53-4a8db9da2a24" />
 </p>
  위 그림은 사용자가 ‘프로젝트’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 프로젝트 목적, 진행 방식, 공고 마감일, 공고 제목, 모집 포지션 및 사용 기술, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -72,7 +72,7 @@
 
 #### 7.2. 과제 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="615" alt="Image" src="https://github.com/user-attachments/assets/935f07f4-759e-4c01-bac7-c0ceed2b1ef5" />
+  <img width="873" height="777" alt="image" src="https://github.com/user-attachments/assets/fd7536e2-f17a-4933-b0cb-dd10b131041c" /> <img width="901" height="772" alt="image" src="https://github.com/user-attachments/assets/ffe12c36-94f0-4123-b404-385acdcd0230" /><img width="892" height="783" alt="image" src="https://github.com/user-attachments/assets/362cc06e-db1b-4e84-b66b-79b62257b8fd" />
 </p>
  위 그림은 사용자가 ‘과제’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘과제’), 소속 학과, 공고 마감일, 공고 제목, 과목명 및 수강번호, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
