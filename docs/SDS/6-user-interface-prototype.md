@@ -81,7 +81,7 @@
 
 #### 7.3. 스터디 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="618" alt="Image" src="https://github.com/user-attachments/assets/c4eff99d-0b97-43a9-a797-4337e0b6d42a" />
+  <img width="929" height="769" alt="image" src="https://github.com/user-attachments/assets/775e3585-8667-4602-981f-55eb6213bd5c" /> <img width="946" height="791" alt="image" src="https://github.com/user-attachments/assets/06857f85-6ae5-457d-a685-1ad4e5545bad" /> <img width="883" height="766" alt="image" src="https://github.com/user-attachments/assets/d63ab827-1b77-498b-926a-cefd2c180327" />
 </p>
  위 그림은 사용자가 ‘스터디’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘스터디’), 공고 마감일, 공고 제목, 스터디할 기술 스택, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
