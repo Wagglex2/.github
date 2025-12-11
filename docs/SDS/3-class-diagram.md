@@ -2918,7 +2918,7 @@ QueryDSL을 활용한 Notification 데이터 접근 계층 인터페이스로, �
 
 ### 3.4.5 Team Process Structure
 
-<img width="4096" height="2352" alt="03-team-flow" src="https://github.com/user-attachments/assets/0d62b703-fcc9-45ed-861d-58b77c5967ef" />
+<img width="1677" height="505" alt="3 4 5-team-flow" src="https://github.com/user-attachments/assets/5c5b2c6d-473e-4472-9748-309e21ed1df0" />
 
 팀 및 팀 멤버 관리 기능의 계층 구조를 나타낸다. TeamController와 TeamMemberController의 역할 분리, TeamService와 TeamMemberService 간의 협력 구조, 그리고 Optimistic Locking을 통한 동시성 제어 메커니즘을 표현한다.
 
@@ -3193,7 +3193,7 @@ Spring Data JPA의 JpaRepository를 상속받아 기본 CRUD 기능을 제공한
 
 ### 3.4.6 User Profile Process Structure
 
-<img width="4096" height="2055" alt="03-user-profile-flow" src="https://github.com/user-attachments/assets/cae50c6e-d20a-4b94-a7ff-8e622a19505b" />
+<img width="1422" height="627" alt="3 4 6-user-profile-flow" src="https://github.com/user-attachments/assets/bdf32374-f9aa-461e-871b-761d6f6d2159" />
 
 사용자 프로필 관리 기능의 계층 구조를 나타낸다. UserController와 UserService의 의존 관계, 프로필 조회 시 ReviewService와의 연동 구조, 그리고 비밀번호 변경 및 회원 탈퇴 등의 보안 처리 과정을 표현한다.
 
@@ -3944,7 +3944,7 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 
 ### 3.4.9 Bookmark Process Structure
 
-<img width="4096" height="1821" alt="03-bookmark-flow" src="https://github.com/user-attachments/assets/080958e1-c8fe-40db-a7c7-32fa795cba25" />
+<img width="721" height="455" alt="3 4 9-bookmark-flow" src="https://github.com/user-attachments/assets/40cf0ca3-7458-428d-ab6e-2c5d0a4cc88b" />
 
 북마크 관리 기능의 계층 구조와 연동 방식을 나타낸다. BookmarkController와 BookmarkService의 의존 관계, ProjectService, AssignmentService, StudyService와의 협력 구조를 통한 카테고리별 북마크 목록 조회 메커니즘을 표현한다.
 

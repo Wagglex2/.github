@@ -1,8 +1,6 @@
-## 6. User interface prototype
-
 ### 1. 헤더와 네비게이션
 <p align="center">
-  <img width="640" height="86" alt="Image" src="https://github.com/user-attachments/assets/8c7431bf-b412-4fc5-a91a-9e29e9c03db7" />
+  <img width="1895" height="213" alt="스크린샷 2025-12-07 030227" src="https://github.com/user-attachments/assets/bc256ca7-873e-4c3f-b82f-3e62c290ff69" />
 </p>
 위 그림은 헤더와 네비게이션으로 회원가입 및 로그인 페이지를 제외한 모든 페이지에 공통으로 노출된다. 로고를 클릭하면 메인 페이지로 이동할 수 있으며, 검색바를 통해 원하는 공고를 검색할 수 있다. 우측에 위치한 알림 버튼과 마이페이지 버튼을 통해 각각 관련 페이지로 이동할 수 있으며, 로그아웃 버튼을 통해 로그아웃할 수 있다.
 </br></br>
@@ -11,7 +9,7 @@
 ---
 ### 2. 회원가입
 <p align="center"> 
-  <img width="70%" height="1009" alt="회원가입" src="https://github.com/user-attachments/assets/e723e05b-64ed-42de-a4bd-324ad3b9579d" />
+  <img width="870" height="809" alt="스크린샷 2025-12-07 030350" src="https://github.com/user-attachments/assets/0c0d59f5-bde1-4304-aac4-954fcad0fc78" />
 </p>
 위 그림은 회원가입 화면이다. 중앙에 '와글와글' 로고가 있고 그 아래 회원가입 폼이 위치한다. 사용자는 닉네임을 입력하고 [중복 확인] 버튼을 누른다. 학교 이메일을 입력하고 [인증 번호 받기] 버튼을 누른 뒤 받은 '인증 번호 입력' 칸에 인증 번호를 넣고 [확인] 버튼을 누른다. 마지막으로 비밀번호와 비밀번호 확인 칸을 채운다. 모든 정보 입력 후 [가입하기] 버튼을 누르면 회원가입이 완료되고 [로그인 하기] 링크를 통해 로그인 페이지로 돌아갈 수 있다.
 
@@ -25,7 +23,7 @@
 ---
 ### 4. 로그인
 <p align="center"> 
-  <img width="642" height="351" alt="로그인" src="https://github.com/user-attachments/assets/c78be2e2-2372-497a-87b8-5a3e4398f286" />
+  <img width="1919" height="944" alt="스크린샷 2025-12-07 030003" src="https://github.com/user-attachments/assets/132cd97b-8738-4feb-bac4-52552ea7f731" />
 </p>
  위 그림은 ‘와글와글’ 웹 서비스 실행 시 사용자가 가장 먼저 접하게 되는 로그인 화면이다. 회원가입 시 설정한 아이디와 비밀번호를 입력한 후, ‘로그인 하기’ 버튼을 클릭하면 로그인되어 메인 화면으로 이동한다. 아직 계정이 없는 사용자는 하단의 ‘회원가입’ 버튼을 클릭하여 회원가입 페이지로 이동할 수 있다.
 
@@ -62,7 +60,7 @@
 ### 7. 공고 내역 조회
 #### 7.1. 프로젝트 공고 내역 조회
 <p align="center"> 
-  <img width="619" height="593" alt="Image" src="https://github.com/user-attachments/assets/e028aace-1e69-4ffd-a5b6-8d6d305b1a3c" />
+  <img width="915" height="785" alt="image" src="https://github.com/user-attachments/assets/abbd3418-53b1-4580-9379-00f195eb7388" /> <img width="878" height="776" alt="image" src="https://github.com/user-attachments/assets/621574cf-f2d2-4e39-84f9-b4f46a6826ea" /> <img width="877" height="780" alt="image" src="https://github.com/user-attachments/assets/66cb069b-7b5f-4108-8b53-4a8db9da2a24" />
 </p>
  위 그림은 사용자가 ‘프로젝트’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 프로젝트 목적, 진행 방식, 공고 마감일, 공고 제목, 모집 포지션 및 사용 기술, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -72,7 +70,7 @@
 
 #### 7.2. 과제 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="615" alt="Image" src="https://github.com/user-attachments/assets/935f07f4-759e-4c01-bac7-c0ceed2b1ef5" />
+  <img width="873" height="777" alt="image" src="https://github.com/user-attachments/assets/fd7536e2-f17a-4933-b0cb-dd10b131041c" /> <img width="901" height="772" alt="image" src="https://github.com/user-attachments/assets/ffe12c36-94f0-4123-b404-385acdcd0230" /><img width="892" height="783" alt="image" src="https://github.com/user-attachments/assets/362cc06e-db1b-4e84-b66b-79b62257b8fd" />
 </p>
  위 그림은 사용자가 ‘과제’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘과제’), 소속 학과, 공고 마감일, 공고 제목, 과목명 및 수강번호, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -81,7 +79,7 @@
 
 #### 7.3. 스터디 공고 내역 조회
 <p align="center"> 
-  <img width="642" height="618" alt="Image" src="https://github.com/user-attachments/assets/c4eff99d-0b97-43a9-a797-4337e0b6d42a" />
+  <img width="929" height="769" alt="image" src="https://github.com/user-attachments/assets/775e3585-8667-4602-981f-55eb6213bd5c" /> <img width="946" height="791" alt="image" src="https://github.com/user-attachments/assets/06857f85-6ae5-457d-a685-1ad4e5545bad" /> <img width="883" height="766" alt="image" src="https://github.com/user-attachments/assets/d63ab827-1b77-498b-926a-cefd2c180327" />
 </p>
  위 그림은 사용자가 ‘스터디’ 카테고리에 해당하는 공고 목록을 조회하는 화면이다. 각 공고는 카드 형태로 표시되며, 각 카드에는 카테고리(‘스터디’), 공고 마감일, 공고 제목, 스터디할 기술 스택, 작성자 닉네임 및 프로필 아이콘, 찜하기 버튼이 포함된다. 사용자는 이 찜하기 버튼을 통해 관심 있는 공고를 찜할 수 있다.
  </br></br>
@@ -124,7 +122,7 @@
 ---
 ### 10.2. 찜한 공고
 <p align="center"> 
- <img width="642" height="604" alt="Image" src="https://github.com/user-attachments/assets/aa0facc6-9e1a-49d0-94c9-0c368b84b49b" />
+ <img width="819" height="713" alt="image" src="https://github.com/user-attachments/assets/d3992f9c-6959-4a8f-9b8f-b3f60fe7cce3" /> <img width="879" height="714" alt="image" src="https://github.com/user-attachments/assets/339b7abf-54e3-42c1-abaa-6682b4f4d9da" /> <img width="829" height="713" alt="image" src="https://github.com/user-attachments/assets/5d5c5726-afb7-4841-a702-ae944bc1c67d" />
 </p>
  위 그림은 사용자가 관심 있는 공고를 모아볼 수 있는 '찜한 공고' 페이지의 화면이다. 이 페이지는 사용자의 ‘마이페이지’ 내에 위치하며, 좌측의 사이드바를 통해 접근할 수 있다. 화면 상단에는 ‘프로젝트’, ‘과제’, ‘스터디’ 탭이 있어, 사용자가 찜한 공고들을 카테고리 별로 나누어 확인할 수 있다. 
  </br></br>
@@ -133,9 +131,10 @@
 ---
 #### 10.3. 내가 올린 공고
 <p align="center"> 
-  <img width="70%" height="1021" alt="내 공고 보기" src="https://github.com/user-attachments/assets/8e87fd89-037e-4742-877c-7ed87c2d738f" />
-  <img width="70%" height="1016" alt="내 공고 보기_프로젝트 지원서" src="https://github.com/user-attachments/assets/fb126bf3-b621-441f-b6c5-5752988e919e" />
-  <img width="70%" height="1020" alt="내 공고 보기_과제 스터디 지원서" src="https://github.com/user-attachments/assets/3a42972d-3ad9-42d1-b6b6-4deb5aaa106c" />
+<img width="2531" height="1320" alt="스크린샷 2025-12-10 221756" src="https://github.com/user-attachments/assets/4f797e53-fb56-4b8b-a895-83909b9a31de" />
+<img width="2519" height="1320" alt="스크린샷 2025-12-10 223624" src="https://github.com/user-attachments/assets/85f4457c-53b2-4193-a234-92a9c82cfc1a" />
+<img width="2519" height="1315" alt="스크린샷 2025-12-10 223648" src="https://github.com/user-attachments/assets/0bf25893-ac84-4699-af2f-e8c516d1cbb6" />
+
 </p>
  위 사진들은 내가 올린 공고 화면과 해당 화면에서 지원자를 확인하는 지원서 보기 모달 2종류를 보여준다. 메인 화면인 내가 올린 공고는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 올린 공고가 카드 형태로 나열되고, 각 카드에는 공고 제목과 [수정], [삭제] 버튼이 있다. 카드 우측의 [지원자 보기]를 클릭하면 해당 공고의 지원자 목록이 드롭다운으로 펼쳐진다. 이 목록에는 지원자 닉네임, 지원 날짜, [거절하기], [지원서보기] 버튼이 표시된다.
 </br></br>
@@ -144,9 +143,9 @@
 ---
 #### 10.4. 내가 지원한 공고
 <p align="center"> 
-  <img width="70%" height="933" alt="내 지원 보기" src="https://github.com/user-attachments/assets/8ad4ebee-456f-40fc-bbfc-1d5dd80277a0" />
-  <img width="70%" height="935" alt="내 지원 보기_지원서 모달" src="https://github.com/user-attachments/assets/9d2a6acf-7b93-4899-9500-122ea49d19d7" />
-</p>
+  <img width="2516" height="1288" alt="스크린샷 2025-12-10 221859" src="https://github.com/user-attachments/assets/e89f4d1b-2816-4149-bc6f-d1977c93c261" />
+  <img width="2502" height="1322" alt="스크린샷 2025-12-10 221912" src="https://github.com/user-attachments/assets/1ffa95b1-ce5b-47a6-bd68-8f0e6f1aefbd" />
+
  위 그림들은 '내가 지원한 공고' 메인 화면과 해당 화면에서 내가 제출한 지원서 내용을 확인하는 '지원서 모달'을 보여준다. 메인 화면인 내가 지원한 공고는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 지원한 공고의 목록이 나열되며 'No.', '공고제목', '마감일', '지원상태' 열을 통해 지원 현황을 한눈에 볼 수 있다. 공고 제목을 클릭하면 해당 공고 페이지로 넘어가고 '지원상태'에는 "대기중", "거절됨", "수락됨", "모집취소", "모집종료" 등이 태그로 표시된다.
 </br></br>
  사용자는 '지원서보기' 열의 '지원서' 버튼을 클릭하여 내가 제출한 지원서 내용을 확인할 수 있다. 버튼을 클릭하면 지원서 확인 모달이 나타난다. 이 모달은 사용자가 자신이 제출했던 내용을 읽기 전용으로 확인하는 창으로 '가능한 진행방식', '학년', '지원 포지션', '기술 스택', '상세' 등의 항목이 표시된다. 
@@ -154,10 +153,10 @@
 ---
 #### 10.5. 내 팀 관리
 <p align="center"> 
-  <img width="70%" height="1027" alt="내 팀 보기_리더" src="https://github.com/user-attachments/assets/60560861-1d7a-494f-a268-28c3e5505d38" />
-  <img width="70%" height="1023" alt="내 팀 보기_팀원" src="https://github.com/user-attachments/assets/33e84392-e040-4576-97aa-c599b52d90c1" />
-  <img width="70%" height="1018" alt="리뷰쓰기 모달" src="https://github.com/user-attachments/assets/9d441fec-7041-4adf-bbbe-2544248e8b0d" />
-</p>
+  <img width="2509" height="1321" alt="스크린샷 2025-12-10 221950" src="https://github.com/user-attachments/assets/0208ded2-433d-4d18-b62d-2ae2652e1552" />
+  <img width="2505" height="1298" alt="스크린샷 2025-12-10 222058" src="https://github.com/user-attachments/assets/8b17a7cb-88ad-4841-82ae-ae4d1be3a9f8" />
+  <img width="2529" height="1291" alt="image" src="https://github.com/user-attachments/assets/19a1544a-c023-499a-bba4-38179ab0aa30" />
+
 위 그림들은 '내 팀 관리' 화면과, 그 화면에서 실행되는 리뷰쓰기 모달을 보여준다. 메인 화면인 '내 팀 관리'는 '프로젝트', '과제', '스터디' 탭으로 구분되어 있다. 사용자가 속한 팀 목록이 카드 형태로 나열되며 각 팀 카드를 클릭하면 팀원 목록이 드롭다운으로 펼쳐진다. 이 목록에는 팀원의 닉네임, 역할(리더/멤버), 포지션이 표시된다.
 </br></br>
 이 화면은 사용자의 권한에 따라 리더 뷰와 팀원 뷰로 나뉜다. 리더 뷰는 사용자가 팀의 리더일 경우에 다른 팀원 항목 옆에 [삭제하기] 버튼과 [리뷰쓰기] 버튼이 모두 표시된다. 팀원 뷰는 사용자가 일반 팀원일 경우에 [삭제하기] 버튼 없이 [리뷰쓰기] 버튼만 표시된다. 두 뷰에서 공통적으로 [리뷰쓰기] 버튼을 클릭하면 '리뷰쓰기 모달'이 나타난다. 이 모달은 '리뷰쓰기'라는 제목과 함께 평가받는 팀원의 닉네임이 표시되고 텍스트 입력창이 제공된다. 사용자는 내용을 작성한 후 [저장하기] 버튼을 눌러 리뷰를 저장할 수 있다.
@@ -172,7 +171,7 @@
 ---
 ### 11. 검색 결과 조회
 <p align="center"> 
-  <img width="642" height="625" alt="Image" src="https://github.com/user-attachments/assets/8f3bb92e-1420-4e6d-b6df-7e86060d91e7" />
+  <img width="888" height="854" alt="image" src="https://github.com/user-attachments/assets/48de2f9c-db90-4711-8fd0-c067537bd881" />
 </p>
- 위 그림은 헤더의 검색창을 통해 검색을 실행한 결과를 보여주는 화면이다. 사용자가 헤더에 위치한 검색창에서 카테고리(프로젝트, 과제, 스터디)를 먼저 선택한 후, 검색어를 입력하면 그에 맞는 검색 결과가 표시된다. 검색 결과로 나열되는 공고 카드들의 형식과 상세 필터링 기능은 각 카테고리의 공고 내역 조회 페이지와 동일한 인터페이스를 제공한다.
+ 위 그림은 헤더의 검색창을 통해 검색을 실행한 결과를 보여주는 화면이다. 사용자가 헤더에 위치한 검색창에서 카테고리(프로젝트, 과제, 스터디)를 먼저 선택한 후, 검색어를 입력하면 검색이 실행된다. 제목과 본문의 내용에 대해 동일한 검색어가 존재하는지 확인 후 검색 결과를 표시한다. 검색 결과로 나열되는 공고 카드들의 형식과 상세 필터링 기능은 각 카테고리의 공고 내역 조회 페이지와 동일한 인터페이스를 제공한다.
 
