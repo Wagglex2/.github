@@ -30,7 +30,7 @@
 ---
 ### 5. 메인
 <p align="center">
-  <img width="640" height="398" alt="Image" src="https://github.com/user-attachments/assets/5e48b25e-8b0d-4e22-8835-1094141f41f7" /> 
+  <img width="1100" height="441" alt="Image" src="https://github.com/user-attachments/assets/3edb598d-d2e8-4a27-9d40-66f0377c85dd" />
 </p>
 위 그림은 메인 페이지이다. 로그인 후 가장 먼저 노출되는 페이지로 ‘오늘의 공고’가 무작위로 표시되며, 사용자는 목적과 포지션 필터를 이용해 원하는 유형의 공고만 필터링하여 볼 수 있다.
 
@@ -40,19 +40,19 @@
 <br>
 #### 6.1. 프로젝트 공고 등록
 <p align="center">
-  <img width="640" height="836" alt="Image" src="https://github.com/user-attachments/assets/7ae7b71a-f8bf-4c44-9dc5-4748d010895a" />
+  <img width="640" height="900" alt="Image" src="https://github.com/user-attachments/assets/265e6ca4-81b1-4921-8038-276561d5e1f7" />
 </p>
 프로젝트 공고 작성 페이지에서는 목적(공모전, 해커톤, 사이드프로젝트, 토이프로젝트)과 공고 제목, 마감일, 프로젝트 진행 기간, 진행 방식, 우대 학년, 모집 포지션, 기술 스택, 상세 설명을 입력해 공고를 등록할 수 있으며 모든 값을 입력해야만 등록하기 버튼이 활성화되어 노란색으로 변한다. 입력현황 정보는 화면 오른쪽의 '입력 현황' 박스를 통해 확인할 수 있다.
 
 #### 6.2. 과제 공고 등록
 <p align="center">
-  <img width="640" height="817" alt="Image" src="https://github.com/user-attachments/assets/a491f2bb-8bb7-40ad-8219-d2d12e172b90" />
+  <img width="640" height="897" alt="Image" src="https://github.com/user-attachments/assets/adf7487c-0d08-4883-8cd9-95cca6a7b512" />
 </p>
 과제 공고 작성 페이지에서는 공고 제목, 마감일, 학과, 과목 코드, 대상 학년, 모집 포지션, 상세 설명을 입력하여 공고를 등록할 수 있고, 역시 모든 필드를 입력해야 등록이 가능하다. 입력현황 정보는 화면 오른쪽의 '입력 현황' 박스를 통해 확인할 수 있다.
 
 #### 6.3. 스터디 공고 등록
 <p align="center">
-<img width="640" height="781" alt="Image" src="https://github.com/user-attachments/assets/523d0bae-1717-4d23-adfa-66f3d95be2af" />  
+<img width="640" height="861" alt="Image" src="https://github.com/user-attachments/assets/7553bc39-09aa-4640-9433-8f2c7121b359" />
 </p>
 스터디 공고 작성 페이지에서는 공고 제목, 마감일, 스터디 진행 기간, 모집 포지션, 공부할 기술, 상세 설명을 입력하여 공고를 등록하게 되며, 모든 필드가 입력되어야 등록할 수 있다. 입력현황 정보는 화면 오른쪽의 '입력 현황' 박스를 통해 확인할 수 있다.
 
@@ -88,20 +88,20 @@
 ---
 ### 8. 공고 상세
 <p align="center">
-  <img width="640" height="666" alt="Image" src="https://github.com/user-attachments/assets/977b86e5-15e1-489f-be1c-68206d9ab8d4" />
+  <img width="640" height="783" alt="Image" src="https://github.com/user-attachments/assets/0d1e4460-d7d3-4ee5-9042-4ab7ca70c310" />
 </p>
 <p align="center">
-<img width="640" height="460" alt="Image" src="https://github.com/user-attachments/assets/43474d04-307c-4d89-be23-6f5ac10ea7d5" />
+<img width="670" height="895" alt="Image" src="https://github.com/user-attachments/assets/6ee2b327-327a-4fe5-bb8d-2b8bb14d0e18" />
 </p>
 <p align="center">
-  <img width="640" height="447" alt="Image" src="https://github.com/user-attachments/assets/a29fbe36-d096-48d1-b713-63175f940374" />
+  <img width="670" height="878" alt="Image" src="https://github.com/user-attachments/assets/34ebb617-cbed-4e5d-85a6-71b6b0140d1c" />
 </p>
-위 그림들은 공고 상세 페이지로 공고 내역 조회 페이지에서 공고 카드를 선택하면 이 페이지로 이동할 수 있다. 공고 상세 페이지에서는 공고 기본 정보와 상세 내용을 확인할 수 있으며, 실시간 모집현황이 표시된다. 사용자는 좌측 상단의 게시자 프로필을 클릭하여 게시자의 정보를 확인할 수 있고, 목록보기 버튼을 눌러 공고 내역 조회 페이지로 돌아갈 수 있다. 우측 상단에서는 조회수를 확인하거나 찜 기능을 이용할 수 있다. 또한 상세 페이지에서 바로 지원서를 작성해 공고 게시자에게 제출할 수 있다.
+위 그림들은 각각 프로젝트, 과제, 스터디 공고 상세 페이지로 공고 내역 조회 페이지에서 공고 카드를 선택하면 이 페이지로 이동할 수 있다. 공고 상세 페이지에서는 공고 기본 정보와 상세 내용을 확인할 수 있으며, 실시간 모집현황이 표시된다. 사용자는 좌측 상단의 게시자 프로필을 클릭하여 게시자의 정보를 확인할 수 있고, 목록보기 버튼을 눌러 공고 내역 조회 페이지로 돌아갈 수 있다. 우측 상단에서는 조회수를 확인하거나 찜 기능을 이용할 수 있다. 또한 상세 페이지에서 바로 지원서를 작성해 공고 게시자에게 제출할 수 있다.
 
 ---
 ### 9. 알림
 <p align="center">
-  <img width="640" height="458" alt="Image" src="https://github.com/user-attachments/assets/6251525d-89ff-4001-8454-5e0781b1d328" />
+  <img width="640" height="848" alt="Image" src="https://github.com/user-attachments/assets/a9633a1c-8edd-4513-a96d-142c8f5348f2" />
 </p>
 위 그림은 알림 페이지로, 서비스 우측 상단의 알림 버튼을 통해 이동할 수 있다. 알림 카드는 읽지 않은 상태일 경우 노란색, 읽은 상태일 경우 흰색으로 표시된다. 페이지 상단 탭을 이용해 특정 카테고리만 필터링하여 볼 수 있으며, 각 알림은 카드 우측의 X 버튼으로 개별 삭제할 수 있다. 페이지 우측 상단에 위치한 ‘전체 삭제’ 버튼을 사용하면 현재 선택된 카테고리에 포함된 알림을 일괄 삭제할 수 있다.
 
@@ -109,13 +109,13 @@
 ### 10. 마이페이지
 #### 10.1. 프로필
 <p align="center">
-  <img width="640" height="597" alt="Image" src="https://github.com/user-attachments/assets/494e3a06-b460-4ec4-8378-5adf814b3c06" />
+  <img width="640" height="725" alt="Image" src="https://github.com/user-attachments/assets/1771ea6e-5d51-40d6-b555-cce55c10713f" />
 </p>
 위 그림은 프로필 페이지로 회원가입 시 입력했던 기본 정보를 확인하고, 수정할 수 있다. 또한 함께 활동했던 팀원들이 남긴 리뷰를 확인할 수 있다
 
 #### 10.1.1. 비밀번호 수정
 <p align="center">
-  <img width="640" height="599" alt="Image" src="https://github.com/user-attachments/assets/77e5ff09-1973-4659-9af9-dd0c899f1810" />
+  <img width="600" height="601" alt="Image" src="https://github.com/user-attachments/assets/764f6636-fa96-4bb3-a073-8ca133d9413f" />
 </p>
 프로필 페이지의 ‘비밀번호 변경하기’ 버튼을 누르면 비밀번호 변경 페이지로 이동한다. 현재 비밀번호와 새 비밀번호, 그리고 새 비밀번호 확인 값을 입력하여 비밀번호를 변경할 수 있으며, 새 비밀번호와 현재 비밀번호가 동일하거나 새 비밀번호와 확인 값이 일치하지 않는 경우 경고 메시지가 표시된다.
 
@@ -164,7 +164,7 @@
 ---
 #### 10.6. 마이페이지 사이드바
 <p align="center">
-  <img width="50%" height="653" alt="Image" src="https://github.com/user-attachments/assets/c3754ff8-bb78-4179-b6d4-e04e72b97035" />
+  <img width="342" height="910" alt="Image" src="https://github.com/user-attachments/assets/dc5ca63e-e7db-4db5-8d77-38db2670c089" />
 </p>
 위 그림은 마이페이지 사이드바로, 마이페이지 내의 페이지를 이동할 수 있는 네비게이션 역할을 한다. 사이드바에 메뉴인 프로필, 찜한 공고, 내가 올린 공고, 내가 지원한 공고, 내 팀 관리 탭을 선택하여 해당 페이지로 이동할 수 있다.
 
