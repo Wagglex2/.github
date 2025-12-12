@@ -9,14 +9,14 @@
 ---
 ### 2. 회원가입
 <p align="center"> 
-  <img width="870" height="809" alt="스크린샷 2025-12-07 030350" src="https://github.com/user-attachments/assets/0c0d59f5-bde1-4304-aac4-954fcad0fc78" />
+  <img width="870" height="640" alt="스크린샷 2025-12-07 030350" src="https://github.com/user-attachments/assets/0c0d59f5-bde1-4304-aac4-954fcad0fc78" />
 </p>
 위 그림은 회원가입 화면이다. 중앙에 '와글와글' 로고가 있고 그 아래 회원가입 폼이 위치한다. 사용자는 닉네임을 입력하고 [중복 확인] 버튼을 누른다. 학교 이메일을 입력하고 [인증 번호 받기] 버튼을 누른 뒤 받은 '인증 번호 입력' 칸에 인증 번호를 넣고 [확인] 버튼을 누른다. 마지막으로 비밀번호와 비밀번호 확인 칸을 채운다. 모든 정보 입력 후 [가입하기] 버튼을 누르면 회원가입이 완료되고 [로그인 하기] 링크를 통해 로그인 페이지로 돌아갈 수 있다.
 
 ---
 ### 3. 기본 정보 입력
 <p align="center"> 
-  <img width="70%" height="984" alt="기본 정보 입력" src="https://github.com/user-attachments/assets/677ffd65-f8f8-4ac7-bb65-1419f2cb5850" />
+  <img width="70%" height="640" alt="기본 정보 입력" src="https://github.com/user-attachments/assets/677ffd65-f8f8-4ac7-bb65-1419f2cb5850" />
 </p>
  위 그림은 기본 정보 입력 모달로, 최초 로그인 시에 표시된다. 사용자는 학년을 1학년부터 4학년 중 선택한다. 포지션, 기술, 한 줄 소개를 각각 텍스트 필드에 입력한다. 모든 정보 입력 후 [완료] 버튼을 누르면 정보가 저장되고 모달이 닫힌다.
 
@@ -109,7 +109,7 @@
 ### 10. 마이페이지
 #### 10.1. 프로필
 <p align="center">
-  <img width="640" height="725" alt="Image" src="https://github.com/user-attachments/assets/1771ea6e-5d51-40d6-b555-cce55c10713f" />
+ <img width="602" height="760" alt="Image" src="https://github.com/user-attachments/assets/dc3b4566-bc47-40c0-b8f7-ab877bd79f7d" />
 </p>
 위 그림은 프로필 페이지로 회원가입 시 입력했던 기본 정보를 확인하고, 수정할 수 있다. 또한 함께 활동했던 팀원들이 남긴 리뷰를 확인할 수 있다
 
