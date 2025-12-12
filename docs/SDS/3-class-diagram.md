@@ -3151,8 +3151,6 @@ QueryDSL을 활용한 팀 데이터 접근 계층으로, 팀 및 팀 멤버 조�
 | `createMember(Team team, Application application)` | TeamMember      | public     | 특정 지원자를 특정 공고의 팀에 추가한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다.                                           |
 | `getPositionInProject(Long projectId, Long userId)` | PositionType      | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다.                                   |
 | `removeMember(Long teamId, Long removerId, Long targetId)` | void      | public     | 특정 팀(`teamId`)에서 리더(`removerId`)가 특정 멤버(`targetId`)를 삭제(강제 탈퇴)한다.<br>실제 구현은 `TeamMemberServiceImpl`에서 수행된다. |
-| `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void | protected | 낙관적 락 재시도 실패 시 처리 |
-| `recover(BusinessException e)`                             | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
@@ -3176,6 +3174,7 @@ QueryDSL을 활용한 팀 데이터 접근 계층으로, 팀 및 팀 멤버 조�
 | `getPositionInProject(Long projectId, Long userId)` | PositionType      | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.                                                                                                                                                                                         |
 | `removeMember(Long teamId, Long removerId, Long targetId)`                                       | void    | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
 | `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void    | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
+| `recover(BusinessException e)`                             | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
