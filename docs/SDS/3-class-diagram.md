@@ -2665,6 +2665,7 @@ QueryDSL을 활용한 스터디 데이터 접근 계층으로, 스터디 요약 
 | `applyStudy(User applicant, Study study, ApplicationCommonRequestDto requestDto)`                    | Long | private | 스터디 지원 처리                                  |
 | `recover(ObjectOptimisticLockingFailureException e, Long deciderId, Long applicationId)`             | void | protected | 낙관적 락 재시도 실패 시 처리                          |
 | `recoverEvent(TransientDataAccessException e, Long recruitmentId)`                                   | void | protected | 이벤트 처리 재시도 실패 시 처리                         |
+| `recover(BusinessException e)`                                                                       | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
@@ -2839,6 +2840,7 @@ Application 엔티티의 데이터 접근 계층으로, 지원서 조회, 존재
 | `deleteById(Long userId, Long notificationId)`                                                       | void | public | 특정 알림 삭제, 권한 검증 포함         |
 | `deleteAll(Long receiverId, RecruitmentCategory category)`                                           | void | public | 지정된 사용자의 알림 전체 또는 카테고리별 삭제 |
 | `recoverEvent(TransientDataAccessException e, Long senderId, Long receiverId, Long applicationId, NotificationType type)` | void | protected | 이벤트 처리 재시도 실패 시 처리         |
+| `recover(BusinessException e)`                                                                       | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
@@ -3172,6 +3174,7 @@ QueryDSL을 활용한 팀 데이터 접근 계층으로, 팀 및 팀 멤버 조�
 | `getPositionInProject(Long projectId, Long userId)` | PositionType      | public     | 특정 프로젝트 공고에서 사용자가 속한 포지션을 조회한다.                                                                                                                                                                                         |
 | `removeMember(Long teamId, Long removerId, Long targetId)`                                       | void    | public     | 리더 권한으로 특정 팀 멤버를 강제 탈퇴시킨다.<br>다음 검증 및 처리 단계를 수행한다:<ul><li>리더 본인은 자신을 삭제할 수 없음</li><li>리더 권한 여부 검증</li><li>존재하지 않는 팀/멤버 시 예외 발생</li><li>모든 조건 충족 시 `team.removeMember()` 수행 및 모집 인원 감소</li></ul>동시성 충돌 발생 시 최대 3회 재시도한다. |
 | `recover(ObjectOptimisticLockingFailureException e, Long teamId, Long removerId, Long targetId)` | void    | protected  | 재시도 실패 시 호출되는 복구 메서드.<br>`TOO_MANY_REQUESTS` 예외를 발생시켜 클라이언트에 알린다.                                                                                                                                                       |
+| `recover(BusinessException e)`                             | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
@@ -4013,6 +4016,7 @@ JWT 기반 인증 시스템에서 Access Token과 Refresh Token을 함께 반환
 | `deleteBookmark(Long userId, Long bookmarkId)` | void | public | 본인이 생성한 찜을 삭제한다.                                       |
 | `deleteAllByRecruitmentId(Long recruitmentId)` | void | public | 특정 공고가 삭제될 때, 해당 공고에 대한 모든 찜을 일괄 삭제한다. (이벤트 리스너에서 호출됨) |
 | `recoverEvent(TransientDataAccessException e, Long recruitmentId)` | void | protected | 이벤트 처리 재시도 실패 시 처리                                     |
+| `recover(BusinessException e)`                                     | void | protected | BusinessException 발생 시 예외를 그대로 던져 Recover 메서드로 처리되지 않았다는 오류를 방지 |
 
 ---
 
